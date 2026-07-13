@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>UBB Credit 任務分流器｜Copilot Chat 或 Copilot Cowork</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f6f7fb;
+      --surface: #ffffff;
+      --surface-soft: #f2f0ff;
+      --surface-blue: #edf6ff;
+      --surface-green: #eaf9f2;
+      --text: #172033;
+      --muted: #5c667d;
+      --border: #dfe3ec;
+      --primary: #5b45d6;
+      --primary-strong: #4630b7;
+      --primary-soft: #ebe8ff;
+      --chat: #087f8c;
+      --chat-soft: #e4f7f8;
+      --cowork: #7445d9;
+      --cowork-soft: #eee9ff;
+      --success: #147d57;
+      --warning: #a35c00;
+      --focus: #0067c0;
+      --shadow: 0 18px 52px rgba(40, 35, 78, 0.12);
+      --shadow-soft: 0 8px 26px rgba(40, 35, 78, 0.08);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --max-width: 1180px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #11131a;
+        --surface: #1b1e28;
+        --surface-soft: #26213b;
+        --surface-blue: #17293a;
+        --surface-green: #163128;
+        --text: #f5f6fa;
+        --muted: #b6bccb;
+        --border: #393e4c;
+        --primary: #a99bff;
+        --primary-strong: #c1b7ff;
+        --primary-soft: #2d2850;
+        --chat: #67d4dc;
+        --chat-soft: #143a3f;
+        --cowork: #b9a8ff;
+        --cowork-soft: #302853;
+        --success: #67d6ad;
+        --warning: #ffc46e;
+        --focus: #75bfff;
+        --shadow: 0 18px 52px rgba(0, 0, 0, 0.32);
+        --shadow-soft: 0 8px 26px rgba(0, 0, 0, 0.24);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 10% 2%, rgba(91, 69, 214, 0.14), transparent 30rem),
+        radial-gradient(circle at 92% 8%, rgba(0, 120, 212, 0.12), transparent 27rem),
+        var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", "Noto Sans TC", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      text-align: start;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      color: inherit;
+    }
+
+    button:focus-visible,
+    input:focus-visible,
+    summary:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .skip-link {
+      position: fixed;
+      inset-block-start: 0.75rem;
+      inset-inline-start: 0.75rem;
+      z-index: 100;
+      padding: 0.65rem 0.9rem;
+      border-radius: 10px;
+      background: var(--surface);
+      color: var(--text);
+      box-shadow: var(--shadow-soft);
+      transform: translateY(-180%);
+      transition: transform 160ms ease;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .page {
+      width: min(calc(100% - 2rem), var(--max-width));
+      margin-inline: auto;
+      padding-block: 1.25rem 4rem;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-block: 0.35rem 1.15rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 750;
+      letter-spacing: -0.01em;
+    }
+
+    .brand-mark {
+      display: grid;
+      grid-template-columns: repeat(2, 0.65rem);
+      gap: 0.18rem;
+      padding: 0.2rem;
+    }
+
+    .brand-mark span {
+      width: 0.65rem;
+      height: 0.65rem;
+      border-radius: 0.15rem;
+      background: var(--primary);
+    }
+
+    .brand-mark span:nth-child(2) {
+      background: #0078d4;
+    }
+
+    .brand-mark span:nth-child(3) {
+      background: #0f9d7a;
+    }
+
+    .brand-mark span:nth-child(4) {
+      background: #d95f76;
+    }
+
+    .top-note {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(17rem, 0.75fr);
+      gap: 2rem;
+      align-items: center;
+      min-height: 31rem;
+      padding: clamp(2rem, 5vw, 4.6rem);
+      border: 1px solid color-mix(in srgb, var(--primary) 18%, var(--border));
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(135deg, color-mix(in srgb, var(--surface) 92%, var(--primary-soft)), var(--surface));
+      box-shadow: var(--shadow);
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      pointer-events: none;
+    }
+
+    .hero::before {
+      width: 24rem;
+      height: 24rem;
+      inset-block-start: -12rem;
+      inset-inline-end: -8rem;
+      background: linear-gradient(145deg, rgba(91, 69, 214, 0.22), rgba(0, 120, 212, 0.06));
+    }
+
+    .hero::after {
+      width: 14rem;
+      height: 14rem;
+      inset-block-end: -8rem;
+      inset-inline-start: 34%;
+      background: linear-gradient(145deg, rgba(15, 157, 122, 0.13), rgba(91, 69, 214, 0.06));
+    }
+
+    .hero-copy,
+    .hero-visual {
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin: 0 0 1rem;
+      padding: 0.35rem 0.75rem;
+      border: 1px solid color-mix(in srgb, var(--primary) 30%, var(--border));
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary-strong);
+      font-size: 0.86rem;
+      font-weight: 750;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-block-start: 0;
+    }
+
+    h1 {
+      max-width: 15ch;
+      margin-block-end: 1rem;
+      font-size: clamp(2.45rem, 6vw, 4.85rem);
+      line-height: 1.02;
+      letter-spacing: -0.055em;
+    }
+
+    .gradient-text {
+      color: var(--primary);
+      background: linear-gradient(100deg, var(--primary), #0078d4, #0f9d7a);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-lead {
+      max-width: 42rem;
+      margin-block-end: 1.5rem;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2vw, 1.24rem);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .primary-button,
+    .secondary-button {
+      min-height: 3rem;
+      padding: 0.72rem 1.15rem;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 750;
+      transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+
+    .primary-button {
+      border: 1px solid var(--primary);
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 10px 22px rgba(91, 69, 214, 0.22);
+    }
+
+    .secondary-button {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+    }
+
+    .primary-button:hover,
+    .secondary-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .hero-visual {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .route-card {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.85rem;
+      align-items: center;
+      padding: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: color-mix(in srgb, var(--surface) 92%, transparent);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(10px);
+    }
+
+    .route-card:nth-child(2) {
+      margin-inline-start: clamp(0rem, 5vw, 3rem);
+    }
+
+    .route-icon {
+      display: grid;
+      place-items: center;
+      width: 2.9rem;
+      height: 2.9rem;
+      border-radius: 13px;
+      background: var(--chat-soft);
+      color: var(--chat);
+      font-size: 1.25rem;
+      font-weight: 800;
+    }
+
+    .route-card:nth-child(2) .route-icon {
+      background: var(--cowork-soft);
+      color: var(--cowork);
+    }
+
+    .route-card strong,
+    .route-card span {
+      display: block;
+    }
+
+    .route-card span {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .core-rule {
+      padding: 1rem;
+      border: 1px dashed color-mix(in srgb, var(--primary) 55%, var(--border));
+      border-radius: 16px;
+      background: color-mix(in srgb, var(--primary-soft) 68%, transparent);
+      color: var(--primary-strong);
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .section {
+      margin-block-start: clamp(3.5rem, 8vw, 6.5rem);
+    }
+
+    .section-heading {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: end;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-block-end: 1.5rem;
+    }
+
+    .section-heading h2 {
+      margin-block-end: 0.35rem;
+      font-size: clamp(1.85rem, 4vw, 3rem);
+      line-height: 1.12;
+      letter-spacing: -0.035em;
+    }
+
+    .section-heading p {
+      max-width: 43rem;
+      margin-block-end: 0;
+      color: var(--muted);
+    }
+
+    .decision-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(19rem, 0.9fr);
+      gap: 1.25rem;
+      align-items: start;
+    }
+
+    .question-panel,
+    .result-panel,
+    .compare-card,
+    .tips-card,
+    .examples-shell {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .question-panel {
+      padding: clamp(1.25rem, 3vw, 2rem);
+    }
+
+    .progress-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-block-end: 1.5rem;
+    }
+
+    .progress-label {
+      font-size: 0.9rem;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .progress-track {
+      overflow: hidden;
+      flex: 1;
+      height: 0.55rem;
+      border-radius: 999px;
+      background: var(--border);
+    }
+
+    .progress-bar {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--primary), #0078d4);
+      transition: width 220ms ease;
+    }
+
+    .question {
+      padding-block: 1.25rem;
+      border-block-end: 1px solid var(--border);
+    }
+
+    .question:first-of-type {
+      padding-block-start: 0;
+    }
+
+    .question:last-of-type {
+      padding-block-end: 0;
+      border-block-end: 0;
+    }
+
+    .question-number {
+      display: inline-grid;
+      place-items: center;
+      width: 1.85rem;
+      height: 1.85rem;
+      margin-inline-end: 0.45rem;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary-strong);
+      font-size: 0.86rem;
+      font-weight: 800;
+      vertical-align: 0.1rem;
+    }
+
+    .question h3 {
+      margin-block-end: 0.35rem;
+      font-size: 1.05rem;
+    }
+
+    .question-help {
+      margin-block-end: 0.85rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .choice-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.65rem;
+    }
+
+    .choice {
+      min-height: 3.15rem;
+      padding: 0.65rem 0.85rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      cursor: pointer;
+      font-weight: 750;
+      transition: border-color 140ms ease, background 140ms ease, transform 140ms ease;
+    }
+
+    .choice:hover {
+      border-color: color-mix(in srgb, var(--primary) 58%, var(--border));
+      transform: translateY(-1px);
+    }
+
+    .choice[aria-pressed="true"] {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      color: var(--primary-strong);
+      box-shadow: inset 0 0 0 1px var(--primary);
+    }
+
+    .result-panel {
+      position: sticky;
+      inset-block-start: 1rem;
+      overflow: hidden;
+      min-height: 28rem;
+    }
+
+    .result-empty,
+    .result-content {
+      padding: clamp(1.4rem, 3vw, 2rem);
+    }
+
+    .result-empty {
+      display: grid;
+      place-items: center;
+      min-height: 28rem;
+      text-align: center;
+    }
+
+    .result-empty-inner {
+      max-width: 19rem;
+    }
+
+    .result-empty-icon {
+      display: grid;
+      place-items: center;
+      width: 4.6rem;
+      height: 4.6rem;
+      margin-inline: auto;
+      margin-block-end: 1rem;
+      border-radius: 22px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-size: 2rem;
+      font-weight: 850;
+    }
+
+    .result-empty h3 {
+      margin-block-end: 0.45rem;
+    }
+
+    .result-empty p {
+      margin-block-end: 0;
+      color: var(--muted);
+    }
+
+    .result-content[hidden],
+    .result-empty[hidden] {
+      display: none;
+    }
+
+    .result-banner {
+      padding: 1.1rem 1.35rem;
+      background: var(--chat-soft);
+      color: var(--chat);
+      font-weight: 800;
+    }
+
+    .result-panel[data-route="cowork"] .result-banner {
+      background: var(--cowork-soft);
+      color: var(--cowork);
+    }
+
+    .result-kicker {
+      margin-block-end: 0.4rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .result-title {
+      margin-block-end: 0.7rem;
+      font-size: clamp(1.5rem, 3vw, 2.15rem);
+      line-height: 1.15;
+    }
+
+    .result-reason {
+      margin-block-end: 1rem;
+      color: var(--muted);
+    }
+
+    .reason-list {
+      display: grid;
+      gap: 0.65rem;
+      margin: 0 0 1.2rem;
+      padding: 0;
+      list-style: none;
+    }
+
+    .reason-list li {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.55rem;
+      align-items: start;
+    }
+
+    .reason-list li::before {
+      content: "✓";
+      display: grid;
+      place-items: center;
+      width: 1.35rem;
+      height: 1.35rem;
+      margin-block-start: 0.12rem;
+      border-radius: 999px;
+      background: var(--chat-soft);
+      color: var(--chat);
+      font-size: 0.78rem;
+      font-weight: 900;
+    }
+
+    .result-panel[data-route="cowork"] .reason-list li::before {
+      background: var(--cowork-soft);
+      color: var(--cowork);
+    }
+
+    .credit-note {
+      margin-block-end: 1.25rem;
+      padding: 0.85rem 1rem;
+      border-inline-start: 4px solid var(--warning);
+      border-radius: 10px;
+      background: color-mix(in srgb, var(--warning) 10%, var(--surface));
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    .result-context {
+      margin-block-end: 1rem;
+      padding: 0.8rem 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface-soft);
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .result-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem;
+    }
+
+    .result-actions .reset-button {
+      grid-column: 1 / -1;
+      width: 100%;
+    }
+
+    .result-action-button {
+      min-height: 2.8rem;
+      padding: 0.62rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 750;
+    }
+
+    .copy-status {
+      min-height: 1.3rem;
+      margin-block: 0.55rem 0;
+      color: var(--success);
+      font-size: 0.84rem;
+      text-align: center;
+    }
+
+    .builder-shell {
+      padding: clamp(1.25rem, 3vw, 2rem);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .builder-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .builder-group {
+      min-width: 0;
+      padding: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: color-mix(in srgb, var(--surface) 96%, var(--surface-soft));
+    }
+
+    .builder-group h3 {
+      margin-block-end: 0.25rem;
+      font-size: 1.02rem;
+    }
+
+    .builder-group p {
+      margin-block-end: 0.85rem;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .picker-grid {
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .picker-chip {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      min-height: 2.65rem;
+      padding: 0.5rem 0.7rem;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 650;
+    }
+
+    .picker-chip:hover {
+      border-color: color-mix(in srgb, var(--primary) 52%, var(--border));
+    }
+
+    .picker-chip:has(input:checked) {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      color: var(--primary-strong);
+      box-shadow: inset 0 0 0 1px var(--primary);
+    }
+
+    .picker-chip input {
+      width: 1.05rem;
+      height: 1.05rem;
+      margin: 0;
+      accent-color: var(--primary);
+    }
+
+    .builder-footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.85rem;
+      margin-block-start: 1rem;
+      padding-block-start: 1rem;
+      border-block-start: 1px solid var(--border);
+    }
+
+    .builder-status {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .builder-status[data-state="error"] {
+      color: var(--warning);
+    }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .compare-card {
+      overflow: hidden;
+      padding: 1.5rem;
+    }
+
+    .compare-card.chat {
+      border-block-start: 5px solid var(--chat);
+    }
+
+    .compare-card.cowork {
+      border-block-start: 5px solid var(--cowork);
+    }
+
+    .compare-label {
+      display: inline-flex;
+      margin-block-end: 0.8rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      background: var(--chat-soft);
+      color: var(--chat);
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    .compare-card.cowork .compare-label {
+      background: var(--cowork-soft);
+      color: var(--cowork);
+    }
+
+    .compare-card h3 {
+      margin-block-end: 0.75rem;
+      font-size: 1.45rem;
+    }
+
+    .signal-list {
+      display: grid;
+      gap: 0.65rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .signal-list li {
+      display: flex;
+      gap: 0.55rem;
+      align-items: flex-start;
+      color: var(--muted);
+    }
+
+    .signal-list strong {
+      color: var(--text);
+    }
+
+    .examples-shell {
+      padding: clamp(1.25rem, 3vw, 2rem);
+    }
+
+    .example-toolbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 1rem;
+      margin-block-end: 1.35rem;
+    }
+
+    .search-wrap {
+      position: relative;
+    }
+
+    .search-wrap svg {
+      position: absolute;
+      inset-block-start: 50%;
+      inset-inline-start: 0.9rem;
+      width: 1.15rem;
+      height: 1.15rem;
+      color: var(--muted);
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      min-height: 3rem;
+      padding-block: 0.65rem;
+      padding-inline: 2.8rem 0.85rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      color: var(--text);
+    }
+
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .filter-button {
+      min-height: 3rem;
+      padding: 0.6rem 0.85rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .filter-button[aria-pressed="true"] {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      color: var(--primary-strong);
+    }
+
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.85rem;
+    }
+
+    .example-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 13rem;
+      padding: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: color-mix(in srgb, var(--surface) 96%, var(--chat-soft));
+      cursor: pointer;
+      text-align: start;
+      transition: transform 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+    }
+
+    .example-card:hover {
+      transform: translateY(-3px);
+      border-color: color-mix(in srgb, var(--chat) 45%, var(--border));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .example-card[data-route="cowork"] {
+      background: color-mix(in srgb, var(--surface) 94%, var(--cowork-soft));
+    }
+
+    .example-card[data-route="cowork"]:hover {
+      border-color: color-mix(in srgb, var(--cowork) 52%, var(--border));
+    }
+
+    .example-topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.65rem;
+      margin-block-end: 0.8rem;
+    }
+
+    .category-number,
+    .route-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 1.65rem;
+      padding-inline: 0.55rem;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 800;
+    }
+
+    .category-number {
+      background: var(--surface-blue);
+      color: #0067a8;
+    }
+
+    .route-pill {
+      background: var(--chat-soft);
+      color: var(--chat);
+    }
+
+    .example-card[data-route="cowork"] .route-pill {
+      background: var(--cowork-soft);
+      color: var(--cowork);
+    }
+
+    .example-card h3 {
+      margin-block-end: 0.45rem;
+      font-size: 1.02rem;
+    }
+
+    .example-card p {
+      margin-block-end: 1rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .example-action {
+      margin-block-start: auto;
+      color: var(--primary);
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+
+    .no-results {
+      padding: 2rem;
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .tips-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.7fr);
+      gap: 1rem;
+    }
+
+    .tips-card {
+      padding: clamp(1.3rem, 3vw, 2rem);
+    }
+
+    .tip-list {
+      display: grid;
+      gap: 0.85rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: tips;
+    }
+
+    .tip-list li {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.8rem;
+      align-items: start;
+      counter-increment: tips;
+    }
+
+    .tip-list li::before {
+      content: counter(tips);
+      display: grid;
+      place-items: center;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 10px;
+      background: var(--primary-soft);
+      color: var(--primary-strong);
+      font-weight: 850;
+    }
+
+    .tip-list strong,
+    .tip-list span {
+      display: block;
+    }
+
+    .tip-list span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .rule-card {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      min-height: 100%;
+      padding: 2rem;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(145deg, #312768, #5746c8 58%, #0078a8);
+      color: #ffffff;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .rule-card::before {
+      content: "";
+      position: absolute;
+      width: 12rem;
+      height: 12rem;
+      inset-block-start: -6rem;
+      inset-inline-end: -4rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .rule-card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .rule-card small {
+      display: block;
+      margin-block-end: 0.65rem;
+      color: rgba(255, 255, 255, 0.72);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .rule-card strong {
+      display: block;
+      margin-block-end: 0.8rem;
+      font-size: clamp(1.65rem, 4vw, 2.6rem);
+      line-height: 1.12;
+    }
+
+    .rule-card p {
+      margin-block-end: 0;
+      color: rgba(255, 255, 255, 0.82);
+    }
+
+    details {
+      margin-block-start: 1.25rem;
+      padding: 1rem 1.15rem;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface);
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    details p {
+      margin-block: 0.75rem 0;
+      color: var(--muted);
+    }
+
+    .disclaimer {
+      margin-block-start: 3rem;
+      padding: 1rem 1.15rem;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--surface) 90%, var(--surface-soft));
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      padding-block: 1.5rem 0;
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .decision-shell,
+      .tips-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .hero-visual {
+        max-width: 32rem;
+      }
+
+      .result-panel {
+        position: static;
+        min-height: auto;
+      }
+
+      .result-empty {
+        min-height: 15rem;
+      }
+
+      .example-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .builder-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .page {
+        width: min(calc(100% - 1rem), var(--max-width));
+        padding-block-start: 0.65rem;
+      }
+
+      .top-note {
+        display: none;
+      }
+
+      .hero {
+        padding: 1.4rem;
+        border-radius: 20px;
+      }
+
+      h1 {
+        max-width: none;
+        font-size: clamp(2.25rem, 13vw, 3.6rem);
+      }
+
+      .choice-row,
+      .compare-grid,
+      .example-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .result-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .result-actions .reset-button {
+        grid-column: auto;
+      }
+
+      .builder-footer {
+        align-items: stretch;
+      }
+
+      .builder-footer .primary-button {
+        width: 100%;
+      }
+
+      .example-toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .filter-row {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .filter-button {
+        padding-inline: 0.45rem;
+        font-size: 0.88rem;
+      }
+
+      .route-card:nth-child(2) {
+        margin-inline-start: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+
+    @media print {
+      :root {
+        --bg: #ffffff;
+        --surface: #ffffff;
+        --text: #000000;
+        --muted: #444444;
+        --border: #999999;
+      }
+
+      @page {
+        margin: 0.65in;
+      }
+
+      body {
+        background: #ffffff;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .question-panel,
+      .result-panel,
+      .compare-card,
+      .examples-shell,
+      .tips-card {
+        box-shadow: none;
+      }
+
+      .hero-actions,
+      .example-toolbar,
+      .reset-button,
+      .skip-link {
+        display: none !important;
+      }
+
+      .section {
+        margin-block-start: 2rem;
+      }
+
+      .result-panel {
+        position: static;
+      }
+
+      .example-card,
+      .compare-card,
+      .tips-card,
+      .question,
+      .result-panel {
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#decision-tool">跳到快速判斷器</a>
+
+  <main class="page">
+    <header class="topbar" aria-label="頁首">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <span></span><span></span><span></span><span></span>
+        </span>
+        <span>Copilot 任務分流指南</span>
+      </div>
+      <span class="top-note">簡單判斷 · 聰明使用 UBB Credit</span>
+    </header>
+
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span aria-hidden="true">✦</span> UBB Credit 決策助手</p>
+        <h1 id="hero-title">先判斷，<span class="gradient-text">再花 Credit</span></h1>
+        <p class="hero-lead">
+          用三個問題，快速分辨工作交給 Microsoft 365 Copilot Chat 就好，
+          還是值得使用 Copilot Cowork 進行跨系統、多步驟編排。
+        </p>
+        <div class="hero-actions">
+          <button class="primary-button" id="start-button" type="button">開始 30 秒判斷</button>
+          <button class="secondary-button" id="view-examples-button" type="button">直接看任務範例</button>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-label="分流概念">
+        <div class="route-card">
+          <div class="route-icon" aria-hidden="true">1</div>
+          <div>
+            <strong>單次、單一產出</strong>
+            <span>優先使用 Copilot Chat</span>
+          </div>
+        </div>
+        <div class="route-card">
+          <div class="route-icon" aria-hidden="true">∞</div>
+          <div>
+            <strong>跨系統、多步驟、多份產出</strong>
+            <span>Copilot Cowork 更有差異化價值</span>
+          </div>
+        </div>
+        <div class="core-rule">核心不是「能不能做」，而是「是否值得用 Cowork 做」</div>
+      </div>
+    </section>
+
+    <section class="section" id="decision-tool" aria-labelledby="decision-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="decision-title">三題快速判斷</h2>
+          <p>依照目前這件工作的實際範圍回答；完成後會立即顯示建議。</p>
+        </div>
+      </div>
+
+      <div class="decision-shell">
+        <div class="question-panel">
+          <div class="progress-row">
+            <span class="progress-label" id="progress-label">尚未作答 · 0 / 3</span>
+            <div class="progress-track" role="progressbar" aria-label="判斷進度" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0">
+              <div class="progress-bar" id="progress-bar"></div>
+            </div>
+          </div>
+
+          <div class="question" data-question="systems">
+            <h3><span class="question-number">1</span>是否需要跨 2 個以上系統或資料來源？</h3>
+            <p class="question-help">例如同時使用 Outlook、Teams、SharePoint、Excel 或外部資料。</p>
+            <div class="choice-row" role="group" aria-label="是否需要跨系統">
+              <button class="choice" type="button" data-answer="yes" aria-pressed="false">是，跨 2 個以上</button>
+              <button class="choice" type="button" data-answer="no" aria-pressed="false">否，單一來源即可</button>
+            </div>
+          </div>
+
+          <div class="question" data-question="deliverables">
+            <h3><span class="question-number">2</span>是否要一次產出 2 份以上交付物？</h3>
+            <p class="question-help">例如同時要簡報、Excel 摘要、Word 報告或郵件。</p>
+            <div class="choice-row" role="group" aria-label="是否需要多份交付物">
+              <button class="choice" type="button" data-answer="yes" aria-pressed="false">是，要多份產出</button>
+              <button class="choice" type="button" data-answer="no" aria-pressed="false">否，只有一份</button>
+            </div>
+          </div>
+
+          <div class="question" data-question="steps">
+            <h3><span class="question-number">3</span>是否包含彼此依賴、要連續編排的多個步驟？</h3>
+            <p class="question-help">例如先彙整資料，再分析，再依結果建立文件並傳送更新。</p>
+            <div class="choice-row" role="group" aria-label="是否需要相依的多步驟編排">
+              <button class="choice" type="button" data-answer="yes" aria-pressed="false">是，需要連續編排</button>
+              <button class="choice" type="button" data-answer="no" aria-pressed="false">否，單次完成即可</button>
+            </div>
+          </div>
+        </div>
+
+        <aside class="result-panel" id="result-panel" aria-live="polite" aria-atomic="true">
+          <div class="result-empty" id="result-empty">
+            <div class="result-empty-inner">
+              <div class="result-empty-icon" aria-hidden="true">?</div>
+              <h3>你的建議會顯示在這裡</h3>
+              <p>完成左側三題，或從下方任務範例直接帶入判斷。</p>
+            </div>
+          </div>
+
+          <div class="result-content" id="result-content" hidden>
+            <div class="result-banner" id="result-banner">判斷完成</div>
+            <div>
+              <p class="result-kicker">建議路徑</p>
+              <h3 class="result-title" id="result-title"></h3>
+              <p class="result-reason" id="result-reason"></p>
+              <p class="result-context" id="result-context" hidden></p>
+              <ul class="reason-list" id="reason-list"></ul>
+              <div class="credit-note" id="credit-note"></div>
+              <div class="result-actions">
+                <button class="result-action-button" id="copy-result-button" type="button">複製建議</button>
+                <button class="result-action-button" id="print-result-button" type="button">列印／另存</button>
+                <button class="secondary-button reset-button" id="reset-button" type="button">重新判斷</button>
+              </div>
+              <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="task-builder" aria-labelledby="builder-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="builder-title">用實際工作內容再確認</h2>
+          <p>勾選會用到的系統、交付物與流程型態，網頁會自動換算成判斷條件。</p>
+        </div>
+      </div>
+
+      <div class="builder-shell">
+        <div class="builder-grid">
+          <fieldset class="builder-group">
+            <legend class="visually-hidden">選擇資料來源或系統</legend>
+            <h3>1. 系統與資料來源</h3>
+            <p>可複選；兩個以上代表跨系統。</p>
+            <div class="picker-grid">
+              <label class="picker-chip"><input type="checkbox" name="builder-system" value="Outlook"><span>Outlook／電子郵件</span></label>
+              <label class="picker-chip"><input type="checkbox" name="builder-system" value="Teams"><span>Teams／會議</span></label>
+              <label class="picker-chip"><input type="checkbox" name="builder-system" value="SharePoint"><span>SharePoint／OneDrive</span></label>
+              <label class="picker-chip"><input type="checkbox" name="builder-system" value="Data"><span>Excel／Power BI／資料</span></label>
+              <label class="picker-chip"><input type="checkbox" name="builder-system" value="Web"><span>網頁或外部來源</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="builder-group">
+            <legend class="visually-hidden">選擇交付物</legend>
+            <h3>2. 最終交付物</h3>
+            <p>兩份以上通常適合 Cowork。</p>
+            <div class="picker-grid">
+              <label class="picker-chip"><input type="checkbox" name="builder-output" value="Word"><span>Word／書面報告</span></label>
+              <label class="picker-chip"><input type="checkbox" name="builder-output" value="Excel"><span>Excel／分析表</span></label>
+              <label class="picker-chip"><input type="checkbox" name="builder-output" value="PowerPoint"><span>PowerPoint／簡報</span></label>
+              <label class="picker-chip"><input type="checkbox" name="builder-output" value="Message"><span>郵件／Teams 更新</span></label>
+              <label class="picker-chip"><input type="checkbox" name="builder-output" value="Web"><span>網頁／其他檔案</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="builder-group">
+            <legend class="visually-hidden">選擇流程型態</legend>
+            <h3>3. 流程型態</h3>
+            <p>判斷步驟之間是否彼此依賴。</p>
+            <div class="picker-grid">
+              <label class="picker-chip"><input type="radio" name="builder-workflow" value="single" checked><span>單次完成</span></label>
+              <label class="picker-chip"><input type="radio" name="builder-workflow" value="independent"><span>多個獨立步驟</span></label>
+              <label class="picker-chip"><input type="radio" name="builder-workflow" value="dependent"><span>彼此相依的連續步驟</span></label>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="builder-footer">
+          <p class="builder-status" id="builder-status" role="status">至少選擇一個系統與一份交付物。</p>
+          <button class="primary-button" id="analyze-builder-button" type="button">分析這項工作</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="compare-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="compare-title">一眼看懂怎麼選</h2>
+          <p>兩邊都可能做得到，但使用 Cowork 的判準是「有沒有額外的編排價值」。</p>
+        </div>
+      </div>
+
+      <div class="compare-grid">
+        <article class="compare-card chat">
+          <span class="compare-label">省 Credit 的預設選擇</span>
+          <h3>Microsoft 365 Copilot Chat</h3>
+          <ul class="signal-list">
+            <li><span aria-hidden="true">●</span><span><strong>單次：</strong>問完、讀完或產出一次即完成。</span></li>
+            <li><span aria-hidden="true">●</span><span><strong>單一產出：</strong>只需要一份 Excel、Word、簡報、圖表或網頁。</span></li>
+            <li><span aria-hidden="true">●</span><span><strong>單純取得與閱讀：</strong>搜尋資料、Deep Research、解析附件。</span></li>
+          </ul>
+        </article>
+
+        <article class="compare-card cowork">
+          <span class="compare-label">差異化價值出現時</span>
+          <h3>Copilot Cowork</h3>
+          <ul class="signal-list">
+            <li><span aria-hidden="true">●</span><span><strong>多份交付物：</strong>一次需要簡報、試算表、報告與溝通內容。</span></li>
+            <li><span aria-hidden="true">●</span><span><strong>相依多步驟：</strong>前一步的結果會決定下一步怎麼做。</span></li>
+            <li><span aria-hidden="true">●</span><span><strong>跨系統編排：</strong>要串接多個工作來源並持續執行。</span></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="examples" aria-labelledby="examples-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="examples-title">用你的任務直接比對</h2>
+          <p>搜尋或篩選九類常見任務；點選卡片即可帶入對應建議。</p>
+        </div>
+      </div>
+
+      <div class="examples-shell">
+        <div class="example-toolbar">
+          <label class="search-wrap">
+            <span class="visually-hidden">搜尋任務範例</span>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"></circle>
+              <path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+            </svg>
+            <input class="search-input" id="example-search" type="search" placeholder="搜尋：PDF、Excel、簡報、跨系統…" autocomplete="off">
+          </label>
+          <div class="filter-row" role="group" aria-label="任務建議篩選">
+            <button class="filter-button" type="button" data-filter="all" aria-pressed="true">全部</button>
+            <button class="filter-button" type="button" data-filter="chat" aria-pressed="false">Copilot Chat</button>
+            <button class="filter-button" type="button" data-filter="cowork" aria-pressed="false">Cowork</button>
+          </div>
+        </div>
+
+        <div class="example-grid" id="example-grid">
+          <button class="example-card" type="button" data-route="chat" data-category="1" data-cross="no" data-keywords="網頁 網路 搜尋 資料 web query">
+            <span class="example-topline"><span class="category-number">第 1 類</span><span class="route-pill">Copilot Chat</span></span>
+            <h3>搜尋網頁資料</h3>
+            <p>單次查找公開資訊、比較產品或快速取得背景資料。</p>
+            <span class="example-action">查看建議 →</span>
+          </button>
+
+          <button class="example-card" type="button" data-route="chat" data-category="2" data-cross="yes" data-keywords="m365 工作資料 outlook teams sharepoint 搜尋">
+            <span class="example-topline"><span class="category-number">第 2 類</span><span class="route-pill">Copilot Chat</span></span>
+            <h3>搜尋 M365 工作資料</h3>
+            <p>找郵件、會議、Teams 訊息或 SharePoint 文件中的單一答案。</p>
+            <span class="example-action">查看建議 →</span>
+          </button>
+
+          <button class="example-card" type="button" data-route="chat" data-category="3" data-cross="no" data-keywords="deep research 深度研究 調查 研究">
+            <span class="example-topline"><span class="category-number">第 3 類</span><span class="route-pill">Copilot Chat</span></span>
+            <h3>Deep Research</h3>
+            <p>針對一個主題進行深入研究、整理證據與產生研究摘要。</p>
+            <span class="example-action">查看建議 →</span>
+          </button>
+
+          <button class="example-card" type="button" data-route="chat" data-category="4" data-cross="no" data-keywords="pdf office 附件 解析 閱讀 摘要">
+            <span class="example-topline"><span class="category-number">第 4 類</span><span class="route-pill">Copilot Chat</span></span>
+            <h3>解析 PDF 或 Office 附件</h3>
+            <p>閱讀一份附件、擷取重點、比較段落或整理行動項目。</p>
+            <span class="example-action">查看建議 →</span>
+          </button>
+
+          <button class="example-card" type="button" data-route="chat" data-category="5" data-cross="no" data-keywords="excel 試算表 分析 資料 生成">
+            <span class="example-topline"><span class="category-number">第 5 類</span><span class="route-pill">Copilot Chat</span></span>
+            <h3>分析資料並生成單一 Excel</h3>
+            <p>清理資料、加入公式、製作一份分析表或一個財務模型。</p>
+            <span class="example-action">查看建議 →</span>
+          </button>
+
+          <button class="example-card" type="button" data-route="chat" data-category="6" data-cross="no" data-keywords="word powerpoint ppt 簡報 文件 單一">
+            <span class="example-topline"><span class="category-number">第 6 類</span><span class="route-pill">Copilot Chat</span></span>
+            <h3>生成單一簡報或 Word</h3>
+            <p>只需要一份簡報、提案、報告、計畫或其他單一文件。</p>
+            <span class="example-action">查看建議 →</span>
+          </button>
+
+          <button class="example-card" type="button" data-route="chat" data-category="7" data-cross="no" data-keywords="python chart 圖表 分析 資料 視覺化">
+            <span class="example-topline"><span class="category-number">第 7 類</span><span class="route-pill">Copilot Chat</span></span>
+            <h3>Python 分析並生成圖表</h3>
+            <p>用程式分析一份資料，最後產出單一圖表或視覺化結果。</p>
+            <span class="example-action">查看建議 →</span>
+          </button>
+
+          <button class="example-card" type="button" data-route="chat" data-category="8" data-cross="no" data-keywords="html 網頁 網站 互動 頁面">
+            <span class="example-topline"><span class="category-number">第 8 類</span><span class="route-pill">Copilot Chat</span></span>
+            <h3>製作單一 HTML 網頁</h3>
+            <p>建立一個獨立網頁、單頁報告、互動工具或網頁原型。</p>
+            <span class="example-action">查看建議 →</span>
+          </button>
+
+          <button class="example-card" type="button" data-route="cowork" data-category="9" data-cross="yes" data-keywords="跨系統 多步驟 多份 文件 流程 編排 outlook teams sharepoint">
+            <span class="example-topline"><span class="category-number">第 9 類</span><span class="route-pill">Copilot Cowork</span></span>
+            <h3>跨系統多步驟或多份產出</h3>
+            <p>從郵件、Teams 與 SharePoint 彙整資料，再產出簡報、Excel 與溝通內容。</p>
+            <span class="example-action">查看建議 →</span>
+          </button>
+        </div>
+        <div class="no-results" id="no-results" hidden>找不到符合的任務。試試「附件」、「簡報」或「跨系統」。</div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="tips-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="tips-title">省 Credit 小技巧</h2>
+          <p>把 Cowork 留給真正需要工作編排的任務，而不是所有能做的任務。</p>
+        </div>
+      </div>
+
+      <div class="tips-layout">
+        <div class="tips-card">
+          <ol class="tip-list">
+            <li>
+              <div><strong>先數交付物</strong><span>只有一份產出時，預設先用 Copilot Chat。</span></div>
+            </li>
+            <li>
+              <div><strong>把單次查詢留在 Chat</strong><span>搜尋、閱讀附件、研究與單一分析不需要額外編排。</span></div>
+            </li>
+            <li>
+              <div><strong>合併真正相依的工作</strong><span>若多個步驟會彼此影響，可整理成一個完整 Cowork 任務。</span></div>
+            </li>
+            <li>
+              <div><strong>跨系統不等於一定用 Cowork</strong><span>只有搭配多步驟編排時，才形成明顯差異化價值。</span></div>
+            </li>
+          </ol>
+        </div>
+
+        <aside class="rule-card">
+          <div class="rule-card-inner">
+            <small>記住這條線</small>
+            <strong>單一 → Chat<br>編排 → Cowork</strong>
+            <p>「一份」和「多份」，通常就是最清楚的分水嶺。</p>
+          </div>
+        </aside>
+      </div>
+
+      <details>
+        <summary>如果任務落在兩者之間呢？</summary>
+        <p>
+          先看最終產出數量與步驟是否相依。「查資料後做一份簡報」仍屬單一產出，優先用 Copilot Chat；
+          「查資料後同時做簡報、Excel 摘要並草擬郵件」則適合 Cowork。
+        </p>
+      </details>
+    </section>
+
+    <p class="disclaimer">
+      <strong>重要聲明：</strong>本工具提供工作分流建議，不是硬性限制，也不代表實際收費或 Credit 數量。
+      實際 UBB Credit 規則、可用功能與治理要求，請以你的組織政策為準。
+    </p>
+
+    <footer>Copilot Chat／Copilot Cowork 使用判斷參考</footer>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var answers = {
+        systems: null,
+        deliverables: null,
+        steps: null
+      };
+
+      var questionElements = Array.from(document.querySelectorAll(".question"));
+      var progressBar = document.getElementById("progress-bar");
+      var progressTrack = document.querySelector(".progress-track");
+      var progressLabel = document.getElementById("progress-label");
+      var resultPanel = document.getElementById("result-panel");
+      var resultEmpty = document.getElementById("result-empty");
+      var resultContent = document.getElementById("result-content");
+      var resultBanner = document.getElementById("result-banner");
+      var resultTitle = document.getElementById("result-title");
+      var resultReason = document.getElementById("result-reason");
+      var reasonList = document.getElementById("reason-list");
+      var creditNote = document.getElementById("credit-note");
+      var resultContext = document.getElementById("result-context");
+      var copyStatus = document.getElementById("copy-status");
+      var searchInput = document.getElementById("example-search");
+      var exampleCards = Array.from(document.querySelectorAll(".example-card"));
+      var filterButtons = Array.from(document.querySelectorAll(".filter-button"));
+      var noResults = document.getElementById("no-results");
+      var builderStatus = document.getElementById("builder-status");
+      var activeFilter = "all";
+      var lastDecisionText = "";
+
+      function setAnswer(questionName, answer) {
+        answers[questionName] = answer;
+
+        var question = document.querySelector('[data-question="' + questionName + '"]');
+        Array.from(question.querySelectorAll(".choice")).forEach(function (button) {
+          button.setAttribute("aria-pressed", String(button.dataset.answer === answer));
+        });
+
+        updateProgress();
+        if (Object.values(answers).every(function (value) { return value !== null; })) {
+          showDecision();
+        }
+      }
+
+      function updateProgress() {
+        var completed = Object.values(answers).filter(function (value) { return value !== null; }).length;
+        var percent = (completed / 3) * 100;
+        progressBar.style.width = percent + "%";
+        progressTrack.setAttribute("aria-valuenow", String(completed));
+        progressLabel.textContent = completed === 3 ? "判斷完成 · 3 / 3" : "已完成 " + completed + " / 3";
+      }
+
+      function createReasonItem(text) {
+        var item = document.createElement("li");
+        var span = document.createElement("span");
+        span.textContent = text;
+        item.appendChild(span);
+        return item;
+      }
+
+      function showDecision(presetCategory) {
+        var cowork = answers.deliverables === "yes" || answers.steps === "yes";
+        var reasons = [];
+
+        if (cowork) {
+          if (answers.deliverables === "yes") {
+            reasons.push("一次需要多份交付物，Cowork 能協調產出並維持一致脈絡。");
+          }
+          if (answers.steps === "yes") {
+            reasons.push("工作包含彼此相依的連續步驟，適合交由 Cowork 編排。");
+          }
+          if (answers.systems === "yes") {
+            reasons.push("同時跨多個系統或資料來源，搭配多步驟後更能發揮 Cowork 價值。");
+          }
+
+          resultPanel.dataset.route = "cowork";
+          resultBanner.textContent = presetCategory ? "第 " + presetCategory + " 類 · 適合 Cowork" : "適合使用 Copilot Cowork";
+          resultTitle.textContent = "建議 Copilot Cowork";
+          resultReason.textContent = "這不是單次產出，而是需要整合、編排或同時交付多個成果的工作。";
+          creditNote.textContent = "UBB Credit 觀點：此任務具有 Chat 難以取代的編排價值，使用 Cowork 較有意義。";
+        } else {
+          reasons.push("目前只需要單一產出，Copilot Chat 已能有效完成。");
+          reasons.push("工作不含彼此相依的連續步驟，不需要額外的流程編排。");
+
+          if (answers.systems === "yes") {
+            reasons.push("雖然涉及多個來源，但跨系統單獨並不等於需要 Cowork；還要搭配多步驟編排。");
+          } else {
+            reasons.push("任務範圍集中，適合用較輕量的 Chat 路徑處理。");
+          }
+
+          resultPanel.dataset.route = "chat";
+          resultBanner.textContent = presetCategory ? "第 " + presetCategory + " 類 · 建議用 Chat" : "可用 Copilot Chat 完成";
+          resultTitle.textContent = "建議 Microsoft 365 Copilot Chat";
+          resultReason.textContent = "這是一項單次、單一產出的工作，使用 Cowork 的額外價值有限。";
+          creditNote.textContent = "UBB Credit 觀點：先用 Copilot Chat，可把 Cowork Credit 留給真正需要多步驟編排的任務。";
+        }
+
+        reasonList.replaceChildren();
+        reasons.forEach(function (reason) {
+          reasonList.appendChild(createReasonItem(reason));
+        });
+
+        lastDecisionText = resultTitle.textContent + "\n" +
+          resultReason.textContent + "\n" +
+          reasons.map(function (reason) { return "• " + reason; }).join("\n") + "\n" +
+          creditNote.textContent;
+        copyStatus.textContent = "";
+        resultEmpty.hidden = true;
+        resultContent.hidden = false;
+      }
+
+      function resetDecision(shouldFocus) {
+        answers.systems = null;
+        answers.deliverables = null;
+        answers.steps = null;
+
+        document.querySelectorAll(".choice").forEach(function (button) {
+          button.setAttribute("aria-pressed", "false");
+        });
+
+        updateProgress();
+        resultContent.hidden = true;
+        resultEmpty.hidden = false;
+        resultContext.hidden = true;
+        resultContext.textContent = "";
+        copyStatus.textContent = "";
+        lastDecisionText = "";
+        delete resultPanel.dataset.route;
+
+        if (shouldFocus) {
+          questionElements[0].querySelector(".choice").focus();
+        }
+      }
+
+      function applyExample(card) {
+        var route = card.dataset.route;
+        var cross = card.dataset.cross;
+        var category = card.dataset.category;
+
+        setAnswer("systems", cross);
+        setAnswer("deliverables", route === "cowork" ? "yes" : "no");
+        setAnswer("steps", route === "cowork" ? "yes" : "no");
+        showDecision(category);
+        resultPanel.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+
+      function getCheckedValues(name) {
+        return Array.from(document.querySelectorAll('input[name="' + name + '"]:checked')).map(function (input) {
+          return input.value;
+        });
+      }
+
+      function analyzeBuilder() {
+        var systems = getCheckedValues("builder-system");
+        var outputs = getCheckedValues("builder-output");
+        var workflow = document.querySelector('input[name="builder-workflow"]:checked').value;
+
+        if (systems.length === 0 || outputs.length === 0) {
+          builderStatus.dataset.state = "error";
+          builderStatus.textContent = "請至少選擇一個系統與一份交付物，再進行分析。";
+          if (systems.length === 0) {
+            document.querySelector('input[name="builder-system"]').focus();
+          } else {
+            document.querySelector('input[name="builder-output"]').focus();
+          }
+          return;
+        }
+
+        builderStatus.dataset.state = "ready";
+        builderStatus.textContent = "已分析：" + systems.length + " 個系統、" + outputs.length + " 份交付物。";
+        setAnswer("systems", systems.length >= 2 ? "yes" : "no");
+        setAnswer("deliverables", outputs.length >= 2 ? "yes" : "no");
+        setAnswer("steps", workflow === "dependent" ? "yes" : "no");
+        showDecision();
+
+        var workflowLabel = workflow === "dependent" ? "彼此相依的連續步驟" :
+          workflow === "independent" ? "多個獨立步驟" : "單次完成";
+        resultContext.textContent = "本次配置：使用 " + systems.length + " 個系統，產出 " +
+          outputs.length + " 份交付物，流程為「" + workflowLabel + "」。";
+        resultContext.hidden = false;
+        lastDecisionText += "\n" + resultContext.textContent;
+        resultPanel.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+
+      function copyDecision() {
+        if (!lastDecisionText) {
+          return;
+        }
+
+        function showCopied() {
+          copyStatus.textContent = "建議已複製，可貼到郵件、Teams 或工作說明中。";
+        }
+
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(lastDecisionText).then(showCopied).catch(function () {
+            copyStatus.textContent = "無法自動複製，請直接選取結果文字。";
+          });
+          return;
+        }
+
+        var helper = document.createElement("textarea");
+        helper.value = lastDecisionText;
+        helper.setAttribute("readonly", "");
+        helper.className = "visually-hidden";
+        document.body.appendChild(helper);
+        helper.select();
+        try {
+          document.execCommand("copy");
+          showCopied();
+        } catch (error) {
+          copyStatus.textContent = "無法自動複製，請直接選取結果文字。";
+        }
+        helper.remove();
+      }
+
+      function filterExamples() {
+        var query = searchInput.value.trim().toLocaleLowerCase("zh-Hant");
+        var visibleCount = 0;
+
+        exampleCards.forEach(function (card) {
+          var matchesRoute = activeFilter === "all" || card.dataset.route === activeFilter;
+          var content = (card.textContent + " " + card.dataset.keywords).toLocaleLowerCase("zh-Hant");
+          var matchesQuery = query === "" || content.includes(query);
+          var visible = matchesRoute && matchesQuery;
+
+          card.hidden = !visible;
+          if (visible) {
+            visibleCount += 1;
+          }
+        });
+
+        noResults.hidden = visibleCount !== 0;
+      }
+
+      questionElements.forEach(function (question) {
+        question.addEventListener("click", function (event) {
+          var choice = event.target.closest(".choice");
+          if (!choice) {
+            return;
+          }
+          setAnswer(question.dataset.question, choice.dataset.answer);
+        });
+      });
+
+      document.getElementById("start-button").addEventListener("click", function () {
+        document.getElementById("decision-tool").scrollIntoView({ behavior: "smooth", block: "start" });
+        window.setTimeout(function () {
+          questionElements[0].querySelector(".choice").focus();
+        }, 250);
+      });
+
+      document.getElementById("view-examples-button").addEventListener("click", function () {
+        document.getElementById("examples").scrollIntoView({ behavior: "smooth", block: "start" });
+        window.setTimeout(function () {
+          searchInput.focus();
+        }, 250);
+      });
+
+      document.getElementById("reset-button").addEventListener("click", function () {
+        resetDecision(true);
+      });
+
+      document.getElementById("copy-result-button").addEventListener("click", copyDecision);
+
+      document.getElementById("print-result-button").addEventListener("click", function () {
+        window.print();
+      });
+
+      document.getElementById("analyze-builder-button").addEventListener("click", analyzeBuilder);
+
+      exampleCards.forEach(function (card) {
+        card.addEventListener("click", function () {
+          applyExample(card);
+        });
+      });
+
+      searchInput.addEventListener("input", filterExamples);
+
+      filterButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          activeFilter = button.dataset.filter;
+          filterButtons.forEach(function (item) {
+            item.setAttribute("aria-pressed", String(item === button));
+          });
+          filterExamples();
+        });
+      });
+
+      resetDecision(false);
+    }());
+  </script>
+</body>
+</html>
