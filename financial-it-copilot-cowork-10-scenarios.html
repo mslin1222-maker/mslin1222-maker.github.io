@@ -1,0 +1,929 @@
+<!doctype html>
+<html lang="zh-Hant" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>金融業 IT × Copilot Cowork｜10 個關鍵有感場景</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f4f7fb;
+      --surface: #ffffff;
+      --surface-2: #eef3f8;
+      --text: #132238;
+      --muted: #5b6b7f;
+      --line: #d9e2ec;
+      --brand: #0d5bd7;
+      --brand-2: #5a33c6;
+      --accent: #00a6a6;
+      --warn: #b75d00;
+      --danger: #b42318;
+      --success: #137a4b;
+      --shadow: 0 18px 50px rgba(25, 45, 78, .12);
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --radius-sm: 10px;
+      --max: 1220px;
+    }
+    [data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #08111f;
+      --surface: #101c2d;
+      --surface-2: #17263a;
+      --text: #edf4ff;
+      --muted: #a9b8cb;
+      --line: #2a3d55;
+      --brand: #76a9ff;
+      --brand-2: #b29aff;
+      --accent: #52d4cf;
+      --warn: #ffc06b;
+      --danger: #ff958d;
+      --success: #67d8a4;
+      --shadow: 0 18px 50px rgba(0, 0, 0, .28);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        color-scheme: dark;
+        --bg: #08111f;
+        --surface: #101c2d;
+        --surface-2: #17263a;
+        --text: #edf4ff;
+        --muted: #a9b8cb;
+        --line: #2a3d55;
+        --brand: #76a9ff;
+        --brand-2: #b29aff;
+        --accent: #52d4cf;
+        --warn: #ffc06b;
+        --danger: #ff958d;
+        --success: #67d8a4;
+        --shadow: 0 18px 50px rgba(0, 0, 0, .28);
+      }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 12% 3%, color-mix(in srgb, var(--brand) 17%, transparent), transparent 27rem),
+        radial-gradient(circle at 92% 18%, color-mix(in srgb, var(--brand-2) 15%, transparent), transparent 24rem),
+        var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", "Noto Sans TC", system-ui, sans-serif;
+      line-height: 1.65;
+    }
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+    a { color: var(--brand); }
+    .skip {
+      position: fixed;
+      inset-block-start: .5rem;
+      inset-inline-start: .5rem;
+      z-index: 99;
+      transform: translateY(-160%);
+      background: var(--surface);
+      color: var(--text);
+      padding: .7rem 1rem;
+      border-radius: var(--radius-sm);
+    }
+    .skip:focus { transform: none; }
+    .wrap { width: min(calc(100% - 2rem), var(--max)); margin-inline: auto; }
+    .topbar {
+      position: sticky;
+      inset-block-start: 0;
+      z-index: 30;
+      border-block-end: 1px solid color-mix(in srgb, var(--line) 75%, transparent);
+      background: color-mix(in srgb, var(--bg) 84%, transparent);
+      backdrop-filter: blur(18px);
+    }
+    .topbar-inner {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      font-weight: 760;
+      letter-spacing: -.01em;
+    }
+    .brand-mark {
+      inline-size: 32px;
+      block-size: 32px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      color: white;
+      background: linear-gradient(135deg, #0d5bd7, #6c3ee8 62%, #00a6a6);
+      box-shadow: 0 8px 20px rgba(13, 91, 215, .28);
+    }
+    .top-actions { display: flex; align-items: center; gap: .55rem; }
+    .btn {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--text);
+      border-radius: 999px;
+      padding: .58rem .9rem;
+      min-block-size: 40px;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .btn:hover { transform: translateY(-1px); border-color: var(--brand); }
+    .btn.primary {
+      background: var(--brand);
+      border-color: var(--brand);
+      color: #fff;
+    }
+    .hero { padding-block: 5rem 2.4rem; }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.3fr .7fr;
+      align-items: center;
+      gap: 2.5rem;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .35rem .65rem;
+      border: 1px solid color-mix(in srgb, var(--brand) 35%, var(--line));
+      color: var(--brand);
+      background: color-mix(in srgb, var(--brand) 8%, var(--surface));
+      border-radius: 999px;
+      font-size: .88rem;
+      font-weight: 700;
+    }
+    h1 {
+      margin-block: 1.1rem .9rem;
+      font-size: clamp(2.35rem, 6vw, 5.2rem);
+      line-height: 1.02;
+      letter-spacing: -.055em;
+      max-inline-size: 13ch;
+    }
+    .gradient-text {
+      background: linear-gradient(100deg, var(--brand), var(--brand-2), var(--accent));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .lead { color: var(--muted); font-size: clamp(1.05rem, 2vw, 1.25rem); max-inline-size: 65ch; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: .7rem; margin-block-start: 1.4rem; }
+    .hero-panel {
+      position: relative;
+      min-block-size: 380px;
+      border-radius: 32px;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(160deg, color-mix(in srgb, var(--brand) 12%, var(--surface)), var(--surface) 62%),
+        var(--surface);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      padding: 1.4rem;
+    }
+    .orbit {
+      position: absolute;
+      border: 1px solid color-mix(in srgb, var(--brand) 32%, transparent);
+      border-radius: 50%;
+      inline-size: 350px;
+      block-size: 350px;
+      inset-inline-end: -90px;
+      inset-block-start: -90px;
+    }
+    .orbit::after {
+      content: "";
+      position: absolute;
+      inset: 55px;
+      border: inherit;
+      border-radius: inherit;
+    }
+    .flow-card {
+      position: relative;
+      z-index: 1;
+      border: 1px solid var(--line);
+      background: color-mix(in srgb, var(--surface) 90%, transparent);
+      border-radius: 18px;
+      padding: 1rem;
+      margin-block-end: .75rem;
+    }
+    .flow-card strong { display: block; }
+    .flow-card small { color: var(--muted); }
+    .flow-card:nth-of-type(2) { margin-inline-start: 12%; }
+    .flow-card:nth-of-type(3) { margin-inline-start: 24%; }
+    .flow-card:nth-of-type(4) { margin-inline-start: 8%; }
+    .hero-note {
+      position: absolute;
+      inset-inline: 1.4rem;
+      inset-block-end: 1.4rem;
+      padding: .8rem 1rem;
+      border-radius: 14px;
+      background: var(--text);
+      color: var(--bg);
+      font-size: .9rem;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: .8rem;
+      margin-block: 1rem 3.5rem;
+    }
+    .stat {
+      padding: 1.1rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+    }
+    .stat b { display: block; font-size: 1.65rem; color: var(--brand); }
+    .stat span { color: var(--muted); font-size: .9rem; }
+    .section { padding-block: 2.5rem; }
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 1rem;
+      margin-block-end: 1.2rem;
+    }
+    h2 { margin: 0; font-size: clamp(1.65rem, 3vw, 2.5rem); letter-spacing: -.03em; }
+    .section-head p { max-inline-size: 64ch; color: var(--muted); margin: .35rem 0 0; }
+    .gate {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 1rem;
+      align-items: stretch;
+    }
+    .gate-card {
+      padding: 1.5rem;
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+    .gate-card.cowork {
+      border-color: color-mix(in srgb, var(--brand) 45%, var(--line));
+      background: linear-gradient(145deg, color-mix(in srgb, var(--brand) 10%, var(--surface)), var(--surface));
+    }
+    .gate-card h3 { margin-block: 0 .6rem; }
+    .gate-card ul { margin: .6rem 0 0; padding-inline-start: 1.2rem; }
+    .gate-arrow { display: grid; place-items: center; color: var(--brand); font-size: 1.6rem; }
+    .callout {
+      margin-block-start: 1rem;
+      padding: 1rem 1.1rem;
+      border-inline-start: 4px solid var(--accent);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+    }
+    .finder {
+      padding: 1.3rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--line);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+    .finder-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: .8rem;
+      align-items: end;
+    }
+    label { display: block; font-weight: 700; font-size: .9rem; }
+    select, input[type="search"] {
+      inline-size: 100%;
+      margin-block-start: .35rem;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: .75rem .85rem;
+      color: var(--text);
+      background: var(--surface-2);
+    }
+    .finder-result {
+      display: none;
+      margin-block-start: 1rem;
+      border-block-start: 1px solid var(--line);
+      padding-block-start: 1rem;
+    }
+    .finder-result.show { display: block; }
+    .finder-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: .7rem; }
+    .finder-item {
+      padding: .9rem;
+      background: var(--surface-2);
+      border-radius: 12px;
+      border: 1px solid var(--line);
+    }
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(240px, 1fr) auto;
+      gap: 1rem;
+      align-items: center;
+      margin-block: 1.4rem 1rem;
+    }
+    .chips { display: flex; gap: .45rem; flex-wrap: wrap; justify-content: end; }
+    .chip {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: .45rem .7rem;
+    }
+    .chip.active { color: white; background: var(--brand); border-color: var(--brand); }
+    .result-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      color: var(--muted);
+      font-size: .92rem;
+      margin-block-end: .8rem;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    .scenario {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(20, 42, 75, .07);
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .scenario:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: color-mix(in srgb, var(--brand) 42%, var(--line)); }
+    .scenario-main { padding: 1.25rem; }
+    .scenario-top { display: flex; justify-content: space-between; gap: .8rem; align-items: start; }
+    .number {
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 auto;
+      inline-size: 42px;
+      block-size: 42px;
+      border-radius: 13px;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      color: white;
+      font-weight: 800;
+    }
+    .scenario-title { margin: 0; font-size: 1.18rem; line-height: 1.35; }
+    .scenario-short { color: var(--muted); margin-block: .7rem .9rem; }
+    .badges, .tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .badge, .tag {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: .28rem .55rem;
+      font-size: .78rem;
+      font-weight: 700;
+      border: 1px solid var(--line);
+      background: var(--surface-2);
+    }
+    .badge.category { color: var(--brand); }
+    .badge.priority { color: var(--success); }
+    .scenario-summary {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .8rem;
+      margin-block-start: 1rem;
+      padding-block-start: .9rem;
+      border-block-start: 1px solid var(--line);
+    }
+    .summary-block b { display: block; font-size: .82rem; color: var(--muted); }
+    .summary-block span { font-size: .92rem; }
+    .scenario-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: .8rem;
+      margin-block-start: 1rem;
+    }
+    .text-btn {
+      border: 0;
+      color: var(--brand);
+      background: transparent;
+      font-weight: 750;
+      padding: .4rem 0;
+    }
+    .compare-btn[aria-pressed="true"] {
+      color: white;
+      background: var(--brand-2);
+      border-color: var(--brand-2);
+    }
+    .scenario-detail {
+      display: none;
+      border-block-start: 1px solid var(--line);
+      background: color-mix(in srgb, var(--surface-2) 72%, var(--surface));
+      padding: 1.2rem;
+    }
+    .scenario.open .scenario-detail { display: block; }
+    .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .detail-block {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface);
+      padding: .95rem;
+    }
+    .detail-block.wide { grid-column: 1 / -1; }
+    .detail-block h4 { margin: 0 0 .55rem; }
+    .detail-block p { margin: 0; color: var(--muted); }
+    .journey { list-style: none; padding: 0; margin: 0; display: grid; gap: .55rem; }
+    .journey li {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: .65rem;
+      align-items: start;
+      padding: .65rem;
+      border-radius: 10px;
+      background: var(--surface-2);
+    }
+    .type {
+      white-space: nowrap;
+      font-size: .72rem;
+      font-weight: 800;
+      padding: .22rem .45rem;
+      border-radius: 999px;
+      color: var(--brand);
+      background: color-mix(in srgb, var(--brand) 10%, var(--surface));
+    }
+    .type.integration { color: var(--warn); background: color-mix(in srgb, var(--warn) 11%, var(--surface)); }
+    .type.human { color: var(--danger); background: color-mix(in srgb, var(--danger) 10%, var(--surface)); }
+    .compare {
+      display: none;
+      margin-block-start: 1rem;
+      border: 1px solid color-mix(in srgb, var(--brand-2) 45%, var(--line));
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      padding: 1.2rem;
+      box-shadow: var(--shadow);
+    }
+    .compare.show { display: block; }
+    .compare-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .8rem; }
+    .compare-col { border: 1px solid var(--line); border-radius: 14px; padding: 1rem; background: var(--surface-2); }
+    .compare-col h4 { margin-block-start: 0; }
+    .compare-col ul { padding-inline-start: 1.1rem; }
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 2rem;
+      border: 1px dashed var(--line);
+      color: var(--muted);
+      border-radius: var(--radius-md);
+    }
+    .guardrail-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .8rem; }
+    .guardrail {
+      padding: 1.15rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+    }
+    .guardrail b { color: var(--brand); }
+    .legend {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: .8rem;
+    }
+    .legend-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      background: var(--surface);
+    }
+    .legend-card strong { display: block; font-size: 1.15rem; }
+    .legend-card span { color: var(--muted); font-size: .9rem; }
+    .sources {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: .7rem;
+    }
+    .source {
+      padding: .9rem;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--surface);
+    }
+    .source-head { display: flex; gap: .65rem; align-items: start; }
+    .source-id {
+      flex: 0 0 auto;
+      border-radius: 8px;
+      background: var(--surface-2);
+      color: var(--brand);
+      padding: .2rem .45rem;
+      font-weight: 800;
+      font-size: .8rem;
+    }
+    .source a { font-weight: 700; text-decoration: none; }
+    .source small { display: block; color: var(--muted); margin-block-start: .2rem; }
+    footer {
+      margin-block-start: 3rem;
+      padding-block: 2rem 3rem;
+      border-block-start: 1px solid var(--line);
+      color: var(--muted);
+    }
+    .disclaimer {
+      padding: 1rem;
+      border-radius: 14px;
+      border: 1px solid color-mix(in srgb, var(--warn) 42%, var(--line));
+      background: color-mix(in srgb, var(--warn) 7%, var(--surface));
+    }
+    @media (max-width: 900px) {
+      .hero-grid, .gate, .cards { grid-template-columns: 1fr; }
+      .gate-arrow { transform: rotate(90deg); }
+      .stats, .guardrail-grid, .legend { grid-template-columns: repeat(2, 1fr); }
+      .finder-grid { grid-template-columns: 1fr 1fr; }
+      .finder-grid .btn { grid-column: 1 / -1; }
+      .finder-list, .compare-grid { grid-template-columns: 1fr; }
+      .toolbar { grid-template-columns: 1fr; }
+      .chips { justify-content: start; }
+    }
+    @media (max-width: 620px) {
+      .wrap { width: min(calc(100% - 1rem), var(--max)); }
+      .topbar-inner { min-height: 56px; }
+      .brand span:last-child { display: none; }
+      .hero { padding-block-start: 3rem; }
+      .hero-panel { min-block-size: 350px; }
+      .stats, .guardrail-grid, .legend, .sources, .finder-grid, .detail-grid, .scenario-summary { grid-template-columns: 1fr; }
+      .detail-block.wide { grid-column: auto; }
+      .section-head { align-items: start; flex-direction: column; }
+      .result-meta { flex-direction: column; }
+      .scenario-top { flex-direction: column; }
+    }
+    @media print {
+      :root { color-scheme: light; --bg: #fff; --surface: #fff; --surface-2: #f5f6f8; --text: #111; --muted: #444; --line: #bbb; }
+      body { background: #fff; }
+      .topbar, .hero-actions, .finder, .toolbar, .scenario-actions, .compare { display: none !important; }
+      .hero { padding-block: 1rem; }
+      .hero-panel { min-block-size: auto; box-shadow: none; }
+      .orbit { display: none; }
+      .stats { margin-block-end: 1rem; }
+      .cards { grid-template-columns: 1fr; }
+      .scenario { break-inside: avoid; box-shadow: none; }
+      .scenario-detail { display: block !important; }
+      .section { padding-block: 1rem; }
+      a { color: #111; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">跳到主要內容</a>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <div class="brand"><span class="brand-mark">C</span><span>金融 IT × Copilot Cowork</span></div>
+      <div class="top-actions">
+        <button class="btn" id="themeToggle" type="button" aria-label="切換明暗主題">切換主題</button>
+        <button class="btn" id="printPage" type="button">列印／存成 PDF</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <span class="eyebrow">2026 公開資料研究版 · 金融業 IT 決策指南</span>
+          <h1>讓 AI 從回答問題，進化成<span class="gradient-text">完成跨系統工作</span></h1>
+          <p class="lead">聚焦銀行、證券、保險與金融科技 IT 團隊最有感的 10 個 Copilot Cowork 場景：每一項都包含觸發情境、跨系統流程、多份交付物、KPI、成熟度與人工治理關卡。</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#scenarios">探索 10 個場景</a>
+            <a class="btn" href="#gate">先判斷 Chat 還是 Cowork</a>
+          </div>
+        </div>
+        <aside class="hero-panel" aria-label="Cowork 工作鏈示意">
+          <div class="orbit"></div>
+          <div class="flow-card"><strong>1. 理解任務與目標</strong><small>事件、稽核、變更、韌性或治理</small></div>
+          <div class="flow-card"><strong>2. 跨資料源協調</strong><small>M365 原生資料 + 受控外部整合</small></div>
+          <div class="flow-card"><strong>3. 產出多份交付物</strong><small>工作簿、簡報、通知、會議與追蹤</small></div>
+          <div class="flow-card"><strong>4. 人工核准後續行動</strong><small>高風險決策仍由權責人員與權威系統完成</small></div>
+          <div class="hero-note">核心判準：跨系統多步驟，或一次產出多份彼此關聯的交付物。</div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="wrap stats" aria-label="內容摘要">
+      <div class="stat"><b>10</b><span>金融 IT 關鍵場景</span></div>
+      <div class="stat"><b>3</b><span>能力標記：現行／整合／人工</span></div>
+      <div class="stat"><b>4</b><span>成熟度：M1 到 M4</span></div>
+      <div class="stat"><b>0</b><span>虛構成效數字；以自家基線衡量</span></div>
+    </section>
+
+    <section class="section" id="gate">
+      <div class="wrap">
+        <div class="section-head">
+          <div><h2>先過一個價值關卡</h2><p>不是每個 AI 任務都值得使用 Cowork。真正差異在「工作鏈」而不只是「內容生成」。</p></div>
+        </div>
+        <div class="gate">
+          <article class="gate-card">
+            <span class="eyebrow">Copilot Chat</span>
+            <h3>單次、單一產出</h3>
+            <ul>
+              <li>問答、搜尋、研究或摘要</li>
+              <li>解析單一附件</li>
+              <li>草擬一份文件或產出單一圖表</li>
+            </ul>
+          </article>
+          <div class="gate-arrow" aria-hidden="true">→</div>
+          <article class="gate-card cowork">
+            <span class="eyebrow">Copilot Cowork</span>
+            <h3>跨系統、多步驟、多交付物</h3>
+            <ul>
+              <li>步驟彼此依賴，需持續協調</li>
+              <li>橫跨 Outlook、Teams、行事曆與檔案</li>
+              <li>同時建立文件、追蹤表、會議與通訊</li>
+            </ul>
+          </article>
+        </div>
+        <div class="callout"><strong>重要邊界：</strong> 付款、交易、授信、監管正式提交、生產部署與風險接受，應由既有權威系統、正式工作流與人工核准完成；Cowork 適合協調與準備，不應取代控制點。</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <div><h2>快速找到適合的試點</h2><p>依你的首要痛點與目前整合成熟度，先縮小可優先驗證的場景。</p></div>
+        </div>
+        <div class="finder">
+          <div class="finder-grid">
+            <label>首要痛點
+              <select id="finderGoal">
+                <option value="事件與韌性">事件應變與營運韌性</option>
+                <option value="法遵與稽核">法遵、監管與稽核</option>
+                <option value="工程與變更">工程效率與變更風險</option>
+                <option value="架構與投資">技術債與投資決策</option>
+                <option value="雲端與成本">雲端治理與成本</option>
+                <option value="第三方風險">第三方與雲端服務商</option>
+                <option value="AI 治理">AI／Agent 治理</option>
+              </select>
+            </label>
+            <label>整合成熟度
+              <select id="finderMaturity">
+                <option value="M2">受控試點／唯讀整合</option>
+                <option value="M3">生產整合／受控寫回</option>
+                <option value="M1">M365 沙箱／低敏資料</option>
+              </select>
+            </label>
+            <button class="btn primary" id="runFinder" type="button">產生建議</button>
+          </div>
+          <div class="finder-result" id="finderResult" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="scenarios">
+      <div class="wrap">
+        <div class="section-head">
+          <div><h2>10 個關鍵有感場景</h2><p>搜尋關鍵字、依領域篩選、展開工作鏈，或最多選取三項進行比較。</p></div>
+          <button class="btn" id="resetFilters" type="button">重設篩選</button>
+        </div>
+        <div class="toolbar">
+          <label>搜尋場景
+            <input type="search" id="searchInput" placeholder="例如：事件、CAB、稽核、雲端、Agent">
+          </label>
+          <div class="chips" id="categoryChips" aria-label="依領域篩選"></div>
+        </div>
+        <div class="result-meta"><span id="resultCount"></span><span>能力標記：現行能力｜需整合｜人工核准｜混合</span></div>
+        <div class="cards" id="scenarioCards"></div>
+        <section class="compare" id="comparePanel" aria-live="polite">
+          <div class="section-head"><div><h2>場景比較</h2><p>最多同時比較三項：系統跨度、交付物、KPI 與治理關卡。</p></div><button class="btn" id="clearCompare" type="button">清除比較</button></div>
+          <div class="compare-grid" id="compareGrid"></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head"><div><h2>金融業導入的 6 道治理護欄</h2><p>先用唯讀、低敏、可回復的方式驗證價值，再逐步擴大權限與寫回範圍。</p></div></div>
+        <div class="guardrail-grid">
+          <article class="guardrail"><b>01 權限先治理</b><p>先清理 SharePoint、Teams、OneDrive 過度分享與匿名連結，再擴大使用。</p></article>
+          <article class="guardrail"><b>02 核准留在權威系統</b><p>CAB、風險接受、監管簽署與供應商接受，維持 maker-checker 紀錄。</p></article>
+          <article class="guardrail"><b>03 確定性計算分工</b><p>金額、分數、期限與安全 gate 由規則引擎或既有系統計算，AI 負責協調與說明。</p></article>
+          <article class="guardrail"><b>04 外部內容不可信</b><p>網頁、郵件、附件與 connector 資料都需防範 prompt injection 與資料投毒。</p></article>
+          <article class="guardrail"><b>05 完整稽核鏈</b><p>保存來源、輸出、版本、動作、核准者與整合結果，確保可追溯與可重現。</p></article>
+          <article class="guardrail"><b>06 正式 ALM 與持續評估</b><p>Skill、connector、提示、模型與知識來源都需版本化、測試、獨立驗證與回滾。</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head"><div><h2>成熟度路線圖</h2><p>場景卡上的成熟度是建議起點，不是產品認證；仍需依組織風險胃納與資料分類調整。</p></div></div>
+        <div class="legend">
+          <article class="legend-card"><strong>M1 沙箱</strong><span>M365 範圍、匿名或低敏資料；驗證提示與交付品質。</span></article>
+          <article class="legend-card"><strong>M2 受控試點</strong><span>外部系統唯讀整合；所有動作均人工核准。</span></article>
+          <article class="legend-card"><strong>M3 生產整合</strong><span>受控寫回、分權核准、完整稽核與正式 ALM。</span></article>
+          <article class="legend-card"><strong>M4 規模化</strong><span>跨部門重用、持續評估、韌性、成本與供應商管理。</span></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="sources">
+      <div class="wrap">
+        <div class="section-head"><div><h2>研究依據</h2><p>產品能力優先採 Microsoft 官方資料；金融 IT 情境則參考監管機構與 NIST。連結需連網才能開啟。</p></div></div>
+        <div class="sources" id="sourceList"></div>
+        <div class="disclaimer" style="margin-block-start:1rem"><strong>研究注意：</strong> 本頁將「Microsoft 已公開能力」與「需 connector、plugin、Copilot Studio、Power Automate 或 API 的方案藍圖」分開標示。來源與支援矩陣可能更新，正式設計前應重新查閱最新官方文件與所在地主管機關要求。</div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">研究基準日：2026-07-13 · 本頁不提供法律、監管或資安合規保證；KPI 請先建立組織自身基線，再以受控試點驗證。</div>
+  </footer>
+
+  <script>
+    const scenarios = [{"id": 1, "title": "重大網路／ICT 事件指揮與監管通報", "short": "把告警、協作、決策、通報與事後整改串成同一條事件工作鏈。", "category": "事件與韌性", "maturity": "M2 → M3", "pilot": "高優先", "roles": "CISO、SOC 主管、Incident Commander", "trigger": "高嚴重度攻擊、資料外洩或關鍵服務中斷", "pain": "告警、服務相依性、Teams 討論、工單、客戶影響與通報內容分散，事件期間容易出現版本不一致。", "systems": ["SIEM／EDR", "ITSM", "CMDB", "Teams", "Outlook", "SharePoint"], "steps": [{"type": "需整合", "text": "由 SIEM、EDR 與 ITSM 取得事件 ID、告警、證據與目前狀態。"}, {"type": "混合", "text": "搜尋 M365 runbook、郵件與 Teams 討論，並由 CMDB 補入服務與客戶相依性。"}, {"type": "現行能力", "text": "建立事件資料夾、時間線、指揮橋會議與內部狀態更新。"}, {"type": "人工核准", "text": "法律、法遵與 CISO 判定重大性後，產生監管通報、管理層簡報與客戶通知草稿。"}, {"type": "混合", "text": "正式工作流完成核准與提交，再建立事後檢討與整改追蹤。"}], "deliverables": ["事件時間線", "監管通報套件", "管理層簡報", "客戶通知／FAQ", "整改追蹤表"], "kpis": ["事件至指揮橋時間", "初稿完成時間", "核准週期", "期限遺漏率", "證據可追溯率", "MTTR"], "guardrails": ["不得由 AI 判定法律重大性或自行對外申報", "對外通報與客戶通知須由具權責人員核准", "保留來源、版本、決策與核准紀錄"], "refs": ["R1", "R2", "M3", "M4"]}, {"id": 2, "title": "外部稽核／監管檢查證據協調", "short": "從證據要求、搜尋、催辦到多格式提交，形成可追溯的稽核交付流程。", "category": "法遵與稽核", "maturity": "M2", "pilot": "高優先", "roles": "IT Controls、內部稽核、SOX PMO", "trigger": "收到 PBC 清單、主管機關檢查或外部稽核要求", "pain": "控制證據跨郵件、SharePoint、IAM、ITSM、GRC 與控制擁有人，追蹤、版本與補件協調耗時。", "systems": ["Excel", "SharePoint", "IAM", "ITSM", "GRC", "Outlook"], "steps": [{"type": "現行能力", "text": "讀取 PBC 清單，建立要求、期間、擁有人與截止日追蹤。"}, {"type": "混合", "text": "搜尋 M365 文件，並透過唯讀整合取得 IAM、ITSM、ERP 與 GRC 證據。"}, {"type": "現行能力", "text": "建立受控證據資料夾、索引、缺口與例外工作簿。"}, {"type": "混合", "text": "寄送補件提醒、安排澄清會議，正式 attestation 留在 GRC。"}, {"type": "現行能力", "text": "產生證據包、稽核回覆、例外清單與委員會簡報。"}], "deliverables": ["證據索引與證據包", "缺口／例外工作簿", "稽核回覆文件", "進度簡報"], "kpis": ["首次提交完整率", "逾期要求數", "每項要求工時", "證據重用率", "稽核返工率"], "guardrails": ["找到文件不代表控制已有效執行", "控制擁有人須驗證期間、完整性與真實性", "高敏證據採最小權限與人工檢查"], "refs": ["M3", "M5", "R7"]}, {"id": 3, "title": "法規變更到政策、控制與系統落地", "short": "把法規理解推進到政策修訂、控制映射、系統影響與實施追蹤。", "category": "法遵與稽核", "maturity": "M2 → M3", "pilot": "策略優先", "roles": "Regulatory Change、法遵科技、企業架構", "trigger": "主管機關發布新規、解釋函或既有規範修訂", "pain": "法規摘要完成後，往往無法持續追蹤到政策、控制、系統、負責人與實施專案。", "systems": ["網路研究", "SharePoint", "GRC", "CMDB", "ITSM", "Teams"], "steps": [{"type": "混合", "text": "由官方法規來源、排程研究或合規資料源蒐集變更。"}, {"type": "混合", "text": "比較新規、SharePoint 政策、GRC 控制庫與 CMDB 應用清單。"}, {"type": "現行能力", "text": "建立「義務—政策—控制—系統」追蹤矩陣與差距摘要。"}, {"type": "混合", "text": "在 GRC／ITSM 建立實施工作項目，並安排法律、控制與技術擁有人會議。"}, {"type": "人工核准", "text": "法律確認適用性後，同步產出政策 redline、路線圖、通知與高層簡報。"}], "deliverables": ["法規義務矩陣", "政策 redline", "控制／系統影響報告", "實施 backlog", "高層簡報"], "kpis": ["發布至影響評估時間", "義務覆蓋率", "追蹤鏈完整率", "逾期差距", "按期實施率"], "guardrails": ["法律部門決定正式適用性與解釋", "外部網頁與附件一律視為不可信輸入", "控制設計與資源投入須正式核准"], "refs": ["M2", "M4", "M8", "R2"]}, {"id": 4, "title": "IT 變更、發布與 CAB 治理", "short": "把相依性、測試、風險、審議、部署通訊與事後驗證串成發布閉環。", "category": "工程與變更", "maturity": "M2 → M3", "pilot": "高優先", "roles": "Change Manager、Release Manager、Service Owner", "trigger": "重大變更或發布候選進入 CAB 審議", "pain": "測試、相依性、停機窗口、rollback、風險接受與通訊分散在不同工具與文件。", "systems": ["ITSM", "CI/CD", "CMDB", "行事曆", "Teams", "SharePoint"], "steps": [{"type": "需整合", "text": "由 ITSM 與 CI/CD 匯入變更內容、測試結果與部署窗口。"}, {"type": "混合", "text": "搜尋 runbook、過往事故、CMDB 相依性與衝突行事曆。"}, {"type": "現行能力", "text": "產生影響分析、CAB 套件、部署與 rollback 計畫。"}, {"type": "人工核准", "text": "安排 CAB 與寄送審閱通知；正式核准仍留在 ITSM。"}, {"type": "混合", "text": "部署由 CI/CD 執行，之後產生上線通訊、驗證報告與事後回顧。"}], "deliverables": ["CAB 決策套件", "部署／rollback runbook", "相依性工作簿", "利益關係人通訊", "上線後報告"], "kpis": ["變更失敗率", "緊急變更率", "CAB lead time", "rollback 成功率", "變更後事故率"], "guardrails": ["不得由 Cowork 核准或直接執行生產部署", "關鍵相依性須由 CMDB 與技術人員確認", "維持 Change Owner、資安與 CAB 分權"], "refs": ["R3", "M3", "M4"]}, {"id": 5, "title": "營運韌性與 BCP／DR 演練閉環", "short": "在演練前、中、後維持同一資料脈絡，讓缺失真正進入整改與複測。", "category": "事件與韌性", "maturity": "M2 → M3", "pilot": "策略優先", "roles": "Operational Resilience、BCM、Service Owner", "trigger": "年度演練、重大架構變更或實際中斷後驗證", "pain": "BIA、RTO／RPO、runbook、參與者、服務相依性與整改項目難以保持一致。", "systems": ["BIA／BCM", "CMDB", "Teams", "行事曆", "SharePoint", "ITSM"], "steps": [{"type": "混合", "text": "彙集 BIA、runbook、RTO／RPO、CMDB 與第三方相依性。"}, {"type": "現行能力", "text": "建立演練劇本、注入事件、參與者包、會議與協作空間。"}, {"type": "混合", "text": "演練期間整理訊息、遙測、決策與時間線。"}, {"type": "人工核准", "text": "服務擁有人驗證實際恢復結果，AI 僅協助整理差距。"}, {"type": "現行能力", "text": "產生事後報告、整改工作簿、runbook 修訂與複測安排。"}], "deliverables": ["演練劇本", "參與者包", "事件／決策時間線", "事後報告", "整改追蹤表", "董事會簡報"], "kpis": ["關鍵服務測試覆蓋", "RTO／RPO 達成率", "決策延遲", "整改關閉時間", "重複缺失率"], "guardrails": ["不得由 AI 宣告演練成功或目標已達標", "實際切換與復原由既有 DR 工具執行", "結果須由 BCM、服務擁有人與風險核准"], "refs": ["R1", "R2", "M4"]}, {"id": 6, "title": "技術債與 EOL 應用組合合理化", "short": "跨清冊、成本、漏洞、事故與業務重要性，形成可決策的現代化波次。", "category": "架構與投資", "maturity": "M2 → M3", "pilot": "策略優先", "roles": "Enterprise Architect、Application Owner、CIO PMO", "trigger": "預算週期、EOL 通知或舊系統事故增加", "pain": "應用清冊、程式庫、基礎設施、成本、漏洞、事故與業務重要性存在於不同系統。", "systems": ["CMDB", "APM", "程式庫", "FinOps", "漏洞管理", "ITSM"], "steps": [{"type": "需整合", "text": "從 CMDB、APM、程式庫、雲端成本、漏洞與事故系統取得資料。"}, {"type": "混合", "text": "補入 M365 架構文件、維護合約、服務擁有人與業務需求。"}, {"type": "需整合", "text": "以組織核准的確定性規則計算 EOL、風險、成本與相依性分數。"}, {"type": "現行能力", "text": "形成保留、汰換、重構或遷移選項與實施波次。"}, {"type": "人工核准", "text": "產出組合工作簿、決策 memo、路線圖與投資委員會簡報。"}], "deliverables": ["應用組合工作簿", "技術債熱圖", "應用決策 memo", "現代化波次路線圖", "投資委員會簡報"], "kpis": ["清冊完整率", "未識別相依性數", "逾期 EOL 數", "決策週期", "技術債 backlog 年齡"], "guardrails": ["分數與財務計算須由正式規則或資料工具驗證", "不得由 Cowork 決定停用關鍵應用", "架構、財務、資安與業務共同核准"], "refs": ["R3", "M4", "M8"]}, {"id": 7, "title": "雲端治理違規、成本與風險整改", "short": "從政策或成本異常一路走到歸責、例外、整改工單與治理簡報。", "category": "雲端與成本", "maturity": "M3", "pilot": "進階試點", "roles": "Cloud CoE、FinOps、Cloud Security", "trigger": "政策違規、成本異常、未標記資源或重大新工作負載", "pain": "雲端政策、成本、安全態勢、CMDB、資料分類與擁有人資訊分散。", "systems": ["Azure／多雲 API", "FinOps", "CMDB", "資料分類", "ITSM", "Teams"], "steps": [{"type": "需整合", "text": "由雲端政策、成本與安全 API 匯入異常。"}, {"type": "需整合", "text": "連結 CMDB、資料分類、關鍵服務、擁有人與第三方依賴。"}, {"type": "混合", "text": "區分立即整改、期限例外與需架構審查的項目。"}, {"type": "現行能力", "text": "產生整改計畫、例外申請、變更套件與擁有人通知。"}, {"type": "人工核准", "text": "核准後建立工單或 IaC backlog，並更新治理追蹤與委員會簡報。"}], "deliverables": ["雲端違規／成本工作簿", "風險例外文件", "整改／IaC backlog", "擁有人通訊", "治理簡報"], "kpis": ["違規平均年齡", "無擁有人資源數", "成本異常處理時間", "例外逾期率", "政策覆蓋率"], "guardrails": ["不得自動刪除、停機或修改生產資源", "成本與風險結論保留原始 API 證據", "Cloud Owner、CISO、FinOps 與資料擁有人核准"], "refs": ["R7", "M3", "M8"]}, {"id": 8, "title": "DevSecOps 軟體供應鏈與發布保證", "short": "協調安全掃描、SBOM、例外、rollback 與 go／no-go 證據，而非只產生程式碼。", "category": "工程與變更", "maturity": "M3", "pilot": "進階試點", "roles": "AppSec、DevSecOps、Release Train", "trigger": "發布候選、高風險套件或軟體供應鏈告警", "pain": "CI/CD、SAST、SCA、SBOM、容器與祕密掃描結果缺乏統一的發布證據。", "systems": ["CI/CD", "SAST／SCA", "SBOM", "容器掃描", "ITSM", "SharePoint"], "steps": [{"type": "需整合", "text": "從 CI/CD、SAST、SCA、SBOM、容器與祕密掃描器取得結果。"}, {"type": "混合", "text": "加入架構文件、過往例外、事故與服務重要性。"}, {"type": "需整合", "text": "由確定性 security gate 驗證發布條件，Cowork 整理缺口與衝突。"}, {"type": "現行能力", "text": "產生發布保證包、已知風險、rollback 計畫與 go／no-go 簡報。"}, {"type": "人工核准", "text": "AppSec、Release Owner 與服務擁有人核准；部署仍由 pipeline 執行。"}], "deliverables": ["Release assurance pack", "SBOM／依賴風險摘要", "威脅模型差異", "Rollback 計畫", "Go／no-go 簡報"], "kpis": ["證據完整率", "發布保證 lead time", "未通過 gate 數", "逃逸缺陷", "依賴修補時間"], "guardrails": ["LLM 不取代編譯、測試、簽章或 security gate", "不得直接批准或部署生產版本", "風險例外須由 AppSec 與風險擁有人核准"], "refs": ["R6", "R7", "M4", "M8"]}, {"id": 9, "title": "第三方／雲端服務商風險全生命週期", "short": "把盡職調查、合約差距、技術依賴、整改與退出計畫納入同一決策流程。", "category": "第三方風險", "maturity": "M2 → M3", "pilot": "高優先", "roles": "TPRM、採購、CISO、業務擁有人", "trigger": "新供應商、續約、重大變更、評級下降或供應商事件", "pain": "合約、問卷、SOC 報告、事故、服務依賴、第四方與退出計畫散落在不同團隊。", "systems": ["採購", "GRC", "SharePoint", "外部風險情報", "CMDB", "Outlook"], "steps": [{"type": "需整合", "text": "由採購或 GRC 觸發，取得供應商、服務、續約與重要性資料。"}, {"type": "混合", "text": "彙集合約、SOC 報告、問卷、郵件、外部風險情報與 CMDB 相依性。"}, {"type": "混合", "text": "對照內部標準，識別控制、合約、集中度與退出缺口。"}, {"type": "現行能力", "text": "產生盡職調查、合約差距、整改與退出計畫，並寄送補件要求。"}, {"type": "人工核准", "text": "TPRM、法律、CISO、業務與採購核准後更新權威系統狀態。"}], "deliverables": ["盡職調查報告", "風險／控制矩陣", "合約條款差距表", "整改與退出計畫", "委員會簡報"], "kpis": ["評估週期", "重要供應商覆蓋", "續約前完成率", "逾期整改", "退出計畫測試率"], "guardrails": ["不得由 Cowork 接受供應商風險或簽署合約", "第三方整合輸出須獨立驗證", "審查資料地區、分包商、集中度與退出能力"], "refs": ["R4", "R2", "M4", "M8"]}, {"id": 10, "title": "AI／Copilot Agent 模型與變更治理", "short": "把 agent 文件、測試、獨立挑戰、核准、發布與持續監控串成治理閉環。", "category": "AI 治理", "maturity": "M2 → M3", "pilot": "高優先", "roles": "AI Governance、Model Risk Management、Independent Validation", "trigger": "新模型、agent、skill、connector、知識來源或權限變更", "pain": "模型文件、提示、資料來源、權限、測試、限制與核准紀錄分散，難以持續評估。", "systems": ["Agent 清冊", "ALM pipeline", "SharePoint", "評估框架", "GRC", "監控平台"], "steps": [{"type": "需整合", "text": "從 agent／模型清冊或 ALM pipeline 取得變更內容。"}, {"type": "混合", "text": "彙集 model card、skill、connector、資料來源、權限與既有事件。"}, {"type": "需整合", "text": "由獨立測試框架執行 groundedness、權限邊界、prompt injection 與回歸測試。"}, {"type": "現行能力", "text": "產生風險評估、agent card、問題簿、監控計畫與委員會簡報。"}, {"type": "人工核准", "text": "獨立驗證與委員會核准後，才透過正式 ALM 發布並持續監控。"}], "deliverables": ["AI／agent 風險評估", "Model／agent card", "測試問題工作簿", "變更核准紀錄", "持續監控計畫"], "kpis": ["驗證 lead time", "測試覆蓋", "權限缺失數", "問題關閉率", "未登錄 agent 數", "變更後事件率"], "guardrails": ["開發者不得自我核准", "自訂 skill 與整合須納入正式 ALM", "Cowork 不能自行證明模型有效或安全"], "refs": ["R5", "R9", "M4", "M10"]}];
+    const sources = [{"id": "M1", "group": "Microsoft", "title": "Copilot Cowork is now generally available", "date": "2026-06-16", "url": "https://www.microsoft.com/en-us/microsoft-365/blog/2026/06/16/copilot-cowork-is-now-generally-available/", "supports": "產品定位、一般提供與管理控制"}, {"id": "M2", "group": "Microsoft", "title": "Copilot Cowork overview", "date": "2026-06-24 更新", "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/", "supports": "公開的 M365 搜尋、文件、郵件、Teams、行事曆與排程能力"}, {"id": "M3", "group": "Microsoft", "title": "Copilot Cowork common questions", "date": "2026-06-16 更新", "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/cowork-faq", "supports": "Cowork／Chat 邊界、權限、核准與限制"}, {"id": "M4", "group": "Microsoft", "title": "Application card: Microsoft 365 Copilot Cowork", "date": "2026-07-13 查閱", "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/responsible-ai/copilot-cowork-application-card", "supports": "人工覆核、Responsible AI、高風險限制與整合邊界"}, {"id": "M5", "group": "Microsoft", "title": "Use Microsoft Purview to manage Microsoft 365 Copilot Cowork", "date": "2026-06-22 更新", "url": "https://learn.microsoft.com/en-us/purview/ai-copilot-cowork", "supports": "Audit、標籤、eDiscovery、retention 與當期 Purview 支援矩陣"}, {"id": "M6", "group": "Microsoft", "title": "Data, Privacy, and Security for Microsoft 365 Copilot", "date": "持續更新", "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-privacy", "supports": "Microsoft Graph 資料、提示與回應的保護原則"}, {"id": "M8", "group": "Microsoft", "title": "Choose between Microsoft 365 Copilot and Copilot Studio", "date": "2026-07-02 更新", "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/copilot-studio-experience", "supports": "可重用流程、條件分支、正式整合與 ALM 邊界"}, {"id": "M9", "group": "Microsoft", "title": "Copilot Control System: security and governance", "date": "2026-02-25 更新", "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-control-system/security-governance", "supports": "過度分享、存取治理與 prompt injection 風險"}, {"id": "M10", "group": "Microsoft", "title": "Agent evaluation overview", "date": "2026-04-28 更新", "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/evaluation-overview", "supports": "Agent 品質、安全測試與持續評估"}, {"id": "R1", "group": "監管／標準", "title": "Principles for Operational Resilience", "date": "2021-03", "url": "https://www.bis.org/bcbs/publ/d516.pdf", "supports": "關鍵營運、相依性、事件管理與韌性測試"}, {"id": "R2", "group": "監管／標準", "title": "Digital Operational Resilience Act (DORA)", "date": "2025-01-17 起適用", "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/digital-operational-resilience-act-dora", "supports": "ICT 風險、事件通報、測試與第三方風險"}, {"id": "R3", "group": "監管／標準", "title": "Implementing Technology Change", "date": "2021-02-05", "url": "https://www.fca.org.uk/publications/multi-firm-reviews/implementing-technology-change", "supports": "技術債、變更治理、自動化與測試"}, {"id": "R4", "group": "監管／標準", "title": "Agencies Issue Final Guidance on Third-Party Risk Management", "date": "2023-06-06", "url": "https://www.occ.gov/news-issuances/news-releases/2023/nr-ia-2023-53.html", "supports": "第三方關係全生命週期治理"}, {"id": "R5", "group": "監管／標準", "title": "Artificial Intelligence Risk Management Framework 1.0", "date": "2023-01-26", "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf", "supports": "可信、透明、可解釋、安全與韌性 AI"}, {"id": "R6", "group": "監管／標準", "title": "Secure Software Development Framework 1.1", "date": "2022-02", "url": "https://csrc.nist.gov/pubs/sp/800/218/final", "supports": "DevSecOps 與安全軟體生命週期"}, {"id": "R7", "group": "監管／標準", "title": "NIST Releases Cybersecurity Framework 2.0", "date": "2024-02-26", "url": "https://www.nist.gov/news-events/news/2024/02/nist-releases-version-20-landmark-cybersecurity-framework", "supports": "Govern、Identify、Protect、Detect、Respond、Recover"}, {"id": "R9", "group": "監管／標準", "title": "SR 11-7: Supervisory Guidance on Model Risk Management", "date": "2011-04-04", "url": "https://www.federalreserve.gov/boarddocs/srletters/2011/sr1107a1.pdf", "supports": "獨立驗證、有效挑戰與持續監控"}];
+    const state = { category: "全部", query: "", compare: [] };
+
+    const cardsEl = document.getElementById("scenarioCards");
+    const countEl = document.getElementById("resultCount");
+    const chipsEl = document.getElementById("categoryChips");
+    const comparePanel = document.getElementById("comparePanel");
+    const compareGrid = document.getElementById("compareGrid");
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function typeClass(type) {
+      if (type === "需整合") return "integration";
+      if (type === "人工核准") return "human";
+      return "";
+    }
+
+    function renderChips() {
+      const categories = ["全部", ...new Set(scenarios.map(item => item.category))];
+      chipsEl.innerHTML = categories.map(category =>
+        `<button class="chip ${state.category === category ? "active" : ""}" type="button" data-category="${escapeHtml(category)}">${escapeHtml(category)}</button>`
+      ).join("");
+    }
+
+    function matches(item) {
+      const haystack = JSON.stringify(item).toLocaleLowerCase("zh-Hant");
+      const queryMatch = !state.query || haystack.includes(state.query);
+      const categoryMatch = state.category === "全部" || item.category === state.category;
+      return queryMatch && categoryMatch;
+    }
+
+    function renderCards() {
+      const filtered = scenarios.filter(matches);
+      countEl.textContent = `顯示 ${filtered.length}／${scenarios.length} 個場景`;
+      if (!filtered.length) {
+        cardsEl.innerHTML = `<div class="empty">找不到符合條件的場景，請調整關鍵字或重設篩選。</div>`;
+        return;
+      }
+      cardsEl.innerHTML = filtered.map(item => {
+        const selected = state.compare.includes(item.id);
+        return `
+          <article class="scenario" id="scenario-${item.id}">
+            <div class="scenario-main">
+              <div class="scenario-top">
+                <span class="number">${String(item.id).padStart(2, "0")}</span>
+                <div>
+                  <h3 class="scenario-title">${escapeHtml(item.title)}</h3>
+                  <div class="badges">
+                    <span class="badge category">${escapeHtml(item.category)}</span>
+                    <span class="badge">${escapeHtml(item.maturity)}</span>
+                    <span class="badge priority">${escapeHtml(item.pilot)}</span>
+                  </div>
+                </div>
+              </div>
+              <p class="scenario-short">${escapeHtml(item.short)}</p>
+              <div class="tags">${item.systems.slice(0, 5).map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join("")}</div>
+              <div class="scenario-summary">
+                <div class="summary-block"><b>觸發情境</b><span>${escapeHtml(item.trigger)}</span></div>
+                <div class="summary-block"><b>核心角色</b><span>${escapeHtml(item.roles)}</span></div>
+              </div>
+              <div class="scenario-actions">
+                <button class="text-btn detail-toggle" type="button" data-id="${item.id}" aria-expanded="false">展開完整工作鏈 ↓</button>
+                <button class="btn compare-btn" type="button" data-compare="${item.id}" aria-pressed="${selected}">${selected ? "已加入比較" : "加入比較"}</button>
+              </div>
+            </div>
+            <div class="scenario-detail">
+              <div class="detail-grid">
+                <div class="detail-block wide"><h4>目前痛點</h4><p>${escapeHtml(item.pain)}</p></div>
+                <div class="detail-block wide"><h4>Cowork 跨系統流程</h4><ol class="journey">${item.steps.map(step => `<li><span class="type ${typeClass(step.type)}">${escapeHtml(step.type)}</span><span>${escapeHtml(step.text)}</span></li>`).join("")}</ol></div>
+                <div class="detail-block"><h4>多份交付物</h4><div class="tags">${item.deliverables.map(x => `<span class="tag">${escapeHtml(x)}</span>`).join("")}</div></div>
+                <div class="detail-block"><h4>建議 KPI</h4><div class="tags">${item.kpis.map(x => `<span class="tag">${escapeHtml(x)}</span>`).join("")}</div></div>
+                <div class="detail-block wide"><h4>風險與人工關卡</h4><ul>${item.guardrails.map(x => `<li>${escapeHtml(x)}</li>`).join("")}</ul><small>參考：${item.refs.map(x => `<a href="#source-${x}">${x}</a>`).join("、")}</small></div>
+              </div>
+            </div>
+          </article>`;
+      }).join("");
+    }
+
+    function renderCompare() {
+      const chosen = state.compare.map(id => scenarios.find(item => item.id === id)).filter(Boolean);
+      comparePanel.classList.toggle("show", chosen.length > 0);
+      if (!chosen.length) {
+        compareGrid.innerHTML = "";
+        return;
+      }
+      compareGrid.innerHTML = chosen.map(item => `
+        <article class="compare-col">
+          <span class="badge category">${escapeHtml(item.category)}</span>
+          <h4>${escapeHtml(item.title)}</h4>
+          <strong>成熟度</strong><p>${escapeHtml(item.maturity)}</p>
+          <strong>系統跨度</strong><p>${item.systems.map(escapeHtml).join("、")}</p>
+          <strong>交付物</strong><ul>${item.deliverables.map(x => `<li>${escapeHtml(x)}</li>`).join("")}</ul>
+          <strong>KPI</strong><ul>${item.kpis.slice(0, 4).map(x => `<li>${escapeHtml(x)}</li>`).join("")}</ul>
+        </article>`).join("");
+    }
+
+    function updateAll() {
+      renderChips();
+      renderCards();
+      renderCompare();
+    }
+
+    chipsEl.addEventListener("click", event => {
+      const button = event.target.closest("[data-category]");
+      if (!button) return;
+      state.category = button.dataset.category;
+      updateAll();
+    });
+
+    document.getElementById("searchInput").addEventListener("input", event => {
+      state.query = event.target.value.trim().toLocaleLowerCase("zh-Hant");
+      renderCards();
+    });
+
+    cardsEl.addEventListener("click", event => {
+      const detailButton = event.target.closest("[data-id]");
+      if (detailButton) {
+        const card = document.getElementById(`scenario-${detailButton.dataset.id}`);
+        const open = card.classList.toggle("open");
+        detailButton.setAttribute("aria-expanded", String(open));
+        detailButton.textContent = open ? "收合工作鏈 ↑" : "展開完整工作鏈 ↓";
+      }
+      const compareButton = event.target.closest("[data-compare]");
+      if (compareButton) {
+        const id = Number(compareButton.dataset.compare);
+        if (state.compare.includes(id)) {
+          state.compare = state.compare.filter(value => value !== id);
+        } else if (state.compare.length < 3) {
+          state.compare.push(id);
+        } else {
+          window.alert("最多同時比較三個場景。");
+        }
+        renderCards();
+        renderCompare();
+      }
+    });
+
+    document.getElementById("clearCompare").addEventListener("click", () => {
+      state.compare = [];
+      renderCards();
+      renderCompare();
+    });
+
+    document.getElementById("resetFilters").addEventListener("click", () => {
+      state.category = "全部";
+      state.query = "";
+      document.getElementById("searchInput").value = "";
+      updateAll();
+    });
+
+    document.getElementById("runFinder").addEventListener("click", () => {
+      const goal = document.getElementById("finderGoal").value;
+      const maturity = document.getElementById("finderMaturity").value;
+      const goalMatches = scenarios.filter(item => item.category === goal);
+      const secondary = scenarios.filter(item => item.category !== goal && item.maturity.includes(maturity));
+      const recommendations = [...goalMatches, ...secondary].slice(0, 3);
+      const target = document.getElementById("finderResult");
+      target.innerHTML = `<h3>建議先驗證這 ${recommendations.length} 項</h3><div class="finder-list">${recommendations.map(item => `<button class="finder-item" type="button" data-jump="${item.id}"><strong>${escapeHtml(item.title)}</strong><br><small>${escapeHtml(item.maturity)} · ${escapeHtml(item.pilot)}</small></button>`).join("")}</div><p><small>建議從唯讀、低敏、人工核准開始；完成基線量測後再評估擴大整合。</small></p>`;
+      target.classList.add("show");
+    });
+
+    document.getElementById("finderResult").addEventListener("click", event => {
+      const button = event.target.closest("[data-jump]");
+      if (!button) return;
+      state.category = "全部";
+      state.query = "";
+      document.getElementById("searchInput").value = "";
+      updateAll();
+      const card = document.getElementById(`scenario-${button.dataset.jump}`);
+      card.scrollIntoView({ behavior: "smooth", block: "center" });
+      card.classList.add("open");
+      const toggle = card.querySelector(".detail-toggle");
+      toggle.setAttribute("aria-expanded", "true");
+      toggle.textContent = "收合工作鏈 ↑";
+    });
+
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      const root = document.documentElement;
+      const current = root.dataset.theme;
+      root.dataset.theme = current === "dark" ? "light" : "dark";
+    });
+
+    document.getElementById("printPage").addEventListener("click", () => window.print());
+
+    document.getElementById("sourceList").innerHTML = sources.map(source => `
+      <article class="source" id="source-${source.id}">
+        <div class="source-head">
+          <span class="source-id">${escapeHtml(source.id)}</span>
+          <div><a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.title)}</a><small>${escapeHtml(source.group)} · ${escapeHtml(source.date)}</small><small>支持：${escapeHtml(source.supports)}</small></div>
+        </div>
+      </article>`).join("");
+
+    updateAll();
+  </script>
+</body>
+</html>
