@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>M365 Copilot、Copilot Cowork、Microsoft Scout｜三工具場景決策指南</title>
+<style>
+  :root {
+    --bg: #f4f6fb;
+    --surface: #ffffff;
+    --surface-2: #f0f3fa;
+    --text: #1b1f27;
+    --text-muted: #5a6373;
+    --border: #dfe4ee;
+    --chat: #0f7b3e;
+    --chat-bg: #e6f6ec;
+    --chat-border: #9fd8b4;
+    --cowork: #5b2d90;
+    --cowork-bg: #f1e9fb;
+    --cowork-border: #c9aee8;
+    --scout: #b5316e;
+    --scout-bg: #fbe9f2;
+    --scout-border: #e8aac9;
+    --accent: #0f6cbd;
+    --accent-bg: #e8f1fb;
+    --warn: #9a6700;
+    --warn-bg: #fff4d6;
+    --shadow: 0 2px 10px rgba(27, 31, 39, 0.08);
+    --radius: 14px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161c;
+      --surface: #1e222b;
+      --surface-2: #262b36;
+      --text: #e8eaf0;
+      --text-muted: #a3abbd;
+      --border: #3a4150;
+      --chat: #5fd08c;
+      --chat-bg: #17301f;
+      --chat-border: #2c5b3c;
+      --cowork: #c9a2f0;
+      --cowork-bg: #2a1f3d;
+      --cowork-border: #55407a;
+      --scout: #f08cbb;
+      --scout-bg: #3a1c2b;
+      --scout-border: #7a4059;
+      --accent: #6cb2f0;
+      --accent-bg: #1c2a3c;
+      --warn: #e3b341;
+      --warn-bg: #33290f;
+      --shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", sans-serif;
+    line-height: 1.65;
+    font-size: 16px;
+  }
+  .wrap { max-width: 1080px; margin-inline: auto; padding-inline: 20px; }
+
+  /* ---------- Header ---------- */
+  header.hero {
+    background: linear-gradient(135deg, #0f6cbd 0%, #5b2d90 55%, #b5316e 100%);
+    color: #fff;
+    padding-block: 40px 64px;
+  }
+  header.hero h1 { margin: 0 0 10px; font-size: 1.85rem; line-height: 1.3; }
+  header.hero p.sub { margin: 0; font-size: 1.02rem; opacity: .93; max-width: 50em; }
+  .hero-badges { display: flex; flex-wrap: wrap; gap: 10px; margin-block-start: 18px; }
+  .hero-badge {
+    background: rgba(255,255,255,.16);
+    border: 1px solid rgba(255,255,255,.35);
+    border-radius: 999px;
+    padding: 5px 14px;
+    font-size: .86rem;
+  }
+
+  /* ---------- Nav ---------- */
+  nav.toc {
+    position: sticky; top: 0; z-index: 20;
+    background: var(--surface);
+    border-block-end: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+  nav.toc .wrap { display: flex; gap: 4px; overflow-x: auto; }
+  nav.toc a {
+    display: block; padding: 12px 15px;
+    color: var(--text-muted); text-decoration: none;
+    font-weight: 600; font-size: .93rem; white-space: nowrap;
+  }
+  nav.toc a:hover { color: var(--accent); }
+
+  main { padding-block: 34px 10px; }
+  section { margin-block-end: 50px; scroll-margin-block-start: 70px; }
+  h2 { font-size: 1.45rem; margin: 0 0 6px; }
+  p.lede { color: var(--text-muted); margin: 0 0 20px; max-width: 52em; }
+
+  /* ---------- Trio cards ---------- */
+  .trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 860px) { .trio { grid-template-columns: 1fr; } }
+  .tool-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow);
+    border-block-start: 5px solid var(--border);
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .tool-card.chat { border-block-start-color: var(--chat); }
+  .tool-card.cowork { border-block-start-color: var(--cowork); }
+  .tool-card.scout { border-block-start-color: var(--scout); }
+  .tool-card h3 { margin: 0; font-size: 1.12rem; }
+  .tool-card .tagline { font-weight: 700; font-size: .95rem; }
+  .tool-card.chat .tagline { color: var(--chat); }
+  .tool-card.cowork .tagline { color: var(--cowork); }
+  .tool-card.scout .tagline { color: var(--scout); }
+  .tool-card p.desc { margin: 0; color: var(--text-muted); font-size: .9rem; flex: 1; }
+  .kv { display: grid; gap: 6px; font-size: .86rem; }
+  .kv div { display: flex; gap: 8px; }
+  .kv .k { flex: none; font-weight: 700; color: var(--text-muted); min-inline-size: 4.5em; }
+  .cost-pill {
+    align-self: flex-start;
+    border-radius: 999px; padding: 3px 12px;
+    font-size: .8rem; font-weight: 700; border: 1px solid;
+  }
+  .cost-pill.free { background: var(--chat-bg); color: var(--chat); border-color: var(--chat-border); }
+  .cost-pill.credit { background: var(--warn-bg); color: var(--warn); border-color: var(--warn); }
+  .cost-pill.preview { background: var(--scout-bg); color: var(--scout); border-color: var(--scout-border); }
+
+  /* ---------- Wizard ---------- */
+  .wizard {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 26px; max-width: 780px;
+  }
+  .wizard .steps { display: flex; align-items: center; gap: 8px; margin-block-end: 20px; }
+  .wizard .dot {
+    inline-size: 30px; block-size: 30px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--surface-2); color: var(--text-muted);
+    font-weight: 700; font-size: .85rem; border: 2px solid var(--border);
+  }
+  .wizard .dot.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .wizard .dot-line { flex: 1; block-size: 2px; background: var(--border); }
+  .q-title { font-size: 1.18rem; font-weight: 700; margin: 0 0 6px; }
+  .q-hint { color: var(--text-muted); margin: 0 0 18px; font-size: .95rem; }
+  .answers { display: grid; gap: 12px; }
+  .answers button {
+    font: inherit; text-align: start; cursor: pointer;
+    background: var(--surface-2); color: var(--text);
+    border: 2px solid var(--border); border-radius: 12px;
+    padding: 14px 18px; transition: border-color .15s, transform .1s;
+  }
+  .answers button:hover { border-color: var(--accent); transform: translateY(-1px); }
+  .answers button strong { display: block; font-size: 1.02rem; }
+  .answers button span { color: var(--text-muted); font-size: .9rem; }
+
+  .verdict { border-radius: 12px; padding: 22px; border: 2px solid; }
+  .verdict.chat { background: var(--chat-bg); border-color: var(--chat-border); }
+  .verdict.cowork { background: var(--cowork-bg); border-color: var(--cowork-border); }
+  .verdict.scout { background: var(--scout-bg); border-color: var(--scout-border); }
+  .verdict .v-label { font-size: .85rem; font-weight: 700; letter-spacing: .06em; margin-block-end: 4px; }
+  .verdict.chat .v-label { color: var(--chat); }
+  .verdict.cowork .v-label { color: var(--cowork); }
+  .verdict.scout .v-label { color: var(--scout); }
+  .verdict h3 { margin: 0 0 10px; font-size: 1.32rem; }
+  .verdict p { margin: 0 0 10px; }
+  .verdict .v-ref { font-size: .88rem; color: var(--text-muted); }
+  .wizard .actions { margin-block-start: 18px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn-secondary {
+    font: inherit; cursor: pointer; font-weight: 600;
+    background: var(--surface); color: var(--accent);
+    border: 2px solid var(--accent); border-radius: 999px; padding: 8px 20px;
+  }
+  .btn-secondary:hover { background: var(--accent-bg); }
+  .hidden { display: none; }
+
+  /* ---------- Compare table ---------- */
+  .table-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow-x: auto; }
+  table.compare { border-collapse: collapse; inline-size: 100%; min-inline-size: 860px; }
+  .compare th, .compare td { padding: 14px 16px; vertical-align: top; border-block-end: 1px solid var(--border); }
+  .compare thead th { font-size: 1rem; text-align: start; color: #fff; }
+  .compare thead th.h-dim { background: var(--surface-2); color: var(--text-muted); font-size: .85rem; }
+  .compare thead th.h-chat { background: var(--chat); }
+  .compare thead th.h-cowork { background: var(--cowork); }
+  .compare thead th.h-scout { background: var(--scout); }
+  .compare tbody th {
+    text-align: start; background: var(--surface-2); font-size: .9rem;
+    color: var(--text-muted); white-space: nowrap; border-block-end: 1px solid var(--border);
+  }
+  .compare td { font-size: .92rem; color: var(--text); }
+  .compare td ul { margin: 0; padding-inline-start: 18px; }
+  .compare td li { margin-block-end: 4px; }
+  .compare tbody tr:hover td, .compare tbody tr:hover th { background: var(--accent-bg); }
+
+  /* ---------- Scenario gallery ---------- */
+  .controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-block-end: 8px; }
+  .controls .lbl { font-size: .85rem; font-weight: 700; color: var(--text-muted); margin-inline-end: 4px; }
+  .filter-chip {
+    font: inherit; cursor: pointer; font-size: .88rem; font-weight: 600;
+    background: var(--surface); color: var(--text-muted);
+    border: 1.5px solid var(--border); border-radius: 999px; padding: 5px 14px;
+  }
+  .filter-chip:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .search-box {
+    font: inherit; flex: 1; min-inline-size: 180px;
+    background: var(--surface); color: var(--text);
+    border: 1.5px solid var(--border); border-radius: 999px; padding: 6px 16px;
+  }
+  .search-box:focus { outline: 2px solid var(--accent); border-color: var(--accent); }
+
+  .scene-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-block-start: 14px; }
+  @media (max-width: 760px) { .scene-grid { grid-template-columns: 1fr; } }
+  .scene-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .scene-card.b-chat { border-inline-start: 4px solid var(--chat); }
+  .scene-card.b-cowork { border-inline-start: 4px solid var(--cowork); }
+  .scene-card.b-scout { border-inline-start: 4px solid var(--scout); }
+  .scene-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-size: .76rem; font-weight: 700; border-radius: 6px; padding: 2px 9px;
+    background: var(--surface-2); color: var(--text-muted); border: 1px solid var(--border);
+  }
+  .tag.t-chat { background: var(--chat-bg); color: var(--chat); border-color: var(--chat-border); }
+  .tag.t-cowork { background: var(--cowork-bg); color: var(--cowork); border-color: var(--cowork-border); }
+  .tag.t-scout { background: var(--scout-bg); color: var(--scout); border-color: var(--scout-border); }
+  .tag.src { background: var(--accent-bg); color: var(--accent); border-color: var(--accent); }
+  .scene-card h3 { margin: 0; font-size: 1.05rem; }
+  .scene-card p { margin: 0; color: var(--text-muted); font-size: .9rem; flex: 1; }
+  .scene-card .why { font-size: .84rem; color: var(--text-muted); background: var(--surface-2); border-radius: 8px; padding: 8px 12px; }
+  .scene-card .why strong { color: var(--text); }
+  .no-result { padding: 26px; text-align: center; color: var(--text-muted); }
+
+  /* ---------- Mantra ---------- */
+  .mantra-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 820px) { .mantra-grid { grid-template-columns: 1fr; } }
+  .mantra-card {
+    border-radius: var(--radius); padding: 22px; text-align: center;
+    border: 2px solid; box-shadow: var(--shadow);
+  }
+  .mantra-card.chat { background: var(--chat-bg); border-color: var(--chat-border); }
+  .mantra-card.cowork { background: var(--cowork-bg); border-color: var(--cowork-border); }
+  .mantra-card.scout { background: var(--scout-bg); border-color: var(--scout-border); }
+  .mantra-card .big { font-size: 1.5rem; font-weight: 800; margin-block-end: 6px; }
+  .mantra-card.chat .big { color: var(--chat); }
+  .mantra-card.cowork .big { color: var(--cowork); }
+  .mantra-card.scout .big { color: var(--scout); }
+  .mantra-card p { margin: 0; color: var(--text-muted); font-size: .92rem; }
+
+  .fact-strip { margin-block-start: 22px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  @media (max-width: 820px) { .fact-strip { grid-template-columns: 1fr; } }
+  .fact {
+    background: var(--accent-bg); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 14px 18px; font-size: .92rem;
+  }
+  .fact strong { color: var(--accent); display: block; font-size: 1rem; }
+
+  .tip-banner {
+    margin-block-start: 22px;
+    background: var(--warn-bg); border: 1px solid var(--warn);
+    border-radius: var(--radius); padding: 16px 20px; font-size: .95rem;
+  }
+  .tip-banner strong { color: var(--warn); }
+
+  footer {
+    margin-block-start: 20px; padding-block: 24px;
+    border-block-start: 1px solid var(--border);
+    color: var(--text-muted); font-size: .85rem; text-align: center;
+  }
+  footer a { color: var(--accent); }
+  @media print {
+    nav.toc, .wizard .actions { display: none; }
+    body { background: #fff; }
+    .tool-card, .scene-card, .table-card, .mantra-card, .wizard { box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>M365 Copilot、Copilot Cowork、Microsoft Scout 該用哪一個？</h1>
+    <p class="sub">三個工具的分工其實很清楚：<strong>你問我答</strong>的 M365 Copilot、<strong>你交我辦</strong>的 Copilot Cowork，以及<strong>不問自來</strong>、隨時在線的 Microsoft Scout。這份互動指南用判斷精靈、六面向對照表與場景庫，幫你把每件工作交給對的幫手。</p>
+    <div class="hero-badges">
+      <span class="hero-badge">💬 M365 Copilot：秒級回應・授權內含</span>
+      <span class="hero-badge">🤝 Copilot Cowork：端到端交付・Credit 計費</span>
+      <span class="hero-badge">📡 Microsoft Scout：背景自主推進・Frontier 實驗版</span>
+    </div>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="wrap">
+    <a href="#overview">三工具定位</a>
+    <a href="#wizard">快速判斷</a>
+    <a href="#compare">六面向對照表</a>
+    <a href="#scenarios">場景庫</a>
+    <a href="#mantra">一句話心法</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- ============ Overview ============ -->
+  <section id="overview">
+    <h2>三個工具，三種工作方式</h2>
+    <p class="lede">關鍵差異不在「能不能做」，而在<strong>誰發動、做多深、要不要持續</strong>。</p>
+    <div class="trio">
+      <div class="tool-card chat">
+        <h3>💬 M365 Copilot</h3>
+        <div class="tagline">你問我答——工作上的安全 AI</div>
+        <p class="desc">快速、直覺、安全，且根植於你的資料。獲得答案、撰寫內容草稿、深入挖掘並激發靈感。一次對話中完成快速且聚焦的任務。</p>
+        <div class="kv">
+          <div><span class="k">處理時間</span><span>快速——幾秒到幾分鐘內回應</span></div>
+          <div><span class="k">複雜度</span><span>單一步驟或單次過程</span></div>
+          <div><span class="k">互動</span><span>你發問，它回答與協助</span></div>
+        </div>
+        <span class="cost-pill free">✅ 授權內含・不耗 Credit</span>
+      </div>
+      <div class="tool-card cowork">
+        <h3>🤝 Copilot Cowork</h3>
+        <div class="tagline">你交我辦——AI 幫你完成工作</div>
+        <p class="desc">多步驟代理解決方案，能在 Microsoft 365 應用程式中執行各種行動。跨越多個應用程式的複雜多步驟工作，端到端交付成果。</p>
+        <div class="kv">
+          <div><span class="k">處理時間</span><span>徹底——自主完成整個任務，數分鐘到數小時</span></div>
+          <div><span class="k">複雜度</span><span>跨任務、應用程式與來源的多步驟流程</span></div>
+          <div><span class="k">互動</span><span>你交辦一次，它做完交付</span></div>
+        </div>
+        <span class="cost-pill credit">💳 Copilot Credits 按量計費</span>
+      </div>
+      <div class="tool-card scout">
+        <h3>📡 Microsoft Scout</h3>
+        <div class="tagline">不問自來——隨時在線的專屬 Agent</div>
+        <p class="desc">微軟首個「Autopilot」自主代理：具備自己的身分、在背景持續運作，隨時掌握你的工作——追蹤、推動事情前進，無需你開口。具備記憶，讓專案與任務日復一日地推進。</p>
+        <div class="kv">
+          <div><span class="k">處理時間</span><span>連續式——背景自主運作，依任務而定</span></div>
+          <div><span class="k">複雜度</span><span>跨雲端、網頁、桌面應用的多步驟流程</span></div>
+          <div><span class="k">互動</span><span>它主動為你工作，你只需引導</span></div>
+        </div>
+        <span class="cost-pill preview">🧪 目前為 Frontier 實驗版</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Wizard ============ -->
+  <section id="wizard">
+    <h2>🧭 快速判斷精靈</h2>
+    <p class="lede">回答 2 個問題，馬上知道該找哪位幫手。</p>
+
+    <div class="wizard">
+      <div class="steps">
+        <span class="dot active" id="dot-1">1</span><span class="dot-line"></span>
+        <span class="dot" id="dot-2">2</span>
+      </div>
+
+      <!-- Q1 -->
+      <div id="step-1">
+        <p class="q-title">這件工作由誰發動？</p>
+        <p class="q-hint">先分清楚：是你「主動交辦」的一次性任務，還是希望 AI「持續盯著」自動推進？</p>
+        <div class="answers">
+          <button type="button" data-goto="step-2"><strong>🙋 我主動交辦，AI 執行</strong><span>我下指令、描述需求，AI 完成後回報——做完就結束</span></button>
+          <button type="button" data-goto="scout"><strong>🤖 希望 AI 主動發現並持續推進</strong><span>追蹤停滯的決策、自動解決行事曆衝突、主動準備會議資料——不用我每次開口</span></button>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div id="step-2" class="hidden">
+        <p class="q-title">交辦的任務規模有多大？</p>
+        <p class="q-hint">用「一輪對話能不能做完」來衡量。</p>
+        <div class="answers">
+          <button type="button" data-goto="chat"><strong>💬 一輪對話能完成</strong><span>問答、摘要、草稿、腦力激盪、單一份文件或研究</span></button>
+          <button type="button" data-goto="cowork"><strong>🔗 跨應用多步驟、端到端交付</strong><span>需要跨應用程式、檔案和系統執行動作，或一次產出多份成果</span></button>
+        </div>
+      </div>
+
+      <!-- Verdict: Chat -->
+      <div id="verdict-chat" class="hidden">
+        <div class="verdict chat">
+          <div class="v-label">判斷結果</div>
+          <h3>💬 用 M365 Copilot 就好</h3>
+          <p>單一步驟、聚焦的任務是 M365 Copilot 的主場——幾秒到幾分鐘內給你答案或草稿，而且<strong>已包含在授權內，不消耗 Credit</strong>。</p>
+          <p class="v-ref">典型情境：內容草擬與修改、隨選每日簡報、專案狀態摘要、內容摘要與生成。</p>
+        </div>
+        <div class="actions"><button type="button" class="btn-secondary r-btn">🔄 重新判斷</button></div>
+      </div>
+
+      <!-- Verdict: Cowork -->
+      <div id="verdict-cowork" class="hidden">
+        <div class="verdict cowork">
+          <div class="v-label">判斷結果</div>
+          <h3>🤝 交給 Copilot Cowork</h3>
+          <p>跨應用程式的複雜多步驟工作，Cowork 能自主完成整個任務並端到端交付成果（數分鐘到數小時）。採 Credit 按量計費——<strong>記得一次講清楚需求、限定範圍，把 Credit 花在刀口上</strong>。</p>
+          <p class="v-ref">典型情境：清理整個收件匣和行事曆、多步驟專案啟動、準備會議或業務審查的跨應用流程。</p>
+        </div>
+        <div class="actions"><button type="button" class="btn-secondary r-btn">🔄 重新判斷</button></div>
+      </div>
+
+      <!-- Verdict: Scout -->
+      <div id="verdict-scout" class="hidden">
+        <div class="verdict scout">
+          <div class="v-label">判斷結果</div>
+          <h3>📡 這是 Microsoft Scout 的工作</h3>
+          <p>「持續進行、具備記憶、不需要每次開口」正是 Scout 這類 Autopilot 的定位——它在背景自主運作，主動追蹤、推動事情前進，並在需要敏感動作時先徵求你的同意。</p>
+          <p><strong>注意：</strong>Scout 目前為 Frontier 實驗版（需組織加入 Frontier 計畫並由管理員設定）。若尚未取得 Scout，過渡做法是用 Copilot Cowork 的排程任務先自動化固定節奏的工作。</p>
+          <p class="v-ref">典型情境：註記停滯決策並提出下一步、獨立解決行事曆衝突、主動準備會前資料、追蹤交付項目並自動保留時間。</p>
+        </div>
+        <div class="actions"><button type="button" class="btn-secondary r-btn">🔄 重新判斷</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Compare ============ -->
+  <section id="compare">
+    <h2>📊 六面向對照表</h2>
+    <p class="lede">一張表看懂三個工具在功能、時間、複雜度與使用時機上的差異。</p>
+    <div class="table-card">
+      <table class="compare">
+        <thead>
+          <tr>
+            <th class="h-dim">面向</th>
+            <th class="h-chat">💬 M365 Copilot</th>
+            <th class="h-cowork">🤝 Copilot Cowork</th>
+            <th class="h-scout">📡 Microsoft Scout</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>主要功能</th>
+            <td>你工作上的安全 AI——快速、直覺、安全，根植於你的資料。獲得答案、撰寫草稿、深入挖掘並激發靈感。</td>
+            <td>你的 AI 完成工作——多步驟代理解決方案，能在 Microsoft 365 應用程式中執行各種行動。</td>
+            <td>隨時在線的專屬 Agent，隨時掌握你的工作——追蹤、推動事情前進，無需你要求。</td>
+          </tr>
+          <tr>
+            <th>最佳選擇</th>
+            <td>一次對話中快速且聚焦的任務：草擬、摘要、腦力激盪、問答，以及獨立的研究。</td>
+            <td>跨越多個應用程式的複雜多步驟工作——端到端交付成果。</td>
+            <td>持續進行的工作，具備記憶功能，隨時間展開——讓專案、決策與任務在網頁、檔案與 M365 上日復一日推進。</td>
+          </tr>
+          <tr>
+            <th>處理時間</th>
+            <td>快速——反應時間在幾秒到幾分鐘內；針對單一工作深度思考。</td>
+            <td>徹底——能自主完成整個任務，持續數分鐘到數小時。</td>
+            <td>連續式——在背景自主運作，回應時間依任務而定。</td>
+          </tr>
+          <tr>
+            <th>任務複雜度</th>
+            <td>單一步驟或單次過程。</td>
+            <td>跨任務、應用程式與來源的多步驟工作流程。</td>
+            <td>跨雲端、網頁、桌面應用程式的多步驟工作流程。</td>
+          </tr>
+          <tr>
+            <th>何時使用</th>
+            <td>你需要一些幫助或協助——摘要、草稿、回覆、激發靈感、圖片、單一且進階的 Agent 工作。</td>
+            <td>你需要 Copilot 來完成工作——多重交付、端對端的請求，需要跨應用程式、檔案和系統執行動作。</td>
+            <td>Scout 會主動為你工作——不需要特別要求；引導它，它會自動幫你分擔工作。</td>
+          </tr>
+          <tr>
+            <th>代表情境</th>
+            <td><ul>
+              <li>內容草擬與反覆修改</li>
+              <li>隨選每日簡報</li>
+              <li>專案狀態摘要</li>
+              <li>內容摘要、生成、指導</li>
+            </ul></td>
+            <td><ul>
+              <li>清理整個收件匣和行事曆</li>
+              <li>多步驟專案啟動</li>
+              <li>跨應用流程：準備會議或業務審查</li>
+            </ul></td>
+            <td><ul>
+              <li>註記停滯決策並提出下一步行動</li>
+              <li>整合桌面應用程式完成報表</li>
+              <li>獨立解決行事曆衝突並優化排程</li>
+              <li>跨系統存取</li>
+            </ul></td>
+          </tr>
+          <tr>
+            <th>費用與可用性</th>
+            <td>包含在 M365 Copilot 使用者訂閱授權（USL）的固定月費中。</td>
+            <td>已正式推出（GA），以 Copilot Credits 按量計費；PayGo 每 Credit 0.01 美元，P3 承諾用量享折扣。</td>
+            <td>目前為 Frontier 實驗版：需加入 Frontier 計畫、完成 Intune 政策設定與選擇加入聲明。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ Scenarios ============ -->
+  <section id="scenarios">
+    <h2>🗂️ 場景庫：這件事該找誰？</h2>
+    <p class="lede">16 個常見工作場景，標好該用的工具與原因。可依工具篩選或用關鍵字搜尋。</p>
+
+    <div class="controls">
+      <span class="lbl">工具：</span>
+      <button type="button" class="filter-chip f-tool active" data-v="all">全部</button>
+      <button type="button" class="filter-chip f-tool" data-v="chat">💬 M365 Copilot</button>
+      <button type="button" class="filter-chip f-tool" data-v="cowork">🤝 Copilot Cowork</button>
+      <button type="button" class="filter-chip f-tool" data-v="scout">📡 Microsoft Scout</button>
+      <input type="search" class="search-box" id="search" placeholder="輸入關鍵字，如：會議、報表、行事曆…">
+    </div>
+
+    <div class="scene-grid" id="scene-grid">
+
+      <!-- M365 Copilot -->
+      <div class="scene-card b-chat" data-tool="chat">
+        <div class="scene-tags"><span class="tag t-chat">M365 Copilot</span><span class="tag src">官方對照表</span></div>
+        <h3>內容草擬與反覆修改</h3>
+        <p>撰寫郵件、報告或貼文的草稿，來回調整語氣與長度，直到滿意為止。</p>
+        <div class="why"><strong>為什麼：</strong>一次對話中快速且聚焦的任務，秒級回應、即改即看。</div>
+      </div>
+
+      <div class="scene-card b-chat" data-tool="chat">
+        <div class="scene-tags"><span class="tag t-chat">M365 Copilot</span><span class="tag src">官方對照表</span></div>
+        <h3>隨選每日簡報</h3>
+        <p>「今天有什麼重要的事？」——隨時要一份當日行程與待辦的即時摘要。</p>
+        <div class="why"><strong>為什麼：</strong>單次查詢、單一產出，授權內含不耗 Credit。</div>
+      </div>
+
+      <div class="scene-card b-chat" data-tool="chat">
+        <div class="scene-tags"><span class="tag t-chat">M365 Copilot</span><span class="tag src">官方對照表</span></div>
+        <h3>專案狀態摘要</h3>
+        <p>把一串郵件、一場會議或一份文件的重點整理成狀態摘要。</p>
+        <div class="why"><strong>為什麼：</strong>單一來源的閱讀理解與摘要，是 Copilot 的強項。</div>
+      </div>
+
+      <div class="scene-card b-chat" data-tool="chat">
+        <div class="scene-tags"><span class="tag t-chat">M365 Copilot</span><span class="tag src">官方對照表</span></div>
+        <h3>問答、腦力激盪與獨立研究</h3>
+        <p>快速問答、發想點子、做一輪聚焦的研究，或產生一張圖片。</p>
+        <div class="why"><strong>為什麼：</strong>「你需要一些幫助或協助」的情境——答案與靈感，不是流程。</div>
+      </div>
+
+      <div class="scene-card b-chat" data-tool="chat">
+        <div class="scene-tags"><span class="tag t-chat">M365 Copilot</span><span class="tag src">規劃建議</span></div>
+        <h3>產出單一份文件或圖表</h3>
+        <p>做一份簡報、一張報表、一個圖表——只有一份成品、不需跨系統串接。</p>
+        <div class="why"><strong>為什麼：</strong>單一步驟單一產出；多份相關成品才升級到 Cowork。</div>
+      </div>
+
+      <!-- Cowork -->
+      <div class="scene-card b-cowork" data-tool="cowork">
+        <div class="scene-tags"><span class="tag t-cowork">Copilot Cowork</span><span class="tag src">官方對照表</span></div>
+        <h3>清理整個收件匣和行事曆</h3>
+        <p>大規模整理：歸檔與回覆郵件、處理會議邀請、調整行程——一次交辦、全部處理完。</p>
+        <div class="why"><strong>為什麼：</strong>跨郵件與行事曆的多步驟批次動作，Cowork 端到端完成。</div>
+      </div>
+
+      <div class="scene-card b-cowork" data-tool="cowork">
+        <div class="scene-tags"><span class="tag t-cowork">Copilot Cowork</span><span class="tag src">官方對照表</span></div>
+        <h3>多步驟專案啟動</h3>
+        <p>建立專案文件、排定啟動會議、通知成員、整理背景資料——專案開跑的整套動作。</p>
+        <div class="why"><strong>為什麼：</strong>多重交付＋跨應用執行動作，正是「你需要 Copilot 來完成工作」的情境。</div>
+      </div>
+
+      <div class="scene-card b-cowork" data-tool="cowork">
+        <div class="scene-tags"><span class="tag t-cowork">Copilot Cowork</span><span class="tag src">官方對照表</span></div>
+        <h3>會議或業務審查準備</h3>
+        <p>彙整相關郵件、檔案與數據，產出議程、簡報與背景資料包——跨應用程式工作流程。</p>
+        <div class="why"><strong>為什麼：</strong>多來源彙整＋多份產出；一次交辦共用同一次資料檢索，Credit 花得值。</div>
+      </div>
+
+      <div class="scene-card b-cowork" data-tool="cowork">
+        <div class="scene-tags"><span class="tag t-cowork">Copilot Cowork</span><span class="tag src">規劃建議</span></div>
+        <h3>客戶 QBR／活動結案多文件產出</h3>
+        <p>彙整一季往來紀錄，一次產出回顧簡報＋風險摘要＋行動清單（或結案報告三件組）。</p>
+        <div class="why"><strong>為什麼：</strong>「一次產出多份文件」是 Cowork 高價值情境；記得限定客戶與時間範圍。</div>
+      </div>
+
+      <div class="scene-card b-cowork" data-tool="cowork">
+        <div class="scene-tags"><span class="tag t-cowork">Copilot Cowork</span><span class="tag src">規劃建議</span></div>
+        <h3>月結彙整與分送</h3>
+        <p>蒐集各部門費用明細，合併總表、產出差異分析，並分別寄送給各主管。</p>
+        <div class="why"><strong>為什麼：</strong>蒐集 → 合併 → 分析 → 分送的完整流程，一次交辦全部完成。</div>
+      </div>
+
+      <div class="scene-card b-cowork" data-tool="cowork">
+        <div class="scene-tags"><span class="tag t-cowork">Copilot Cowork</span><span class="tag src">規劃建議</span></div>
+        <h3>固定節奏的排程任務</h3>
+        <p>每週一自動產出團隊週報、每月一號跑客訴分析——設定排程後定期自動執行。</p>
+        <div class="why"><strong>為什麼：</strong>在 Scout 普及前，Cowork 排程是「定時自動化」的主要做法；頻率設為最低足夠即可。</div>
+      </div>
+
+      <!-- Scout -->
+      <div class="scene-card b-scout" data-tool="scout">
+        <div class="scene-tags"><span class="tag t-scout">Microsoft Scout</span><span class="tag src">官方對照表</span></div>
+        <h3>註記停滯決策並提出下一步</h3>
+        <p>Scout 主動發現卡住的決策與待辦，標記出來並建議下一步行動，避免變成專案阻礙。</p>
+        <div class="why"><strong>為什麼：</strong>「主動發現風險」不是你會記得交辦的事——這正是 Autopilot 的價值。</div>
+      </div>
+
+      <div class="scene-card b-scout" data-tool="scout">
+        <div class="scene-tags"><span class="tag t-scout">Microsoft Scout</span><span class="tag src">官方對照表</span></div>
+        <h3>獨立解決行事曆衝突並優化排程</h3>
+        <p>行程撞期時自動協調新時間（含跨時區）、持續優化你的排程——無需你開口。</p>
+        <div class="why"><strong>為什麼：</strong>持續性的協調工作，發生時機不可預測，適合隨時在線的 Agent。</div>
+      </div>
+
+      <div class="scene-card b-scout" data-tool="scout">
+        <div class="scene-tags"><span class="tag t-scout">Microsoft Scout</span><span class="tag src">官方部落格</span></div>
+        <h3>重要會議標記＋會前資料自動準備</h3>
+        <p>Scout 主動標記重要會議，並在會前自動產出你需要的準備資料，讓你隨時進入狀況。</p>
+        <div class="why"><strong>為什麼：</strong>它掌握你的行事曆脈絡，在對的時間主動出手——不用每場會議都交辦一次。</div>
+      </div>
+
+      <div class="scene-card b-scout" data-tool="scout">
+        <div class="scene-tags"><span class="tag t-scout">Microsoft Scout</span><span class="tag src">官方部落格</span></div>
+        <h3>交付項目追蹤＋自動保留工作時間</h3>
+        <p>識別即將到期的交付項目，自動在行事曆上封鎖工作時間，幫你守住進度。</p>
+        <div class="why"><strong>為什麼：</strong>日復一日的進度守護，具備記憶、隨時間展開——Scout 的「最佳選擇」定義。</div>
+      </div>
+
+      <div class="scene-card b-scout" data-tool="scout">
+        <div class="scene-tags"><span class="tag t-scout">Microsoft Scout</span><span class="tag src">官方對照表</span></div>
+        <h3>整合桌面應用程式完成報表</h3>
+        <p>透過桌面應用延伸到瀏覽器、本機資源與 MCP 伺服器，整合既有桌面工具完成與存放報表。</p>
+        <div class="why"><strong>為什麼：</strong>跨雲端、網頁、桌面的多步驟流程，且在企業身分與權限管控（Entra、Purview）下執行。</div>
+      </div>
+
+    </div>
+    <div class="no-result hidden" id="scene-empty">沒有符合條件的場景，換個關鍵字試試。</div>
+  </section>
+
+  <!-- ============ Mantra ============ -->
+  <section id="mantra">
+    <h2>💡 一句話心法</h2>
+    <p class="lede">三句話記住三個工具的分工。</p>
+    <div class="mantra-grid">
+      <div class="mantra-card chat">
+        <div class="big">問答找 Copilot</div>
+        <p>要答案、要草稿、要靈感——一輪對話解決，授權內含不耗 Credit。</p>
+      </div>
+      <div class="mantra-card cowork">
+        <div class="big">交辦找 Cowork</div>
+        <p>要成果、要交付——跨應用多步驟一次做完，Credit 按量計費，花在刀口上。</p>
+      </div>
+      <div class="mantra-card scout">
+        <div class="big">盯場找 Scout</div>
+        <p>要持續、要主動——背景隨時在線，追蹤推進不用你開口（Frontier 實驗中）。</p>
+      </div>
+    </div>
+    <div class="fact-strip">
+      <div class="fact"><strong>💬 M365 Copilot</strong>包含在 M365 Copilot 使用者訂閱授權（USL）中——Copilot Chat 與 Word、Excel、PowerPoint、Outlook、Teams 內的 Copilot 皆為固定月費內含。</div>
+      <div class="fact"><strong>🤝 Copilot Cowork</strong>2026 年 6 月 17 日正式推出（GA），以 Copilot Credits 按量計費：PayGo 每 Credit 0.01 美元，P3 方案以承諾用量換折扣。</div>
+      <div class="fact"><strong>📡 Microsoft Scout</strong>2026 年 6 月 2 日發表，微軟首個 Autopilot。目前為 Frontier 實驗版：需加入 Frontier 計畫、Intune 政策設定與選擇加入聲明，敏感動作可要求人工核准。</div>
+    </div>
+    <div class="tip-banner">
+      <strong>組合技：</strong>三個工具是接力，不是互斥——用 <strong>M365 Copilot</strong> 快速釐清想法，把成形的工作<strong>交辦給 Cowork</strong> 端到端完成，再讓 <strong>Scout</strong> 持續盯著後續進度與風險。等 Scout 正式推出前，固定節奏的自動化可先用 Cowork 排程任務頂上。
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    資料來源：<a href="https://www.microsoft.com/en-us/microsoft-365/blog/2026/06/02/introducing-microsoft-scout-your-always-on-personal-agent/">Introducing Microsoft Scout: Your always-on personal agent（Microsoft 365 Blog，2026 年 6 月 2 日）</a>、<a href="https://news.microsoft.com/source/asia/2026/06/17/copilot-cowork-ga/?lang=zh-hant">微軟宣布正式推出 Copilot Cowork（Microsoft Source Asia，2026 年 6 月 17 日）</a>，以及使用者提供之三工具官方對照表｜搭配閱讀：任務決策指南、Credit 完全攻略
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- Wizard ---------- */
+  var panels = ["step-1", "step-2", "verdict-chat", "verdict-cowork", "verdict-scout"];
+  var stepOf = { "step-1": 1, "step-2": 2 };
+
+  function show(id) {
+    panels.forEach(function (p) {
+      document.getElementById(p).classList.toggle("hidden", p !== id);
+    });
+    var stepNum = stepOf[id] || 2;
+    for (var i = 1; i <= 2; i++) {
+      document.getElementById("dot-" + i).classList.toggle("active", i <= stepNum);
+    }
+  }
+
+  document.querySelectorAll("#wizard .answers button").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var goto = btn.getAttribute("data-goto");
+      if (goto === "chat" || goto === "cowork" || goto === "scout") {
+        show("verdict-" + goto);
+      } else {
+        show(goto);
+      }
+    });
+  });
+
+  document.querySelectorAll("#wizard .r-btn").forEach(function (btn) {
+    btn.addEventListener("click", function () { show("step-1"); });
+  });
+
+  /* ---------- Scenario filter + search ---------- */
+  var activeTool = "all";
+  var searchInput = document.getElementById("search");
+  var cards = Array.prototype.slice.call(document.querySelectorAll("#scene-grid .scene-card"));
+  var empty = document.getElementById("scene-empty");
+
+  function applyFilters() {
+    var q = searchInput.value.trim().toLowerCase();
+    var visible = 0;
+    cards.forEach(function (card) {
+      var toolOk = activeTool === "all" || card.getAttribute("data-tool") === activeTool;
+      var textOk = !q || card.textContent.toLowerCase().indexOf(q) !== -1;
+      var shown = toolOk && textOk;
+      card.classList.toggle("hidden", !shown);
+      if (shown) visible++;
+    });
+    empty.classList.toggle("hidden", visible !== 0);
+  }
+
+  document.querySelectorAll(".f-tool").forEach(function (chip) {
+    chip.addEventListener("click", function () {
+      document.querySelectorAll(".f-tool").forEach(function (c) { c.classList.remove("active"); });
+      chip.classList.add("active");
+      activeTool = chip.getAttribute("data-v");
+      applyFilters();
+    });
+  });
+
+  searchInput.addEventListener("input", applyFilters);
+})();
+</script>
+
+</body>
+</html>
