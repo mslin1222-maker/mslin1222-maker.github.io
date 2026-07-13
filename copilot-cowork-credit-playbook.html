@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Copilot Cowork Credit 完全攻略｜算法、估算器、應用場景與省點心法</title>
+<style>
+  :root {
+    --bg: #f4f6fb;
+    --surface: #ffffff;
+    --surface-2: #f0f3fa;
+    --text: #1b1f27;
+    --text-muted: #5a6373;
+    --border: #dfe4ee;
+    --chat: #0f7b3e;
+    --chat-bg: #e6f6ec;
+    --chat-border: #9fd8b4;
+    --cowork: #5b2d90;
+    --cowork-bg: #f1e9fb;
+    --cowork-border: #c9aee8;
+    --accent: #0f6cbd;
+    --accent-bg: #e8f1fb;
+    --warn: #9a6700;
+    --warn-bg: #fff4d6;
+    --heavy: #b3261e;
+    --heavy-bg: #fdeceb;
+    --shadow: 0 2px 10px rgba(27, 31, 39, 0.08);
+    --radius: 14px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161c;
+      --surface: #1e222b;
+      --surface-2: #262b36;
+      --text: #e8eaf0;
+      --text-muted: #a3abbd;
+      --border: #3a4150;
+      --chat: #5fd08c;
+      --chat-bg: #17301f;
+      --chat-border: #2c5b3c;
+      --cowork: #c9a2f0;
+      --cowork-bg: #2a1f3d;
+      --cowork-border: #55407a;
+      --accent: #6cb2f0;
+      --accent-bg: #1c2a3c;
+      --warn: #e3b341;
+      --warn-bg: #33290f;
+      --heavy: #f2867f;
+      --heavy-bg: #3a1d1b;
+      --shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", sans-serif;
+    line-height: 1.65;
+    font-size: 16px;
+  }
+  .wrap { max-width: 1060px; margin-inline: auto; padding-inline: 20px; }
+
+  /* ---------- Header ---------- */
+  header.hero {
+    background: linear-gradient(135deg, #5b2d90, #0f6cbd);
+    color: #fff;
+    padding-block: 40px 64px;
+  }
+  header.hero h1 { margin: 0 0 10px; font-size: 1.85rem; line-height: 1.3; }
+  header.hero p.sub { margin: 0; font-size: 1.02rem; opacity: .92; max-width: 48em; }
+  .hero-badges { display: flex; flex-wrap: wrap; gap: 10px; margin-block-start: 18px; }
+  .hero-badge {
+    background: rgba(255,255,255,.16);
+    border: 1px solid rgba(255,255,255,.35);
+    border-radius: 999px;
+    padding: 5px 14px;
+    font-size: .86rem;
+  }
+
+  /* ---------- Nav ---------- */
+  nav.toc {
+    position: sticky; top: 0; z-index: 20;
+    background: var(--surface);
+    border-block-end: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+  nav.toc .wrap { display: flex; gap: 4px; overflow-x: auto; }
+  nav.toc a {
+    display: block; padding: 12px 15px;
+    color: var(--text-muted); text-decoration: none;
+    font-weight: 600; font-size: .93rem; white-space: nowrap;
+  }
+  nav.toc a:hover { color: var(--accent); }
+
+  main { padding-block: 34px 10px; }
+  section { margin-block-end: 50px; scroll-margin-block-start: 70px; }
+  h2 { font-size: 1.45rem; margin: 0 0 6px; }
+  p.lede { color: var(--text-muted); margin: 0 0 20px; max-width: 52em; }
+  .src-note { font-size: .85rem; color: var(--text-muted); }
+
+  /* ---------- Factor cards ---------- */
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  @media (max-width: 900px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .grid-4 { grid-template-columns: 1fr; } }
+  .factor-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow);
+    border-block-start: 4px solid var(--accent);
+  }
+  .factor-card .emoji { font-size: 1.6rem; }
+  .factor-card h3 { margin: 6px 0 4px; font-size: 1.02rem; }
+  .factor-card p { margin: 0; color: var(--text-muted); font-size: .88rem; }
+
+  .fact-strip {
+    margin-block-start: 18px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+  }
+  @media (max-width: 820px) { .fact-strip { grid-template-columns: 1fr; } }
+  .fact {
+    background: var(--accent-bg); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 14px 18px; font-size: .93rem;
+  }
+  .fact strong { color: var(--accent); display: block; font-size: 1.02rem; }
+
+  /* ---------- Weight tiers ---------- */
+  .tier-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-block-start: 20px; }
+  @media (max-width: 820px) { .tier-grid { grid-template-columns: 1fr; } }
+  .tier-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow);
+  }
+  .tier-card h3 { margin: 0 0 8px; font-size: 1.08rem; display: flex; align-items: center; gap: 8px; }
+  .tier-pill { font-size: .78rem; font-weight: 700; border-radius: 999px; padding: 2px 10px; }
+  .tier-pill.light { background: var(--chat-bg); color: var(--chat); border: 1px solid var(--chat-border); }
+  .tier-pill.mid { background: var(--warn-bg); color: var(--warn); border: 1px solid var(--warn); }
+  .tier-pill.heavy { background: var(--heavy-bg); color: var(--heavy); border: 1px solid var(--heavy); }
+  .tier-card ul { margin: 0; padding-inline-start: 20px; color: var(--text-muted); font-size: .92rem; }
+  .tier-card li { margin-block-end: 4px; }
+
+  /* ---------- Calculator ---------- */
+  .calc-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px;
+  }
+  .calc-note {
+    background: var(--warn-bg); border: 1px solid var(--warn);
+    border-radius: 10px; padding: 10px 16px; font-size: .88rem; margin-block-end: 18px;
+  }
+  .calc-card h3 { margin: 18px 0 10px; font-size: 1.05rem; }
+  .calc-card h3:first-of-type { margin-block-start: 0; }
+  .unit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 640px) { .unit-grid { grid-template-columns: 1fr; } }
+  .unit-field { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+  .unit-field label { display: block; font-size: .85rem; font-weight: 700; margin-block-end: 6px; }
+  .unit-field label .tier-pill { margin-inline-end: 6px; }
+  input[type="number"] {
+    font: inherit; inline-size: 100%; padding: 8px 10px;
+    background: var(--surface); color: var(--text);
+    border: 1.5px solid var(--border); border-radius: 8px;
+  }
+  input[type="number"]:focus { outline: 2px solid var(--accent); border-color: var(--accent); }
+
+  .persona-table-wrap { overflow-x: auto; }
+  table.persona { border-collapse: collapse; inline-size: 100%; min-inline-size: 640px; }
+  .persona th {
+    background: var(--surface-2); font-size: .83rem; color: var(--text-muted);
+    text-align: start; padding: 10px 12px; border-block-end: 2px solid var(--border); white-space: nowrap;
+  }
+  .persona td { padding: 10px 12px; border-block-end: 1px solid var(--border); }
+  .persona td.p-name { font-weight: 700; white-space: nowrap; }
+  .persona td.p-sub { text-align: end; font-weight: 700; color: var(--accent); white-space: nowrap; }
+  .persona input[type="number"] { min-inline-size: 74px; }
+
+  .calc-result {
+    margin-block-start: 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+  }
+  @media (max-width: 720px) { .calc-result { grid-template-columns: 1fr; } }
+  .result-box {
+    border-radius: 12px; padding: 16px 20px; border: 2px solid var(--cowork-border);
+    background: var(--cowork-bg);
+  }
+  .result-box .r-label { font-size: .85rem; color: var(--text-muted); }
+  .result-box .r-value { font-size: 1.55rem; font-weight: 800; color: var(--cowork); }
+  .result-box.usd { border-color: var(--chat-border); background: var(--chat-bg); }
+  .result-box.usd .r-value { color: var(--chat); }
+  .formula {
+    margin-block-start: 14px; font-size: .85rem; color: var(--text-muted);
+    background: var(--surface-2); border-radius: 8px; padding: 10px 14px;
+  }
+
+  /* ---------- Scenario gallery ---------- */
+  .controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-block-end: 8px; }
+  .controls .lbl { font-size: .85rem; font-weight: 700; color: var(--text-muted); margin-inline-end: 4px; }
+  .filter-chip {
+    font: inherit; cursor: pointer; font-size: .88rem; font-weight: 600;
+    background: var(--surface); color: var(--text-muted);
+    border: 1.5px solid var(--border); border-radius: 999px; padding: 5px 14px;
+  }
+  .filter-chip:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  .scene-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-block-start: 14px; }
+  @media (max-width: 760px) { .scene-grid { grid-template-columns: 1fr; } }
+  .scene-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .scene-card.official { border-inline-start: 4px solid var(--accent); }
+  .scene-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-size: .76rem; font-weight: 700; border-radius: 6px; padding: 2px 9px;
+    background: var(--surface-2); color: var(--text-muted); border: 1px solid var(--border);
+  }
+  .tag.official-tag { background: var(--accent-bg); color: var(--accent); border-color: var(--accent); }
+  .tag.w-light { background: var(--chat-bg); color: var(--chat); border-color: var(--chat-border); }
+  .tag.w-mid { background: var(--warn-bg); color: var(--warn); border-color: var(--warn); }
+  .tag.w-heavy { background: var(--heavy-bg); color: var(--heavy); border-color: var(--heavy); }
+  .tag.t-cowork { background: var(--cowork-bg); color: var(--cowork); border-color: var(--cowork-border); }
+  .tag.t-chat { background: var(--chat-bg); color: var(--chat); border-color: var(--chat-border); }
+  .scene-card h3 { margin: 0; font-size: 1.05rem; }
+  .scene-card p { margin: 0; color: var(--text-muted); font-size: .9rem; flex: 1; }
+  .scene-card .why { font-size: .84rem; color: var(--text-muted); background: var(--surface-2); border-radius: 8px; padding: 8px 12px; }
+  .scene-card .why strong { color: var(--text); }
+  .no-result { padding: 26px; text-align: center; color: var(--text-muted); }
+  .hidden { display: none; }
+
+  /* ---------- Tips ---------- */
+  .tips-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 820px) { .tips-grid { grid-template-columns: 1fr; } }
+  .tip-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow);
+    border-block-start: 4px solid var(--cowork);
+  }
+  .tip-card .emoji { font-size: 1.6rem; }
+  .tip-card h3 { margin: 8px 0 6px; font-size: 1.02rem; }
+  .tip-card .maps-to { font-size: .78rem; font-weight: 700; color: var(--accent); }
+  .tip-card ul { margin: 8px 0 0; padding-inline-start: 18px; color: var(--text-muted); font-size: .9rem; }
+  .tip-card li { margin-block-end: 5px; }
+
+  /* ---------- Governance ---------- */
+  .gov-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 820px) { .gov-grid { grid-template-columns: 1fr; } }
+  .gov-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow);
+  }
+  .gov-card h3 { margin: 0 0 8px; font-size: 1.08rem; color: var(--accent); }
+  .gov-card ul { margin: 0; padding-inline-start: 18px; color: var(--text-muted); font-size: .9rem; }
+  .gov-card li { margin-block-end: 6px; }
+
+  .tip-banner {
+    margin-block-start: 22px;
+    background: var(--warn-bg); border: 1px solid var(--warn);
+    border-radius: var(--radius); padding: 16px 20px; font-size: .95rem;
+  }
+  .tip-banner strong { color: var(--warn); }
+
+  footer {
+    margin-block-start: 20px; padding-block: 24px;
+    border-block-start: 1px solid var(--border);
+    color: var(--text-muted); font-size: .85rem; text-align: center;
+  }
+  footer a { color: var(--accent); }
+  @media print {
+    nav.toc { display: none; }
+    body { background: #fff; }
+    .scene-card, .tip-card, .gov-card, .calc-card, .factor-card, .tier-card { box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>Copilot Cowork Credit 完全攻略</h1>
+    <p class="sub">Copilot Cowork 已於 2026 年 6 月 17 日正式推出（GA），採用 Copilot Credits 按量計費。這一頁帶你搞懂 Credit 怎麼算、用互動估算器規劃預算、探索更多高價值應用場景，並掌握省點心法。</p>
+    <div class="hero-badges">
+      <span class="hero-badge">💳 每項任務依 4 個因素計價</span>
+      <span class="hero-badge">💵 PayGo：每 Credit 0.01 美元</span>
+      <span class="hero-badge">📦 P3 方案：預先承諾用量換折扣</span>
+      <span class="hero-badge">📰 依據微軟官方 GA 公告整理</span>
+    </div>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="wrap">
+    <a href="#algorithm">Credit 怎麼算</a>
+    <a href="#tiers">任務三量級</a>
+    <a href="#calculator">互動估算器</a>
+    <a href="#scenarios">應用場景庫</a>
+    <a href="#tips">省點心法</a>
+    <a href="#governance">成本治理</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- ============ Algorithm ============ -->
+  <section id="algorithm">
+    <h2>💡 Credit 是怎麼算的？</h2>
+    <p class="lede">依據官方公告，每項 Cowork 任務的價格由 <strong>4 個因素</strong>共同決定——理解這 4 個因素，就知道 Credit 花在哪裡、該從哪裡省。</p>
+    <div class="grid-4">
+      <div class="factor-card">
+        <span class="emoji">🧠</span>
+        <h3>1. 模型使用</h3>
+        <p>任務使用哪個模型、用多少推理。GA 版採用 Anthropic Opus 4.8 與 Sonnet 4.6；低成本的 Cowork 1 即將推出。</p>
+      </div>
+      <div class="factor-card">
+        <span class="emoji">🔍</span>
+        <h3>2. 情境檢索</h3>
+        <p>從郵件、檔案、會議等來源找資料的廣度。搜尋範圍越大、來源越多，消耗越多。</p>
+      </div>
+      <div class="factor-card">
+        <span class="emoji">🧰</span>
+        <h3>3. 工具調用</h3>
+        <p>執行過程中呼叫多少工具（搜尋、讀檔、產出文件、寄送……）。步驟越多、來回越多次，消耗越多。</p>
+      </div>
+      <div class="factor-card">
+        <span class="emoji">⏱️</span>
+        <h3>4. 執行時間</h3>
+        <p>任務跑多久。長時間運行的複雜任務自然消耗更多 Credit。</p>
+      </div>
+    </div>
+    <div class="fact-strip">
+      <div class="fact"><strong>前提：M365 Copilot 授權</strong>使用 Cowork 需具備 M365 Copilot 使用者訂閱授權（USL）；Copilot Chat 與 Office 內的 Copilot 皆已內含在固定月費中。</div>
+      <div class="fact"><strong>PayGo：每 Credit 0.01 美元</strong>隨用隨付、保有彈性；用量穩定後可改用 P3 方案，預先承諾使用量換取折扣。（實際價格依官方公告與經銷商而異）</div>
+      <div class="fact"><strong>過渡寬限期</strong>Frontier 期間（3/30–6/16）曾使用 Cowork 的租戶，2026 年 7 月 1 日前不收取 Cowork 費用。</div>
+    </div>
+  </section>
+
+  <!-- ============ Tiers ============ -->
+  <section id="tiers">
+    <h2>⚖️ 任務三種量級：輕量、中等、重度</h2>
+    <p class="lede">官方從 Frontier 計畫的實際使用中，歸納出三種常見任務模式——這是規劃預算的基本單位。</p>
+    <div class="tier-grid">
+      <div class="tier-card">
+        <h3><span class="tier-pill light">輕量</span>Light</h3>
+        <ul>
+          <li>僅使用少量知識來源</li>
+          <li>進行有限的推理</li>
+          <li>產生一項或少量結果</li>
+          <li>💡 這類任務多半用 M365 Copilot 就好，不必花 Credit</li>
+        </ul>
+      </div>
+      <div class="tier-card">
+        <h3><span class="tier-pill mid">中等</span>Medium</h3>
+        <ul>
+          <li>結合多個資料來源</li>
+          <li>進行結構化推理</li>
+          <li>產生兩項以上的輸出成果</li>
+          <li>💡 跨系統彙整＋多文件產出的日常主力</li>
+        </ul>
+      </div>
+      <div class="tier-card">
+        <h3><span class="tier-pill heavy">重度</span>Heavy</h3>
+        <ul>
+          <li>廣泛整合資訊</li>
+          <li>進行深度推理</li>
+          <li>產生大量輸出內容</li>
+          <li>💡 例如比對數千份檔案、全面盤點分析</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Calculator ============ -->
+  <section id="calculator">
+    <h2>🧮 互動 Credit 預算估算器</h2>
+    <p class="lede">依照官方建議的成本模型：把使用者依「人物誌」分群，估計每群每月的輕／中／重任務量，套用每類任務單價後加總。調整下方任何數字，結果即時更新。</p>
+
+    <div class="calc-card">
+      <div class="calc-note">⚠️ 下方「每項任務 Credit 單價」為<strong>示意假設值</strong>，非官方定價。官方提供以 Opus 4.8 為基準的估算試算表（見文末來源連結），請依貴組織實際觀察到的任務成本調整單價後估算。</div>
+
+      <h3>步驟 1：設定每項任務的 Credit 單價（假設值，可修改）</h3>
+      <div class="unit-grid">
+        <div class="unit-field">
+          <label><span class="tier-pill light">輕量</span>Credits／任務</label>
+          <input type="number" id="u-light" value="2" min="0" step="1">
+        </div>
+        <div class="unit-field">
+          <label><span class="tier-pill mid">中等</span>Credits／任務</label>
+          <input type="number" id="u-mid" value="13" min="0" step="1">
+        </div>
+        <div class="unit-field">
+          <label><span class="tier-pill heavy">重度</span>Credits／任務</label>
+          <input type="number" id="u-heavy" value="40" min="0" step="1">
+        </div>
+      </div>
+
+      <h3>步驟 2：設定使用者族群與每人每月任務量</h3>
+      <div class="persona-table-wrap">
+        <table class="persona">
+          <thead>
+            <tr>
+              <th>使用者族群</th>
+              <th>人數</th>
+              <th>輕量任務／人／月</th>
+              <th>中等任務／人／月</th>
+              <th>重度任務／人／月</th>
+              <th>小計 Credits／月</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="p-row">
+              <td class="p-name">🌱 輕度使用者</td>
+              <td><input type="number" class="p-in" data-k="n" value="50" min="0" step="1"></td>
+              <td><input type="number" class="p-in" data-k="l" value="10" min="0" step="1"></td>
+              <td><input type="number" class="p-in" data-k="m" value="2" min="0" step="1"></td>
+              <td><input type="number" class="p-in" data-k="h" value="0" min="0" step="1"></td>
+              <td class="p-sub">–</td>
+            </tr>
+            <tr class="p-row">
+              <td class="p-name">🌿 一般使用者</td>
+              <td><input type="number" class="p-in" data-k="n" value="30" min="0" step="1"></td>
+              <td><input type="number" class="p-in" data-k="l" value="20" min="0" step="1"></td>
+              <td><input type="number" class="p-in" data-k="m" value="8" min="0" step="1"></td>
+              <td><input type="number" class="p-in" data-k="h" value="1" min="0" step="1"></td>
+              <td class="p-sub">–</td>
+            </tr>
+            <tr class="p-row">
+              <td class="p-name">🌳 重度使用者</td>
+              <td><input type="number" class="p-in" data-k="n" value="10" min="0" step="1"></td>
+              <td><input type="number" class="p-in" data-k="l" value="30" min="0" step="1"></td>
+              <td><input type="number" class="p-in" data-k="m" value="20" min="0" step="1"></td>
+              <td><input type="number" class="p-in" data-k="h" value="5" min="0" step="1"></td>
+              <td class="p-sub">–</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="calc-result">
+        <div class="result-box">
+          <div class="r-label">每月總 Credits</div>
+          <div class="r-value" id="r-credits">–</div>
+        </div>
+        <div class="result-box usd">
+          <div class="r-label">PayGo 估算費用（每 Credit US$0.01）</div>
+          <div class="r-value" id="r-usd">–</div>
+        </div>
+        <div class="result-box usd">
+          <div class="r-label">平均每位使用者每月</div>
+          <div class="r-value" id="r-per-user">–</div>
+        </div>
+      </div>
+      <div class="formula">公式（官方模型）：Σ 每族群〔人數 ×（輕量任務數 × 輕量單價 ＋ 中等任務數 × 中等單價 ＋ 重度任務數 × 重度單價）〕；PayGo 費用 = 總 Credits × US$0.01。P3 方案另有承諾量折扣。</div>
+    </div>
+  </section>
+
+  <!-- ============ Scenarios ============ -->
+  <section id="scenarios">
+    <h2>🗂️ 應用場景庫</h2>
+    <p class="lede">包含微軟官方公告的 3 個實際客戶案例，加上依部門規劃的建議場景。每張卡片標示任務量級與建議工具——輕量任務退回 M365 Copilot，把 Credit 留給中等與重度任務。</p>
+
+    <div class="controls">
+      <span class="lbl">部門：</span>
+      <button type="button" class="filter-chip f-dept active" data-v="all">全部</button>
+      <button type="button" class="filter-chip f-dept" data-v="official">官方案例</button>
+      <button type="button" class="filter-chip f-dept" data-v="sales">業務行銷</button>
+      <button type="button" class="filter-chip f-dept" data-v="finance">財務人資</button>
+      <button type="button" class="filter-chip f-dept" data-v="eng">工程產品</button>
+      <button type="button" class="filter-chip f-dept" data-v="mgmt">主管專案</button>
+      <button type="button" class="filter-chip f-dept" data-v="general">通用日常</button>
+    </div>
+    <div class="controls">
+      <span class="lbl">量級：</span>
+      <button type="button" class="filter-chip f-weight active" data-v="all">全部</button>
+      <button type="button" class="filter-chip f-weight" data-v="light">輕量</button>
+      <button type="button" class="filter-chip f-weight" data-v="mid">中等</button>
+      <button type="button" class="filter-chip f-weight" data-v="heavy">重度</button>
+    </div>
+
+    <div class="scene-grid" id="scene-grid">
+
+      <div class="scene-card official" data-dept="official eng" data-weight="heavy">
+        <div class="scene-tags"><span class="tag official-tag">官方案例</span><span class="tag">工程</span><span class="tag w-heavy">重度</span><span class="tag t-cowork">Copilot Cowork</span></div>
+        <h3>批次作業自動維護</h3>
+        <p>工程團隊訓練 Cowork 在每次變更後，安全地編輯批次作業試算表，並自動產生依賴流程圖，把原本需謹慎人工操作的流程自動化。</p>
+        <div class="why"><strong>為什麼值得：</strong>跨檔案、多步驟、重複發生的維運流程——正是 Cowork 的核心情境。</div>
+      </div>
+
+      <div class="scene-card official" data-dept="official eng" data-weight="heavy">
+        <div class="scene-tags"><span class="tag official-tag">官方案例</span><span class="tag">產品</span><span class="tag w-heavy">重度</span><span class="tag t-cowork">Copilot Cowork</span></div>
+        <h3>大規模版本差異比對</h3>
+        <p>比對兩個產品版本中近 4,000 份檔案的差異，把原本需要數週的人工比對工作大幅縮短。</p>
+        <div class="why"><strong>為什麼值得：</strong>廣泛整合資訊＋深度推理＋大量輸出——典型重度任務，人力成本遠高於 Credit。</div>
+      </div>
+
+      <div class="scene-card official" data-dept="official sales" data-weight="mid">
+        <div class="scene-tags"><span class="tag official-tag">官方案例</span><span class="tag">業務</span><span class="tag w-mid">中等</span><span class="tag t-cowork">Copilot Cowork</span></div>
+        <h3>停滯銷售管道健檢</h3>
+        <p>銷售主管用 Cowork 分析停滯的銷售管道，獲得依流失風險排序的商機清單與各案件的跟進動作——一週的人工盤點縮短為一個早上。</p>
+        <div class="why"><strong>為什麼值得：</strong>多資料來源＋結構化推理＋兩項以上產出，投資報酬清楚可算。</div>
+      </div>
+
+      <div class="scene-card" data-dept="sales" data-weight="mid">
+        <div class="scene-tags"><span class="tag">業務</span><span class="tag w-mid">中等</span><span class="tag t-cowork">Copilot Cowork</span></div>
+        <h3>客戶 QBR 季度回顧準備</h3>
+        <p>彙整該客戶近一季的往來郵件、會議紀錄與合約檔案，一次產出 QBR 簡報＋風險摘要＋後續行動清單。</p>
+        <div class="why"><strong>為什麼值得：</strong>跨郵件／會議／檔案三個來源，一次產出三份成品。記得限定「該客戶＋近一季」以節省檢索。</div>
+      </div>
+
+      <div class="scene-card" data-dept="sales" data-weight="mid">
+        <div class="scene-tags"><span class="tag">行銷</span><span class="tag w-mid">中等</span><span class="tag t-cowork">Copilot Cowork</span></div>
+        <h3>活動結案報告一次到位</h3>
+        <p>整合報名數據、問卷回饋與預算執行狀況，同時產出結案報告 Word＋成效簡報 PPT＋數據明細 Excel。</p>
+        <div class="why"><strong>為什麼值得：</strong>「一次產出多份文件」是 Cowork 高價值情境；三份文件共用同一次資料彙整。</div>
+      </div>
+
+      <div class="scene-card" data-dept="finance" data-weight="mid">
+        <div class="scene-tags"><span class="tag">財務</span><span class="tag w-mid">中等</span><span class="tag t-cowork">Copilot Cowork</span></div>
+        <h3>月結彙整與差異分析</h3>
+        <p>蒐集各部門回傳的費用明細表，合併成總表、產出與上月／預算的差異分析，並分別寄送給各部門主管。</p>
+        <div class="why"><strong>為什麼值得：</strong>蒐集 → 合併 → 分析 → 分送，一整條流程交給 Cowork 端到端完成。</div>
+      </div>
+
+      <div class="scene-card" data-dept="finance" data-weight="mid">
+        <div class="scene-tags"><span class="tag">人資</span><span class="tag w-mid">中等</span><span class="tag t-cowork">Copilot Cowork</span></div>
+        <h3>新人到職一條龍</h3>
+        <p>依部門與職務產出客製化到職指南，安排第一週的訓練會議，並通知 IT 與用人部門準備設備與權限。</p>
+        <div class="why"><strong>為什麼值得：</strong>文件＋行事曆＋通知橫跨多系統；流程標準化後每位新人都能重複使用。</div>
+      </div>
+
+      <div class="scene-card" data-dept="mgmt" data-weight="mid">
+        <div class="scene-tags"><span class="tag">主管</span><span class="tag w-mid">中等</span><span class="tag t-cowork">Copilot Cowork</span></div>
+        <h3>每週管理摘要（排程）</h3>
+        <p>每週一早上自動掃描團隊郵件、Teams 討論與會議紀錄，產出週報＋風險與逾期事項清單。</p>
+        <div class="why"><strong>為什麼值得：</strong>排程自動化讓固定產出零人力；但注意頻率設為「最低足夠」——排程成本＝單次成本 × 次數。</div>
+      </div>
+
+      <div class="scene-card" data-dept="mgmt" data-weight="mid">
+        <div class="scene-tags"><span class="tag">專案</span><span class="tag w-mid">中等</span><span class="tag t-cowork">Copilot Cowork</span></div>
+        <h3>跨專案狀態整合</h3>
+        <p>讀取多個專案的更新郵件與會議結論，整合成單一狀態報告，並標記逾期項目與待決事項。</p>
+        <div class="why"><strong>為什麼值得：</strong>多專案 × 多來源的彙整靠人工最耗時；限定「本週更新」可控制檢索範圍。</div>
+      </div>
+
+      <div class="scene-card" data-dept="sales" data-weight="mid">
+        <div class="scene-tags"><span class="tag">客服</span><span class="tag w-mid">中等</span><span class="tag t-cowork">Copilot Cowork</span></div>
+        <h3>客訴趨勢月度分析</h3>
+        <p>彙整整月客服信件，產出分類統計 Excel＋改善建議簡報，供跨部門檢討會使用。</p>
+        <div class="why"><strong>為什麼值得：</strong>大量信件的結構化分析＋兩份產出；每月一次的節奏讓成本可預期。</div>
+      </div>
+
+      <div class="scene-card" data-dept="eng" data-weight="heavy">
+        <div class="scene-tags"><span class="tag">工程</span><span class="tag w-heavy">重度</span><span class="tag t-cowork">Copilot Cowork</span></div>
+        <h3>文件庫過期盤點</h3>
+        <p>掃描規格文件與各專案 README，找出與現況不一致的內容，產出過期清單與更新建議。</p>
+        <div class="why"><strong>為什麼值得：</strong>廣泛整合＋深度比對屬重度任務；建議先以單一資料庫試跑，確認產出品質再擴大範圍。</div>
+      </div>
+
+      <div class="scene-card" data-dept="general" data-weight="light">
+        <div class="scene-tags"><span class="tag">通用</span><span class="tag w-light">輕量</span><span class="tag t-chat">M365 Copilot 就好</span></div>
+        <h3>查資料、搜尋網頁或工作內容</h3>
+        <p>查一筆資料、找一封郵件、搜尋網頁資訊、Deep Research——單次查詢型任務。</p>
+        <div class="why"><strong>為什麼不用 Cowork：</strong>少量來源＋單一結果的輕量任務，M365 Copilot 做得一樣好且不耗 Credit。</div>
+      </div>
+
+      <div class="scene-card" data-dept="general" data-weight="light">
+        <div class="scene-tags"><span class="tag">通用</span><span class="tag w-light">輕量</span><span class="tag t-chat">M365 Copilot 就好</span></div>
+        <h3>摘要單一文件或會議</h3>
+        <p>解析一份 PDF／Office 附件、摘要一場會議逐字稿、整理一串郵件的重點。</p>
+        <div class="why"><strong>為什麼不用 Cowork：</strong>單一來源的閱讀理解是 M365 Copilot 的強項，直接在 Chat 或 Office 內完成。</div>
+      </div>
+
+      <div class="scene-card" data-dept="general" data-weight="light">
+        <div class="scene-tags"><span class="tag">通用</span><span class="tag w-light">輕量</span><span class="tag t-chat">M365 Copilot 就好</span></div>
+        <h3>產出單一份文件</h3>
+        <p>做一份簡報、一張報表、一個圖表、一頁網頁——只有一份成品、不需跨系統串接。</p>
+        <div class="why"><strong>為什麼不用 Cowork：</strong>單一產出用 M365 Copilot（或 Office 內的 Copilot）即可；多份相關成品才交給 Cowork 一次做完。</div>
+      </div>
+
+    </div>
+    <div class="no-result hidden" id="scene-empty">沒有符合條件的場景，試試其他篩選組合。</div>
+  </section>
+
+  <!-- ============ Tips ============ -->
+  <section id="tips">
+    <h2>🧘 六個省點心法</h2>
+    <p class="lede">對應 Credit 的 4 個計價因素，加上任務分流與治理節奏——每一條都直接省在刀口上。</p>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <span class="emoji">🧠</span>
+        <div class="maps-to">對應計價因素 1：模型使用</div>
+        <h3>為任務選對模型</h3>
+        <ul>
+          <li>用模型選擇器管理每項任務的執行成本</li>
+          <li>日常、成本敏感的工作可等低成本的 Cowork 1 推出後採用</li>
+          <li>前瞻模型（如 Opus 4.8）留給高難度推理任務</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <span class="emoji">🔍</span>
+        <div class="maps-to">對應計價因素 2：情境檢索</div>
+        <h3>限定搜尋範圍</h3>
+        <ul>
+          <li>指定時間窗：「近 7 天」而不是「全部歷史」</li>
+          <li>指名人員、資料夾、頻道或站台</li>
+          <li>直接點名檔案，勝過「幫我全部找找看」</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <span class="emoji">🧰</span>
+        <div class="maps-to">對應計價因素 3：工具調用</div>
+        <h3>一次講清楚需求</h3>
+        <ul>
+          <li>開頭就說明目標、資料來源與產出格式</li>
+          <li>相關的多份產出合併成一個任務，共用同一次資料彙整</li>
+          <li>減少事後來回修改——每次修改都是額外的工具調用</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <span class="emoji">⏱️</span>
+        <div class="maps-to">對應計價因素 4：執行時間</div>
+        <h3>避免無邊界任務</h3>
+        <ul>
+          <li>避免「掃描所有資料」這類開放式指令</li>
+          <li>大型任務先小範圍試跑，確認品質再擴大</li>
+          <li>排程任務用最低足夠頻率——成本＝單次 × 次數</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <span class="emoji">↔️</span>
+        <div class="maps-to">任務分流</div>
+        <h3>輕量任務退回 M365 Copilot</h3>
+        <ul>
+          <li>單次查詢、單一文件、閱讀摘要 → M365 Copilot（授權內含）</li>
+          <li>跨系統多步驟、多文件產出 → Copilot Cowork</li>
+          <li>搭配「任務決策指南」頁面的判斷精靈使用</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <span class="emoji">📊</span>
+        <div class="maps-to">治理節奏</div>
+        <h3>定期檢視、聰明採購</h3>
+        <ul>
+          <li>每月檢視使用量報告，找出高消耗任務並優化</li>
+          <li>先以 PayGo 起步觀察用量，穩定後改 P3 換折扣</li>
+          <li>善用支出上限與警示，超標前就知道</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tip-banner">
+      <strong>官方也在幫你降價：</strong>依據公告，未來成本將因三個因素持續下降——模型價格降低、Cowork 更精準地為任務匹配模型，以及情境檢索與工具使用效率的提升。現在養成好習慣，之後只會更省。
+    </div>
+  </section>
+
+  <!-- ============ Governance ============ -->
+  <section id="governance">
+    <h2>🛡️ 管理員必看：成本治理三支柱</h2>
+    <p class="lede">成本管理是 Cowork 正式版最重要的新功能之一，官方提供「控制、可視性、效率」三大面向的管理機制。</p>
+    <div class="gov-grid">
+      <div class="gov-card">
+        <h3>🎛️ 控制</h3>
+        <ul>
+          <li>Cowork 預設為關閉，由管理員決定何時啟用、誰能使用</li>
+          <li>可設定租用戶、群組與使用者層級的支出上限</li>
+          <li>自訂使用量警示：超過門檻自動通知指定對象</li>
+          <li>使用者額度不足時，可直接透過 Cowork 申請</li>
+        </ul>
+      </div>
+      <div class="gov-card">
+        <h3>👁️ 可視性</h3>
+        <ul>
+          <li>租用戶、群組與使用者層級的使用量報告</li>
+          <li>清楚掌握各功能的使用狀況與責任歸屬</li>
+          <li>任務層級的 Credit 成本顯示（即將推出）：執行時即可看到每個任務的成本</li>
+        </ul>
+      </div>
+      <div class="gov-card">
+        <h3>⚡ 效率</h3>
+        <ul>
+          <li>兩種付款方式：PayGo 隨用隨付（彈性）／P3 承諾用量（折扣）</li>
+          <li>PayGo 定價：每 Copilot Credit 0.01 美元</li>
+          <li>模型選擇器：多模型可選時，用它管理每項任務的成本</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    資料來源：<a href="https://news.microsoft.com/source/asia/2026/06/17/copilot-cowork-ga/?lang=zh-hant">微軟宣布正式推出 Copilot Cowork（Microsoft Source Asia，2026 年 6 月 17 日）</a>｜估算器單價為示意假設值，實際請以官方定價與貴組織觀察數據為準｜搭配閱讀：M365 Copilot vs. Copilot Cowork 任務決策指南
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- Calculator ---------- */
+  var fmt = function (n) { return Math.round(n).toLocaleString("zh-Hant"); };
+
+  function calc() {
+    var uL = parseFloat(document.getElementById("u-light").value) || 0;
+    var uM = parseFloat(document.getElementById("u-mid").value) || 0;
+    var uH = parseFloat(document.getElementById("u-heavy").value) || 0;
+
+    var total = 0, users = 0;
+    document.querySelectorAll(".p-row").forEach(function (row) {
+      var v = {};
+      row.querySelectorAll(".p-in").forEach(function (inp) {
+        v[inp.getAttribute("data-k")] = parseFloat(inp.value) || 0;
+      });
+      var sub = v.n * (v.l * uL + v.m * uM + v.h * uH);
+      row.querySelector(".p-sub").textContent = fmt(sub);
+      total += sub;
+      users += v.n;
+    });
+
+    document.getElementById("r-credits").textContent = fmt(total) + " Credits";
+    var usd = total * 0.01;
+    document.getElementById("r-usd").textContent = "US$ " + usd.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    var perUser = users > 0 ? usd / users : 0;
+    document.getElementById("r-per-user").textContent = "US$ " + perUser.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  document.querySelectorAll("#calculator input[type='number']").forEach(function (inp) {
+    inp.addEventListener("input", calc);
+  });
+  calc();
+
+  /* ---------- Scenario filters ---------- */
+  var activeDept = "all";
+  var activeWeight = "all";
+  var cards = Array.prototype.slice.call(document.querySelectorAll("#scene-grid .scene-card"));
+  var empty = document.getElementById("scene-empty");
+
+  function applyFilters() {
+    var visible = 0;
+    cards.forEach(function (card) {
+      var depts = (card.getAttribute("data-dept") || "").split(" ");
+      var deptOk = activeDept === "all" || depts.indexOf(activeDept) !== -1;
+      var weightOk = activeWeight === "all" || card.getAttribute("data-weight") === activeWeight;
+      var shown = deptOk && weightOk;
+      card.classList.toggle("hidden", !shown);
+      if (shown) visible++;
+    });
+    empty.classList.toggle("hidden", visible !== 0);
+  }
+
+  function bindChips(selector, setter) {
+    document.querySelectorAll(selector).forEach(function (chip) {
+      chip.addEventListener("click", function () {
+        document.querySelectorAll(selector).forEach(function (c) { c.classList.remove("active"); });
+        chip.classList.add("active");
+        setter(chip.getAttribute("data-v"));
+        applyFilters();
+      });
+    });
+  }
+  bindChips(".f-dept", function (v) { activeDept = v; });
+  bindChips(".f-weight", function (v) { activeWeight = v; });
+})();
+</script>
+
+</body>
+</html>
