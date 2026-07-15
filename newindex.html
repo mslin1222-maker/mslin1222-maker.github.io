@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Copilot 工具決策指南｜系列入口</title>
+<style>
+  :root {
+    --bg: #f4f6fb;
+    --surface: #ffffff;
+    --surface-2: #f0f3fa;
+    --text: #1b1f27;
+    --text-muted: #5a6373;
+    --border: #dfe4ee;
+    --chat: #0f7b3e;
+    --chat-bg: #e6f6ec;
+    --chat-border: #9fd8b4;
+    --cowork: #5b2d90;
+    --cowork-bg: #f1e9fb;
+    --cowork-border: #c9aee8;
+    --accent: #0f6cbd;
+    --accent-bg: #e8f1fb;
+    --warn: #9a6700;
+    --warn-bg: #fff4d6;
+    --shadow: 0 2px 10px rgba(27, 31, 39, 0.08);
+    --shadow-lg: 0 8px 24px rgba(27, 31, 39, 0.14);
+    --radius: 16px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161c;
+      --surface: #1e222b;
+      --surface-2: #262b36;
+      --text: #e8eaf0;
+      --text-muted: #a3abbd;
+      --border: #3a4150;
+      --chat: #5fd08c;
+      --chat-bg: #17301f;
+      --chat-border: #2c5b3c;
+      --cowork: #c9a2f0;
+      --cowork-bg: #2a1f3d;
+      --cowork-border: #55407a;
+      --accent: #6cb2f0;
+      --accent-bg: #1c2a3c;
+      --warn: #e3b341;
+      --warn-bg: #33290f;
+      --shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+      --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.55);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", sans-serif;
+    line-height: 1.65;
+    font-size: 16px;
+  }
+  .wrap { max-width: 1040px; margin-inline: auto; padding-inline: 20px; }
+  /* ---------- Hero ---------- */
+  header.hero {
+    background: linear-gradient(135deg, #0f6cbd 0%, #5b2d90 100%);
+    color: #fff;
+    padding-block: 56px 72px;
+    text-align: center;
+  }
+  header.hero h1 { margin: 0 0 12px; font-size: 2.1rem; line-height: 1.25; }
+  header.hero p.sub { margin: 0 auto; font-size: 1.06rem; opacity: .93; max-width: 42em; }
+  .mantra-line {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+    margin-block-start: 22px;
+  }
+  .mantra-pill {
+    background: rgba(255,255,255,.16);
+    border: 1px solid rgba(255,255,255,.35);
+    border-radius: 999px;
+    padding: 7px 18px;
+    font-size: .95rem; font-weight: 700;
+  }
+  main { padding-block: 40px 10px; }
+  section { margin-block-end: 46px; }
+  h2 { font-size: 1.4rem; margin: 0 0 6px; text-align: center; }
+  p.lede { color: var(--text-muted); margin: 0 auto 24px; max-width: 46em; text-align: center; }
+  /* ---------- Guide cards ---------- */
+  .guide-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-block-start: -56px; }
+  @media (max-width: 720px) { .guide-grid { grid-template-columns: 1fr; margin-block-start: -40px; } }
+  a.guide-card {
+    display: flex; flex-direction: column; gap: 10px;
+    background: var(--surface); color: var(--text); text-decoration: none;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 24px; box-shadow: var(--shadow);
+    border-block-start: 6px solid var(--border);
+    transition: transform .15s, box-shadow .15s;
+  }
+  a.guide-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  a.guide-card.g1 { border-block-start-color: var(--chat); }
+  a.guide-card.g2 { border-block-start-color: var(--cowork); }
+  .g-step {
+    font-size: .78rem; font-weight: 800; letter-spacing: .08em;
+    color: var(--text-muted);
+  }
+  .guide-card .emoji { font-size: 2rem; }
+  .guide-card h3 { margin: 0; font-size: 1.18rem; line-height: 1.35; }
+  .guide-card p.desc { margin: 0; color: var(--text-muted); font-size: .92rem; flex: 1; }
+  .g-feats { display: flex; flex-wrap: wrap; gap: 6px; }
+  .g-feat {
+    font-size: .78rem; font-weight: 700; border-radius: 6px; padding: 2px 9px;
+    background: var(--surface-2); color: var(--text-muted); border: 1px solid var(--border);
+  }
+  .g-cta { font-weight: 700; font-size: .95rem; color: var(--accent); }
+  /* ---------- How to use ---------- */
+  .path-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  @media (max-width: 720px) { .path-grid { grid-template-columns: 1fr; } }
+  .path-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow);
+    text-align: center;
+  }
+  .path-card .emoji { font-size: 1.7rem; }
+  .path-card h3 { margin: 8px 0 6px; font-size: 1.02rem; }
+  .path-card p { margin: 0; color: var(--text-muted); font-size: .9rem; }
+  /* ---------- Cheat sheet ---------- */
+  .cheat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  @media (max-width: 720px) { .cheat-grid { grid-template-columns: 1fr; } }
+  .cheat-card {
+    border-radius: var(--radius); padding: 20px; text-align: center;
+    border: 2px solid; box-shadow: var(--shadow);
+  }
+  .cheat-card.chat { background: var(--chat-bg); border-color: var(--chat-border); }
+  .cheat-card.cowork { background: var(--cowork-bg); border-color: var(--cowork-border); }
+  .cheat-card .big { font-size: 1.3rem; font-weight: 800; margin-block-end: 4px; }
+  .cheat-card.chat .big { color: var(--chat); }
+  .cheat-card.cowork .big { color: var(--cowork); }
+  .cheat-card p { margin: 0; color: var(--text-muted); font-size: .88rem; }
+  footer {
+    margin-block-start: 20px; padding-block: 24px;
+    border-block-start: 1px solid var(--border);
+    color: var(--text-muted); font-size: .85rem; text-align: center;
+  }
+  footer a { color: var(--accent); }
+  @media print {
+    body { background: #fff; }
+    a.guide-card, .path-card, .cheat-card { box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <h1>Copilot 工具決策指南</h1>
+    <p class="sub">UBB Credit 時代，把每件工作交給對的 AI 幫手。兩份互動指南，從快速判斷到預算估算，協助你把任務交給最合適的工具。</p>
+    <div class="mantra-line">
+      <span class="mantra-pill">💬 問答找 Copilot</span>
+      <span class="mantra-pill">🤝 交辦找 Cowork</span>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+  <!-- ============ Guide cards ============ -->
+  <section id="guides">
+    <div class="guide-grid">
+      <a class="guide-card g1" href="copilot-cowork-decision-guide.html">
+        <span class="g-step">第 1 站・快速判斷</span>
+        <span class="emoji">🧭</span>
+        <h3>任務決策指南<br>M365 Copilot vs. Copilot Cowork</h3>
+        <p class="desc">30 秒判斷這件事該用哪個工具。依據 9 大任務分類對照表，把 Credit 留給高價值任務。</p>
+        <div class="g-feats">
+          <span class="g-feat">判斷精靈</span>
+          <span class="g-feat">9 大任務對照表</span>
+          <span class="g-feat">三個使用心法</span>
+        </div>
+        <span class="g-cta">開始判斷 →</span>
+      </a>
+      <a class="guide-card g2" href="copilot-cowork-credit-playbook.html">
+        <span class="g-step">第 2 站・預算規劃</span>
+        <span class="emoji">🧮</span>
+        <h3>Cowork Credit 完全攻略<br>算法、估算器與省點心法</h3>
+        <p class="desc">依官方 GA 公告整理：Credit 的 4 個計價因素、任務三量級、互動預算估算器、14 個應用場景與 6 個省點心法。</p>
+        <div class="g-feats">
+          <span class="g-feat">計價 4 因素</span>
+          <span class="g-feat">預算估算器</span>
+          <span class="g-feat">場景庫</span>
+          <span class="g-feat">成本治理</span>
+        </div>
+        <span class="g-cta">開始估算 →</span>
+      </a>
+    </div>
+  </section>
+  <!-- ============ How to use ============ -->
+  <section id="how">
+    <h2>怎麼使用這套指南？</h2>
+    <p class="lede">依你的需求挑一站進入，或照順序走完整流程。</p>
+    <div class="path-grid">
+      <div class="path-card">
+        <span class="emoji">🙋</span>
+        <h3>我是一般使用者</h3>
+        <p>從<strong>第 1 站</strong>開始——手上有任務不知道用哪個工具時，先跑一次判斷精靈，養成分流習慣。</p>
+      </div>
+      <div class="path-card">
+        <span class="emoji">📋</span>
+        <h3>我要規劃預算</h3>
+        <p>直接到<strong>第 2 站</strong>——理解 Credit 計價邏輯，用估算器套入你組織的人數與任務量，抓出每月預算。</p>
+      </div>
+    </div>
+  </section>
+  <!-- ============ Cheat sheet ============ -->
+  <section id="cheat">
+    <h2>速查小抄</h2>
+    <p class="lede">記住這兩句，多數工具選擇就不會錯。</p>
+    <div class="cheat-grid">
+      <div class="cheat-card chat">
+        <div class="big">💬 M365 Copilot</div>
+        <p>一輪對話能做完：問答、摘要、草稿、單一文件。授權內含、不耗 Credit、秒級回應。</p>
+      </div>
+      <div class="cheat-card cowork">
+        <div class="big">🤝 Copilot Cowork</div>
+        <p>跨應用多步驟、多文件產出：一次交辦、端到端交付。Copilot Credits 按量計費。</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="wrap">
+    Copilot 工具決策指南系列｜依據內部任務分類對照表與 <a href="https://news.microsoft.com/source/asia/2026/06/17/copilot-cowork-ga/?lang=zh-hant">Copilot Cowork GA 公告（2026/6/17）</a>整理
+  </div>
+</footer>
+</body>
+</html>
