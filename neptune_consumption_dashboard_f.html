@@ -14,7 +14,7 @@
 <header><h1>Cowork Consumption Users 自動更新儀表板</h1><p>拖曳或選擇新的 CSV，KPI、圖表與表格會立即更新。</p></header>
 <div class="container">
 <section id="dropZone" class="upload">
-  <div><h2>拖曳 CSV 到這裡更新</h2><p>支援欄位：Display Name、User Principal Name、Monthly credit limit、Monthly credits used、Microsoft 365 Copilot license、Last activity date、Session Count、% Used。新 CSV 載入後會直接更新本頁；若在受保護或沙盒環境中開啟，不會依賴 localStorage，因此拖曳仍可運作。</p><div id="fileMeta" class="small" style="margin-top:8px"></div><div id="errorBox" class="error"></div></div>
+  <div><h2>拖曳 CSV 到這裡更新</h2><p>支援欄位：Display Name、User Principal Name、Monthly credit limit、Monthly credits used、Microsoft 365 Copilot license、Last activity date、Session Count、% Used。新 CSV 載入後會直接更新本頁</p><div id="fileMeta" class="small" style="margin-top:8px"></div><div id="errorBox" class="error"></div></div>
   <div class="file-actions"><label class="btn" for="csvInput">選擇 CSV</label><input id="csvInput" type="file" accept=".csv,text/csv" style="display:none"/><button class="light" onclick="restoreSample()">還原範例資料</button></div>
 </section>
 <section class="grid kpis"><div class="card"><div class="kpi-label">總使用者 Users</div><div class="kpi-value" id="kpiUsers">0</div><div class="kpi-note">目前篩選範圍</div></div><div class="card"><div class="kpi-label">總 Credits Used</div><div class="kpi-value" id="kpiUsed">0</div><div class="kpi-note" id="kpiLimit"></div></div><div class="card"><div class="kpi-label">平均 % Used</div><div class="kpi-value" id="kpiPct">0%</div><div class="kpi-note">以使用者平均計算</div></div><div class="card"><div class="kpi-label">高使用風險 High usage</div><div class="kpi-value" id="kpiHigh">0</div><div class="kpi-note">% Used ≥ 80%</div></div></section>
