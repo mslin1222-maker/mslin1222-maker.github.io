@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW" dir="ltr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light dark">
+<title>Copilot Cowork 金融業場景設計 v2 — 從痛點出發</title>
+<style>
+:root{--bg:#F7F8FC;--bg2:#FFFFFF;--bg3:#EEF1F9;--ink:#1B1F2E;--ink2:#5B6275;--line:#D9DDE8;--brand:#4338A8;--brand2:#0F6CBD;--teal:#0B8A8A;--accent:#C239B3;--ok:#0F7B0F;--warn:#B45309;--danger:#B91C1C;
+--grad:linear-gradient(90deg,#0F6CBD 0%,#4338A8 45%,#C239B3 100%);--radius:14px;--shadow:0 1px 2px rgba(20,24,40,.06),0 6px 20px rgba(20,24,40,.06);color-scheme:light}
+@media (prefers-color-scheme: dark){:root{--bg:#10131C;--bg2:#181C27;--bg3:#222738;--ink:#F1F3F9;--ink2:#AAB1C4;--line:#2E3447;--brand:#8B8FE8;--brand2:#4AA3F0;--teal:#3FC1C1;--accent:#E07BD6;--ok:#5CC15C;--warn:#F59E0B;--danger:#F87171;color-scheme:dark}}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI","Microsoft JhengHei","PingFang TC","Noto Sans TC",system-ui,sans-serif;line-height:1.6;font-size:16px}
+a{color:var(--brand2)} .wrap{max-width:1180px;margin-inline:auto;padding-inline:24px}
+.hero{background:var(--bg2);border-block-end:1px solid var(--line);position:relative;overflow:hidden} .hero::before{content:"";position:absolute;inset-block-start:0;inset-inline:0;height:6px;background:var(--grad)}
+.hero .wrap{padding-block:56px 40px;display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:center}
+.eyebrow{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--brand);font-weight:600}
+h1{font-size:40px;line-height:1.2;margin:8px 0 12px;font-weight:700} h1 .en{display:block;font-size:20px;font-weight:500;color:var(--ink2);margin-block-start:6px}
+.lead{font-size:17px;color:var(--ink2);max-width:60ch}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px} .stat{background:var(--bg3);border-radius:var(--radius);padding:16px 18px}
+.stat b{display:block;font-size:34px;line-height:1;font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent} .stat span{font-size:13px;color:var(--ink2)}
+.disclaimer{font-size:13px;color:var(--ink2);border:1px dashed var(--line);border-radius:10px;padding:10px 14px;margin-block-start:18px}
+nav.toc{position:sticky;inset-block-start:0;z-index:5;background:color-mix(in srgb,var(--bg2) 92%,transparent);backdrop-filter:blur(8px);border-block-end:1px solid var(--line)}
+nav.toc .wrap{display:flex;gap:6px;flex-wrap:wrap;padding-block:10px} nav.toc a{text-decoration:none;color:var(--ink2);font-size:14px;padding:6px 12px;border-radius:999px;border:1px solid transparent} nav.toc a:hover{border-color:var(--line);color:var(--ink);background:var(--bg3)}
+section.block{padding-block:56px} section.block+section.block{border-block-start:1px solid var(--line)}
+h2{font-size:28px;margin:0 0 6px;font-weight:700} .sub{color:var(--ink2);margin:0 0 28px;max-width:75ch}
+.grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:14px} .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px} .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px} .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)} .card h3{margin:0 0 8px;font-size:18px} .card p{margin:0;color:var(--ink2);font-size:15px} .card p.ex{margin-block-start:8px;font-size:13px}
+.card .kicker{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--brand);font-weight:600;margin-block-end:6px;display:block} .card ul{margin:10px 0 0;padding-inline-start:18px;color:var(--ink2);font-size:14px} .card ul li{margin-block:4px} .card ul a{text-decoration:none} .card ul a:hover{text-decoration:underline}
+.actcard{border-block-start:5px solid var(--brand)} .actcard:nth-child(2){border-color:var(--brand2)} .actcard:nth-child(3){border-color:var(--teal)} .actcard:nth-child(4){border-color:var(--accent)} .actcard:nth-child(5){border-color:var(--warn)}
+.domcard{border-inline-start:6px solid var(--brand2)} .domcard.d-B{border-color:var(--brand)} .domcard.d-C{border-color:var(--teal)} .domcard.d-D{border-color:var(--accent)}
+.nd{border-inline-start:6px solid var(--danger)} .ext{border-block-start:4px solid var(--teal)}
+.quote{background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius);padding:26px 30px;font-size:19px;line-height:1.7;position:relative;margin-block-start:28px} .quote small{display:block;color:var(--ink2);font-size:13px;margin-block-start:10px}
+.matrix{display:grid;grid-template-columns:auto 1fr 1fr;grid-template-rows:1fr 1fr auto;gap:12px;margin-block-start:10px}
+.matrix .ylab{writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font-size:13px;color:var(--ink2);font-weight:600;grid-row:1/3} .matrix .xlab{grid-column:2/4;text-align:center;font-size:13px;color:var(--ink2);font-weight:600}
+.q{background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;min-height:170px} .q b{display:block;font-size:16px} .q small{color:var(--ink2);font-size:13px} .q ul{margin:10px 0 0;padding-inline-start:18px;font-size:14px} .q ul a{text-decoration:none}
+.q-quick{border-block-start:5px solid var(--ok)} .q-strategic{border-block-start:5px solid var(--brand2)} .q-careful{border-block-start:5px solid var(--warn)} .q-support{border-block-start:5px solid var(--ink2)}
+.filters{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius);padding:14px 18px;margin-block-end:22px;position:sticky;inset-block-start:52px;z-index:4;box-shadow:var(--shadow)}
+.fgroup{display:flex;align-items:center;gap:6px;flex-wrap:wrap} .fgroup .lbl{font-size:12px;color:var(--ink2);margin-inline-end:4px;font-weight:600}
+.filters button{border:1px solid var(--line);background:var(--bg3);color:var(--ink);border-radius:999px;padding:5px 12px;font-size:13px;cursor:pointer;font-family:inherit} .filters button[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
+.filters input[type=search]{border:1px solid var(--line);background:var(--bg3);color:var(--ink);border-radius:999px;padding:6px 14px;font-size:14px;font-family:inherit;min-width:200px} .count{font-size:13px;color:var(--ink2);margin-inline-start:auto}
+.task{background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;margin-block-end:18px;box-shadow:var(--shadow)} .task[hidden]{display:none}
+.task-head{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:start} .task-id{font-weight:700;color:var(--brand);font-size:15px;letter-spacing:.06em;padding-block-start:4px;white-space:nowrap}
+.task-titles h3{margin:0;font-size:21px;line-height:1.3} .task-titles .en{color:var(--ink2);font-size:14px} .task-meta{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:end}
+.chip{display:inline-block;font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:var(--bg3);color:var(--ink2);white-space:nowrap}
+.chip.dom-A{border-color:var(--brand2);color:var(--brand2)} .chip.dom-B{border-color:var(--brand);color:var(--brand)} .chip.dom-C{border-color:var(--teal);color:var(--teal)} .chip.dom-D{border-color:var(--accent);color:var(--accent)}
+.chip.wave-1{background:var(--ok);border-color:var(--ok);color:#fff} .chip.wave-2{background:var(--brand2);border-color:var(--brand2);color:#fff} .chip.wave-3{background:var(--ink2);border-color:var(--ink2);color:#fff}
+.chip.sens-high{border-color:var(--danger);color:var(--danger)} .chip.sens-mid{border-color:var(--warn);color:var(--warn)} .chip.sens-low{border-color:var(--ok);color:var(--ok)}
+.chip.dep-native{border-color:var(--ok);color:var(--ok)} .chip.dep-fabric{border-color:var(--brand2);color:var(--brand2)} .chip.dep-plugin{border-color:var(--accent);color:var(--accent)} .chip.act{background:transparent;border-color:var(--brand);color:var(--brand)} .chip.aud{background:transparent}
+.chip.tier-L{border-color:var(--brand2);color:var(--brand2)} .chip.tier-E{border-color:var(--brand);color:var(--brand)} .chip.tier-H{border-color:var(--accent);color:var(--accent)}
+.task-aud{display:flex;gap:6px;flex-wrap:wrap;margin-block:10px 14px} .go{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-block-end:12px}
+.box{background:var(--bg3);border-radius:10px;padding:12px 14px;font-size:14px} .box.pain{border-inline-start:4px solid var(--danger)} .box.tobe{border-inline-start:4px solid var(--brand);margin-block-end:12px}
+.lbl{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2);font-weight:700;margin-block-end:4px}
+.kvgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;margin-block:8px} .kv{display:grid;grid-template-columns:110px 1fr;gap:10px;font-size:14px;margin-block:6px;align-items:start} .kv .lbl{margin:0;padding-block-start:3px}
+.prompt{border:1px solid var(--line);border-radius:10px;margin-block:12px;overflow:hidden} .prompt-head{display:flex;justify-content:space-between;align-items:center;background:var(--bg3);padding:8px 12px} .prompt-head .lbl{margin:0}
+.copy{border:1px solid var(--line);background:var(--bg2);color:var(--ink);border-radius:8px;padding:4px 10px;font-size:12px;cursor:pointer;font-family:inherit} .copy:hover{background:var(--brand);color:#fff;border-color:var(--brand)}
+.prompt-body{padding:10px 14px;font-size:14px} .prompt-body p{margin:0 0 8px} .prompt-body p:last-child{margin:0}
+.gov{font-size:14px;background:color-mix(in srgb,var(--teal) 10%,var(--bg2));border-inline-start:4px solid var(--teal);border-radius:8px;padding:10px 14px;margin-block-start:10px}
+table{width:100%;border-collapse:collapse;background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;font-size:14px} th,td{padding:10px 14px;text-align:start;border-block-end:1px solid var(--line);vertical-align:top} th{background:var(--bg3);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)} tr:last-child td{border-block-end:0}
+.steps3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:n} .steps3 .card{position:relative;padding-block-start:30px} .steps3 .card::before{counter-increment:n;content:counter(n);position:absolute;inset-block-start:-16px;inset-inline-start:22px;width:34px;height:34px;border-radius:50%;background:var(--grad);color:#fff;display:grid;place-items:center;font-weight:700}
+details.trow{background:var(--bg2);border:1px solid var(--line);border-radius:10px;margin-block-end:8px;padding:0} details.trow summary{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 14px;cursor:pointer;list-style:none;font-size:14px} details.trow summary::-webkit-details-marker{display:none}
+.tid{font-weight:700;color:var(--brand);white-space:nowrap} .ttitle{flex:1;min-width:220px;font-weight:600} .ttitle small{color:var(--ink2);font-weight:400} .fit{color:var(--teal);letter-spacing:2px;font-size:13px} .mapped{font-size:13px;color:var(--ink2)} .mapped a{text-decoration:none;font-weight:600}
+.tbody{padding:4px 14px 12px;border-block-start:1px solid var(--line)}
+footer{border-block-start:1px solid var(--line);padding-block:28px;color:var(--ink2);font-size:13px}
+.toast{position:fixed;inset-block-end:24px;inset-inline-start:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:999px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none} .toast.show{opacity:1}
+@media (max-width:1000px){.grid5{grid-template-columns:repeat(2,1fr)} .grid4{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:820px){.hero .wrap,.grid5,.grid4,.grid3,.grid2,.steps3,.go,.kvgrid{grid-template-columns:1fr} .task-head{grid-template-columns:1fr} .task-meta{justify-content:start} .kv{grid-template-columns:1fr} h1{font-size:30px} .filters{position:static} .matrix{grid-template-columns:1fr} .matrix .ylab,.matrix .xlab{display:none}}
+@media print{nav.toc,.filters,.copy,.toast{display:none!important} body{background:#fff;color:#000;font-size:12px} .task,.card,.q{break-inside:avoid;box-shadow:none} details.trow{break-inside:avoid} details.trow .tbody{display:block} .hero .wrap{grid-template-columns:1fr} a{color:inherit;text-decoration:none}}
+</style></head>
+<body>
+<header class="hero"><div class="wrap">
+  <div>
+    <div class="eyebrow">Microsoft 365 Copilot · Cowork · Financial Services</div>
+    <h1>Copilot Cowork 金融業場景設計<span class="en">從痛點出發：5 種動作、15 個原生場景、3 波試點</span></h1>
+    <p class="lead">不問「官方任務能套到哪」，而是問「金融業的人每天時間花在哪、風險藏在哪、Cowork 剛好能接住哪一段」。每個場景都寫清楚痛點、今天怎麼做、Cowork 怎麼做、根植來源、審核閘門與衡量指標，並附可直接貼上的中文 Prompt。</p>
+    <div class="disclaimer">場景、適配度與治理註記為編者依金融業實務的判斷，非產品承諾。Cowork、Fabric IQ 在貴行 tenant 的可用性以實際配置為準；Cowork 只讀取 M365 內的文件與對話，不直接連核心系統。</div>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>5</b><span>種時間流失的動作：拼湊、撰寫、追蹤、比對、交接</span></div>
+    <div class="stat"><b>15</b><span>個金融業原生場景（＋保險／證券各 3）</span></div>
+    <div class="stat"><b>7</b><span>個 Quick win；4 個第一波試點（法遵／稽核／作業風險）</span></div>
+    <div class="stat"><b>11</b><span>個純 M365 場景，不需第三方 SaaS；4 個需 Fabric IQ</span></div>
+  </div>
+</div></header>
+<nav class="toc"><div class="wrap"><a href="#pain">五種動作</a><a href="#lines">三道防線</a><a href="#scenarios">15 個場景</a><a href="#matrix">優先矩陣</a><a href="#waves">三波試點</a><a href="#notdo">不做的事</a><a href="#ready">起步前提</a><a href="#ext">保險／證券</a><a href="#appendix">附錄：官方 20 任務</a></div></nav>
+
+<section class="block" id="pain"><div class="wrap">
+  <h2>先把痛講清楚：金融業知識工作者的時間去哪了</h2>
+  <p class="sub">用小學生也懂的說法：銀行裡的人每天不是在「決定事情」，而是在把散在各處的紙湊成一疊、寫成主管要的格式、追著別人交東西。決定只佔很小的時間。</p>
+  <div class="grid5"><div class="card actcard"><span class="kicker">Assemble</span><h3>拼湊</h3><p>從 5–8 個來源蒐集、匯出、貼上，才開始真正的工作。</p><p class="ex"><b>例：</b>授信報告前蒐集財報／年報／新聞；理專會前拼 CRM＋郵件＋市場觀點；金檢資料準備</p>
+<p class="ex"><b>場景：</b>S4、S5、S7、S9、S14</p></div><div class="card actcard"><span class="kicker">Draft</span><h3>撰寫</h3><p>有格式、有合規用語的文件，錯一字就是缺失。</p><p class="ex"><b>例：</b>週報、稽核底稿、客訴回覆函、EDD 敘述、董事會資料</p>
+<p class="ex"><b>場景：</b>S2、S4、S6、S7、S8、S10、S14</p></div><div class="card actcard"><span class="kicker">Chase</span><h3>追蹤</h3><p>散在 Excel 與郵件的到期事項，逾期才被發現。</p><p class="ex"><b>例：</b>金檢缺失改善、法規生效日、covenant 財報未交、法定訓練時數、證照到期</p>
+<p class="ex"><b>場景：</b>S1、S2、S8、S13、S15</p></div><div class="card actcard"><span class="kicker">Check</span><h3>比對</h3><p>人工逐條看，量大且枯燥，最容易漏。</p><p class="ex"><b>例：</b>文宣 vs. 廣告規範、內規 vs. 新函令、契約版本差異、文件齊備性</p>
+<p class="ex"><b>場景：</b>S1、S3、S10、S12</p></div><div class="card actcard"><span class="kicker">Handover</span><h3>交接</h3><p>內控明文要求輪調與強制休假，交接品質直接是稽核項目。</p><p class="ex"><b>例：</b>強制休假、職務輪調、資深員工退休、專案結案</p>
+<p class="ex"><b>場景：</b>S11</p></div></div>
+  <div class="quote">這五種動作有一個共同點：它們都是三道防線裡「留痕」（evidence）的來源。Cowork 做的不只是省時間，而是幫金融機構把留痕做得更完整、更可回溯——這是對主管機關最有說服力的敘事。<small>編者觀點</small></div>
+</div></section>
+
+<section class="block" id="lines"><div class="wrap">
+  <h2>三道防線 × 四個領域</h2>
+  <p class="sub">反直覺的建議：試點從二線／三線開始，不是從理專開始——他們最懂控制、最能替 Cowork 背書，而且工作幾乎全是文件與追蹤，資料就位度最高。</p>
+  <div class="grid4"><div class="card domcard d-A"><span class="kicker">二線／三線 · Compliance · Risk · Audit</span><h3>法遵／風控／稽核</h3><ul><li><a href="#S1">S1 法規變動雷達</a></li><li><a href="#S2">S2 金檢／稽核缺失改善追蹤</a></li><li><a href="#S3">S3 文宣與揭露合規預審</a></li><li><a href="#S4">S4 AML 定期審查文件彙整</a></li></ul></div><div class="card domcard d-B"><span class="kicker">一線 · Wealth · Corporate Banking</span><h3>前台：財富管理／企金</h3><ul><li><a href="#S5">S5 理專客戶會前簡報包</a></li><li><a href="#S6">S6 客戶會後紀錄與追蹤</a></li><li><a href="#S7">S7 企金授信報告初稿</a></li><li><a href="#S8">S8 貸後管理與 covenant 監控週報</a></li></ul></div><div class="card domcard d-C"><span class="kicker">一線 · Branch · Operations · Service</span><h3>分行／營運／客服</h3><ul><li><a href="#S9">S9 分行主管晨會指揮中心</a></li><li><a href="#S10">S10 客訴與作業風險模式分析</a></li><li><a href="#S11">S11 強制休假／職務輪調交接</a></li></ul></div><div class="card domcard d-D"><span class="kicker">支援 · IT · Security · Vendor · PMO</span><h3>IT／資安／委外／跨部門</h3><ul><li><a href="#S12">S12 委外廠商與資安法遵文件檢核</a></li><li><a href="#S13">S13 新商品上架跨部門追蹤</a></li><li><a href="#S14">S14 董事會／管理會議資料包</a></li><li><a href="#S15">S15 法定訓練與證照到期追蹤</a></li></ul></div></div>
+</div></section>
+
+<section class="block" id="scenarios"><div class="wrap">
+  <h2>15 個金融業原生場景</h2>
+  <p class="sub">用篩選器找到你的起點。每張卡片：痛點 → 今天怎麼做 → Cowork 怎麼做 → 根植來源／產出／指標 → 中文 Prompt → 審核閘門。</p>
+  <div class="filters" id="filters">
+    <div class="fgroup" data-key="domain"><span class="lbl">領域</span><button type="button" data-v="" aria-pressed="true">全部</button><button type="button" data-v="A" aria-pressed="false">法遵／風控／稽核</button><button type="button" data-v="B" aria-pressed="false">財管／企金</button><button type="button" data-v="C" aria-pressed="false">分行／營運</button><button type="button" data-v="D" aria-pressed="false">IT／跨部門</button></div>
+    <div class="fgroup" data-key="wave"><span class="lbl">波次</span><button type="button" data-v="" aria-pressed="true">全部</button><button type="button" data-v="1" aria-pressed="false">第 1 波</button><button type="button" data-v="2" aria-pressed="false">第 2 波</button><button type="button" data-v="3" aria-pressed="false">第 3 波</button></div>
+    <div class="fgroup" data-key="act"><span class="lbl">動作</span><button type="button" data-v="" aria-pressed="true">全部</button><button type="button" data-v="assemble" aria-pressed="false">拼湊</button><button type="button" data-v="draft" aria-pressed="false">撰寫</button><button type="button" data-v="chase" aria-pressed="false">追蹤</button><button type="button" data-v="check" aria-pressed="false">比對</button><button type="button" data-v="handover" aria-pressed="false">交接</button></div>
+    <div class="fgroup" data-key="sens"><span class="lbl">敏感度</span><button type="button" data-v="" aria-pressed="true">全部</button><button type="button" data-v="low" aria-pressed="false">低</button><button type="button" data-v="mid" aria-pressed="false">中</button><button type="button" data-v="high" aria-pressed="false">高</button></div>
+    <div class="fgroup" data-key="dep"><span class="lbl">依賴</span><button type="button" data-v="" aria-pressed="true">全部</button><button type="button" data-v="native" aria-pressed="false">純 M365</button><button type="button" data-v="fabric" aria-pressed="false">Fabric IQ</button></div>
+    <input type="search" id="q" placeholder="搜尋場景、角色、關鍵字…" aria-label="搜尋"><span class="count" id="count"></span>
+  </div>
+  
+<article class="task" id="S1" data-domain="A" data-wave="1" data-sens="low" data-dep="native" data-act="chase check">
+  <header class="task-head">
+    <div class="task-id">S1</div>
+    <div class="task-titles"><h3>法規變動雷達</h3><div class="en">Regulatory Change Radar</div></div>
+    <div class="task-meta"><span class="chip dom dom-A">法遵／風控／稽核</span><span class="chip wave wave-1">第 1 波</span><span class="chip sens sens-low">敏感度 低</span><span class="chip dep dep-native">純 M365</span></div>
+  </header>
+  <div class="task-aud"><span class="chip act">追蹤 Chase</span><span class="chip act">比對 Check</span><span class="chip aud">適用：法遵、法務、各業務單位法遵窗口</span></div>
+  <div class="go">
+    <div class="box pain"><span class="lbl">痛點 Pain</span>金管會函令、銀行公會通知、修正草案散在郵件與公文系統；影響分析靠資深法遵人工判斷，內規更新常落後生效日。</div>
+    <div class="box"><span class="lbl">今天怎麼做 As-is</span>法遵人員每天翻信箱與公會網站，手動登錄 Excel，逐條對內規，再寄信問各單位影響。</div>
+  </div>
+  <div class="box tobe"><span class="lbl">Cowork 場景 To-be</span>每週掃描指定信箱與 SharePoint 資料夾 → 摘要每則變動、初判影響單位、對照內規條文找出 gap → Excel 追蹤表＋週報草稿。</div>
+  <div class="kvgrid">
+    <div class="kv"><span class="lbl">根植來源</span><span>Outlook（法規通知信箱）、SharePoint 內規庫</span></div>
+    <div class="kv"><span class="lbl">產出</span><span>Excel 法規變動追蹤表、gap 清單、Word 週報草稿</span></div>
+    <div class="kv"><span class="lbl">衡量指標</span><span>法規→內規更新週期；每週整理工時</span></div>
+    <div class="kv"><span class="lbl">對應官方任務</span><span><a href="#t-08">Task 08</a> <a href="#t-11">Task 11</a></span></div>
+  </div>
+  <div class="prompt">
+    <div class="prompt-head"><span class="lbl">金融業範例 Prompt（可直接貼上，把 [ ] 換成自己的內容）</span><button type="button" class="copy" data-copy="p-S1">複製</button></div>
+    <div class="prompt-body" id="p-S1"><p>每週一早上，搜尋我收件匣「法規通知」資料夾與 SharePoint「主管機關函令」資料夾過去 7 天的新文件。</p><p>每一則產出：摘要（3 句內）、生效日、初判影響單位、對照「內部規章庫」中相關條文並列出可能需修正之處。</p><p>以 Excel 追蹤表輸出（欄位：來源、日期、摘要、生效日、影響單位、對應內規、gap、狀態），所有影響判斷標示「AI 初判，待法遵確認」。</p><p>另草擬一封給各單位法遵窗口的週報，先給我審閱，不要送出。將此流程存成 skill。</p></div>
+  </div>
+  <div class="gov"><span class="lbl">審核閘門 Gate</span>所有影響判斷標示「AI 初判，待法遵確認」；週報審閱後寄。</div>
+</article>
+
+<article class="task" id="S2" data-domain="A" data-wave="1" data-sens="low" data-dep="native" data-act="chase draft">
+  <header class="task-head">
+    <div class="task-id">S2</div>
+    <div class="task-titles"><h3>金檢／稽核缺失改善追蹤</h3><div class="en">Audit Finding Tracker</div></div>
+    <div class="task-meta"><span class="chip dom dom-A">法遵／風控／稽核</span><span class="chip wave wave-1">第 1 波</span><span class="chip sens sens-low">敏感度 低</span><span class="chip dep dep-native">純 M365</span></div>
+  </header>
+  <div class="task-aud"><span class="chip act">追蹤 Chase</span><span class="chip act">撰寫 Draft</span><span class="chip aud">適用：稽核、法遵、各受檢單位</span></div>
+  <div class="go">
+    <div class="box pain"><span class="lbl">痛點 Pain</span>缺失改善進度散在各部門回覆郵件與 Excel，逾期才發現；金檢前才緊急彙整。</div>
+    <div class="box"><span class="lbl">今天怎麼做 As-is</span>稽核人員逐一寄信追問、手動更新 Excel，月底熬夜做進度報告。</div>
+  </div>
+  <div class="box tobe"><span class="lbl">Cowork 場景 To-be</span>彙整稽核報告、改善計畫與各單位回覆郵件 → 單一追蹤表、逾期與即將到期清單、催辦郵件草稿、月報草稿。</div>
+  <div class="kvgrid">
+    <div class="kv"><span class="lbl">根植來源</span><span>郵件、Teams、SharePoint 稽核資料夾</span></div>
+    <div class="kv"><span class="lbl">產出</span><span>Excel 缺失追蹤表、催辦郵件草稿、月報草稿</span></div>
+    <div class="kv"><span class="lbl">衡量指標</span><span>逾期缺失數；每月追蹤工時</span></div>
+    <div class="kv"><span class="lbl">對應官方任務</span><span><a href="#t-07">Task 07</a> <a href="#t-18">Task 18</a></span></div>
+  </div>
+  <div class="prompt">
+    <div class="prompt-head"><span class="lbl">金融業範例 Prompt（可直接貼上，把 [ ] 換成自己的內容）</span><button type="button" class="copy" data-copy="p-S2">複製</button></div>
+    <div class="prompt-body" id="p-S2"><p>讀取 SharePoint「[年度] 金檢缺失改善」資料夾中的稽核報告與改善計畫，以及我收件匣中主旨含「缺失改善」的往來郵件。</p><p>建立 Excel 追蹤表：缺失編號、內容、責任單位、承諾完成日、最新進度（從郵件萃取）、狀態、逾期天數。逾期與 14 天內到期的項目置頂。</p><p>為每個逾期項目草擬催辦郵件給責任單位窗口，不要送出。另草擬一份給稽核主管的月報摘要，先給我看。</p></div>
+  </div>
+  <div class="gov"><span class="lbl">審核閘門 Gate</span>催辦郵件草稿不寄；月報審閱後寄。</div>
+</article>
+
+<article class="task" id="S3" data-domain="A" data-wave="1" data-sens="low" data-dep="native" data-act="check">
+  <header class="task-head">
+    <div class="task-id">S3</div>
+    <div class="task-titles"><h3>文宣與揭露合規預審</h3><div class="en">Marketing Compliance Pre-check</div></div>
+    <div class="task-meta"><span class="chip dom dom-A">法遵／風控／稽核</span><span class="chip wave wave-1">第 1 波</span><span class="chip sens sens-low">敏感度 低</span><span class="chip dep dep-native">純 M365</span></div>
+  </header>
+  <div class="task-aud"><span class="chip act">比對 Check</span><span class="chip aud">適用：法遵、行銷／品牌、商品部</span></div>
+  <div class="go">
+    <div class="box pain"><span class="lbl">痛點 Pain</span>行銷文宣送法遵審查一來一回，法遵人力被卡住；警語、揭露文字漏一項就是缺失。</div>
+    <div class="box"><span class="lbl">今天怎麼做 As-is</span>法遵人員逐頁人工比對廣告規範與公平待客原則，往返 2–3 輪。</div>
+  </div>
+  <div class="box tobe"><span class="lbl">Cowork 場景 To-be</span>對文宣資料夾比對金融商品廣告規範、公平待客、揭露與警語標準 → 違規清單（重大／主要／輕微）＋修正建議，不改任何檔案。</div>
+  <div class="kvgrid">
+    <div class="kv"><span class="lbl">根植來源</span><span>SharePoint 文宣庫、規範文件</span></div>
+    <div class="kv"><span class="lbl">產出</span><span>可排序 Excel 稽核報告、優先處理清單</span></div>
+    <div class="kv"><span class="lbl">衡量指標</span><span>法遵審查往返次數；每件審查時間</span></div>
+    <div class="kv"><span class="lbl">對應官方任務</span><span><a href="#t-16">Task 16</a></span></div>
+  </div>
+  <div class="prompt">
+    <div class="prompt-head"><span class="lbl">金融業範例 Prompt（可直接貼上，把 [ ] 換成自己的內容）</span><button type="button" class="copy" data-copy="p-S3">複製</button></div>
+    <div class="prompt-body" id="p-S3"><p>稽核 SharePoint「[活動名稱] 行銷文宣」資料夾中每份文件是否符合「金融商品廣告規範」、「公平待客原則」與「揭露文字與警語標準」。完整閱讀每一份。</p><p>違規分為重大／主要／輕微，說明問題、影響、對應條文與具體修正建議。</p><p>產出可排序的 Excel 報告：檢視總數、各類違規、最常見問題、建議處理順序。不要修改任何檔案，只給我行動清單。</p></div>
+  </div>
+  <div class="gov"><span class="lbl">審核閘門 Gate</span>唯讀、不改檔；由法遵做最終判定。</div>
+</article>
+
+<article class="task" id="S4" data-domain="A" data-wave="3" data-sens="high" data-dep="native" data-act="assemble draft">
+  <header class="task-head">
+    <div class="task-id">S4</div>
+    <div class="task-titles"><h3>AML 定期審查文件彙整</h3><div class="en">AML Periodic Review Pack</div></div>
+    <div class="task-meta"><span class="chip dom dom-A">法遵／風控／稽核</span><span class="chip wave wave-3">第 3 波</span><span class="chip sens sens-high">敏感度 高（分階段）</span><span class="chip dep dep-native">純 M365</span></div>
+  </header>
+  <div class="task-aud"><span class="chip act">拼湊 Assemble</span><span class="chip act">撰寫 Draft</span><span class="chip aud">適用：防制洗錢中心、法遵</span></div>
+  <div class="go">
+    <div class="box pain"><span class="lbl">痛點 Pain</span>EDD 與定期審查要從多份文件寫出敘述與時序；文件分散、格式不一。</div>
+    <div class="box"><span class="lbl">今天怎麼做 As-is</span>AML 人員逐份閱讀、手動整理時序與缺件，每案數小時。</div>
+  </div>
+  <div class="box tobe"><span class="lbl">Cowork 場景 To-be</span>從受限 SharePoint 站台的客戶文件與調查筆記 → 客戶背景摘要、時序表、依檢核表標示缺件、文件間不一致處。</div>
+  <div class="kvgrid">
+    <div class="kv"><span class="lbl">根植來源</span><span>受限 SharePoint 站台（AML 案件）</span></div>
+    <div class="kv"><span class="lbl">產出</span><span>EDD 摘要草稿、時序表、缺件清單</span></div>
+    <div class="kv"><span class="lbl">衡量指標</span><span>每案撰寫時間</span></div>
+    <div class="kv"><span class="lbl">對應官方任務</span><span><a href="#t-15">Task 15</a></span></div>
+  </div>
+  <div class="prompt">
+    <div class="prompt-head"><span class="lbl">金融業範例 Prompt（可直接貼上，把 [ ] 換成自己的內容）</span><button type="button" class="copy" data-copy="p-S4">複製</button></div>
+    <div class="prompt-body" id="p-S4"><p>在受限站台「AML-EDD-[案件編號]」資料夾中，完整閱讀所有客戶文件與調查筆記。</p><p>產出：(1) 客戶背景與業務性質摘要；(2) 依文件日期整理的時序表；(3) 依「加強審查檢核表」逐項標示已具備／缺件；(4) 文件間不一致之處。</p><p>所有內容標示來源文件與頁碼。不要做風險等級判定，不要引用任何未在資料夾內的資訊。</p></div>
+  </div>
+  <div class="gov"><span class="lbl">審核閘門 Gate</span>高敏感：敏感度標籤＋DLP＋受限站台；只出草稿；不做風險等級判定。</div>
+</article>
+
+<article class="task" id="S5" data-domain="B" data-wave="2" data-sens="mid" data-dep="native" data-act="assemble">
+  <header class="task-head">
+    <div class="task-id">S5</div>
+    <div class="task-titles"><h3>理專客戶會前簡報包</h3><div class="en">Client Meeting Prep Pack</div></div>
+    <div class="task-meta"><span class="chip dom dom-B">前台：財富管理／企金</span><span class="chip wave wave-2">第 2 波</span><span class="chip sens sens-mid">敏感度 中</span><span class="chip dep dep-native">純 M365</span></div>
+  </header>
+  <div class="task-aud"><span class="chip act">拼湊 Assemble</span><span class="chip aud">適用：理專、RM、財管主管</span></div>
+  <div class="go">
+    <div class="box pain"><span class="lbl">痛點 Pain</span>每次會前要拼過往郵件、會議紀錄、CRM 匯出、市場觀點，花 30–60 分鐘；合規提醒靠記憶。</div>
+    <div class="box"><span class="lbl">今天怎麼做 As-is</span>理專前一晚翻郵件與筆記，自己查市場觀點，常漏掉上次承諾。</div>
+  </div>
+  <div class="box tobe"><span class="lbl">Cowork 場景 To-be</span>讀明日行事曆 → 該客戶過去 90 天互動摘要、上次承諾事項、行內核准的相關市場觀點 → 一頁 brief＋建議討論題＋合規提醒（適合度、高齡客戶、風險揭露）。</div>
+  <div class="kvgrid">
+    <div class="kv"><span class="lbl">根植來源</span><span>行事曆、郵件、Teams、SharePoint 投研觀點（核准版）</span></div>
+    <div class="kv"><span class="lbl">產出</span><span>每位客戶一頁會前簡報</span></div>
+    <div class="kv"><span class="lbl">衡量指標</span><span>會前準備時間；上次承諾事項完成率</span></div>
+    <div class="kv"><span class="lbl">對應官方任務</span><span><a href="#t-01">Task 01</a> <a href="#t-14">Task 14</a></span></div>
+  </div>
+  <div class="prompt">
+    <div class="prompt-head"><span class="lbl">金融業範例 Prompt（可直接貼上，把 [ ] 換成自己的內容）</span><button type="button" class="copy" data-copy="p-S5">複製</button></div>
+    <div class="prompt-body" id="p-S5"><p>檢視我明天行事曆上的客戶會議。針對每位客戶：整理過去 90 天我與該客戶的郵件與會議紀錄重點、上次會議承諾的待辦與完成狀態，並從 SharePoint「投研觀點（核准版）」資料夾挑出與客戶持有資產類別相關的最新觀點。</p><p>產出一頁會前簡報：客戶近況、待辦、建議討論題目、合規提醒（若客戶年滿 65 歲或上次紀錄有風險屬性變動，請標示）。</p><p>不要提出任何具體商品建議。</p></div>
+  </div>
+  <div class="gov"><span class="lbl">審核閘門 Gate</span>唯讀；不產生未核准商品建議；只引用行內核准文件。</div>
+</article>
+
+<article class="task" id="S6" data-domain="B" data-wave="2" data-sens="mid" data-dep="native" data-act="draft">
+  <header class="task-head">
+    <div class="task-id">S6</div>
+    <div class="task-titles"><h3>客戶會後紀錄與追蹤</h3><div class="en">Post-meeting Record &amp; Follow-up</div></div>
+    <div class="task-meta"><span class="chip dom dom-B">前台：財富管理／企金</span><span class="chip wave wave-2">第 2 波</span><span class="chip sens sens-mid">敏感度 中</span><span class="chip dep dep-native">純 M365</span></div>
+  </header>
+  <div class="task-aud"><span class="chip act">撰寫 Draft</span><span class="chip aud">適用：理專、RM</span></div>
+  <div class="go">
+    <div class="box pain"><span class="lbl">痛點 Pain</span>會後補登紀錄常拖延，KYC 留痕不完整；追蹤事項散落。</div>
+    <div class="box"><span class="lbl">今天怎麼做 As-is</span>理專回辨公室憑記憶補登，追蹤事項寫在便利貼。</div>
+  </div>
+  <div class="box tobe"><span class="lbl">Cowork 場景 To-be</span>從 Teams 逐字稿或理專口述筆記 → 符合留存格式的會議紀錄草稿、待辦清單、給客戶與主管的郵件草稿。</div>
+  <div class="kvgrid">
+    <div class="kv"><span class="lbl">根植來源</span><span>Teams 逐字稿（若政策允許）或口述筆記</span></div>
+    <div class="kv"><span class="lbl">產出</span><span>會議紀錄草稿、待辦、郵件草稿</span></div>
+    <div class="kv"><span class="lbl">衡量指標</span><span>紀錄補登時效與完整度</span></div>
+    <div class="kv"><span class="lbl">對應官方任務</span><span><a href="#t-19">Task 19</a> <a href="#t-06">Task 06</a></span></div>
+  </div>
+  <div class="prompt">
+    <div class="prompt-head"><span class="lbl">金融業範例 Prompt（可直接貼上，把 [ ] 換成自己的內容）</span><button type="button" class="copy" data-copy="p-S6">複製</button></div>
+    <div class="prompt-body" id="p-S6"><p>根據 [今天下午與 X 客戶的 Teams 會議逐字稿 / 我以下的口述筆記]，依「客戶會議紀錄範本」草擬紀錄：會議目的、客戶需求與關注、風險屬性或財務狀況變動、我方說明事項、後續待辦（負責人／期限）。</p><p>另草擬一封給客戶的會後摘要郵件與一封給主管的簡短回報，兩封都先給我看、不要送出。</p><p>紀錄中不要出現客戶身分證字號或帳號。</p></div>
+  </div>
+  <div class="gov"><span class="lbl">審核閘門 Gate</span>全部草稿；對客戶郵件人工送出；不含身分證字號與帳號；無逐字稿時改用口述筆記。</div>
+</article>
+
+<article class="task" id="S7" data-domain="B" data-wave="3" data-sens="mid" data-dep="fabric" data-act="assemble draft">
+  <header class="task-head">
+    <div class="task-id">S7</div>
+    <div class="task-titles"><h3>企金授信報告初稿</h3><div class="en">Credit Memo Drafting</div></div>
+    <div class="task-meta"><span class="chip dom dom-B">前台：財富管理／企金</span><span class="chip wave wave-3">第 3 波</span><span class="chip sens sens-mid">敏感度 中</span><span class="chip dep dep-fabric">M365 + Fabric IQ</span></div>
+  </header>
+  <div class="task-aud"><span class="chip act">拼湊 Assemble</span><span class="chip act">撰寫 Draft</span><span class="chip aud">適用：企金 RM、信審、授信主管</span></div>
+  <div class="go">
+    <div class="box pain"><span class="lbl">痛點 Pain</span>授信報告六成時間花在蒐集與格式化財報、年報、產業報告、新聞。</div>
+    <div class="box"><span class="lbl">今天怎麼做 As-is</span>RM 逐份翻 PDF、手抄數字進範本，信審再回頭查出處。</div>
+  </div>
+  <div class="box tobe"><span class="lbl">Cowork 場景 To-be</span>讀案件資料夾 → 產業／公司／財務分析初稿、風險清單、引用地圖（每個數字回到頁碼）、缺件清單；可加入 Fabric IQ 既有往來數據。</div>
+  <div class="kvgrid">
+    <div class="kv"><span class="lbl">根植來源</span><span>SharePoint 案件資料夾、Fabric IQ（既有往來）</span></div>
+    <div class="kv"><span class="lbl">產出</span><span>授信報告初稿（依範本）、引用地圖、缺件清單</span></div>
+    <div class="kv"><span class="lbl">衡量指標</span><span>報告撰寫週期；信審退件次數</span></div>
+    <div class="kv"><span class="lbl">對應官方任務</span><span><a href="#t-15">Task 15</a></span></div>
+  </div>
+  <div class="prompt">
+    <div class="prompt-head"><span class="lbl">金融業範例 Prompt（可直接貼上，把 [ ] 換成自己的內容）</span><button type="button" class="copy" data-copy="p-S7">複製</button></div>
+    <div class="prompt-body" id="p-S7"><p>完整閱讀 SharePoint「授信案件-[客戶名]」資料夾中的財報、年報、產業報告與新聞剪報。</p><p>依「授信報告範本」章節產出初稿：產業分析、公司概況、財務分析（近三年主要比率與趨勢）、主要風險與緩釋因素、待補文件清單。</p><p>每個數字與陳述都附來源文件與頁碼的引用地圖；文件間數字不一致處明確標出。若可取得 Fabric IQ 的既有往來數據（存款、放款、逾期紀錄），加入「既有往來」一節並標示來源。</p><p>不要給出核貸建議或評等。</p></div>
+  </div>
+  <div class="gov"><span class="lbl">審核閘門 Gate</span>初稿；每個數字標出處頁碼；不做核貸建議與評等。</div>
+</article>
+
+<article class="task" id="S8" data-domain="B" data-wave="3" data-sens="mid" data-dep="fabric" data-act="chase draft">
+  <header class="task-head">
+    <div class="task-id">S8</div>
+    <div class="task-titles"><h3>貸後管理與 covenant 監控週報</h3><div class="en">Post-lending Covenant Monitor</div></div>
+    <div class="task-meta"><span class="chip dom dom-B">前台：財富管理／企金</span><span class="chip wave wave-3">第 3 波</span><span class="chip sens sens-mid">敏感度 中</span><span class="chip dep dep-fabric">M365 + Fabric IQ</span></div>
+  </header>
+  <div class="task-aud"><span class="chip act">追蹤 Chase</span><span class="chip act">撰寫 Draft</span><span class="chip aud">適用：企金 RM、貸後管理</span></div>
+  <div class="go">
+    <div class="box pain"><span class="lbl">痛點 Pain</span>財報未交、財務比率觸限、擔保品保險到期，全靠人工盯 Excel。</div>
+    <div class="box"><span class="lbl">今天怎麼做 As-is</span>貸後人員月初翻報表、逐戶寄信催件。</div>
+  </div>
+  <div class="box tobe"><span class="lbl">Cowork 場景 To-be</span>Fabric IQ 貸後指標＋郵件往來 → 異常清單、最近溝通摘要、RM 週報草稿、催件郵件草稿。</div>
+  <div class="kvgrid">
+    <div class="kv"><span class="lbl">根植來源</span><span>Fabric IQ、郵件</span></div>
+    <div class="kv"><span class="lbl">產出</span><span>異常清單、週報草稿、催件郵件草稿</span></div>
+    <div class="kv"><span class="lbl">衡量指標</span><span>逾期未交件數；異常發現時效</span></div>
+    <div class="kv"><span class="lbl">對應官方任務</span><span><a href="#t-07">Task 07</a></span></div>
+  </div>
+  <div class="prompt">
+    <div class="prompt-head"><span class="lbl">金融業範例 Prompt（可直接貼上，把 [ ] 換成自己的內容）</span><button type="button" class="copy" data-copy="p-S8">複製</button></div>
+    <div class="prompt-body" id="p-S8"><p>每週五下午，從 Fabric IQ 取得我名下企金客戶的貸後指標（財報繳交狀態、主要 covenant 比率與門檻、擔保品保險到期日），並比對我收件匣中與這些客戶的往來郵件。</p><p>產出：(1) 異常清單（觸限、逾期未交、30 天內到期）；(2) 每個異常的最近溝通紀錄摘要；(3) 給貸後主管的週報草稿；(4) 給客戶的催件郵件草稿。全部先給我審閱。</p></div>
+  </div>
+  <div class="gov"><span class="lbl">審核閘門 Gate</span>週報審閱後寄；催件郵件草稿不寄。</div>
+</article>
+
+<article class="task" id="S9" data-domain="C" data-wave="2" data-sens="low" data-dep="fabric" data-act="assemble">
+  <header class="task-head">
+    <div class="task-id">S9</div>
+    <div class="task-titles"><h3>分行主管晨會指揮中心</h3><div class="en">Branch Morning Command Center</div></div>
+    <div class="task-meta"><span class="chip dom dom-C">分行／營運／客服</span><span class="chip wave wave-2">第 2 波</span><span class="chip sens sens-low">敏感度 低</span><span class="chip dep dep-fabric">M365 + Fabric IQ</span></div>
+  </header>
+  <div class="task-aud"><span class="chip act">拼湊 Assemble</span><span class="chip aud">適用：分行經理、區域主管</span></div>
+  <div class="go">
+    <div class="box pain"><span class="lbl">痛點 Pain</span>每天早上從郵件、KPI 報表、客訴、作業風險事件拼晨會資料。</div>
+    <div class="box"><span class="lbl">今天怎麼做 As-is</span>分行經理 7 點到行翻三個系統與信箱，手寫晨會重點。</div>
+  </div>
+  <div class="box tobe"><span class="lbl">Cowork 場景 To-be</span>每日 HTML 儀表板：昨日 KPI（Fabric IQ）對比目標、待處理客訴與作業風險事件、今日行程與人力、三件最該關注的事。</div>
+  <div class="kvgrid">
+    <div class="kv"><span class="lbl">根植來源</span><span>Fabric IQ、郵件、Teams、行事曆</span></div>
+    <div class="kv"><span class="lbl">產出</span><span>每日一頁 HTML 儀表板</span></div>
+    <div class="kv"><span class="lbl">衡量指標</span><span>晨會準備時間</span></div>
+    <div class="kv"><span class="lbl">對應官方任務</span><span><a href="#t-14">Task 14</a></span></div>
+  </div>
+  <div class="prompt">
+    <div class="prompt-head"><span class="lbl">金融業範例 Prompt（可直接貼上，把 [ ] 換成自己的內容）</span><button type="button" class="copy" data-copy="p-S9">複製</button></div>
+    <div class="prompt-body" id="p-S9"><p>每天早上 7:00 建立一頁 HTML「分行晨會儀表板」：昨日關鍵指標（從 Fabric IQ：存放款、新開戶、理財手續費，對比目標）、待處理客訴與作業風險事件（從郵件與 Teams「分行營運」頻道）、今日重要行程與人力狀況（從行事曆與請假通知）、三件今日最該關注的事。</p><p>只給我本人，不含任何個別客戶身分資訊。</p></div>
+  </div>
+  <div class="gov"><span class="lbl">審核閘門 Gate</span>唯讀；只給本人；不含個別客戶身分資訊。</div>
+</article>
+
+<article class="task" id="S10" data-domain="C" data-wave="3" data-sens="high" data-dep="native" data-act="check draft">
+  <header class="task-head">
+    <div class="task-id">S10</div>
+    <div class="task-titles"><h3>客訴與作業風險模式分析</h3><div class="en">Complaint Pattern Analysis</div></div>
+    <div class="task-meta"><span class="chip dom dom-C">分行／營運／客服</span><span class="chip wave wave-3">第 3 波</span><span class="chip sens sens-high">敏感度 高（分階段）</span><span class="chip dep dep-native">純 M365</span></div>
+  </header>
+  <div class="task-aud"><span class="chip act">比對 Check</span><span class="chip act">撰寫 Draft</span><span class="chip aud">適用：客服主管、作業風險、分行營運</span></div>
+  <div class="go">
+    <div class="box pain"><span class="lbl">痛點 Pain</span>客訴逐案處理，看不到重複根因；回覆函用語要符合公平待客。</div>
+    <div class="box"><span class="lbl">今天怎麼做 As-is</span>每季人工翻 Excel 做分類，回覆函靠資深同仁改稿。</div>
+  </div>
+  <div class="box tobe"><span class="lbl">Cowork 場景 To-be</span>讀客訴紀錄與郵件 → 重複主題排序、根因假設、去識別化代表案例、改善建議；依範本草擬回覆函。</div>
+  <div class="kvgrid">
+    <div class="kv"><span class="lbl">根植來源</span><span>SharePoint 客訴紀錄、郵件</span></div>
+    <div class="kv"><span class="lbl">產出</span><span>模式分析報告、回覆函草稿</span></div>
+    <div class="kv"><span class="lbl">衡量指標</span><span>重複客訴比率；回覆時效</span></div>
+    <div class="kv"><span class="lbl">對應官方任務</span><span><a href="#t-19">Task 19</a></span></div>
+  </div>
+  <div class="prompt">
+    <div class="prompt-head"><span class="lbl">金融業範例 Prompt（可直接貼上，把 [ ] 換成自己的內容）</span><button type="button" class="copy" data-copy="p-S10">複製</button></div>
+    <div class="prompt-body" id="p-S10"><p>讀取 SharePoint「客訴紀錄-[季度]」Excel 與相關郵件。將客訴依產品、流程、通路分群，找出最常重複的 5 個主題並排序，每個主題給根因假設、代表案例（去識別化）、建議改善行動與負責單位。輸出結構化報告。</p><p>另針對 [案件編號] 依「客訴回覆函範本」草擬回覆，語氣依公平待客原則，先給我看、不要送出。</p></div>
+  </div>
+  <div class="gov"><span class="lbl">審核閘門 Gate</span>個資去識別化；回覆函草稿不寄；完成敏感度標籤後再啟用。</div>
+</article>
+
+<article class="task" id="S11" data-domain="C" data-wave="1" data-sens="low" data-dep="native" data-act="handover">
+  <header class="task-head">
+    <div class="task-id">S11</div>
+    <div class="task-titles"><h3>強制休假／職務輪調交接</h3><div class="en">Mandatory Leave &amp; Rotation Handover</div></div>
+    <div class="task-meta"><span class="chip dom dom-C">分行／營運／客服</span><span class="chip wave wave-1">第 1 波</span><span class="chip sens sens-low">敏感度 低</span><span class="chip dep dep-native">純 M365</span></div>
+  </header>
+  <div class="task-aud"><span class="chip act">交接 Handover</span><span class="chip aud">適用：所有主管與專案負責人、分行經理、作業風險（內控）</span></div>
+  <div class="go">
+    <div class="box pain"><span class="lbl">痛點 Pain</span>內控明文要求強制休假與輪調，但交接表多是敷衍填寫，代理人不知道期限在哪。</div>
+    <div class="box"><span class="lbl">今天怎麼做 As-is</span>離開前一天憑記憶填交接表，監理回覆期限常被漏掉。</div>
+  </div>
+  <div class="box tobe"><span class="lbl">Cowork 場景 To-be</span>從本週會議、郵件、Teams 與下週行事曆建構交接表，監理回覆與客戶承諾期限置頂；設定自動回覆、標記需改期會議。</div>
+  <div class="kvgrid">
+    <div class="kv"><span class="lbl">根植來源</span><span>全 M365（會議、郵件、Teams、行事曆）</span></div>
+    <div class="kv"><span class="lbl">產出</span><span>交接表（含代理人與文件連結）、自動回覆、行事曆調整建議</span></div>
+    <div class="kv"><span class="lbl">衡量指標</span><span>交接完整度（稽核可查）；代理期間逾期事項數</span></div>
+    <div class="kv"><span class="lbl">對應官方任務</span><span><a href="#t-12">Task 12</a></span></div>
+  </div>
+  <div class="prompt">
+    <div class="prompt-head"><span class="lbl">金融業範例 Prompt（可直接貼上，把 [ ] 換成自己的內容）</span><button type="button" class="copy" data-copy="p-S11">複製</button></div>
+    <div class="prompt-body" id="p-S11"><p>我將於 [日期] 起 [強制休假 / 職務輪調] [2 週]。建立交接表：涵蓋本週所有會議、郵件、Teams 訊息，以及下週行事曆與有待辦的專案。</p><p>代理人限我的內部團隊成員。包含：專案／案件名稱、狀態、下一步與期限、待辦事項、代理人、相關文件連結。涉及主管機關回覆期限或客戶承諾期限的事項置頂。</p><p>然後：設定自動回覆、婉拒或轉交非關鍵會議、標記我主持而需改期的會議——所有行事曆變更先給我審閱。</p></div>
+  </div>
+  <div class="gov"><span class="lbl">審核閘門 Gate</span>行事曆變更全部先審閱；代理人限內部團隊。</div>
+</article>
+
+<article class="task" id="S12" data-domain="D" data-wave="3" data-sens="high" data-dep="native" data-act="check">
+  <header class="task-head">
+    <div class="task-id">S12</div>
+    <div class="task-titles"><h3>委外廠商與資安法遵文件檢核</h3><div class="en">Vendor &amp; Security Compliance Check</div></div>
+    <div class="task-meta"><span class="chip dom dom-D">IT／資安／委外／跨部門</span><span class="chip wave wave-3">第 3 波</span><span class="chip sens sens-high">敏感度 高（分階段）</span><span class="chip dep dep-native">純 M365</span></div>
+  </header>
+  <div class="task-aud"><span class="chip act">比對 Check</span><span class="chip aud">適用：資安、委外管理、法遵</span></div>
+  <div class="go">
+    <div class="box pain"><span class="lbl">痛點 Pain</span>委外合約、SLA、資安檢核表、BCP 演練報告散落，金檢前才發現缺件。</div>
+    <div class="box"><span class="lbl">今天怎麼做 As-is</span>委外管理人員金檢前兩週逐家翻資料夾補件。</div>
+  </div>
+  <div class="box tobe"><span class="lbl">Cowork 場景 To-be</span>對委外資料夾依檢核表逐項確認效期、必要條款、年度檢核與演練報告 → 缺件清單＋稽核摘要。</div>
+  <div class="kvgrid">
+    <div class="kv"><span class="lbl">根植來源</span><span>SharePoint 委外管理資料夾（受限）</span></div>
+    <div class="kv"><span class="lbl">產出</span><span>Excel 檢核結果、缺件與到期清單</span></div>
+    <div class="kv"><span class="lbl">衡量指標</span><span>金檢前補件工時；缺件數</span></div>
+    <div class="kv"><span class="lbl">對應官方任務</span><span><a href="#t-16">Task 16</a></span></div>
+  </div>
+  <div class="prompt">
+    <div class="prompt-head"><span class="lbl">金融業範例 Prompt（可直接貼上，把 [ ] 換成自己的內容）</span><button type="button" class="copy" data-copy="p-S12">複製</button></div>
+    <div class="prompt-body" id="p-S12"><p>檢核 SharePoint「委外廠商管理」資料夾中每家廠商子資料夾，依「委外作業檢核表」逐項確認：合約與 SLA 是否在效期內、是否含主管機關要求之必要條款（稽核權、資料保護、轉委外限制、終止機制）、年度資安檢核表與 BCP 演練報告是否齊備。</p><p>輸出 Excel：廠商、項目、狀態（齊備／缺件／到期）、到期日、建議行動。不要修改任何檔案。</p></div>
+  </div>
+  <div class="gov"><span class="lbl">審核閘門 Gate</span>唯讀不改檔；合約屬機密，需受限站台。</div>
+</article>
+
+<article class="task" id="S13" data-domain="D" data-wave="2" data-sens="low" data-dep="native" data-act="chase">
+  <header class="task-head">
+    <div class="task-id">S13</div>
+    <div class="task-titles"><h3>新商品上架跨部門追蹤</h3><div class="en">Product Launch Tracker</div></div>
+    <div class="task-meta"><span class="chip dom dom-D">IT／資安／委外／跨部門</span><span class="chip wave wave-2">第 2 波</span><span class="chip sens sens-low">敏感度 低</span><span class="chip dep dep-native">純 M365</span></div>
+  </header>
+  <div class="task-aud"><span class="chip act">追蹤 Chase</span><span class="chip aud">適用：產品經理、PMO</span></div>
+  <div class="go">
+    <div class="box pain"><span class="lbl">痛點 Pain</span>法遵、風控、IT、行銷各關卡狀態靠追問；指導委員會前才拼進度。</div>
+    <div class="box"><span class="lbl">今天怎麼做 As-is</span>產品經理在 Teams 與郵件間追人，手動更新 PPT。</div>
+  </div>
+  <div class="box tobe"><span class="lbl">Cowork 場景 To-be</span>從郵件、Teams、會議紀錄建立追蹤表，每兩週產出狀態更新草稿。</div>
+  <div class="kvgrid">
+    <div class="kv"><span class="lbl">根植來源</span><span>郵件、Teams、會議紀錄</span></div>
+    <div class="kv"><span class="lbl">產出</span><span>Excel 追蹤表、雙週狀態更新草稿</span></div>
+    <div class="kv"><span class="lbl">衡量指標</span><span>上架週期；追蹤工時</span></div>
+    <div class="kv"><span class="lbl">對應官方任務</span><span><a href="#t-09">Task 09</a> <a href="#t-18">Task 18</a></span></div>
+  </div>
+  <div class="prompt">
+    <div class="prompt-head"><span class="lbl">金融業範例 Prompt（可直接貼上，把 [ ] 換成自己的內容）</span><button type="button" class="copy" data-copy="p-S13">複製</button></div>
+    <div class="prompt-body" id="p-S13"><p>我要啟動 [XX 商品] 上架專案。檢視過去 4 週相關郵件、Teams 對話與會議紀錄，整理各關卡（法遵審查、風控評估、IT 開發、行銷文宣、教育訓練）的負責人、狀態、待辦與阻礙，建立 Excel 追蹤表。</p><p>之後每兩週產出一份狀態更新草稿給指導委員會，先給我審閱再寄。存成 skill。</p></div>
+  </div>
+  <div class="gov"><span class="lbl">審核閘門 Gate</span>更新草稿審閱後寄。</div>
+</article>
+
+<article class="task" id="S14" data-domain="D" data-wave="3" data-sens="mid" data-dep="fabric" data-act="assemble draft">
+  <header class="task-head">
+    <div class="task-id">S14</div>
+    <div class="task-titles"><h3>董事會／管理會議資料包</h3><div class="en">Board Pack Assembler</div></div>
+    <div class="task-meta"><span class="chip dom dom-D">IT／資安／委外／跨部門</span><span class="chip wave wave-3">第 3 波</span><span class="chip sens sens-mid">敏感度 中</span><span class="chip dep dep-fabric">M365 + Fabric IQ</span></div>
+  </header>
+  <div class="task-aud"><span class="chip act">拼湊 Assemble</span><span class="chip act">撰寫 Draft</span><span class="chip aud">適用：董事會秘書、幕僚、策略</span></div>
+  <div class="go">
+    <div class="box pain"><span class="lbl">痛點 Pain</span>各部門提交格式不一，幕僚熬夜整合；數字來源難追。</div>
+    <div class="box"><span class="lbl">今天怎麼做 As-is</span>幕僚逐份改格式、手動對數字，開會前一晚定稿。</div>
+  </div>
+  <div class="box tobe"><span class="lbl">Cowork 場景 To-be</span>依範本整合各部門檔案＋Fabric IQ 經營指標 → 議程、每案一頁摘要、附件索引，數字標來源。</div>
+  <div class="kvgrid">
+    <div class="kv"><span class="lbl">根植來源</span><span>SharePoint 董事會資料夾、Fabric IQ</span></div>
+    <div class="kv"><span class="lbl">產出</span><span>議程草案、摘要、附件索引</span></div>
+    <div class="kv"><span class="lbl">衡量指標</span><span>幕僚整合工時；數字更正次數</span></div>
+    <div class="kv"><span class="lbl">對應官方任務</span><span><a href="#t-20">Task 20</a></span></div>
+  </div>
+  <div class="prompt">
+    <div class="prompt-head"><span class="lbl">金融業範例 Prompt（可直接貼上，把 [ ] 換成自己的內容）</span><button type="button" class="copy" data-copy="p-S14">複製</button></div>
+    <div class="prompt-body" id="p-S14"><p>依「董事會資料範本」整合 SharePoint「[月份] 董事會」資料夾中各部門提交的檔案，並從 Fabric IQ 取得本月關鍵經營指標。</p><p>產出：議程草案、每案一頁摘要（背景、決議事項、數字標來源）、附件索引。建構前先給我看架構；有數字不一致處標出，不要自行調整。</p></div>
+  </div>
+  <div class="gov"><span class="lbl">審核閘門 Gate</span>建構前先看架構；數字不一致處標出、不自行調整。</div>
+</article>
+
+<article class="task" id="S15" data-domain="D" data-wave="2" data-sens="low" data-dep="native" data-act="chase">
+  <header class="task-head">
+    <div class="task-id">S15</div>
+    <div class="task-titles"><h3>法定訓練與證照到期追蹤</h3><div class="en">Training &amp; License Tracker</div></div>
+    <div class="task-meta"><span class="chip dom dom-D">IT／資安／委外／跨部門</span><span class="chip wave wave-2">第 2 波</span><span class="chip sens sens-low">敏感度 低</span><span class="chip dep dep-native">純 M365</span></div>
+  </header>
+  <div class="task-aud"><span class="chip act">追蹤 Chase</span><span class="chip aud">適用：人資、法遵、單位主管</span></div>
+  <div class="go">
+    <div class="box pain"><span class="lbl">痛點 Pain</span>AML、資安、公平待客訓練時數與證照到期靠人資手動催。</div>
+    <div class="box"><span class="lbl">今天怎麼做 As-is</span>人資每季匯出報表、逐一寄信提醒。</div>
+  </div>
+  <div class="box tobe"><span class="lbl">Cowork 場景 To-be</span>從人資匯出檔＋郵件 → 到期清單、未達標清單（依單位彙總）、提醒郵件草稿。</div>
+  <div class="kvgrid">
+    <div class="kv"><span class="lbl">根植來源</span><span>SharePoint 人資訓練紀錄、郵件</span></div>
+    <div class="kv"><span class="lbl">產出</span><span>到期／未達標清單、提醒郵件草稿</span></div>
+    <div class="kv"><span class="lbl">衡量指標</span><span>逾期未完訓人數；證照逾期件數</span></div>
+    <div class="kv"><span class="lbl">對應官方任務</span><span><a href="#t-17">Task 17</a></span></div>
+  </div>
+  <div class="prompt">
+    <div class="prompt-head"><span class="lbl">金融業範例 Prompt（可直接貼上，把 [ ] 換成自己的內容）</span><button type="button" class="copy" data-copy="p-S15">複製</button></div>
+    <div class="prompt-body" id="p-S15"><p>讀取 SharePoint「人資-訓練紀錄」中的訓練時數匯出檔與證照清冊，以及我收件匣中訓練單位的通知。</p><p>產出：(1) 60 天內證照到期人員清單；(2) 年度法定訓練（AML、資安、公平待客）時數未達標人員清單，依單位彙總；(3) 給各單位主管的提醒郵件草稿。不要送出，先給我看。</p></div>
+  </div>
+  <div class="gov"><span class="lbl">審核閘門 Gate</span>提醒郵件草稿不寄。</div>
+</article>
+</div></section>
+
+<section class="block" id="matrix"><div class="wrap">
+  <h2>優先順序：價值 × 可行性</h2>
+  <p class="sub">價值看省下的工時能否轉成更多客戶拜訪或更少缺失；可行性看資料是否已在 M365、敏感度、是否需要 Fabric IQ。</p>
+  <div class="matrix">
+    <div class="ylab">價值 →</div><div class="q q-strategic"><b>策略型</b><small>高價值、需 Fabric IQ／資料準備</small><ul><li><a href="#S7">S7 企金授信報告初稿</a></li><li><a href="#S8">S8 貸後管理與 covenant 監控週報</a></li><li><a href="#S14">S14 董事會／管理會議資料包</a></li></ul></div><div class="q q-quick"><b>Quick win（先做）</b><small>高價值、高可行</small><ul><li><a href="#S1">S1 法規變動雷達</a></li><li><a href="#S2">S2 金檢／稽核缺失改善追蹤</a></li><li><a href="#S3">S3 文宣與揭露合規預審</a></li><li><a href="#S5">S5 理專客戶會前簡報包</a></li><li><a href="#S6">S6 客戶會後紀錄與追蹤</a></li><li><a href="#S9">S9 分行主管晨會指揮中心</a></li><li><a href="#S11">S11 強制休假／職務輪調交接</a></li></ul></div><div class="q q-careful"><b>謹慎處理</b><small>高敏感、分階段</small><ul><li><a href="#S4">S4 AML 定期審查文件彙整</a></li><li><a href="#S10">S10 客訴與作業風險模式分析</a></li><li><a href="#S12">S12 委外廠商與資安法遵文件檢核</a></li></ul></div><div class="q q-support"><b>輔助型</b><small>可行但價值較低</small><ul><li><a href="#S13">S13 新商品上架跨部門追蹤</a></li><li><a href="#S15">S15 法定訓練與證照到期追蹤</a></li></ul></div>
+    <div class="xlab">可行性 →</div>
+  </div>
+</div></section>
+
+<section class="block" id="waves"><div class="wrap">
+  <h2>三波試點</h2>
+  <p class="sub">第一次會議只帶三個：S1 法規變動雷達、S3 文宣合規預審、S11 強制休假交接。反例：若法遵部門對 AI 極度保守，改從分行營運（S9、S11）切入。</p>
+  <div class="steps3"><div class="card"><span class="kicker">法遵／稽核／作業風險</span><h3>第一波（0–8 週）</h3><p>唯讀或草稿、資料已在 SharePoint 與郵件；成功後由法遵背書。</p><ul><li><a href="#S1">S1 法規變動雷達</a></li><li><a href="#S2">S2 金檢／稽核缺失改善追蹤</a></li><li><a href="#S3">S3 文宣與揭露合規預審</a></li><li><a href="#S11">S11 強制休假／職務輪調交接</a></li></ul></div><div class="card"><span class="kicker">前台與分行</span><h3>第二波</h3><p>需 Teams 逐字稿政策與 Fabric IQ 就位。</p><ul><li><a href="#S5">S5 理專客戶會前簡報包</a></li><li><a href="#S6">S6 客戶會後紀錄與追蹤</a></li><li><a href="#S9">S9 分行主管晨會指揮中心</a></li><li><a href="#S13">S13 新商品上架跨部門追蹤</a></li><li><a href="#S15">S15 法定訓練與證照到期追蹤</a></li></ul></div><div class="card"><span class="kicker">企金／幕僚／高敏感單位</span><h3>第三波</h3><p>高價值但需資料平台與案件資料夾標準化；高敏感場景需敏感度標籤、DLP、受限站台。</p><ul><li><a href="#S4">S4 AML 定期審查文件彙整</a></li><li><a href="#S7">S7 企金授信報告初稿</a></li><li><a href="#S8">S8 貸後管理與 covenant 監控週報</a></li><li><a href="#S10">S10 客訴與作業風險模式分析</a></li><li><a href="#S12">S12 委外廠商與資安法遵文件檢核</a></li><li><a href="#S14">S14 董事會／管理會議資料包</a></li></ul></div></div>
+</div></section>
+
+<section class="block" id="notdo"><div class="wrap">
+  <h2>Cowork 明確「不做」的事</h2>
+  <p class="sub">在金融業提案裡，這一段比功能清單更重要。</p>
+  <div class="grid3"><div class="card nd"><h3>不直接連核心系統／CRM／AML 系統</h3><p>Cowork 讀的是 M365 裡的文件與對話；連接其他系統需透過 connector 並經委外評估。</p></div><div class="card nd"><h3>不做授信、核保、理賠決策</h3><p>只產生初稿、清單與引用地圖；決策與簽核仍是人。</p></div><div class="card nd"><h3>不對客戶或主管機關送出任何訊息</h3><p>一律草稿、人工送出；溝通留存與審核義務由人負責。</p></div><div class="card nd"><h3>不做即時交易監控或詐欺偵測</h3><p>那是其他產品的領域；Cowork 是知識工作的交辦，不是交易系統。</p></div><div class="card nd"><h3>不提供人際互動圖給主管</h3><p>會觸及員工監控敏感點；若使用，只給本人視角。</p></div></div>
+</div></section>
+
+<section class="block" id="ready"><div class="wrap">
+  <h2>開始前你需要準備什麼（起步前提）</h2>
+  <p class="sub">真正的門檻不是 AI，是資料就位（data readiness）。文件還在檔案伺服器或公文系統的單位，Cowork 會「看不到東西」，PoC 會因此失敗。</p>
+  <table><thead><tr><th style="width:28%">前提</th><th>為什麼重要</th><th style="width:16%">負責單位</th></tr></thead><tbody><tr><td><b>1. 文件在 SharePoint／OneDrive</b></td><td>Cowork 看不到檔案伺服器、公文系統或核心系統附件；試點單位的文件要先搬到指定資料夾。</td><td>IT／各單位</td></tr><tr><td><b>2. 敏感度標籤與 DLP 就位（Purview）</b></td><td>決定 Cowork 能讀什麼、產出能分享到哪；S4、S10、S12 的前提。</td><td>資安／法遵</td></tr><tr><td><b>3. Teams 會議錄製／轉錄政策</b></td><td>S6 依賴逐字稿；若政策關閉，改用口述筆記版。</td><td>資安／人資</td></tr><tr><td><b>4. Fabric IQ 連接與可用性確認</b></td><td>S7、S8、S9、S14 的數據來源；以 tenant 實際配置為準。</td><td>資料平台／IT</td></tr><tr><td><b>5. 指定資料夾與範本標準化</b></td><td>授信報告範本、客訴回覆函範本、檢核表等要有可讀的正式版。</td><td>各業務單位</td></tr><tr><td><b>6. 試點單位與衡量指標事先定義</b></td><td>每個場景一個能被財務部門認可的指標，不只是「員工比較輕鬆」。</td><td>專案辦公室</td></tr></tbody></table>
+</div></section>
+
+<section class="block" id="ext"><div class="wrap">
+  <h2>保險／證券延伸</h2>
+  <p class="sub">同樣的五種動作在保險與證券投信一樣成立；以下六個場景沿用銀行場景的邏輯，只換來源與範本。</p>
+  <div class="grid3"><div class="card ext"><span class="kicker">保險 · 邏輯同 S7／Task 15</span><h3>I1 理賠爭議案件研究包</h3><p>條款＋判例＋案件文件 → 爭點摘要、時序、引用地圖；不做理賠決定。</p></div><div class="card ext"><span class="kicker">保險 · 邏輯同 S5</span><h3>I2 業務員保單健檢會前包</h3><p>客戶既有保單、過往互動、核准版商品說明 → 一頁會前簡報＋合規提醒。</p></div><div class="card ext"><span class="kicker">保險 · 邏輯同 S3／Task 16</span><h3>I3 核保文件缺件清單</h3><p>依核保檢核表逐件檢核要保文件齊備性 → 缺件清單，不改檔。</p></div><div class="card ext"><span class="kicker">證券／投信 · 邏輯同 Task 05／19</span><h3>C1 法說會逐字稿→晨報初稿</h3><p>法說會逐字稿與簡報 → 重點、指引變動、Q&amp;A 摘要，數字標出處。</p></div><div class="card ext"><span class="kicker">證券／投信 · 邏輯同 S6／Task 19</span><h3>C2 投資決策會議紀錄與追蹤</h3><p>投決會逐字稿 → 決議、持倉調整待辦、追蹤表；符合留存格式。</p></div><div class="card ext"><span class="kicker">證券／投信 · 邏輯同 S8／Task 07</span><h3>C3 基金月報初稿</h3><p>Fabric IQ 績效數據＋核准版市場評論 → 月報初稿，審閱後定稿。</p></div></div>
+</div></section>
+
+<section class="block" id="appendix"><div class="wrap">
+  <h2>附錄：官方 Cowork Task Pack 20 個任務對照</h2>
+  <p class="sub">來源：Microsoft「Copilot Cowork Task Pack for All Functions」（26 頁）。展開任一任務可看原版 Goal／Output／Prompt 忠實翻譯；「→」為對應的金融業場景。●●● 為金融業適配度。</p>
+  <details class="trow" id="t-01"><summary><span class="tid">Task 01</span><span class="ttitle">重整一週行程、保護專注時間 <small>Rebalance your week and protect focus time</small></span><span class="chip tier tier-L">輕量任務</span><span class="chip dep dep-native">純 M365 原生</span><span class="fit">●●○</span><span class="mapped">→ <a href="#S5">S5</a></span></summary>
+<div class="tbody"><div class="kv"><span class="lbl">Goal</span><span>在零碎的行事曆掌控你的一週之前，先掌控它。</span></div><div class="kv"><span class="lbl">Output</span><span>一份重新平衡的行程：保護專注時間、優先高影響力會議、解決衝突——不必手動協調自己的空檔。</span></div><div class="kv"><span class="lbl">依賴</span><span>純 M365 原生</span></div><div class="kv"><span class="lbl">原版閘門</span><span>每項變更需逐一核准後才執行</span></div>
+<div class="prompt"><div class="prompt-head"><span class="lbl">原版 Prompt（忠實翻譯）</span><button type="button" class="copy" data-copy="po-01">複製</button></div><div class="prompt-body" id="po-01"><p>幫我整理這一週。檢視我的 Outlook 行事曆。</p><p>首先給我一份摘要：會議總數與總時數、哪裡有 2 小時以上的專注時間、會議最多的日子。</p><p>在做任何變更前，先問我釐清問題：我的主管與管理鏈（註明他們是否在會議中、與會人數）、我這週想達成什麼、如何排定衝突的優先順序、個人行程、哪些會議要婉拒或縮短。</p><p>然後提出變更建議並附說明：要接受／婉拒／改期的會議、要解決的衝突（包含寄信給主辦人）、要新增的專注時段。從影響最大的變更開始。</p><p>我核准每項變更後，逐一直接修改我的行事曆。</p><p>後續提示：接受與婉拒會議。建立客戶會議準備文件。</p></div></div></div></details><details class="trow" id="t-02"><summary><span class="tid">Task 02</span><span class="ttitle">專案結案並整理所有相關文件 <small>Wrap up projects and organize all related work</small></span><span class="chip tier tier-L">輕量任務</span><span class="chip dep dep-native">純 M365 原生</span><span class="fit">●●○</span><span class="mapped">→ —</span></summary>
+<div class="tbody"><div class="kv"><span class="lbl">Goal</span><span>用一份乾淨、可分享的歸檔結束專案——不是一堆散落的檔案。</span></div><div class="kv"><span class="lbl">Output</span><span>一個 OneDrive 資料夾，收齊專案交付物與參考資料，分享給團隊，讓成果可被找到、易於參考。</span></div><div class="kv"><span class="lbl">依賴</span><span>純 M365 原生</span></div><div class="kv"><span class="lbl">原版閘門</span><span>原版無明確閘門（直接移動並分享）；金融業版建議加上「先列清單確認」</span></div>
+<div class="prompt"><div class="prompt-head"><span class="lbl">原版 Prompt（忠實翻譯）</span><button type="button" class="copy" data-copy="po-02">複製</button></div><div class="prompt-body" id="po-02"><p>我剛完成 [專案名稱] 專案。</p><p>找出我 OneDrive 中所有與此專案相關的檔案——文件、簡報、試算表。</p><p>建立名為「[專案名稱] – Archive」的新資料夾並把所有檔案移入。將歸檔資料夾分享給 [專案名稱] 團隊，讓他們有乾淨的參考來源。</p><p>然後為此歸檔建立一頁輕量 HTML 回顧頁——專案成果、關鍵貢獻者、主要交付物連結，以及置頂一段「交付了什麼」摘要——讓歸檔可導覽，而不只是一個資料夾。</p></div></div></div></details><details class="trow" id="t-03"><summary><span class="tid">Task 03</span><span class="ttitle">把文件或簡報轉成視覺化框架 <small>Turn a document or deck into a visual framework</small></span><span class="chip tier tier-L">輕量任務</span><span class="chip dep dep-plugin">第三方 Plugin</span><span class="fit">●○○</span><span class="mapped">→ —</span></summary>
+<div class="tbody"><div class="kv"><span class="lbl">Goal</span><span>把密密麻麻的文字內容變成團隊真的會互動的清楚視覺——不必花整個下午手工重畫。</span></div><div class="kv"><span class="lbl">Output</span><span>一份 Miro 視覺——流程圖、心智圖或框架圖——把來源內容轉成乾淨、可直接簡報的格式。</span></div><div class="kv"><span class="lbl">依賴</span><span>第三方 Plugin：Miro → PowerPoint 圖表／SmartArt</span></div><div class="kv"><span class="lbl">原版閘門</span><span>無需閘門（只產生新視覺，不修改來源）</span></div>
+<div class="prompt"><div class="prompt-head"><span class="lbl">原版 Prompt（忠實翻譯）</span><button type="button" class="copy" data-copy="po-03">複製</button></div><div class="prompt-body" id="po-03"><p>把 [文件或簡報名稱] 的關鍵內容轉成 Miro 視覺——依內容最適合的方式選擇流程圖、心智圖或結構化框架圖。</p><p>用框架、圖形與文字保持乾淨、可直接簡報。</p></div></div></div></details><details class="trow" id="t-04"><summary><span class="tid">Task 04</span><span class="ttitle">從流程描述繪製工作流程圖 <small>Map a workflow from a process description</small></span><span class="chip tier tier-L">輕量任務</span><span class="chip dep dep-plugin">第三方 Plugin</span><span class="fit">●●○</span><span class="mapped">→ —</span></summary>
+<div class="tbody"><div class="kv"><span class="lbl">Goal</span><span>讓工作流可分享、可檢視、可改善——不必花好幾小時手工畫圖。</span></div><div class="kv"><span class="lbl">Output</span><span>一份清楚的 Miro 流程圖，搭配一份敘事文件，記錄目的、負責人、交接點與風險——把口耳相傳的知識變成團隊可行動的資產。</span></div><div class="kv"><span class="lbl">依賴</span><span>第三方 Plugin：Miro → PowerPoint 流程圖 + Word 敘事文件</span></div><div class="kv"><span class="lbl">原版閘門</span><span>無需閘門（只產生新文件）</span></div>
+<div class="prompt"><div class="prompt-head"><span class="lbl">原版 Prompt（忠實翻譯）</span><button type="button" class="copy" data-copy="po-04">複製</button></div><div class="prompt-body" id="po-04"><p>把 [流程或工作流名稱] 畫成 Miro 流程圖。</p><p>從 [文件、會議記錄或我的描述] 抽出步驟、決策點與負責人。</p><p>使用 Miro 的圖表版面，圖形與連接線標示清楚。頂端加一個框架，寫上工作流名稱、目的與任何待釐清問題。</p><p>然後在流程圖旁建立一份 Miro 文件，摘要工作流敘事——它做什麼、服務誰、交接點在哪、值得標記的風險或瓶頸。</p></div></div></div></details><details class="trow" id="t-05"><summary><span class="tid">Task 05</span><span class="ttitle">把來源內容變成簡報 <small>Turn source content into a deck</small></span><span class="chip tier tier-L">輕量任務</span><span class="chip dep dep-plugin">第三方 Plugin</span><span class="fit">●○○</span><span class="mapped">→ —</span></summary>
+<div class="tbody"><div class="kv"><span class="lbl">Goal</span><span>用你已有的內容做出一份可用的簡報——不必從空白投影片開始。</span></div><div class="kv"><span class="lbl">Output</span><span>一份可直接簡報的 Prezi 簡報，由來源內容建構，分成清楚章節並套用視覺。</span></div><div class="kv"><span class="lbl">依賴</span><span>第三方 Plugin：Prezi → PowerPoint</span></div><div class="kv"><span class="lbl">原版閘門</span><span>無需閘門</span></div>
+<div class="prompt"><div class="prompt-head"><span class="lbl">原版 Prompt（忠實翻譯）</span><button type="button" class="copy" data-copy="po-05">複製</button></div><div class="prompt-body" id="po-05"><p>用 [來源——例如會議逐字稿、筆記、文件] 在 Prezi 建立 [X] 頁簡報，涵蓋重點。</p><p>結構：標題頁、主要主題的分節頁、結尾的下一步。</p><p>套用乾淨的視覺處理，語言精簡——讓結構帶出故事。</p></div></div></div></details><details class="trow" id="t-06"><summary><span class="tid">Task 06</span><span class="ttitle">補齊未回訊息並自動回覆 <small>Catch up on messages and send replies automatically</small></span><span class="chip tier tier-E">日常工作流</span><span class="chip dep dep-native">純 M365 原生</span><span class="fit">●○○</span><span class="mapped">→ <a href="#S6">S6</a></span></summary>
+<div class="tbody"><div class="kv"><span class="lbl">Goal</span><span>把沒回答的問題收尾——不必往回捲一週的對話串。</span></div><div class="kv"><span class="lbl">Output</span><span>例行的確認訊息自動處理、較重要的回覆先草擬給你審閱——讓你保持回應、卻不必花好幾小時補進度。</span></div><div class="kv"><span class="lbl">依賴</span><span>純 M365 原生</span></div><div class="kv"><span class="lbl">原版閘門</span><span>部分：實質回覆先草擬；「收到」類確認會自動送出</span></div>
+<div class="prompt"><div class="prompt-head"><span class="lbl">原版 Prompt（忠實翻譯）</span><button type="button" class="copy" data-copy="po-06">複製</button></div><div class="prompt-body" id="po-06"><p>檢視我本週的 Teams 訊息與郵件，找出有人直接問我、而我尚未回覆的。</p><p>只需要快速確認或「收到」的，直接送出回覆。需要真正回答的，先草擬給我看。</p></div></div></div></details><details class="trow" id="t-07"><summary><span class="tid">Task 07</span><span class="ttitle">自動產出並寄送每週狀態更新 <small>Generate and send your weekly status automatically</small></span><span class="chip tier tier-E">日常工作流</span><span class="chip dep dep-fabric">M365 + Fabric IQ</span><span class="fit">●●●</span><span class="mapped">→ <a href="#S2">S2</a> <a href="#S8">S8</a></span></summary>
+<div class="tbody"><div class="kv"><span class="lbl">Goal</span><span>用一份自己會寫好的狀態更新，取代週一早上的手忙腳亂。</span></div><div class="kv"><span class="lbl">Output</span><span>一份可直接寄出的週報，從你真實的會議與對話草擬而成，在週一開始時送達團隊信箱。</span></div><div class="kv"><span class="lbl">依賴</span><span>M365 + Fabric IQ</span></div><div class="kv"><span class="lbl">原版閘門</span><span>有：審閱草稿（Approve）後寄出</span></div>
+<div class="prompt"><div class="prompt-head"><span class="lbl">原版 Prompt（忠實翻譯）</span><button type="button" class="copy" data-copy="po-07">複製</button></div><div class="prompt-body" id="po-07"><p>我每週會寄一封郵件給團隊，聚焦我本週最關注的事——週一早上寄出，內容包含我最關注的事以及本週重要會議。</p><p>那些重要會議通常是主管層級，而我最關注的事與團隊正在推動的關鍵優先事項及專案相關。</p><p>從 Fabric IQ 取幾個與我們優先事項相關的關鍵指標——相較上週的進度——編進更新裡，讓狀態有真實數字支撐。</p><p>為此工作流建立一個 skill，並排程每週一早上執行。</p></div></div></div></details><details class="trow" id="t-08"><summary><span class="tid">Task 08</span><span class="ttitle">把收件匣雜訊變成精選情報週報 <small>Turn inbox noise into a curated intelligence brief</small></span><span class="chip tier tier-E">日常工作流</span><span class="chip dep dep-native">純 M365 原生</span><span class="fit">●●●</span><span class="mapped">→ <a href="#S1">S1</a></span></summary>
+<div class="tbody"><div class="kv"><span class="lbl">Goal</span><span>從一週的電子報中，直達真正影響你工作的新聞。</span></div><div class="kv"><span class="lbl">Output</span><span>一份精選週報，從你追蹤的刊物中浮現有意義的趨勢——不必花時間逐篇閱讀。</span></div><div class="kv"><span class="lbl">依賴</span><span>純 M365 原生</span></div><div class="kv"><span class="lbl">原版閘門</span><span>無需閘門（唯讀＋只寄給自己）</span></div>
+<div class="prompt"><div class="prompt-head"><span class="lbl">原版 Prompt（忠實翻譯）</span><button type="button" class="copy" data-copy="po-08">複製</button></div><div class="prompt-body" id="po-08"><p>搜尋我收件匣過去 7 天收到的所有電子報、摘要與產業刊物。</p><p>然後撰寫一篇精緻、文章式的週報，分四節：(1) [公司] 內部電子報、(2) AI 與科技新聞、(3) 國際時事／新聞刊物、(4) [你的產業]——把各節的重點故事與主題編成流暢的敘事段落，不要條列。</p><p>排除個人或消費類電子報（硬體、食物銀行募款等）。</p><p>結尾用 2–3 句主線串起本週主題。以可讀的文章形式直接輸出。內文附上原始郵件連結，方便我想深入閱讀。</p><p>然後作為第二部分，挑出週報中的頭條，做一份深度研究報告——找出每則背後的原始來源、摘要實質內容、呈現脈絡、關鍵數據與對我工作的「so what」。以獨立的研究附件交付。</p><p>每週五下午寄給我。</p></div></div></div></details><details class="trow" id="t-09"><summary><span class="tid">Task 09</span><span class="ttitle">從工作脈絡建立專案看板 <small>Build a project board from work context</small></span><span class="chip tier tier-E">日常工作流</span><span class="chip dep dep-plugin">第三方 Plugin</span><span class="fit">●○○</span><span class="mapped">→ <a href="#S13">S13</a></span></summary>
+<div class="tbody"><div class="kv"><span class="lbl">Goal</span><span>不必手動建置就能長出一個範圍完整的專案看板——不用從郵件複製、追負責人、或從零散對話拼任務清單。</span></div><div class="kv"><span class="lbl">Output</span><span>一個可直接運作的 monday.com 看板，根植於你的實際工作——負責人、狀態、優先順序已就位，團隊可以直接接手。</span></div><div class="kv"><span class="lbl">依賴</span><span>第三方 Plugin：monday.com → Planner／SharePoint 清單／Excel 追蹤表</span></div><div class="kv"><span class="lbl">原版閘門</span><span>無明確閘門（直接建立看板）</span></div>
+<div class="prompt"><div class="prompt-head"><span class="lbl">原版 Prompt（忠實翻譯）</span><button type="button" class="copy" data-copy="po-09">複製</button></div><div class="prompt-body" id="po-09"><p>我要啟動 [專案名稱]。檢視我過去 [X 週] 的郵件、Teams 對話與相關檔案，理解範圍、利害關係人與待辦任務。</p><p>然後建立一個 monday.com 看板，結構如下：專案名稱、任務負責人、狀態、到期日、優先順序。</p><p>依工作流分組任務。</p></div></div></div></details><details class="trow" id="t-10"><summary><span class="tid">Task 10</span><span class="ttitle">從工作脈絡視覺化專案計畫 <small>Visualize a project plan from work context</small></span><span class="chip tier tier-E">日常工作流</span><span class="chip dep dep-plugin">第三方 Plugin</span><span class="fit">●○○</span><span class="mapped">→ —</span></summary>
+<div class="tbody"><div class="kv"><span class="lbl">Goal</span><span>把零散的專案全貌——郵件、會議、檔案——變成團隊能凝聚的單一視覺計畫，不必從零重建。</span></div><div class="kv"><span class="lbl">Output</span><span>一個 Miro 看板，端到端呈現專案——工作流、里程碑與負責人一目了然——搭配一張團隊可隨進度更新的追蹤表。</span></div><div class="kv"><span class="lbl">依賴</span><span>第三方 Plugin：Miro → PowerPoint 時程圖 + Excel 追蹤表</span></div><div class="kv"><span class="lbl">原版閘門</span><span>無需閘門</span></div>
+<div class="prompt"><div class="prompt-head"><span class="lbl">原版 Prompt（忠實翻譯）</span><button type="button" class="copy" data-copy="po-10">複製</button></div><div class="prompt-body" id="po-10"><p>我正在啟動 [專案名稱]。檢視我過去 [X 週] 的郵件、會議與檔案，找出關鍵工作流、里程碑與相依性。</p><p>然後建立一個 Miro 看板，以時間軸或泳道圖呈現專案計畫，包含負責人與到期日。</p><p>看板建好後，在時間軸下方加一張 Miro 資料表，摘要每個工作流：負責人、里程碑、到期日、狀態。</p><p>能從來源推論的先填好。</p></div></div></div></details><details class="trow" id="t-11"><summary><span class="tid">Task 11</span><span class="ttitle">從長文件抽出與團隊相關的章節 <small>Pull what&#x27;s relevant for your team from a source doc</small></span><span class="chip tier tier-E">日常工作流</span><span class="chip dep dep-plugin">第三方 Plugin</span><span class="fit">●●○</span><span class="mapped">→ <a href="#S1">S1</a></span></summary>
+<div class="tbody"><div class="kv"><span class="lbl">Goal</span><span>只給團隊長文件中真正適用於他們的部分——不必整份寄出、要他們自己找。</span></div><div class="kv"><span class="lbl">Output</span><span>一份新的聚焦文件，只含與你團隊相關的章節，存在 Box 並分享給正確群組。</span></div><div class="kv"><span class="lbl">依賴</span><span>第三方 Plugin：Box → SharePoint／OneDrive</span></div><div class="kv"><span class="lbl">原版閘門</span><span>無明確閘門（直接分享）</span></div>
+<div class="prompt"><div class="prompt-head"><span class="lbl">原版 Prompt（忠實翻譯）</span><button type="button" class="copy" data-copy="po-11">複製</button></div><div class="prompt-body" id="po-11"><p>從 Box 中的 [來源文件] 抽出與 [團隊名稱] 相關的章節，建立只含那些章節的新文件。</p><p>保留原標題與文字，讓內容不失脈絡。把新文件存在 Box 並分享給 [團隊名稱／發送清單]。</p></div></div></div></details><details class="trow" id="t-12"><summary><span class="tid">Task 12</span><span class="ttitle">準備完整的休假交接 <small>Prepare a complete out-of-office handoff</small></span><span class="chip tier tier-H">困難問題</span><span class="chip dep dep-native">純 M365 原生</span><span class="fit">●●●</span><span class="mapped">→ <a href="#S11">S11</a></span></summary>
+<div class="tbody"><div class="kv"><span class="lbl">Goal</span><span>放心離開你的電腦，知道進行中的事在你不在時不會停擺。</span></div><div class="kv"><span class="lbl">Output</span><span>一份從你真實工作建構的交接文件——專案、負責人、期限與支援檔案——讓代理清楚、執行不中斷。</span></div><div class="kv"><span class="lbl">依賴</span><span>純 M365 原生</span></div><div class="kv"><span class="lbl">原版閘門</span><span>有：所有行事曆變更保留給使用者審閱</span></div>
+<div class="prompt"><div class="prompt-head"><span class="lbl">原版 Prompt（忠實翻譯）</span><button type="button" class="copy" data-copy="po-12">複製</button></div><div class="prompt-body" id="po-12"><p>我將從這個 [日期] 起休假 [x 週]。建立一份休假追蹤表，涵蓋所有在我不在時仍需推進的專案與任務。</p><p>範圍應涵蓋本週所有團隊會議、所有郵件、所有 Teams 訊息（會議聊天、個人聊天與群組聊天）。也請分析我下週的行事曆，以及任何下週有待辦事項的專案，納入交接。大型專案需求與小型專案任務都要涵蓋。</p><p>代理人請限於我的內部團隊成員。</p><p>交接內容包含：專案名稱、專案狀態、接下來的步驟與期限、需完成的待辦事項、我不在時由誰代理、相關文件連結。</p><p>然後針對休假期間處理我的行事曆：設定自動回覆、婉拒或轉交我受邀的非關鍵會議、標記我主持而應改期或代理的會議。所有行事曆變更先保留給我審閱。</p></div></div></div></details><details class="trow" id="t-13"><summary><span class="tid">Task 13</span><span class="ttitle">大規模分析並優化你的 OneDrive <small>Analyze and optimize your OneDrive at scale</small></span><span class="chip tier tier-H">困難問題</span><span class="chip dep dep-native">純 M365 原生</span><span class="fit">●●○</span><span class="mapped">→ —</span></summary>
+<div class="tbody"><div class="kv"><span class="lbl">Goal</span><span>把蔓生的 OneDrive 變成真的能採取行動的結構化目錄。</span></div><div class="kv"><span class="lbl">Output</span><span>一份檔案整理計畫與視覺總覽——清理決策排隊等你核准。</span></div><div class="kv"><span class="lbl">依賴</span><span>純 M365 原生</span></div><div class="kv"><span class="lbl">原版閘門</span><span>有：行動前先呈現計畫供核准</span></div>
+<div class="prompt"><div class="prompt-head"><span class="lbl">原版 Prompt（忠實翻譯）</span><button type="button" class="copy" data-copy="po-13">複製</button></div><div class="prompt-body" id="po-13"><p>分析我的 OneDrive。盤點並分類所有檔案。</p><p>建立一份動態 HTML 簡報，呈現檔案的處置、年齡、相關性、客戶、產品等。簡報不超過六個捲動畫面，含主管總覽與動畫互動。第六個畫面保留給建議。</p><p>建立一份優化與重整檔案的計畫。計畫應包含要刪除的資料夾與檔案，你會把原名前面加上「Delete_」重新命名，並全部放進一個 Delete 資料夾。</p><p>在行動前先把計畫給我看。</p></div></div></div></details><details class="trow" id="t-14"><summary><span class="tid">Task 14</span><span class="ttitle">建立你的主管指揮中心 <small>Build your executive command center</small></span><span class="chip tier tier-H">困難問題</span><span class="chip dep dep-fabric">M365 + Fabric IQ</span><span class="fit">●●●</span><span class="mapped">→ <a href="#S5">S5</a> <a href="#S9">S9</a></span></summary>
+<div class="tbody"><div class="kv"><span class="lbl">Goal</span><span>每天一開始就知道該聚焦哪裡——不必捲過郵件、會議與聊天自己拼湊。</span></div><div class="kv"><span class="lbl">Output</span><span>一個個人化、互動式的 HTML 指揮中心，呈現本週需要你注意的事、時間花在哪裡，以及根植於真實訊號的一、兩個處方式建議。</span></div><div class="kv"><span class="lbl">依賴</span><span>M365 + Fabric IQ</span></div><div class="kv"><span class="lbl">原版閘門</span><span>無需閘門（唯讀分析＋產生新檔）</span></div>
+<div class="prompt"><div class="prompt-head"><span class="lbl">原版 Prompt（忠實翻譯）</span><button type="button" class="copy" data-copy="po-14">複製</button></div><div class="prompt-body" id="po-14"><p>建立一個名為「Executive Command Center」的互動式 HTML 儀表板，根據我的工作模式、溝通、優先事項與業務績效指標，顯示今天與本週需要我注意的事。</p><p>包含：</p><p>• 標題列：本週脈絡與緊急行動橫幅</p><p>• 1–2 個高優先警示，附清楚的行動呼籲</p><p>• 三個情境磚：今日下一個優先事項 · 最忙的一天 · 剩餘工作日</p><p>• 來自 Fabric IQ 的關鍵業務指標，作為業務健康帶——顯示現值、趨勢，標出偏離目標者</p><p>• 會議、優先事項、組織脈動的分頁檢視</p><p>• 30 天互動圖：我最常與誰合作、頻率如何</p><p>• 處方式建議，標為「加碼」「減碼」或「重新聯繫」——各對應特定人物或工作流，附明確建議行動</p><p>設計：乾淨、主管等級，圍繞「我今天該做什麼不一樣的事？」</p></div></div></div></details><details class="trow" id="t-15"><summary><span class="tid">Task 15</span><span class="ttitle">執行附引用地圖的深度研究 <small>Run deep research with a citation map</small></span><span class="chip tier tier-H">困難問題</span><span class="chip dep dep-fabric">M365 + Fabric IQ</span><span class="fit">●●●</span><span class="mapped">→ <a href="#S4">S4</a> <a href="#S7">S7</a></span></summary>
+<div class="tbody"><div class="kv"><span class="lbl">Goal</span><span>從「我有一個資料夾的文件該讀」變成「我有一份可以行動的結構化簡報」。</span></div><div class="kv"><span class="lbl">Output</span><span>一份根植於每份來源文件的結構化研究成果，附可點擊的引用地圖，把每個洞見連回原始檔案。明確呈現衝突、缺口與三個最強發現。</span></div><div class="kv"><span class="lbl">依賴</span><span>M365 + Fabric IQ</span></div><div class="kv"><span class="lbl">原版閘門</span><span>無需閘門（唯讀分析）</span></div>
+<div class="prompt"><div class="prompt-head"><span class="lbl">原版 Prompt（忠實翻譯）</span><button type="button" class="copy" data-copy="po-15">複製</button></div><div class="prompt-body" id="po-15"><p>我給你一個資料夾的 [PDF／研究論文／契約／報告]。完整閱讀每一份文件。</p><p>針對 [主題] 產出結構化簡報，涵蓋背景與脈絡、關鍵發現、來源間的衝突，以及三個最強洞見與理由。</p><p>把發現與 Fabric IQ 中的即時業務資料交叉比對——驗證文件與實際指標一致之處，標出分歧之處。</p><p>附上引用地圖，把每個主張連回來源文件與頁碼。</p><p>標出我應該追查的缺口或缺少的脈絡。</p></div></div></div></details><details class="trow" id="t-16"><summary><span class="tid">Task 16</span><span class="ttitle">依標準稽核文件並提出修正建議 <small>Audit files against a standard and surface fixes</small></span><span class="chip tier tier-H">困難問題</span><span class="chip dep dep-native">純 M365 原生</span><span class="fit">●●●</span><span class="mapped">→ <a href="#S3">S3</a> <a href="#S12">S12</a></span></summary>
+<div class="tbody"><div class="kv"><span class="lbl">Goal</span><span>把品牌指南、命名規範、法遵政策或品質標準套用到數十份檔案——不必逐一人工檢視，也不冒意外修改的風險。</span></div><div class="kv"><span class="lbl">Output</span><span>一份可排序的稽核報告，列出每項違規、嚴重度與建議修正——讓你有信心排定人工清理的優先順序。</span></div><div class="kv"><span class="lbl">依賴</span><span>純 M365 原生</span></div><div class="kv"><span class="lbl">原版閘門</span><span>有：不修改任何檔案，只產出行動清單</span></div>
+<div class="prompt"><div class="prompt-head"><span class="lbl">原版 Prompt（忠實翻譯）</span><button type="button" class="copy" data-copy="po-16">複製</button></div><div class="prompt-body" id="po-16"><p>稽核 [資料夾] 中的每個 [檔案／圖片／素材／文件]，比對 [我們的標準／品牌指南／法遵政策／命名規範]。每一份都完整閱讀。</p><p>依嚴重度分類違規：重大／主要／輕微。</p><p>每項違規描述問題、影響與具體建議修正。</p><p>產出可排序的 Excel 報告：檢視總數、各類違規、最常見問題、建議處理順序。</p><p>不要修改任何檔案——給我行動清單。</p></div></div></div></details><details class="trow" id="t-17"><summary><span class="tid">Task 17</span><span class="ttitle">用完整的 30-60-90 天計畫帶新人上手 <small>Onboard a new hire with a complete 30-60-90-day plan</small></span><span class="chip tier tier-H">困難問題</span><span class="chip dep dep-native">純 M365 原生</span><span class="fit">●●○</span><span class="mapped">→ <a href="#S15">S15</a></span></summary>
+<div class="tbody"><div class="kv"><span class="lbl">Goal</span><span>讓新人從第一天就走向成功——不必從零建計畫。</span></div><div class="kv"><span class="lbl">Output</span><span>一份 Word 30-60-90 天入職計畫、一個互動式「Getting started」HTML 儀表板，以及新人第一個月排定的定期 check-in。</span></div><div class="kv"><span class="lbl">依賴</span><span>純 M365 原生</span></div><div class="kv"><span class="lbl">原版閘門</span><span>無明確閘門（直接排入行事曆）</span></div>
+<div class="prompt"><div class="prompt-head"><span class="lbl">原版 Prompt（忠實翻譯）</span><button type="button" class="copy" data-copy="po-17">複製</button></div><div class="prompt-body" id="po-17"><p>我有一位新人——[姓名／職務]——將於 [到職日] 加入 [團隊名稱]。參考資料夾 [資料夾] 有你需要的一切：職務說明、簡短的團隊章程、新人應認識的 5 位關鍵利害關係人名單、以及 [團隊名稱] SharePoint 連結。</p><p>建立 30-60-90 天入職計畫（Word），含學習目標、要認識的關鍵人物、每週交付、主管 check-in 節奏。每週交付要依職務說明的責任與團隊章程的優先事項訂定，讓計畫貼合此職務。語氣務實。</p><p>然後建立互動式「Getting started」HTML 儀表板，含三階段進度追蹤、要認識的人物地圖、第一週優先事項置頂。</p><p>最後檢視我的行事曆，在新人第一個月安排每週兩次 check-in，配合我現有的空檔。</p></div></div></div></details><details class="trow" id="t-18"><summary><span class="tid">Task 18</span><span class="ttitle">自動化定期專案報告 <small>Automate recurring project reporting</small></span><span class="chip tier tier-H">困難問題</span><span class="chip dep dep-plugin">第三方 Plugin</span><span class="fit">●●○</span><span class="mapped">→ <a href="#S2">S2</a> <a href="#S13">S13</a></span></summary>
+<div class="tbody"><div class="kv"><span class="lbl">Goal</span><span>用一份自己會寫、自己會寄的狀態更新，取代「拉看板、寫更新、寄出去」的週一循環。</span></div><div class="kv"><span class="lbl">Output</span><span>一份定期的利害關係人更新——從真實看板資料草擬、依節奏交付——讓進度、風險與期限持續可見，不必有人追。</span></div><div class="kv"><span class="lbl">依賴</span><span>第三方 Plugin：monday.com → SharePoint 清單／Planner／Excel 追蹤表</span></div><div class="kv"><span class="lbl">原版閘門</span><span>原版直接寄出；金融業版建議加上審閱</span></div>
+<div class="prompt"><div class="prompt-head"><span class="lbl">原版 Prompt（忠實翻譯）</span><button type="button" class="copy" data-copy="po-18">複製</button></div><div class="prompt-body" id="po-18"><p>為 [專案名稱] 設定每兩週一次的狀態更新，資料來源為我的 [monday.com 看板]。</p><p>每次更新應強調：整體專案健康度、上次更新以來完成的任務、未來兩週到期事項、任何阻礙或風險。</p><p>草擬更新並每隔一個週一寄給 [利害關係人／發送清單]。</p><p>建立一個 skill 讓它自動執行。</p></div></div></div></details><details class="trow" id="t-19"><summary><span class="tid">Task 19</span><span class="ttitle">找出跨會議的重複模式 <small>Find patterns across your meetings</small></span><span class="chip tier tier-H">困難問題</span><span class="chip dep dep-plugin">第三方 Plugin</span><span class="fit">●●○</span><span class="mapped">→ <a href="#S6">S6</a> <a href="#S10">S10</a></span></summary>
+<div class="tbody"><div class="kv"><span class="lbl">Goal</span><span>浮現在你會議中反覆出現的主題——不必重聽、重讀逐字稿或靠記憶。</span></div><div class="kv"><span class="lbl">Output</span><span>一份模式報告，指出近期會議中最常見的主題，附代表性引述、出現的會議，以及每個主題的建議行動。</span></div><div class="kv"><span class="lbl">依賴</span><span>第三方 Plugin：MaestroLabs → Teams 會議逐字稿（Copilot 原生）</span></div><div class="kv"><span class="lbl">原版閘門</span><span>無需閘門（唯讀分析）</span></div>
+<div class="prompt"><div class="prompt-head"><span class="lbl">原版 Prompt（忠實翻譯）</span><button type="button" class="copy" data-copy="po-19">複製</button></div><div class="prompt-body" id="po-19"><p>用 MaestroLabs 檢視我 [時間範圍——例如過去 30 天] 所有的 [會議類型——例如客戶電話、團隊站會、夥伴檢討]，告訴我最常出現什麼。</p><p>找出最常重複的主題——[例如：反對意見、功能需求、阻礙、決策、疑慮]——依出現頻率排序。</p><p>每個主題給我 1–2 句摘要、兩三段會議中的代表性引述、主題出現的會議，以及我應採取的建議行動。</p><p>以可行動的結構化模式報告交付。</p></div></div></div></details><details class="trow" id="t-20"><summary><span class="tid">Task 20</span><span class="ttitle">準備主管層級更新簡報 <small>Prepare a leadership update</small></span><span class="chip tier tier-H">困難問題</span><span class="chip dep dep-plugin">第三方 Plugin</span><span class="fit">●●○</span><span class="mapped">→ <a href="#S14">S14</a></span></summary>
+<div class="tbody"><div class="kv"><span class="lbl">Goal</span><span>帶著一份符合品牌、切中訊息、根植於團隊真實工作的簡報走進主管更新——不必每個週期從零重建。</span></div><div class="kv"><span class="lbl">Output</span><span>一份在 Templafy 中使用組織核准範本與品牌標準的主管級簡報——涵蓋進度、優先事項與展望——來源是你的真實工作脈絡。</span></div><div class="kv"><span class="lbl">依賴</span><span>第三方 Plugin：Templafy → 組織範本庫（SharePoint／PowerPoint 範本）</span></div><div class="kv"><span class="lbl">原版閘門</span><span>有：建構前先呈現簡報架構（Review gate）</span></div>
+<div class="prompt"><div class="prompt-head"><span class="lbl">原版 Prompt（忠實翻譯）</span><button type="button" class="copy" data-copy="po-20">複製</button></div><div class="prompt-body" id="po-20"><p>為 [受眾] 準備一份 [X] 頁的 [更新類型——例如主管檢討、董事會更新、業務檢討]，主題為 [主題／期間]。</p><p>用 Templafy 套用我們的標準企業主題。</p><p>內容從我近期的郵件、會議、檔案與 [特定來源——例如季度檢討資料夾、OKR 追蹤表] 取得，讓更新根植於真實工作。</p><p>簡報結構：開場摘要、[2–4] 個核心優先事項各一頁、進度追蹤（正常與風險）、結尾向主管提出的請求或需要的決策。</p></div></div></div></details>
+</div></section>
+
+<footer><div class="wrap">金融業場景、Prompt、優先順序與治理註記為本頁編者依實務判斷所加，僅供說明與討論，不構成產品承諾。結果會因組織配置、權限、資料品質與產品可用性而異。官方任務內容改編自 Microsoft「Copilot Cowork Task Pack for All Functions」。</div></footer>
+<div class="toast" id="toast">已複製 Prompt</div>
+<script>
+(function(){
+  var state={domain:"",wave:"",act:"",sens:"",dep:"",q:""};
+  var tasks=Array.prototype.slice.call(document.querySelectorAll("#scenarios .task"));var count=document.getElementById("count");
+  function apply(){var n=0,q=state.q.trim().toLowerCase();tasks.forEach(function(t){var ok=true;
+    if(state.domain&&t.dataset.domain!==state.domain)ok=false;if(state.wave&&t.dataset.wave!==state.wave)ok=false;
+    if(state.act&&t.dataset.act.split(" ").indexOf(state.act)<0)ok=false;if(state.sens&&t.dataset.sens!==state.sens)ok=false;if(state.dep&&t.dataset.dep!==state.dep)ok=false;
+    if(ok&&q&&t.textContent.toLowerCase().indexOf(q)<0)ok=false;t.hidden=!ok;if(ok)n++;});count.textContent="顯示 "+n+" / "+tasks.length+" 個場景";}
+  document.querySelectorAll(".fgroup").forEach(function(g){var key=g.dataset.key;g.addEventListener("click",function(ev){var b=ev.target.closest("button");if(!b)return;g.querySelectorAll("button").forEach(function(x){x.setAttribute("aria-pressed","false");});b.setAttribute("aria-pressed","true");state[key]=b.dataset.v;apply();});});
+  document.getElementById("q").addEventListener("input",function(ev){state.q=ev.target.value;apply();});
+  var toast=document.getElementById("toast"),tm;
+  document.addEventListener("click",function(ev){var b=ev.target.closest(".copy");if(!b)return;var el=document.getElementById(b.dataset.copy);if(!el)return;
+    var txt=Array.prototype.map.call(el.querySelectorAll("p"),function(p){return p.textContent;}).join("\n");
+    function done(){toast.classList.add("show");clearTimeout(tm);tm=setTimeout(function(){toast.classList.remove("show");},1400);}
+    function fb(s){var ta=document.createElement("textarea");ta.value=s;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,function(){fb(txt);done();});}else{fb(txt);done();}});
+  apply();
+})();
+</script>
+</body></html>
