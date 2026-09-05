@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="為什麼金融業需要 Microsoft 365 Copilot 與 Copilot Cowork？從省時間到創造新能力的 AI 價值成熟度模型。">
+<title>為什麼金融業需要 Microsoft 365 Copilot 與 Copilot Cowork？</title>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#070b17;
+  --bg-2:#0d1428;
+  --surface:rgba(255,255,255,.055);
+  --surface-2:rgba(255,255,255,.10);
+  --border:rgba(255,255,255,.12);
+  --text:#f4f6fb;
+  --muted:#a6b1c8;
+  --ms-blue:#0078d4;
+  --ms-blue-2:#4fb3ff;
+  --purple:#8b5cf6;
+  --teal:#2dd4bf;
+  --pink:#f472b6;
+  --amber:#fbbf24;
+  --green:#4ade80;
+  --slate:#7c8aa5;
+  --grad:linear-gradient(90deg,#4fb3ff 0%,#8b5cf6 50%,#f472b6 100%);
+  --radius:22px;
+  --font:"Segoe UI","Segoe UI Variable Text","Microsoft JhengHei","PingFang TC","Noto Sans TC","Helvetica Neue",Arial,sans-serif;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;font-family:var(--font);color:var(--text);background:var(--bg);
+  line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+a{color:inherit}
+h1,h2,h3{line-height:1.2;margin:0}
+p{margin:0}
+.wrap{width:min(1120px,92vw);margin-inline:auto}
+.grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:.5rem;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ms-blue-2);font-weight:600;padding:.4rem .9rem;border:1px solid var(--border);border-radius:999px;background:var(--surface)
+}
+.eyebrow::before{content:"";width:.5rem;height:.5rem;border-radius:50%;background:var(--ms-blue-2);box-shadow:0 0 0 0 rgba(79,179,255,.6);animation:pulse 2.2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(79,179,255,.55)}70%{box-shadow:0 0 0 10px rgba(79,179,255,0)}100%{box-shadow:0 0 0 0 rgba(79,179,255,0)}}
+
+/* ── progress + nav ─────────────────────────── */
+.progress{position:fixed;inset-block-start:0;inset-inline-start:0;width:100%;height:3px;background:var(--grad);transform-origin:0 50%;transform:scaleX(0);z-index:60}
+.nav{
+  position:sticky;inset-block-start:0;z-index:50;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  background:rgba(7,11,23,.72);border-block-end:1px solid var(--border)
+}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-block:.75rem}
+.brand{display:flex;align-items:center;gap:.6rem;font-weight:700;letter-spacing:.01em;font-size:.95rem}
+.brand .logo{display:grid;grid-template-columns:1fr 1fr;gap:2px;width:18px;height:18px}
+.brand .logo span{display:block;border-radius:1px}
+.brand .logo span:nth-child(1){background:#f25022}.brand .logo span:nth-child(2){background:#7fba00}
+.brand .logo span:nth-child(3){background:#00a4ef}.brand .logo span:nth-child(4){background:#ffb900}
+.nav-links{display:flex;gap:.25rem;list-style:none;margin:0;padding:0}
+.nav-links a{
+  display:block;padding:.45rem .85rem;border-radius:999px;text-decoration:none;color:var(--muted);font-size:.9rem;
+  transition:color .25s,background .25s
+}
+.nav-links a:hover,.nav-links a.active{color:var(--text);background:var(--surface-2)}
+@media (max-width:760px){.nav-links{display:none}}
+
+/* ── hero ────────────────────────────────────── */
+.hero{position:relative;min-height:92vh;display:grid;place-items:center;padding-block:5rem 4rem;overflow:hidden;isolation:isolate}
+.blobs{position:absolute;inset:0;z-index:-2;pointer-events:none}
+.blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55;mix-blend-mode:screen;animation:float 16s var(--ease) infinite alternate}
+.blob.b1{width:52vmax;height:52vmax;background:radial-gradient(circle,#0078d4 0%,transparent 65%);inset-block-start:-18vmax;inset-inline-start:-14vmax}
+.blob.b2{width:44vmax;height:44vmax;background:radial-gradient(circle,#8b5cf6 0%,transparent 65%);inset-block-end:-16vmax;inset-inline-end:-10vmax;animation-delay:-6s;animation-duration:20s}
+.blob.b3{width:30vmax;height:30vmax;background:radial-gradient(circle,#2dd4bf 0%,transparent 65%);inset-block-start:30%;inset-inline-start:55%;animation-delay:-11s;animation-duration:24s;opacity:.35}
+@keyframes float{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(6vw,-5vh,0) scale(1.12)}}
+.grid-bg{
+  position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse at center,#000 30%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 75%)
+}
+.hero-inner{text-align:center;max-width:920px}
+.hero h1{font-size:clamp(2rem,5.2vw,4rem);font-weight:800;letter-spacing:-.01em;margin-block:1.4rem 1.1rem}
+.hero h1 .line{display:block}
+.hero .sub{font-size:clamp(1.05rem,1.6vw,1.3rem);color:var(--muted);max-width:720px;margin-inline:auto}
+.rotator{margin-block-start:2.2rem;font-size:clamp(1.1rem,2.2vw,1.6rem);font-weight:600;min-height:2.6em;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.45rem}
+.rotator .role{
+  display:inline-block;min-width:4ch;padding:.15em .7em;border-radius:12px;background:var(--surface-2);border:1px solid var(--border);
+  color:var(--ms-blue-2);transition:opacity .35s,transform .35s
+}
+.rotator .verb{display:inline-block;transition:opacity .35s,transform .35s}
+.rotator.swap .role,.rotator.swap .verb{opacity:0;transform:translateY(-8px)}
+.cta-row{display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap;margin-block-start:2.4rem}
+.btn{
+  display:inline-flex;align-items:center;gap:.55rem;padding:.9rem 1.5rem;border-radius:999px;font-weight:600;text-decoration:none;
+  border:1px solid transparent;transition:transform .25s var(--ease),box-shadow .25s,background .25s
+}
+.btn.primary{background:var(--ms-blue);color:#fff;box-shadow:0 10px 30px -10px rgba(0,120,212,.8)}
+.btn.primary:hover{transform:translateY(-2px);box-shadow:0 16px 36px -10px rgba(0,120,212,.95)}
+.btn.ghost{background:var(--surface);border-color:var(--border);color:var(--text)}
+.btn.ghost:hover{background:var(--surface-2);transform:translateY(-2px)}
+.scroll-hint{position:absolute;inset-block-end:1.5rem;inset-inline-start:50%;transform:translateX(-50%);color:var(--muted);font-size:.8rem;letter-spacing:.2em;display:flex;flex-direction:column;align-items:center;gap:.4rem}
+.scroll-hint i{display:block;width:1px;height:38px;background:linear-gradient(180deg,var(--ms-blue-2),transparent);animation:drip 1.8s infinite}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ── sections ────────────────────────────────── */
+section{padding-block:6rem}
+.section-head{max-width:760px;margin-block-end:3rem}
+.section-head h2{font-size:clamp(1.7rem,3.6vw,2.7rem);font-weight:800;letter-spacing:-.01em;margin-block:1rem .8rem}
+.section-head p{color:var(--muted);font-size:1.08rem}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.reveal[data-delay="1"]{transition-delay:.12s}.reveal[data-delay="2"]{transition-delay:.24s}
+.reveal[data-delay="3"]{transition-delay:.36s}.reveal[data-delay="4"]{transition-delay:.48s}.reveal[data-delay="5"]{transition-delay:.6s}
+
+/* ── traditional view ────────────────────────── */
+#traditional{background:linear-gradient(180deg,transparent,var(--bg-2) 30%,var(--bg-2) 70%,transparent)}
+.saves{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem}
+.save{
+  position:relative;padding:1.6rem;border-radius:var(--radius);background:var(--surface);border:1px solid var(--border);overflow:hidden
+}
+.save .label{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;margin-block-end:1rem}
+.save .label h3{font-size:1.15rem;font-weight:700}
+.save .pct{font-weight:800;font-size:1.05rem;color:var(--teal)}
+.save .num{font-size:clamp(2.4rem,4vw,3.2rem);font-weight:800;letter-spacing:-.02em;line-height:1;display:flex;align-items:baseline;gap:.4rem}
+.save .num small{font-size:1rem;color:var(--muted);font-weight:600}
+.save .from{color:var(--muted);font-size:.95rem;margin-block-start:.35rem}
+.save .from s{opacity:.7}
+.bars{margin-block-start:1.2rem;display:grid;gap:.55rem}
+.bar{height:10px;border-radius:999px;background:var(--surface-2);position:relative;overflow:hidden}
+.bar i{position:absolute;inset-block:0;inset-inline-start:0;width:0;border-radius:999px;transition:width 1.6s var(--ease)}
+.bar.before i{background:var(--slate)}
+.bar.after i{background:linear-gradient(90deg,var(--ms-blue-2),var(--teal));transition-delay:.35s}
+.in .bar.before i{width:100%}
+.in .bar.after i{width:var(--w)}
+.bar-legend{display:flex;justify-content:space-between;color:var(--muted);font-size:.78rem;margin-block-start:.3rem}
+
+.ask{
+  margin-block-start:3rem;position:relative;padding:2.4rem clamp(1.4rem,4vw,3rem);border-radius:var(--radius);
+  background:linear-gradient(135deg,rgba(139,92,246,.18),rgba(0,120,212,.14));border:1px solid rgba(139,92,246,.45);
+  display:grid;grid-template-columns:auto 1fr;gap:1.6rem;align-items:center
+}
+.ask::before{
+  content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;
+  background:var(--grad);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+  opacity:.6;animation:glow 3.2s ease-in-out infinite
+}
+@keyframes glow{0%,100%{opacity:.35}50%{opacity:.9}}
+.ask .q{
+  width:64px;height:64px;border-radius:18px;display:grid;place-items:center;background:var(--surface-2);border:1px solid var(--border);
+  font-size:2rem;font-weight:800;color:var(--pink)
+}
+.ask .kicker{color:var(--muted);font-size:.95rem;letter-spacing:.06em}
+.ask blockquote{margin:.3rem 0 0;font-size:clamp(1.35rem,2.8vw,2.1rem);font-weight:800;letter-spacing:-.01em}
+@media (max-width:600px){.ask{grid-template-columns:1fr}}
+
+/* ── five values ─────────────────────────────── */
+.values{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.3rem}
+.value{
+  --accent:var(--ms-blue-2);
+  position:relative;padding:1.8rem;border-radius:var(--radius);background:var(--surface);border:1px solid var(--border);
+  display:flex;flex-direction:column;gap:1rem;transition:transform .35s var(--ease),border-color .35s,background .35s;overflow:hidden
+}
+.value::after{
+  content:"";position:absolute;inset-inline:0;inset-block-start:0;height:3px;background:var(--accent);
+  transform:scaleX(0);transform-origin:0 50%;transition:transform .6s var(--ease)
+}
+.value.in::after{transform:scaleX(1)}
+.value:hover{transform:translateY(-6px);border-color:color-mix(in srgb,var(--accent) 60%,transparent);background:var(--surface-2)}
+.value .top{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.value .icon{
+  width:52px;height:52px;border-radius:14px;display:grid;place-items:center;
+  background:color-mix(in srgb,var(--accent) 18%,transparent);color:var(--accent)
+}
+.value .icon svg{width:26px;height:26px}
+.value .idx{font-size:.8rem;letter-spacing:.2em;color:var(--muted);font-weight:700}
+.value h3{font-size:1.35rem;font-weight:800}
+.value h3 small{display:block;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-block-end:.3rem}
+.value .lead{color:var(--muted)}
+.value ul{margin:0;padding:0;list-style:none;display:grid;gap:.45rem}
+.value li{display:flex;gap:.6rem;align-items:flex-start}
+.value li::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-block-start:.6em}
+.value .outcome{
+  margin-block-start:auto;padding:.9rem 1rem;border-radius:14px;background:color-mix(in srgb,var(--accent) 12%,transparent);
+  border:1px dashed color-mix(in srgb,var(--accent) 45%,transparent)
+}
+.value .outcome b{display:block;font-size:.78rem;letter-spacing:.16em;color:var(--accent);margin-block-end:.2rem}
+.value.v1{--accent:var(--ms-blue-2)}.value.v2{--accent:var(--purple)}.value.v3{--accent:var(--teal)}
+.value.v4{--accent:var(--pink)}.value.v5{--accent:var(--amber)}
+.value.v5{grid-column:span 1}
+@media (min-width:980px){.values{grid-template-columns:repeat(6,1fr)}.value{grid-column:span 2}.value.v4{grid-column:2/span 2}.value.v5{grid-column:4/span 2}}
+
+/* ── maturity model ──────────────────────────── */
+#maturity{background:linear-gradient(180deg,transparent,var(--bg-2) 25%,var(--bg-2) 75%,transparent)}
+.maturity{display:grid;grid-template-columns:1.15fr .85fr;gap:3rem;align-items:center}
+@media (max-width:900px){.maturity{grid-template-columns:1fr}}
+.pyramid{display:flex;flex-direction:column;align-items:center;gap:.5rem;position:relative;padding-inline-start:3.2rem}
+.axis{position:absolute;inset-inline-start:.4rem;inset-block:0;width:2px;background:linear-gradient(180deg,var(--amber),var(--slate));border-radius:2px;opacity:.6}
+.axis::before{content:"";position:absolute;inset-block-start:-6px;inset-inline-start:-5px;border:6px solid transparent;border-block-end:10px solid var(--amber)}
+.axis-label{position:absolute;inset-inline-start:-.15rem;inset-block-start:50%;transform:translate(-50%,-50%) rotate(-90deg);white-space:nowrap;color:var(--muted);font-size:.78rem;letter-spacing:.2em;font-weight:700}
+.tier{
+  --c:var(--slate);
+  width:var(--w);min-width:180px;padding:.85rem 1.1rem;border-radius:12px;cursor:pointer;
+  background:linear-gradient(90deg,color-mix(in srgb,var(--c) 85%,#000),var(--c));color:#0b1020;font-weight:800;
+  display:flex;justify-content:space-between;align-items:center;gap:.8rem;
+  border:0;font:inherit;font-weight:800;text-align:start;
+  opacity:0;transform:translateY(24px) scaleX(.6);
+  transition:opacity .7s var(--ease),transform .7s var(--ease),filter .3s,box-shadow .3s
+}
+.tier span.en{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;opacity:.75;font-weight:700}
+.tier.light-text{color:#fff}
+.pyramid.in .tier{opacity:1;transform:none}
+.pyramid.in .tier:nth-child(2){transition-delay:1.25s}
+.pyramid.in .tier:nth-child(3){transition-delay:1.05s}
+.pyramid.in .tier:nth-child(4){transition-delay:.85s}
+.pyramid.in .tier:nth-child(5){transition-delay:.65s}
+.pyramid.in .tier:nth-child(6){transition-delay:.45s}
+.pyramid.in .tier:nth-child(7){transition-delay:.25s}
+.tier:hover,.tier:focus-visible,.tier.active{filter:brightness(1.12);box-shadow:0 12px 30px -10px var(--c);outline:none;transform:scale(1.03)}
+.tier.t1{--c:var(--amber);--w:32%}
+.tier.t2{--c:var(--pink);--w:46%}
+.tier.t3{--c:var(--purple);--w:60%}
+.tier.t4{--c:var(--teal);--w:74%}
+.tier.t5{--c:var(--ms-blue-2);--w:88%}
+.tier.t6{--c:var(--slate);--w:100%}
+.pyramid-caps{display:flex;justify-content:space-between;width:100%;color:var(--muted);font-size:.8rem;letter-spacing:.12em;margin-block-start:.6rem}
+.tier-detail{
+  padding:1.8rem;border-radius:var(--radius);background:var(--surface);border:1px solid var(--border);min-height:260px;position:relative
+}
+.tier-detail .tag{display:inline-block;padding:.3rem .75rem;border-radius:999px;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;background:var(--surface-2);color:var(--muted);margin-block-end:.9rem}
+.tier-detail h3{font-size:1.5rem;font-weight:800;margin-block-end:.7rem}
+.tier-detail p{color:var(--muted);font-size:1.02rem}
+.tier-detail .fade{transition:opacity .3s,transform .3s}
+.tier-detail.swap .fade{opacity:0;transform:translateY(6px)}
+.tier-detail .hint{margin-block-start:1.3rem;font-size:.82rem;color:var(--muted);opacity:.8}
+.thesis{
+  margin-block-start:3.5rem;text-align:center;font-size:clamp(1.2rem,2.4vw,1.7rem);font-weight:700;padding:2rem;border-radius:var(--radius);
+  background:linear-gradient(135deg,rgba(79,179,255,.12),rgba(244,114,182,.12));border:1px solid var(--border)
+}
+.thesis strong{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ── closing ─────────────────────────────────── */
+#closing{position:relative;text-align:center;padding-block:7rem 5rem;overflow:hidden}
+#closing .glow{position:absolute;inset-inline-start:50%;inset-block-start:40%;width:70vmax;height:70vmax;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(0,120,212,.22),transparent 60%);pointer-events:none;z-index:-1}
+.closing-lead{font-size:clamp(1.1rem,2vw,1.4rem);color:var(--muted);max-width:760px;margin-inline:auto;margin-block-start:1.2rem}
+.words{margin-block:2.6rem;display:flex;flex-wrap:wrap;justify-content:center;gap:.9rem}
+.word{
+  display:inline-flex;align-items:center;gap:.6rem;padding:1rem 1.5rem;border-radius:18px;background:var(--surface);border:1px solid var(--border);
+  font-size:clamp(1.15rem,2.3vw,1.65rem);font-weight:800;opacity:0;transform:translateY(20px) scale(.96);
+  transition:opacity .6s var(--ease),transform .6s var(--ease),background .3s,border-color .3s
+}
+.words.in .word{opacity:1;transform:none}
+.words.in .word:nth-child(1){transition-delay:.15s}.words.in .word:nth-child(2){transition-delay:.4s}
+.words.in .word:nth-child(3){transition-delay:.65s}.words.in .word:nth-child(4){transition-delay:.9s}
+.word:hover{background:var(--surface-2);border-color:var(--ms-blue-2)}
+.word .dot{width:12px;height:12px;border-radius:50%}
+.word:nth-child(1) .dot{background:var(--ms-blue-2)}.word:nth-child(2) .dot{background:var(--purple)}
+.word:nth-child(3) .dot{background:var(--teal)}.word:nth-child(4) .dot{background:var(--pink)}
+.not{display:inline-block;padding:.35rem .9rem;border-radius:999px;background:rgba(244,114,182,.14);color:var(--pink);font-weight:700;border:1px solid rgba(244,114,182,.4)}
+.but{display:inline-block;padding:.35rem .9rem;border-radius:999px;background:rgba(45,212,191,.14);color:var(--teal);font-weight:700;border:1px solid rgba(45,212,191,.4)}
+.final{font-size:clamp(1.6rem,4vw,3rem);font-weight:900;letter-spacing:-.02em;margin-block-start:1rem}
+
+footer{border-block-start:1px solid var(--border);padding-block:2rem;color:var(--muted);font-size:.85rem}
+footer .wrap{display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;align-items:center}
+footer b{color:var(--text)}
+
+/* ── a11y + motion + print ───────────────────── */
+:focus-visible{outline:2px solid var(--ms-blue-2);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .reveal,.tier,.word{opacity:1!important;transform:none!important}
+  .in .bar.after i,.bar.after i{width:var(--w)}
+  .bar.before i{width:100%}
+}
+@media print{
+  :root{color-scheme:light}
+  body{background:#fff;color:#111}
+  .progress,.nav,.blobs,.grid-bg,.scroll-hint,#closing .glow{display:none}
+  .reveal,.tier,.word{opacity:1!important;transform:none!important}
+  .bar.before i{width:100%}.bar.after i{width:var(--w)}
+  .save,.value,.ask,.tier-detail,.thesis,.word{background:#f3f4f8!important;border-color:#d8dbe5!important;color:#111}
+  .hero .sub,.section-head p,.value .lead,.tier-detail p,footer{color:#444}
+  section{padding-block:2rem;break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<nav class="nav" aria-label="頁面導覽">
+  <div class="wrap">
+    <div class="brand"><span class="logo" aria-hidden="true"><span></span><span></span><span></span><span></span></span>Microsoft 365 Copilot × Copilot Cowork</div>
+    <ul class="nav-links">
+      <li><a href="#traditional" data-nav="traditional">傳統觀點</a></li>
+      <li><a href="#value" data-nav="value">真正價值</a></li>
+      <li><a href="#maturity" data-nav="maturity">成熟度模型</a></li>
+      <li><a href="#closing" data-nav="closing">給主管的一句話</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ───────────── HERO ───────────── -->
+<header class="hero" id="top">
+  <div class="blobs" aria-hidden="true"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="wrap hero-inner">
+    <span class="eyebrow">For Financial Services Leaders · 金融業主管版</span>
+    <h1>
+      <span class="line">為什麼金融業需要</span>
+      <span class="line grad-text">Microsoft 365 Copilot 與 Copilot Cowork？</span>
+    </h1>
+    <p class="sub">AI 的價值不只是「省時間」。真正的投資回報，來自產能、決策品質、反應速度、知識規模化與全新能力。</p>
+
+    <div class="rotator" id="rotator" aria-live="polite">
+      <span>讓</span><span class="role" id="rot-role">理專</span><span class="verb" id="rot-verb">拜訪更多客戶</span>
+    </div>
+
+    <div class="cta-row">
+      <a class="btn primary" href="#value">看看 Copilot 的真正價值 →</a>
+      <a class="btn ghost" href="#maturity">AI 價值成熟度模型</a>
+    </div>
+  </div>
+  <div class="scroll-hint" aria-hidden="true">SCROLL<i></i></div>
+</header>
+
+<main>
+<!-- ───────────── TRADITIONAL VIEW ───────────── -->
+<section id="traditional">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">傳統觀點 · The Conventional View</span>
+      <h2>AI 的價值 = <span class="grad-text">省時間？</span></h2>
+      <p>多數團隊第一次衡量 Copilot 時，只看「一件事做得多快」。這些數字很真實，但只回答了一半的問題。</p>
+    </div>
+
+    <div class="saves">
+      <article class="save reveal" data-delay="1">
+        <div class="label"><h3>郵件整理</h3><span class="pct" data-pct data-before="30" data-after="5"></span></div>
+        <div class="num"><span class="counter" data-from="30" data-to="5">30</span><small>分鐘</small></div>
+        <p class="from">從 <s>30 分鐘</s> 縮短到 <b>5 分鐘</b></p>
+        <div class="bars">
+          <div class="bar before"><i></i></div>
+          <div class="bar after" style="--w:16.7%"><i></i></div>
+          <div class="bar-legend"><span>傳統作法</span><span>使用 Copilot</span></div>
+        </div>
+      </article>
+      <article class="save reveal" data-delay="2">
+        <div class="label"><h3>會議摘要</h3><span class="pct" data-pct data-before="60" data-after="10"></span></div>
+        <div class="num"><span class="counter" data-from="60" data-to="10">60</span><small>分鐘</small></div>
+        <p class="from">從 <s>1 小時</s> 縮短到 <b>10 分鐘</b></p>
+        <div class="bars">
+          <div class="bar before"><i></i></div>
+          <div class="bar after" style="--w:16.7%"><i></i></div>
+          <div class="bar-legend"><span>傳統作法</span><span>使用 Copilot</span></div>
+        </div>
+      </article>
+      <article class="save reveal" data-delay="3">
+        <div class="label"><h3>報告整理</h3><span class="pct" data-pct data-before="240" data-after="30"></span></div>
+        <div class="num"><span class="counter" data-from="240" data-to="30">240</span><small>分鐘</small></div>
+        <p class="from">從 <s>半天（約 4 小時）</s> 縮短到 <b>30 分鐘</b></p>
+        <div class="bars">
+          <div class="bar before"><i></i></div>
+          <div class="bar after" style="--w:12.5%"><i></i></div>
+          <div class="bar-legend"><span>傳統作法</span><span>使用 Copilot</span></div>
+        </div>
+      </article>
+    </div>
+
+    <div class="ask reveal" data-delay="4">
+      <div class="q" aria-hidden="true">?</div>
+      <div>
+        <p class="kicker">但主管真正會問的是：</p>
+        <blockquote>「省下來的時間，接下來要做什麼？」</blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── FIVE VALUES ───────────── -->
+<section id="value">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Copilot 的真正價值 · The Real Value</span>
+      <h2>五個層次，把「省下的時間」<span class="grad-text">變成營運成果</span></h2>
+      <p>從人力產能到全新能力，每一層都對應金融業主管真正在意的經營指標。</p>
+    </div>
+
+    <div class="values">
+      <article class="value v1 reveal" data-delay="1">
+        <div class="top">
+          <div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 14.2a4.5 4.5 0 0 1 5.5 4.3"/></svg></div>
+          <span class="idx">01</span>
+        </div>
+        <h3><small>Capacity</small>提升產能</h3>
+        <p class="lead">讓同樣人力處理更多業務</p>
+        <ul>
+          <li>理專拜訪更多客戶</li>
+          <li>法遵審閱更多法規</li>
+          <li>授信評估更多案件</li>
+          <li>主管掌握更多專案</li>
+        </ul>
+        <div class="outcome"><b>價值</b>同樣人力，創造更大營運規模</div>
+      </article>
+
+      <article class="value v2 reveal" data-delay="2">
+        <div class="top">
+          <div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/><path d="M12 3.5v3M20.5 12h-3"/></svg></div>
+          <span class="idx">02</span>
+        </div>
+        <h3><small>Decision Quality</small>提升決策品質</h3>
+        <p class="lead">讓決策建立在更完整的資訊上</p>
+        <ul>
+          <li>自動彙整財報、新聞、會議與郵件</li>
+          <li>提前發現風險與異常</li>
+          <li>強化授信與投資判斷</li>
+        </ul>
+        <div class="outcome"><b>價值</b>避免高成本錯誤決策與風險事件</div>
+      </article>
+
+      <article class="value v3 reveal" data-delay="3">
+        <div class="top">
+          <div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2.5 5 13.5h6l-1 8 9-11.5h-6z"/></svg></div>
+          <span class="idx">03</span>
+        </div>
+        <h3><small>Speed</small>加速組織反應</h3>
+        <p class="lead">將決策週期從數天縮短至數小時</p>
+        <ul>
+          <li>管理報表即時生成</li>
+          <li>經營異常快速揭露</li>
+          <li>市場變化快速回應</li>
+        </ul>
+        <div class="outcome"><b>價值</b>更快掌握商機與降低風險</div>
+      </article>
+
+      <article class="value v4 reveal" data-delay="4">
+        <div class="top">
+          <div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2.2"/><circle cx="5" cy="18" r="2.2"/><circle cx="19" cy="18" r="2.2"/><circle cx="12" cy="13" r="2.2"/><path d="M12 7.2v3.6M10.4 14.6 6.6 16.4M13.6 14.6l3.8 1.8"/></svg></div>
+          <span class="idx">04</span>
+        </div>
+        <h3><small>Knowledge Scale</small>擴散專家能力</h3>
+        <p class="lead">將資深人員經驗轉化為組織資產</p>
+        <ul>
+          <li>授信專家的分析框架</li>
+          <li>理專的客戶經營模式</li>
+          <li>法遵的判斷邏輯</li>
+          <li>透過 AI Coworker 持續傳承與複製</li>
+        </ul>
+        <div class="outcome"><b>價值</b>縮短人才培育週期，降低知識斷層風險</div>
+      </article>
+
+      <article class="value v5 reveal" data-delay="5">
+        <div class="top">
+          <div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><path d="M12 8.5 13.3 11 16 12l-2.7 1-1.3 2.5-1.3-2.5L8 12l2.7-1z"/></svg></div>
+          <span class="idx">05</span>
+        </div>
+        <h3><small>New Capability</small>創造新能力</h3>
+        <p class="lead">完成過去做不到的事情</p>
+        <ul>
+          <li>分析百萬筆客戶互動資料</li>
+          <li>即時追蹤法規變化</li>
+          <li>跨系統整合企業知識</li>
+          <li>持續監控風險訊號</li>
+        </ul>
+        <div class="outcome"><b>價值</b>從效率工具升級為企業競爭力</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── MATURITY MODEL ───────────── -->
+<section id="maturity">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">AI 價值成熟度模型 · AI Value Maturity Model</span>
+      <h2>時間節省只是<span class="grad-text">起點</span></h2>
+      <p>把滑鼠移到每一層（或用鍵盤 Tab 切換），看看企業如何一層一層往上走。</p>
+    </div>
+
+    <div class="maturity">
+      <div class="pyramid reveal" id="pyramid" role="list" aria-label="AI 價值成熟度金字塔">
+        <div class="axis" aria-hidden="true"></div>
+        <span class="axis-label" aria-hidden="true">企業價值</span>
+        <button class="tier t1" type="button" role="listitem" data-tier="t1" aria-describedby="tier-detail"><span>創造新能力</span><span class="en">New Capability</span></button>
+        <button class="tier t2" type="button" role="listitem" data-tier="t2" aria-describedby="tier-detail"><span>專家知識規模化</span><span class="en">Knowledge Scale</span></button>
+        <button class="tier t3 light-text" type="button" role="listitem" data-tier="t3" aria-describedby="tier-detail"><span>決策品質提升</span><span class="en">Decision Quality</span></button>
+        <button class="tier t4" type="button" role="listitem" data-tier="t4" aria-describedby="tier-detail"><span>組織反應速度提升</span><span class="en">Speed</span></button>
+        <button class="tier t5" type="button" role="listitem" data-tier="t5" aria-describedby="tier-detail"><span>產能提升</span><span class="en">Capacity</span></button>
+        <button class="tier t6 light-text" type="button" role="listitem" data-tier="t6" aria-describedby="tier-detail"><span>時間節省</span><span class="en">Time Saved · 起點</span></button>
+        <div class="pyramid-caps" aria-hidden="true"><span>效率工具</span><span>企業競爭力</span></div>
+      </div>
+
+      <aside class="tier-detail reveal" id="tier-detail" data-delay="2" aria-live="polite">
+        <span class="tag" id="td-tag">Level 0 · 起點</span>
+        <div class="fade" id="td-body">
+          <h3 id="td-title">時間節省 · Time Saved</h3>
+          <p id="td-desc">郵件、會議、報告的處理時間縮短，這是真實的效益，但只是釋放產能的第一步。企業真正投資的是上面五層。</p>
+        </div>
+        <p class="hint">提示：每往上一層，效益就從「個人效率」走向「組織成果」。</p>
+      </aside>
+    </div>
+
+    <div class="thesis reveal">
+      時間節省只是起點，企業真正投資的是 <strong>營收成長、風險降低與規模擴張</strong>。
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── CLOSING ───────────── -->
+<section id="closing">
+  <div class="glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow">給金融業主管的一句話 · One Line for FSI Leaders</span>
+      <p class="closing-lead">Microsoft 365 Copilot 與 Copilot Cowork 的目標 <span class="not">不是減少人力</span>，<span class="but">而是讓同樣的人力</span>：</p>
+    </div>
+
+    <div class="words reveal" id="words">
+      <div class="word"><span class="dot" aria-hidden="true"></span>服務更多客戶</div>
+      <div class="word"><span class="dot" aria-hidden="true"></span>做出更好決策</div>
+      <div class="word"><span class="dot" aria-hidden="true"></span>管理更大的業務規模</div>
+      <div class="word"><span class="dot" aria-hidden="true"></span>降低更多風險</div>
+    </div>
+
+    <p class="final reveal grad-text" data-delay="3">從效率工具，升級為企業競爭力。</p>
+    <div class="cta-row reveal" data-delay="4">
+      <a class="btn ghost" href="#top">回到頂端 ↑</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span><b>Microsoft 365 Copilot</b> · <b>Copilot Cowork</b> — 金融業 (FSI) 價值溝通素材</span>
+    <span>Jason Lin · Sr Solution Engineer · Microsoft Taiwan · 2026</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* 閱讀進度條 */
+  var bar = document.getElementById('progress');
+  function onScroll() {
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    var p = max > 0 ? h.scrollTop / max : 0;
+    bar.style.transform = 'scaleX(' + p + ')';
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* 數字動畫 */
+  function animateCounter(el) {
+    var from = parseFloat(el.getAttribute('data-from')) || 0;
+    var to = parseFloat(el.getAttribute('data-to')) || 0;
+    if (reduced) { el.textContent = String(to); return; }
+    var dur = 1500, start = null;
+    function step(t) {
+      if (start === null) start = t;
+      var k = Math.min(1, (t - start) / dur);
+      var e = 1 - Math.pow(1 - k, 3);
+      el.textContent = String(Math.round(from + (to - from) * e));
+      if (k < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  /* 節省百分比（由程式計算，避免手算誤差） */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-pct]'), function (el) {
+    var b = parseFloat(el.getAttribute('data-before'));
+    var a = parseFloat(el.getAttribute('data-after'));
+    if (b > 0) el.textContent = '省 ' + Math.round((1 - a / b) * 100) + '%';
+  });
+
+  /* 捲動顯示 */
+  var revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        en.target.classList.add('in');
+        Array.prototype.forEach.call(en.target.querySelectorAll('.counter'), animateCounter);
+        io.unobserve(en.target);
+      });
+    }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+    Array.prototype.forEach.call(revealEls, function (el) { io.observe(el); });
+  } else {
+    Array.prototype.forEach.call(revealEls, function (el) {
+      el.classList.add('in');
+      Array.prototype.forEach.call(el.querySelectorAll('.counter'), animateCounter);
+    });
+  }
+
+  /* Hero 角色輪播 */
+  var pairs = [
+    ['理專', '拜訪更多客戶'],
+    ['法遵', '審閱更多法規'],
+    ['授信', '評估更多案件'],
+    ['主管', '掌握更多專案'],
+    ['AI Coworker', '把專家經驗傳承下去']
+  ];
+  var rot = document.getElementById('rotator');
+  var roleEl = document.getElementById('rot-role');
+  var verbEl = document.getElementById('rot-verb');
+  var idx = 0;
+  if (!reduced && rot) {
+    setInterval(function () {
+      rot.classList.add('swap');
+      setTimeout(function () {
+        idx = (idx + 1) % pairs.length;
+        roleEl.textContent = pairs[idx][0];
+        verbEl.textContent = pairs[idx][1];
+        rot.classList.remove('swap');
+      }, 380);
+    }, 2600);
+  }
+
+  /* 成熟度金字塔互動 */
+  var tiers = {
+    t1: { tag: 'Level 5 · 企業競爭力', title: '創造新能力 · New Capability',
+          desc: '完成過去做不到的事情：分析百萬筆客戶互動資料、即時追蹤法規變化、跨系統整合企業知識、持續監控風險訊號。價值：從效率工具升級為企業競爭力。' },
+    t2: { tag: 'Level 4 · 組織資產', title: '專家知識規模化 · Knowledge Scale',
+          desc: '把授信專家的分析框架、理專的客戶經營模式、法遵的判斷邏輯，透過 AI Coworker 持續傳承與複製。價值：縮短人才培育週期，降低知識斷層風險。' },
+    t3: { tag: 'Level 3 · 風險與判斷', title: '決策品質提升 · Decision Quality',
+          desc: '自動彙整財報、新聞、會議與郵件，提前發現風險與異常，強化授信與投資判斷。價值：避免高成本錯誤決策與風險事件。' },
+    t4: { tag: 'Level 2 · 反應速度', title: '組織反應速度提升 · Speed',
+          desc: '決策週期從數天縮短至數小時：管理報表即時生成、經營異常快速揭露、市場變化快速回應。價值：更快掌握商機與降低風險。' },
+    t5: { tag: 'Level 1 · 營運規模', title: '產能提升 · Capacity',
+          desc: '同樣人力處理更多業務：理專拜訪更多客戶、法遵審閱更多法規、授信評估更多案件、主管掌握更多專案。價值：同樣人力，創造更大營運規模。' },
+    t6: { tag: 'Level 0 · 起點', title: '時間節省 · Time Saved',
+          desc: '郵件、會議、報告的處理時間縮短，這是真實的效益，但只是釋放產能的第一步。企業真正投資的是上面五層。' }
+  };
+  var detail = document.getElementById('tier-detail');
+  var tdTag = document.getElementById('td-tag');
+  var tdTitle = document.getElementById('td-title');
+  var tdDesc = document.getElementById('td-desc');
+  var tierBtns = document.querySelectorAll('.tier');
+  var current = 't6', timer = null;
+
+  function showTier(key) {
+    if (!tiers[key] || key === current) return;
+    current = key;
+    Array.prototype.forEach.call(tierBtns, function (b) {
+      b.classList.toggle('active', b.getAttribute('data-tier') === key);
+    });
+    detail.classList.add('swap');
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      tdTag.textContent = tiers[key].tag;
+      tdTitle.textContent = tiers[key].title;
+      tdDesc.textContent = tiers[key].desc;
+      detail.classList.remove('swap');
+    }, reduced ? 0 : 220);
+  }
+  Array.prototype.forEach.call(tierBtns, function (b) {
+    var key = b.getAttribute('data-tier');
+    b.addEventListener('mouseenter', function () { showTier(key); });
+    b.addEventListener('focus', function () { showTier(key); });
+    b.addEventListener('click', function () { showTier(key); });
+  });
+  Array.prototype.forEach.call(tierBtns, function (b) {
+    if (b.getAttribute('data-tier') === current) b.classList.add('active');
+  });
+
+  /* 金字塔進場後自動導覽一次（由下往上） */
+  var pyramid = document.getElementById('pyramid');
+  if (pyramid && !reduced && 'IntersectionObserver' in window) {
+    var toured = false;
+    var pio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting || toured) return;
+        toured = true;
+        var order = ['t5', 't4', 't3', 't2', 't1'];
+        order.forEach(function (k, i) {
+          setTimeout(function () { if (!pyramid.matches(':hover')) showTier(k); }, 1900 + i * 900);
+        });
+        pio.unobserve(en.target);
+      });
+    }, { threshold: 0.5 });
+    pio.observe(pyramid);
+  }
+
+  /* 導覽列目前區段 */
+  var navLinks = document.querySelectorAll('[data-nav]');
+  var sections = ['traditional', 'value', 'maturity', 'closing'].map(function (id) { return document.getElementById(id); });
+  if ('IntersectionObserver' in window) {
+    var nio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        Array.prototype.forEach.call(navLinks, function (a) {
+          a.classList.toggle('active', a.getAttribute('data-nav') === en.target.id);
+        });
+      });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    sections.forEach(function (s) { if (s) nio.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>
