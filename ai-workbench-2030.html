@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="2030 AI 工作台 — 一個可以探索的未來工作體驗:看看 AI 會怎麼接手你一天的工作。">
+<title>2030 AI 工作台 · 看看 AI 會怎麼接手你一天的工作</title>
+<style>
+/* ============ Design tokens ============ */
+:root{
+  color-scheme:dark;
+  --bg:#060a17; --bg2:#0b1226; --bg3:#111a36;
+  --card:rgba(255,255,255,.045); --card2:rgba(255,255,255,.08);
+  --line:rgba(255,255,255,.10); --line2:rgba(255,255,255,.18);
+  --text:#eef1fb; --muted:#9aa6c8; --dim:#6b769a;
+  --cyan:#4fe3ff; --violet:#8b5cf6; --pink:#f472b6; --amber:#f5b342; --mint:#34d399; --red:#fb7185;
+  --accent:#4fe3ff; --accent-rgb:79,227,255;
+  --radius:22px; --radius-sm:14px;
+  --font:"Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,-apple-system,sans-serif;
+  --mono:"Cascadia Code","SFMono-Regular",Consolas,"Noto Sans Mono",monospace;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --sky-a:#05070f; --sky-b:#0b1226;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0;background:var(--bg);color:var(--text);font-family:var(--font);
+  line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(1200px 700px at 15% -10%, rgba(var(--accent-rgb),.16), transparent 60%),
+    radial-gradient(900px 600px at 95% 20%, rgba(139,92,246,.14), transparent 60%),
+    radial-gradient(800px 600px at 50% 110%, rgba(244,114,182,.10), transparent 60%),
+    var(--bg);
+  transition:background 1s var(--ease);
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.35;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse at 50% 20%,#000 30%,transparent 80%);
+  -webkit-mask-image:radial-gradient(ellipse at 50% 20%,#000 30%,transparent 80%);
+}
+a{color:var(--accent)}
+h1,h2,h3,h4{margin:0;line-height:1.15;letter-spacing:-.01em}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:8px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ============ Cursor glow ============ */
+#glow{position:fixed;inset-inline-start:0;inset-block-start:0;width:420px;height:420px;border-radius:50%;pointer-events:none;z-index:0;
+  background:radial-gradient(circle,rgba(var(--accent-rgb),.13),transparent 60%);
+  transform:translate(-50%,-50%);opacity:0;transition:opacity .6s;mix-blend-mode:screen}
+@media (pointer:fine){#glow.on{opacity:1}}
+
+/* ============ Nav ============ */
+.nav{position:fixed;inset-block-start:0;inset-inline:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:14px 28px;backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);
+  background:linear-gradient(rgba(6,10,23,.75),rgba(6,10,23,.45));border-block-end:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.02em;text-decoration:none;color:var(--text)}
+.brand .dot{width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 18px var(--accent);animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.35);opacity:.6}}
+.brand small{color:var(--muted);font-weight:500;margin-inline-start:4px}
+.nav-links{display:flex;gap:4px}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.9rem;padding:8px 12px;border-radius:999px;transition:.25s}
+.nav-links a:hover,.nav-links a.active{color:var(--text);background:var(--card2)}
+.progress{position:absolute;inset-block-end:-1px;inset-inline-start:0;height:2px;width:0;background:linear-gradient(90deg,var(--accent),var(--violet),var(--pink));transition:width .1s linear}
+@media (max-width:820px){.nav-links{display:none}}
+
+/* ============ Layout helpers ============ */
+.wrap{width:min(1180px,92vw);margin-inline:auto}
+section{position:relative;padding-block:120px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.eyebrow::before{content:"";width:22px;height:1px;background:var(--accent)}
+.h2{font-size:clamp(2rem,4.6vw,3.4rem);font-weight:800;margin-block:14px 16px}
+.h2 em{font-style:normal;background:linear-gradient(90deg,var(--accent),var(--violet),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--muted);font-size:1.12rem;max-width:62ch}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;font-size:.78rem;font-weight:600;letter-spacing:.02em;border:1px solid var(--line2)}
+.chip.auto{background:rgba(52,211,153,.14);color:var(--mint);border-color:rgba(52,211,153,.4)}
+.chip.co{background:rgba(var(--accent-rgb),.14);color:var(--accent);border-color:rgba(var(--accent-rgb),.45)}
+.chip.you{background:rgba(245,179,66,.14);color:var(--amber);border-color:rgba(245,179,66,.45)}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:999px;font-weight:700;font-size:1rem;transition:transform .3s var(--ease),box-shadow .3s,background .3s;position:relative;overflow:hidden;text-decoration:none}
+.btn.primary{background:linear-gradient(135deg,var(--accent),var(--violet));color:#05070f;box-shadow:0 10px 40px -10px rgba(var(--accent-rgb),.6)}
+.btn.primary:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 18px 50px -12px rgba(var(--accent-rgb),.75)}
+.btn.ghost{border:1px solid var(--line2);color:var(--text);background:var(--card)}
+.btn.ghost:hover{background:var(--card2);transform:translateY(-2px)}
+.btn .arrow{transition:transform .3s}
+.btn:hover .arrow{transform:translateX(4px)}
+
+/* ============ Hero ============ */
+#hero{min-height:100vh;display:grid;place-items:center;padding-block:140px 80px;overflow:hidden}
+#net{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.hero-inner{position:relative;z-index:1;text-align:center;max-width:980px}
+.badge{display:inline-flex;align-items:center;gap:10px;padding:8px 16px 8px 10px;border-radius:999px;background:var(--card);border:1px solid var(--line2);font-size:.85rem;color:var(--muted);animation:float 6s ease-in-out infinite}
+.badge b{color:#05070f;background:var(--accent);border-radius:999px;padding:2px 10px;font-size:.75rem;letter-spacing:.1em}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.hero h1{font-size:clamp(2.6rem,7vw,5.6rem);font-weight:900;margin-block:26px 18px;letter-spacing:-.03em;line-height:1.05}
+.hero h1 .shine{background:linear-gradient(90deg,#fff 0%,var(--accent) 30%,var(--violet) 55%,var(--pink) 80%,#fff 100%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
+@keyframes shine{to{background-position:200% 0}}
+.hero .sub{font-size:clamp(1.05rem,2vw,1.35rem);color:var(--muted);max-width:60ch;margin-inline:auto}
+.hero .cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-block-start:36px}
+.clock{margin-block-start:46px;display:inline-grid;grid-auto-flow:column;gap:0;border:1px solid var(--line2);border-radius:18px;background:rgba(6,10,23,.6);overflow:hidden;font-family:var(--mono)}
+.clock div{padding:12px 22px;border-inline-end:1px solid var(--line)}
+.clock div:last-child{border:0}
+.clock small{display:block;font-size:.65rem;letter-spacing:.2em;color:var(--dim);text-transform:uppercase;font-family:var(--font)}
+.clock b{font-size:1.25rem;font-weight:600;color:var(--text)}
+.clock b.live{color:var(--accent)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-block-start:60px;text-align:start}
+.stat{padding:22px 24px}
+.stat .num{font-size:2.2rem;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat .num span{color:var(--accent)}
+.stat p{color:var(--muted);font-size:.9rem;margin-block-start:4px}
+.scroll-hint{position:absolute;inset-block-end:28px;inset-inline-start:50%;transform:translateX(-50%);color:var(--dim);font-size:.75rem;letter-spacing:.2em;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:1}
+.scroll-hint i{width:1px;height:44px;background:linear-gradient(var(--accent),transparent);display:block;animation:drop 1.8s infinite}
+@keyframes drop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@media (max-width:760px){.stats{grid-template-columns:1fr}.clock{grid-auto-flow:row}.clock div{border-inline-end:0;border-block-end:1px solid var(--line)}}
+
+/* ============ Persona ============ */
+.personas{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-block-start:44px}
+.persona{position:relative;padding:28px 24px;text-align:start;transition:transform .45s var(--ease),border-color .3s,background .3s;overflow:hidden;cursor:pointer}
+.persona::after{content:"";position:absolute;inset:auto -40% -60% auto;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,var(--pc),transparent 70%);opacity:0;transition:opacity .5s}
+.persona:hover{transform:translateY(-6px);border-color:var(--line2);background:var(--card2)}
+.persona:hover::after{opacity:.35}
+.persona[aria-pressed="true"]{border-color:var(--pc);box-shadow:0 0 0 1px var(--pc),0 20px 60px -20px var(--pc);background:var(--card2)}
+.persona[aria-pressed="true"]::after{opacity:.5}
+.persona .icon{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;font-size:1.6rem;background:rgba(255,255,255,.06);border:1px solid var(--line);margin-block-end:18px}
+.persona h3{font-size:1.25rem}
+.persona .en{color:var(--pc);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-block:2px 12px}
+.persona p{color:var(--muted);font-size:.92rem}
+.persona .check{position:absolute;inset-block-start:18px;inset-inline-end:18px;width:26px;height:26px;border-radius:50%;border:1px solid var(--line2);display:grid;place-items:center;font-size:.8rem;transition:.3s}
+.persona[aria-pressed="true"] .check{background:var(--pc);color:#05070f;border-color:var(--pc)}
+@media (max-width:960px){.personas{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.personas{grid-template-columns:1fr}}
+
+/* ============ Day timeline ============ */
+#day{padding-block-start:80px}
+.day-grid{display:grid;grid-template-columns:400px 1fr;gap:48px;align-items:start;margin-block-start:40px}
+.sky-panel{position:sticky;inset-block-start:96px;overflow:hidden;padding:0}
+#sky{display:block;width:100%;height:230px}
+.sky-body{padding:22px 24px 26px}
+.sky-time{font-family:var(--mono);font-size:3rem;font-weight:600;letter-spacing:-.02em;line-height:1}
+.sky-title{margin-block-start:8px;font-weight:700;font-size:1.1rem;min-height:1.6em}
+.sky-meta{display:flex;justify-content:space-between;align-items:center;margin-block-start:14px;gap:12px;flex-wrap:wrap}
+.takeover{margin-block-start:18px}
+.takeover .lbl{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted)}
+.takeover .lbl b{color:var(--text);font-variant-numeric:tabular-nums}
+.bar{height:8px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;margin-block-start:8px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--violet));border-radius:99px;transition:width .8s var(--ease)}
+.scrub{margin-block-start:22px}
+.scrub label{font-size:.78rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;display:block;margin-block-end:6px}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;background:rgba(255,255,255,.12);border-radius:99px;outline-offset:6px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--accent);border:3px solid #05070f;box-shadow:0 0 0 2px var(--accent),0 0 20px var(--accent);cursor:grab}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--accent);border:3px solid #05070f;box-shadow:0 0 0 2px var(--accent);cursor:grab}
+.ticks{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.68rem;color:var(--dim);margin-block-start:8px}
+.timeline{position:relative;display:flex;flex-direction:column;gap:28px}
+.timeline::before{content:"";position:absolute;inset-block:0;inset-inline-start:23px;width:2px;background:linear-gradient(var(--line2),var(--line2) 80%,transparent)}
+.tcard{position:relative;padding:26px 28px 26px 74px;transition:transform .4s var(--ease),border-color .3s,box-shadow .4s}
+.tcard .node{position:absolute;inset-inline-start:14px;inset-block-start:32px;width:20px;height:20px;border-radius:50%;background:var(--bg);border:2px solid var(--line2);transition:.3s}
+.tcard.active{border-color:rgba(var(--accent-rgb),.55);box-shadow:0 20px 60px -30px rgba(var(--accent-rgb),.6);transform:translateX(6px)}
+.tcard.active .node{background:var(--accent);border-color:var(--accent);box-shadow:0 0 22px var(--accent)}
+.tcard .time{font-family:var(--mono);color:var(--accent);font-size:.9rem;letter-spacing:.05em}
+.tcard h3{font-size:1.35rem;margin-block:4px 14px}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.compare>div{padding:16px 18px;border-radius:var(--radius-sm);border:1px solid var(--line);background:rgba(0,0,0,.25)}
+.compare .y26 h4{color:var(--dim)}
+.compare .y30{border-color:rgba(var(--accent-rgb),.35);background:rgba(var(--accent-rgb),.06)}
+.compare .y30 h4{color:var(--accent)}
+.compare h4{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;margin-block-end:8px}
+.compare p{font-size:.95rem;color:var(--text)}
+.compare .y26 p{color:var(--muted);text-decoration-color:var(--dim)}
+.tcard .foot{display:flex;justify-content:space-between;align-items:center;margin-block-start:16px;gap:10px;flex-wrap:wrap}
+.tcard .save{font-size:.85rem;color:var(--muted)}
+.tcard .save b{color:var(--mint);font-variant-numeric:tabular-nums}
+.chat{margin-block-start:18px;border-radius:var(--radius-sm);background:rgba(0,0,0,.35);border:1px solid var(--line);padding:14px;display:flex;flex-direction:column;gap:10px;min-height:96px}
+.msg{display:flex;gap:10px;align-items:flex-start;opacity:0;transform:translateY(8px);transition:opacity .4s,transform .4s}
+.msg.show{opacity:1;transform:none}
+.msg .av{flex:0 0 28px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:.72rem;font-weight:800}
+.msg.ai .av{background:linear-gradient(135deg,var(--accent),var(--violet));color:#05070f}
+.msg.me .av{background:rgba(255,255,255,.12);color:var(--text)}
+.msg .bub{padding:9px 13px;border-radius:14px;font-size:.9rem;max-width:90%;line-height:1.5}
+.msg.ai .bub{background:rgba(var(--accent-rgb),.1);border:1px solid rgba(var(--accent-rgb),.25);border-start-start-radius:4px}
+.msg.me{flex-direction:row-reverse}
+.msg.me .bub{background:rgba(255,255,255,.08);border:1px solid var(--line);border-start-end-radius:4px}
+.typing{display:inline-flex;gap:4px;align-items:center;height:1em}
+.typing i{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:blink 1.2s infinite}
+.typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.2;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+@media (max-width:960px){.day-grid{grid-template-columns:1fr}.sky-panel{position:relative;inset-block-start:0}.compare{grid-template-columns:1fr}}
+
+/* ============ Split (chart) ============ */
+.split-grid{display:grid;grid-template-columns:380px 1fr;gap:40px;align-items:center;margin-block-start:44px}
+.donut-wrap{position:relative;display:grid;place-items:center;padding:26px}
+#donut{width:100%;max-width:300px;aspect-ratio:1;display:block}
+.donut-center{position:absolute;text-align:center}
+.donut-center b{font-size:3rem;font-weight:800;letter-spacing:-.03em;display:block;line-height:1;font-variant-numeric:tabular-nums}
+.donut-center span{color:var(--muted);font-size:.85rem}
+.bars{display:flex;flex-direction:column;gap:14px}
+.brow{display:grid;grid-template-columns:170px 1fr 56px;gap:14px;align-items:center;padding:10px 14px;border-radius:14px;transition:background .25s;cursor:default}
+.brow:hover{background:var(--card2)}
+.brow .lab{font-weight:600;font-size:.95rem}
+.brow .lab small{display:block;color:var(--dim);font-weight:500;font-size:.72rem;letter-spacing:.06em}
+.track{height:14px;border-radius:99px;background:rgba(255,255,255,.08);position:relative;overflow:hidden}
+.track i{position:absolute;inset-block:0;inset-inline-start:0;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--violet));transition:width 1.2s var(--ease)}
+.track i::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);transform:translateX(-100%);animation:sweep 2.8s infinite}
+@keyframes sweep{to{transform:translateX(100%)}}
+.brow .pct{font-family:var(--mono);text-align:end;color:var(--accent);font-variant-numeric:tabular-nums}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin-block-start:26px;color:var(--muted);font-size:.85rem}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+@media (max-width:900px){.split-grid{grid-template-columns:1fr}.brow{grid-template-columns:120px 1fr 48px}}
+
+/* ============ Calculator ============ */
+.calc-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;margin-block-start:44px}
+.calc-inputs{padding:30px}
+.field{padding-block:18px;border-block-end:1px solid var(--line)}
+.field:last-child{border:0}
+.field .top{display:flex;justify-content:space-between;align-items:baseline;margin-block-end:10px}
+.field .top label{font-weight:600}
+.field .top label small{color:var(--dim);font-weight:500;margin-inline-start:6px}
+.field .val{font-family:var(--mono);color:var(--accent);font-size:1.1rem;font-variant-numeric:tabular-nums}
+.field .hint{font-size:.78rem;color:var(--dim);margin-block-start:8px}
+.calc-out{display:flex;flex-direction:column;gap:16px}
+.big-out{padding:30px;position:relative;overflow:hidden}
+.big-out::before{content:"";position:absolute;inset:-40% -20% auto auto;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(var(--accent-rgb),.25),transparent 70%)}
+.big-out .k{font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.big-out .v{font-size:clamp(3rem,6vw,4.6rem);font-weight:900;letter-spacing:-.04em;line-height:1;margin-block:8px;font-variant-numeric:tabular-nums}
+.big-out .v small{font-size:.35em;font-weight:600;color:var(--muted);letter-spacing:0;margin-inline-start:6px}
+.mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.mini{padding:18px 16px}
+.mini .v{font-size:1.6rem;font-weight:800;font-variant-numeric:tabular-nums}
+.mini .k{font-size:.78rem;color:var(--muted)}
+.equiv{padding:22px 24px}
+.equiv h4{font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-block-end:12px}
+.equiv ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.equiv li{display:flex;gap:12px;align-items:center;font-size:.98rem}
+.equiv li b{color:var(--accent);font-variant-numeric:tabular-nums}
+.equiv li span.ic{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.06);display:grid;place-items:center;flex:0 0 34px}
+.note{font-size:.78rem;color:var(--dim);margin-block-start:14px}
+@media (max-width:900px){.calc-grid{grid-template-columns:1fr}.mini-grid{grid-template-columns:1fr 1fr}}
+
+/* ============ Agent playground ============ */
+.agent{margin-block-start:44px;display:grid;grid-template-columns:1fr 1fr;gap:0;overflow:hidden;min-height:520px}
+.agent-left{padding:30px;border-inline-end:1px solid var(--line);display:flex;flex-direction:column;gap:18px;background:rgba(0,0,0,.2)}
+.agent-right{padding:30px;position:relative}
+.terminal-bar{display:flex;gap:6px;align-items:center;color:var(--dim);font-size:.75rem;font-family:var(--mono)}
+.terminal-bar i{width:10px;height:10px;border-radius:50%;background:var(--line2);display:inline-block}
+.terminal-bar i:nth-child(1){background:#fb7185}.terminal-bar i:nth-child(2){background:#f5b342}.terminal-bar i:nth-child(3){background:#34d399}
+.prompt-box{display:flex;gap:10px;padding:8px 8px 8px 18px;border-radius:999px;border:1px solid var(--line2);background:rgba(255,255,255,.04);align-items:center;transition:border-color .3s,box-shadow .3s}
+.prompt-box:focus-within{border-color:var(--accent);box-shadow:0 0 0 4px rgba(var(--accent-rgb),.15)}
+.prompt-box input{flex:1;background:none;border:0;color:var(--text);font:inherit;font-size:1rem;outline:none;min-width:0}
+.prompt-box input::placeholder{color:var(--dim)}
+.prompt-box button{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--violet));color:#05070f;font-weight:900;display:grid;place-items:center;transition:transform .2s}
+.prompt-box button:hover{transform:scale(1.06)}
+.sugg{display:flex;flex-wrap:wrap;gap:8px}
+.sugg button{padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-size:.85rem;color:var(--muted);transition:.25s}
+.sugg button:hover{border-color:var(--accent);color:var(--text);background:rgba(var(--accent-rgb),.1)}
+.agent-log{display:flex;flex-direction:column;gap:12px;margin-block-start:auto;font-size:.9rem}
+.thought{color:var(--muted);font-style:italic;display:flex;gap:8px;align-items:center}
+.plan{display:flex;flex-direction:column;gap:10px}
+.step{display:grid;grid-template-columns:28px 1fr auto;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.03);opacity:.35;transition:.4s}
+.step.run,.step.done{opacity:1}
+.step.run{border-color:rgba(var(--accent-rgb),.5);background:rgba(var(--accent-rgb),.06)}
+.step.done{border-color:rgba(52,211,153,.4)}
+.step .ic{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line2);font-size:.75rem;font-family:var(--mono)}
+.step.run .ic{border-color:var(--accent);color:var(--accent);animation:spin 1.4s linear infinite;border-block-start-color:transparent}
+.step.done .ic{background:var(--mint);color:#05070f;border-color:var(--mint)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.step b{display:block;font-size:.92rem}
+.step small{color:var(--muted);font-size:.78rem}
+.step .t{font-family:var(--mono);font-size:.72rem;color:var(--dim)}
+.result{margin-block-start:14px;padding:22px;border-radius:var(--radius-sm);border:1px solid rgba(52,211,153,.4);background:linear-gradient(135deg,rgba(52,211,153,.10),rgba(var(--accent-rgb),.06));opacity:0;transform:translateY(12px);transition:.6s var(--ease)}
+.result.show{opacity:1;transform:none}
+.result h4{font-size:1.05rem;margin-block-end:10px;display:flex;align-items:center;gap:8px}
+.result ul{margin:0;padding-inline-start:18px;color:var(--text);font-size:.92rem;display:grid;gap:6px}
+.result .meta{margin-block-start:14px;display:flex;gap:10px;flex-wrap:wrap}
+.result .approve{margin-block-start:14px;display:flex;gap:10px}
+.result .approve button{padding:9px 16px;border-radius:999px;border:1px solid var(--line2);font-size:.85rem;font-weight:600;transition:.25s}
+.result .approve button.ok{background:var(--mint);color:#05070f;border-color:var(--mint)}
+.result .approve button:hover{transform:translateY(-1px)}
+.empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--dim);padding:30px;pointer-events:none;transition:opacity .4s}
+.empty.hide{opacity:0}
+.empty .orb{width:80px;height:80px;border-radius:50%;margin:0 auto 16px;background:conic-gradient(from 0deg,var(--accent),var(--violet),var(--pink),var(--accent));filter:blur(14px);animation:rot 6s linear infinite;opacity:.7}
+@keyframes rot{to{transform:rotate(360deg)}}
+@media (max-width:900px){.agent{grid-template-columns:1fr}.agent-left{border-inline-end:0;border-block-end:1px solid var(--line)}.agent-right{min-height:420px}}
+
+/* ============ Compare slider ============ */
+.cmp{margin-block-start:44px;position:relative;height:520px;overflow:hidden;user-select:none;touch-action:none;cursor:ew-resize}
+.pane{position:absolute;inset:0;padding:34px}
+.pane.old{background:linear-gradient(160deg,#1a1f2e,#0d1019)}
+.pane.new{background:linear-gradient(160deg,rgba(var(--accent-rgb),.12),rgba(139,92,246,.10)),var(--bg2);clip-path:inset(0 0 0 var(--pos,50%))}
+.pane .tag{position:absolute;inset-block-start:18px;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;padding:6px 12px;border-radius:999px;background:rgba(0,0,0,.45);border:1px solid var(--line2)}
+.pane.old .tag{inset-inline-start:18px;color:var(--muted)}
+.pane.new .tag{inset-inline-end:18px;color:var(--accent);border-color:rgba(var(--accent-rgb),.5)}
+.mock{position:absolute;inset:64px 34px 34px;display:grid;gap:12px}
+.mock.old{grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr)}
+.win{border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.04);padding:12px;display:flex;flex-direction:column;gap:8px;overflow:hidden;position:relative}
+.win .tb{display:flex;gap:5px}
+.win .tb i{width:8px;height:8px;border-radius:50%;background:var(--line2)}
+.win .ln{height:8px;border-radius:4px;background:rgba(255,255,255,.12);width:80%}
+.win .ln.s{width:50%}.win .ln.xs{width:30%}
+.win .n{position:absolute;inset-block-start:8px;inset-inline-end:8px;background:var(--red);color:#fff;font-size:.62rem;font-weight:800;border-radius:999px;padding:1px 7px}
+.win .lab{font-size:.72rem;color:var(--dim);margin-block-start:auto}
+.win.wide{grid-column:span 2}
+.mock.new{grid-template-columns:1.2fr .8fr;grid-template-rows:auto 1fr}
+.focus{grid-column:1;grid-row:1/3;padding:20px;border-radius:16px;border:1px solid rgba(var(--accent-rgb),.35);background:rgba(0,0,0,.3);display:flex;flex-direction:column;gap:12px}
+.focus h4{font-size:1.1rem}
+.focus .pill{align-self:flex-start}
+.focus .ln{height:10px;border-radius:5px;background:linear-gradient(90deg,rgba(var(--accent-rgb),.5),rgba(139,92,246,.4));width:90%}
+.focus .ln.s{width:60%}
+.focus p{color:var(--muted);font-size:.9rem;margin-block-start:auto}
+.agent-side{padding:16px;border-radius:16px;border:1px solid var(--line);background:rgba(0,0,0,.3);display:flex;flex-direction:column;gap:10px}
+.agent-side h5{margin:0;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.done-item{display:flex;gap:10px;align-items:center;font-size:.85rem;color:var(--text)}
+.done-item i{width:18px;height:18px;border-radius:50%;background:var(--mint);color:#05070f;display:grid;place-items:center;font-size:.65rem;font-weight:900;flex:0 0 18px}
+.handle{position:absolute;inset-block:0;inset-inline-start:var(--pos,50%);width:2px;background:#fff;transform:translateX(-1px);box-shadow:0 0 24px rgba(255,255,255,.6);pointer-events:none}
+.handle b{position:absolute;inset-block-start:50%;inset-inline-start:50%;transform:translate(-50%,-50%);width:54px;height:54px;border-radius:50%;background:#fff;color:#05070f;display:grid;place-items:center;font-size:1rem;letter-spacing:-.1em;font-weight:900;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.cmp-range{margin-block-start:14px}
+@media (max-width:760px){.cmp{height:600px}.mock.old{grid-template-columns:repeat(2,1fr)}.win.wide{grid-column:span 2}.mock.new{grid-template-columns:1fr;grid-template-rows:1fr auto}.focus{grid-row:1}}
+
+/* ============ Human skills (flip) ============ */
+.skills{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-block-start:44px;perspective:1200px}
+.flip{height:230px;position:relative;cursor:pointer;background:none;border:0;padding:0;text-align:start;width:100%}
+.flip .inner{position:absolute;inset:0;transition:transform .8s var(--ease);transform-style:preserve-3d}
+.flip.on .inner,.flip:focus-visible .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;padding:26px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;justify-content:flex-end;gap:8px}
+.face.front .big{font-size:2.2rem}
+.face.front h3{font-size:1.3rem}
+.face.front .en{color:var(--accent);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+.face.front .more{position:absolute;inset-block-start:20px;inset-inline-end:20px;color:var(--dim);font-size:.75rem}
+.face.back{transform:rotateY(180deg);background:linear-gradient(135deg,rgba(var(--accent-rgb),.14),rgba(139,92,246,.12));justify-content:center}
+.face.back p{color:var(--text);font-size:.95rem}
+.face.back small{color:var(--muted);display:block;margin-block-start:8px}
+@media (max-width:900px){.skills{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.skills{grid-template-columns:1fr}}
+
+/* ============ Closing / share card ============ */
+#closing{text-align:center;padding-block:140px}
+.manifesto{font-size:clamp(1.6rem,4vw,3rem);font-weight:800;max-width:24ch;margin-inline:auto;line-height:1.25}
+.manifesto em{font-style:normal;color:var(--accent)}
+.share{margin:44px auto 0;max-width:720px;padding:26px}
+#sharecard{width:100%;border-radius:14px;display:block;border:1px solid var(--line)}
+.share .row{display:flex;gap:12px;justify-content:center;margin-block-start:18px;flex-wrap:wrap}
+.toast{position:fixed;inset-block-end:28px;inset-inline-start:50%;transform:translate(-50%,20px);background:#fff;color:#05070f;padding:12px 20px;border-radius:999px;font-weight:700;opacity:0;pointer-events:none;transition:.4s var(--ease);z-index:60;box-shadow:0 10px 40px rgba(0,0,0,.4)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+footer{padding:40px 0 60px;color:var(--dim);font-size:.85rem;border-block-start:1px solid var(--line)}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body data-persona="office">
+<div id="glow" aria-hidden="true"></div>
+
+<nav class="nav" aria-label="主導覽">
+  <a class="brand" href="#hero"><span class="dot"></span>2030 AI 工作台 <small>/ AI Workbench</small></a>
+  <div class="nav-links">
+    <a href="#persona">選角色</a>
+    <a href="#day">你的一天</a>
+    <a href="#split">接手比例</a>
+    <a href="#calc">時間計算器</a>
+    <a href="#agent">Agent 體驗</a>
+    <a href="#compare">今昔對照</a>
+    <a href="#human">人的價值</a>
+  </div>
+  <div class="progress" id="progress"></div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section id="hero" class="hero">
+  <canvas id="net" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <div class="badge"><b>2030</b> Interactive Experience · 可探索的未來工作體驗</div>
+    <h1>看看 AI 會怎麼<br><span class="shine">接手你一天的工作</span></h1>
+    <p class="sub">這不是工具清單,也不是預言。這是一台時光機:選一個角色,拖動時間軸,看 2030 年的你怎麼跟 AI Agent 一起度過從早到晚的每一個小時。</p>
+    <div class="cta">
+      <a class="btn primary" href="#persona">開始你的一天 <span class="arrow">→</span></a>
+      <a class="btn ghost" href="#agent">先玩 Agent 體驗</a>
+    </div>
+    <div class="clock" aria-label="模擬 2030 年時鐘">
+      <div><small>Simulated date</small><b id="clk-date">2030.09.07</b></div>
+      <div><small>Local time · Taipei</small><b class="live" id="clk-time">19:55:51</b></div>
+      <div><small>Agents online</small><b id="clk-agents">7</b></div>
+    </div>
+    <div class="stats">
+      <div class="card stat"><div class="num"><span data-count="61">0</span>%</div><p>情境中,一天可交給 AI 自動或協作完成的任務比例(依角色而異)</p></div>
+      <div class="card stat"><div class="num"><span data-count="11">0</span> hr</div><p>情境中,平均每週可回收的時間 — 在下方計算器輸入你的數字</p></div>
+      <div class="card stat"><div class="num"><span data-count="100">0</span>%</div><p>最後的判斷、關係與責任,仍然是你的</p></div>
+    </div>
+  </div>
+  <div class="scroll-hint" aria-hidden="true">SCROLL <i></i></div>
+</section>
+
+<!-- ============ PERSONA ============ -->
+<section id="persona">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow">Step 01 · Choose your role</span>
+      <h2 class="h2">先告訴我,<em>你是誰</em>?</h2>
+      <p class="lead">AI 接手的方式,對每個人都不一樣。選一個最像你的角色,整個網站會跟著你改變:時間軸、接手比例、計算器預設值、還有最後的專屬工作卡。</p>
+    </div>
+    <div class="personas reveal" role="group" aria-label="選擇角色">
+      <button class="card persona" data-p="office" aria-pressed="true" style="--pc:#4fe3ff">
+        <span class="check" aria-hidden="true">✓</span>
+        <div class="icon">💼</div>
+        <h3>上班族</h3><div class="en">Office Worker</div>
+        <p>被 Email、會議與報表夾攻的一天。你想要的是:準時下班,而且事情真的有做完。</p>
+      </button>
+      <button class="card persona" data-p="student" aria-pressed="false" style="--pc:#34d399">
+        <span class="check" aria-hidden="true">✓</span>
+        <div class="icon">🎓</div>
+        <h3>學生</h3><div class="en">Student</div>
+        <p>課堂、報告、考試、社團。你想要的是:讀得更深,不是讀得更累。</p>
+      </button>
+      <button class="card persona" data-p="creator" aria-pressed="false" style="--pc:#f472b6">
+        <span class="check" aria-hidden="true">✓</span>
+        <div class="icon">🎬</div>
+        <h3>內容創作者</h3><div class="en">Content Creator</div>
+        <p>靈感、腳本、剪輯、社群、數據。你想要的是:把時間留給真正的創作。</p>
+      </button>
+      <button class="card persona" data-p="knowledge" aria-pressed="false" style="--pc:#f5b342">
+        <span class="check" aria-hidden="true">✓</span>
+        <div class="icon">🔬</div>
+        <h3>知識工作者</h3><div class="en">Knowledge Worker</div>
+        <p>研究、分析、寫作、決策。你想要的是:更少的資料搬運,更多的深度思考。</p>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DAY ============ -->
+<section id="day">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow">Step 02 · Your day in 2030</span>
+      <h2 class="h2"><span id="day-name">上班族</span>的一天:<em>拖動時間,看 AI 上場</em></h2>
+      <p class="lead">往下捲動,或直接拖動時間軸。左邊的天空會跟著時間變化,每張卡片上的對話會在你看到時「即時發生」。綠色代表 AI 自動完成,藍色是人機協作,橘色是你主導。</p>
+    </div>
+    <div class="day-grid">
+      <aside class="card sky-panel reveal">
+        <canvas id="sky" aria-hidden="true"></canvas>
+        <div class="sky-body">
+          <div class="sky-time" id="sky-time">07:30</div>
+          <div class="sky-title" id="sky-title">—</div>
+          <div class="sky-meta">
+            <span class="chip auto" id="sky-mode">AI 自動</span>
+            <span style="color:var(--muted);font-size:.85rem" id="sky-count">1 / 8</span>
+          </div>
+          <div class="takeover">
+            <div class="lbl"><span>今日 AI 已接手的工作量</span><b id="take-pct">0%</b></div>
+            <div class="bar"><i id="take-bar"></i></div>
+          </div>
+          <div class="scrub">
+            <label for="scrub">拖曳時間軸 · Scrub the day</label>
+            <input type="range" id="scrub" min="0" max="7" value="0" step="1" aria-label="時間軸">
+            <div class="ticks"><span>06:00</span><span>12:00</span><span>18:00</span><span>23:00</span></div>
+          </div>
+        </div>
+      </aside>
+      <div class="timeline" id="timeline" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SPLIT ============ -->
+<section id="split">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow">Step 03 · The takeover map</span>
+      <h2 class="h2">哪些事 AI 會接走,<em>哪些事還是你的</em>?</h2>
+      <p class="lead">同一個角色,不同類型的工作,AI 能接手的程度差很多。滑過每一列看細節。這些是情境假設,不是研究數據 — 但它能幫你看清楚:該把自己的成長押在哪裡。</p>
+    </div>
+    <div class="split-grid">
+      <div class="card donut-wrap reveal">
+        <canvas id="donut" width="600" height="600" aria-label="整體 AI 接手比例"></canvas>
+        <div class="donut-center"><b id="donut-val">0%</b><span>整體工作量 AI 可接手</span></div>
+      </div>
+      <div class="reveal">
+        <div class="bars" id="bars"></div>
+        <div class="legend"><span><i style="background:linear-gradient(90deg,var(--accent),var(--violet))"></i>AI 可自動或協作完成</span><span><i style="background:rgba(255,255,255,.12)"></i>仍需要你</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CALC ============ -->
+<section id="calc">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow">Step 04 · Time recovered</span>
+      <h2 class="h2">算一下:<em>你一年能拿回多少時間</em>?</h2>
+      <p class="lead">拖動滑桿,輸入你現在真實的一天。計算器用的是保守的假設值(標在每一格下方),你可以在心裡打個折 — 就算打對折,數字還是很驚人。</p>
+    </div>
+    <div class="calc-grid">
+      <div class="card calc-inputs reveal">
+        <div class="field">
+          <div class="top"><label for="f-emails">每天處理的 Email / 訊息<small>emails & messages</small></label><span class="val" id="v-emails">60 封</span></div>
+          <input type="range" id="f-emails" min="5" max="200" value="60" step="5">
+          <div class="hint">假設:每封平均 2.5 分鐘,AI 分類、摘要、草擬回覆可省 70%</div>
+        </div>
+        <div class="field">
+          <div class="top"><label for="f-meetings">每週的會議數<small>meetings / week</small></label><span class="val" id="v-meetings">12 場</span></div>
+          <input type="range" id="f-meetings" min="0" max="40" value="12" step="1">
+          <div class="hint">假設:每場 AI 負責會前摘要、即時筆記、會後追蹤,省 20 分鐘</div>
+        </div>
+        <div class="field">
+          <div class="top"><label for="f-reports">每週的報告 / 簡報 / 文件<small>docs / week</small></label><span class="val" id="v-reports">3 份</span></div>
+          <input type="range" id="f-reports" min="0" max="15" value="3" step="1">
+          <div class="hint">假設:每份 3 小時,AI 從資料整理到初稿可省 60%</div>
+        </div>
+        <div class="field">
+          <div class="top"><label for="f-search">每天找資料、切換工具的時間<small>hours / day</small></label><span class="val" id="v-search">1.5 小時</span></div>
+          <input type="range" id="f-search" min="0" max="5" value="1.5" step="0.5">
+          <div class="hint">假設:AI 跨系統搜尋與整理可省 65%</div>
+        </div>
+      </div>
+      <div class="calc-out reveal">
+        <div class="card big-out">
+          <div class="k">每週回收 · Hours back per week</div>
+          <div class="v"><span id="o-week">0</span><small>小時 / 週</small></div>
+          <div class="bar" style="height:10px"><i id="o-bar"></i></div>
+          <div class="note" id="o-pct">約等於每週工時的 0%</div>
+        </div>
+        <div class="mini-grid">
+          <div class="card mini"><div class="v" id="o-year">0</div><div class="k">小時 / 年</div></div>
+          <div class="card mini"><div class="v" id="o-days">0</div><div class="k">個工作日 / 年</div></div>
+          <div class="card mini"><div class="v" id="o-weeks">0</div><div class="k">週的假 / 年</div></div>
+        </div>
+        <div class="card equiv">
+          <h4>這些時間可以換成 · What it buys you</h4>
+          <ul>
+            <li><span class="ic">📚</span><span>讀完 <b id="e-books">0</b> 本書(每本 6 小時)</span></li>
+            <li><span class="ic">🏃</span><span>跑 <b id="e-runs">0</b> 次 5K(含來回洗澡 1 小時)</span></li>
+            <li><span class="ic">🧠</span><span>學會 <b id="e-skills">0</b> 項新技能(每項 40 小時)</span></li>
+            <li><span class="ic">🌅</span><span>每天多睡 / 多陪家人 <b id="e-daily">0</b> 分鐘</span></li>
+          </ul>
+          <div class="note">以每年 48 個工作週、每週 40 小時計。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AGENT ============ -->
+<section id="agent">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow">Step 05 · Try the agent</span>
+      <h2 class="h2">動手玩:<em>叫你的 2030 Agent 做一件事</em></h2>
+      <p class="lead">輸入一句話,看 Agent 怎麼「理解 → 規劃 → 執行 → 請你確認」。這是模擬,不會連到任何真實系統 — 但流程就是 2030 年的日常。注意最後一步:重要的事,它一定會停下來等你。</p>
+    </div>
+    <div class="card agent reveal">
+      <div class="agent-left">
+        <div class="terminal-bar"><i></i><i></i><i></i><span style="margin-inline-start:8px">agent://workbench-2030</span></div>
+        <form class="prompt-box" id="agent-form">
+          <label class="sr-only" for="agent-input">告訴 Agent 要做什麼</label>
+          <input id="agent-input" type="text" placeholder="例如:幫我準備明天的季度會議…" autocomplete="off" maxlength="120">
+          <button type="submit" aria-label="送出">↑</button>
+        </form>
+        <div class="sugg" id="sugg" aria-label="試試這些">
+          <button type="button" data-q="幫我準備明天的季度會議">準備明天的季度會議</button>
+          <button type="button" data-q="把這 40 封信整理好,重要的先回">整理 40 封信</button>
+          <button type="button" data-q="下週要交的報告,幫我做出初稿">寫報告初稿</button>
+          <button type="button" data-q="幫我安排下個月去東京出差">安排東京出差</button>
+          <button type="button" data-q="這週的影片幫我做腳本跟社群貼文">做影片腳本</button>
+          <button type="button" data-q="幫我讀完這 12 篇論文,整理成筆記">整理 12 篇論文</button>
+        </div>
+        <p class="note">Agent 只是模擬。你在這裡輸入的內容不會被送出或儲存。</p>
+      </div>
+      <div class="agent-right">
+        <div class="empty" id="agent-empty"><div><div class="orb"></div>你的 Agent 已上線,等待指令。<br><small>Waiting for your first task…</small></div></div>
+        <div class="agent-log" id="agent-log"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPARE ============ -->
+<section id="compare">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow">Step 06 · Then vs. now</span>
+      <h2 class="h2">今天的桌面 vs <em>2030 的工作台</em></h2>
+      <p class="lead">拖動中間的把手。左邊是我們熟悉的今天:十幾個視窗、紅色通知、不停切換。右邊是 2030:一個工作台、一個焦點、一個把雜事做完的 Agent。</p>
+    </div>
+    <div class="card cmp reveal" id="cmp" style="--pos:50%">
+      <div class="pane old">
+        <span class="tag">2026 · 今天</span>
+        <div class="mock old">
+          <div class="win"><div class="tb"><i></i><i></i><i></i></div><span class="n">128</span><div class="ln"></div><div class="ln s"></div><div class="lab">Inbox</div></div>
+          <div class="win"><div class="tb"><i></i><i></i><i></i></div><span class="n">37</span><div class="ln xs"></div><div class="ln"></div><div class="lab">Chat</div></div>
+          <div class="win"><div class="tb"><i></i><i></i><i></i></div><div class="ln"></div><div class="ln s"></div><div class="lab">Calendar</div></div>
+          <div class="win"><div class="tb"><i></i><i></i><i></i></div><span class="n">9</span><div class="ln s"></div><div class="lab">Tasks</div></div>
+          <div class="win wide"><div class="tb"><i></i><i></i><i></i></div><div class="ln"></div><div class="ln"></div><div class="ln s"></div><div class="lab">Spreadsheet v7_final_FINAL(2).xlsx</div></div>
+          <div class="win"><div class="tb"><i></i><i></i><i></i></div><div class="ln xs"></div><div class="ln s"></div><div class="lab">Browser · 23 tabs</div></div>
+          <div class="win"><div class="tb"><i></i><i></i><i></i></div><span class="n">!</span><div class="ln"></div><div class="lab">Meeting in 2 min</div></div>
+          <div class="win"><div class="tb"><i></i><i></i><i></i></div><div class="ln s"></div><div class="ln xs"></div><div class="lab">Notes</div></div>
+          <div class="win"><div class="tb"><i></i><i></i><i></i></div><div class="ln"></div><div class="lab">Slides draft</div></div>
+          <div class="win wide"><div class="tb"><i></i><i></i><i></i></div><div class="ln xs"></div><div class="ln"></div><div class="lab">Search: "上次那份報告在哪"</div></div>
+        </div>
+      </div>
+      <div class="pane new">
+        <span class="tag">2030 · 工作台</span>
+        <div class="mock new">
+          <div class="focus">
+            <span class="chip you pill">你正在做的一件事</span>
+            <h4>決定下季的產品方向</h4>
+            <div class="ln"></div><div class="ln s"></div><div class="ln"></div>
+            <p>Agent 已把 3 個方案的利弊、數據與風險整理成一頁。你只要思考,然後做決定。</p>
+          </div>
+          <div class="agent-side">
+            <h5>Agent 今天已完成</h5>
+            <div class="done-item"><i>✓</i>128 封信分類,9 封待你決定</div>
+            <div class="done-item"><i>✓</i>3 場會議摘要與追蹤事項已寄出</div>
+            <div class="done-item"><i>✓</i>報表更新,異常 2 筆已標註</div>
+            <div class="done-item"><i>✓</i>明天行程已排,衝突已解</div>
+          </div>
+          <div class="agent-side">
+            <h5>等你確認 · 2 件</h5>
+            <div class="done-item"><i style="background:var(--amber)">!</i>回覆客戶 A 的報價(已擬稿)</div>
+            <div class="done-item"><i style="background:var(--amber)">!</i>批准團隊下週的請假安排</div>
+          </div>
+        </div>
+      </div>
+      <div class="handle" aria-hidden="true"><b>‹›</b></div>
+    </div>
+    <div class="cmp-range"><label class="sr-only" for="cmp-range">對照滑桿</label><input type="range" id="cmp-range" min="0" max="100" value="50" step="1" aria-label="今昔對照滑桿"></div>
+  </div>
+</section>
+
+<!-- ============ HUMAN ============ -->
+<section id="human">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow">Step 07 · What stays human</span>
+      <h2 class="h2">AI 接手越多,<em>這六件事越值錢</em></h2>
+      <p class="lead">點一下翻面。這不是安慰獎 — 這是 2030 年真正的職場貨幣。當「做」變便宜,「決定做什麼、為什麼做、跟誰一起做」就會變貴。</p>
+    </div>
+    <div class="skills reveal">
+      <button class="card flip" type="button" aria-label="判斷力,點擊翻面">
+        <div class="inner">
+          <div class="face front"><span class="more">點擊翻面 ↻</span><div class="big">⚖️</div><h3>判斷</h3><div class="en">Judgment</div></div>
+          <div class="face back"><p>AI 給你 3 個方案跟它們的風險。選哪一個、為什麼、願意承擔什麼後果 — 這是判斷,沒有人能替你做。</p><small>2030 練習:每天做一個「有理由」的決定。</small></div>
+        </div>
+      </button>
+      <button class="card flip" type="button" aria-label="提問力,點擊翻面">
+        <div class="inner">
+          <div class="face front"><span class="more">點擊翻面 ↻</span><div class="big">❓</div><h3>提問</h3><div class="en">Asking the right question</div></div>
+          <div class="face back"><p>答案變得幾乎免費,問題變得極貴。會問「我們到底要解決什麼」的人,會是 Agent 團隊的指揮官。</p><small>2030 練習:寫下問題之前,先寫「為什麼這個問題重要」。</small></div>
+        </div>
+      </button>
+      <button class="card flip" type="button" aria-label="品味與方向,點擊翻面">
+        <div class="inner">
+          <div class="face front"><span class="more">點擊翻面 ↻</span><div class="big">🎯</div><h3>品味</h3><div class="en">Taste &amp; Direction</div></div>
+          <div class="face back"><p>AI 可以產出 100 個版本,但「哪一個是對的」需要品味。品味來自大量的看、比較、和敢說不。</p><small>2030 練習:每週挑 3 件你覺得「做得好」的東西,說出為什麼。</small></div>
+        </div>
+      </button>
+      <button class="card flip" type="button" aria-label="關係,點擊翻面">
+        <div class="inner">
+          <div class="face front"><span class="more">點擊翻面 ↻</span><div class="big">🤝</div><h3>關係</h3><div class="en">Relationships</div></div>
+          <div class="face back"><p>信任是人給人的。Agent 可以擬好訊息,但客戶、同事、學生記得的,是你在關鍵時刻怎麼對待他們。</p><small>2030 練習:把 AI 省下的 30 分鐘,拿去跟一個人好好聊。</small></div>
+        </div>
+      </button>
+      <button class="card flip" type="button" aria-label="責任,點擊翻面">
+        <div class="inner">
+          <div class="face front"><span class="more">點擊翻面 ↻</span><div class="big">🛡️</div><h3>責任</h3><div class="en">Accountability</div></div>
+          <div class="face back"><p>Agent 出錯,簽名的還是你。理解它做了什麼、在哪裡設下「必須問我」的關卡,是 2030 的基本素養。</p><small>2030 練習:列出 5 件「AI 絕對不能自己決定」的事。</small></div>
+        </div>
+      </button>
+      <button class="card flip" type="button" aria-label="學習力,點擊翻面">
+        <div class="inner">
+          <div class="face front"><span class="more">點擊翻面 ↻</span><div class="big">🌱</div><h3>持續學習</h3><div class="en">Learning how to learn</div></div>
+          <div class="face back"><p>工具每半年換一輪。真正的護城河不是會用哪個 AI,而是能多快理解一個新東西並判斷它值不值得用。</p><small>2030 練習:每月試一個新工具,兩週後決定留或丟。</small></div>
+        </div>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLOSING ============ -->
+<section id="closing">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow">Your 2030 card</span>
+      <p class="manifesto" style="margin-block-start:20px">2030 不是 AI 取代你。<br>是 <em>你 + AI</em>,變成一個更像你想成為的人。</p>
+    </div>
+    <div class="card share reveal">
+      <canvas id="sharecard" width="1200" height="630" aria-label="你的 2030 工作卡"></canvas>
+      <div class="row">
+        <button class="btn primary" id="dl">下載我的 2030 工作卡 <span class="arrow">↓</span></button>
+        <a class="btn ghost" href="#persona">換個角色再玩一次</a>
+      </div>
+      <p class="note">卡片會依你選的角色與計算器的數字即時生成,完全在你的瀏覽器裡完成。</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2030 AI Workbench · 一個互動式的想像實驗。所有情境、比例與時數皆為設計假設,非研究數據或預測。</span>
+    <span>Built with HTML · CSS · Canvas · 零外部依賴</span>
+  </div>
+</footer>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+'use strict';
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const hexToRgb=h=>{const n=parseInt(h.slice(1),16);return[(n>>16)&255,(n>>8)&255,n&255]};
+
+/* ================= DATA ================= */
+const P={
+ office:{name:'上班族',en:'Office Worker',icon:'💼',color:'#4fe3ff',
+  calc:{emails:60,meetings:12,reports:3,search:1.5},
+  split:[['Email 與訊息處理','Inbox & messages',85],['會議紀錄與追蹤','Meeting notes & follow-ups',90],['報表與資料整理','Reports & data prep',80],['跨部門協調','Cross-team coordination',45],['決策與取捨','Decisions & trade-offs',20],['關係與信任','Relationships',10]],
+  day:[
+   {t:'07:30',h:7.5,title:'起床,先看今天的「戰局」',mode:'auto',save:35,y26:'邊吃早餐邊滑 128 封未讀,焦慮從第一口開始。',y30:'Agent 已在 06:00 讀完所有信、群組訊息與昨晚的變動,濃縮成 90 秒的語音簡報。你只聽、只想。',chat:[['ai','早安 Jason。昨晚有 3 件事需要你知道:客戶 A 要求提前交付、財務更新了 Q3 預算、下午 2 點的會議改到 3 點。要我先把提前交付的影響評估好嗎?'],['me','好,先評估,10 點前給我。'],['ai','收到。我會拉出產能與排程資料,做成一頁比較給你。']]},
+   {t:'09:00',h:9,title:'Inbox 已經歸零 — 只剩 9 封等你決定',mode:'auto',save:70,y26:'一封一封讀、一封一封回,回到第 40 封時已經 10 點半。',y30:'119 封 Agent 已分類、歸檔或代擬回覆;9 封涉及承諾、金額或關係,停下來等你拍板。',chat:[['ai','9 封待決定。第 1 封:供應商要求漲價 8%,我擬了兩個回覆版本 — 接受但要求延長付款條件,或要求重新報價。你要哪一個?'],['me','第二個,語氣客氣一點。'],['ai','已調整並寄出。其餘 8 封依重要性排好了。']]},
+   {t:'10:30',h:10.5,title:'季度會議:你只負責「說服」',mode:'co',save:60,y26:'會前 2 小時趕投影片,會中低頭抄筆記,會後忘了誰答應了什麼。',y30:'簡報初稿昨晚已好;會議中 Agent 即時記錄決策與待辦,結束 2 分鐘後追蹤信已寄給所有人。',chat:[['ai','會議摘要:3 項決策、7 項待辦。其中「產線調度」待辦沒有負責人,要我先指派給營運部 Kelly 並抄送你嗎?'],['me','好。另外把提前交付的結論放最上面。'],['ai','完成。追蹤信已寄出,並在你的行事曆加了下週的檢查點。']]},
+   {t:'12:30',h:12.5,title:'午餐,真的在吃午餐',mode:'you',save:0,y26:'便當配 Excel,一邊回訊息一邊被 @。',y30:'Agent 進入「勿擾模式」:只有真正的緊急事件會打斷你。你跟同事聊的是週末,不是 KPI。',chat:[['ai','午餐期間有 14 則訊息,沒有需要立刻處理的。我會在 13:30 給你摘要。']]},
+   {t:'14:00',h:14,title:'月報:從 4 小時到 40 分鐘',mode:'co',save:200,y26:'從 5 個系統匆忙撈數字,貼進投影片,發現數字對不起來,重來。',y30:'Agent 跨系統抓資料、對帳、產出圖表與初稿;你花 40 分鐘看趨勢、寫洞察、決定要講什麼故事。',chat:[['ai','月報初稿好了。有一件事你應該看:華南區的退貨率連續 3 個月上升,和新包裝上線的時間吻合。要我把這段放進「風險」還是「觀察」?'],['me','放風險,再幫我找退貨原因的分佈。'],['ai','已補上原因分佈圖,並標註了資料來源。']]},
+   {t:'16:00',h:16,title:'真正需要你的事:一場困難的對話',mode:'you',save:0,y26:'被瑣事推遲了三次,終於在下班前匆匆講完。',y30:'Agent 早上就把這段時間保護下來。你帶著它整理的背景與過往紀錄走進去,專心在人身上。',chat:[['ai','16:00 與 Alex 的一對一。我整理了他近兩個月的專案進度與他上次提到的顧慮。這段對話我不會記錄,除非你要求。'],['me','不用記錄,謝謝。']]},
+   {t:'17:30',h:17.5,title:'準時下班,明天已經排好',mode:'auto',save:30,y26:'離開前又收到 3 件「順便」,把明天的行程排到爆。',y30:'Agent 已解決明天的 2 個行程衝突、準備好會前資料,並把今天沒做完的事重新排序。你只要看一眼。',chat:[['ai','明天的日程已排好:早上留了 2 小時深度工作時間,3 場會議的資料都準備好了。今天做完了 23 件事,有 2 件明天我需要你的決定。晚安。']]},
+   {t:'21:30',h:21.5,title:'學習 30 分鐘,為自己',mode:'co',save:20,y26:'想學點新東西,但打開電腦又看到工作訊息。',y30:'Agent 依你的興趣與職涯目標,把今天值得看的內容整理成 30 分鐘的學習包,並幫你追蹤進度。',chat:[['ai','今晚的學習包:一段 12 分鐘關於供應鏈韌性的講座、一篇你上次收藏的文章摘要。要我明早提醒你做筆記嗎?'],['me','好。']]}
+  ]},
+ student:{name:'學生',en:'Student',icon:'🎓',color:'#34d399',
+  calc:{emails:15,meetings:4,reports:2,search:2},
+  split:[['找資料與整理筆記','Research & notes',80],['讀書計畫與複習','Study planning',75],['報告初稿與格式','Draft & formatting',70],['小組協調','Group coordination',55],['理解與思考','Understanding',20],['考試與創作','Exams & original work',10]],
+  day:[
+   {t:'07:45',h:7.75,title:'今天要學什麼,Agent 已經幫你排好',mode:'auto',save:15,y26:'到了教室才發現今天要交作業,昨晚熬夜白費。',y30:'Agent 整合課表、作業截止與你的複習進度,告訴你今天最該花時間的三件事。',chat:[['ai','早安!今天:上午統計課(建議先看 10 分鐘的前情摘要)、下午小組討論、週四要交的報告還差 40%。要我把今晚 2 小時留給報告嗎?'],['me','好,先排。']]},
+   {t:'09:10',h:9.17,title:'課堂上,你只負責聽懂',mode:'co',save:30,y26:'拼命抄筆記,結果沒聽懂老師在講什麼。',y30:'Agent 即時整理筆記、標記你看起來困惑的段落(你按了「?」),課後自動產生 5 題自測。',chat:[['ai','剛剛「中央極限定理」那段你按了兩次「?」。我用你熟悉的籤筒例子重講了一次,放在筆記旁邊。要現在看,還是下課再看?'],['me','下課。']]},
+   {t:'11:30',h:11.5,title:'12 篇文獻,1 小時讀出結構',mode:'co',save:120,y26:'開了 12 個 PDF,讀了 3 篇,忘了第 1 篇講什麼。',y30:'Agent 先做每篇的重點卡、彼此的爭論點與缺口;你花時間讀關鍵段落、形成自己的觀點。',chat:[['ai','12 篇裡有 4 篇支持 A 觀點、5 篇支持 B、3 篇是方法論。最有意思的是第 7 篇直接反駁第 2 篇的資料。這可能是你報告的切入點。'],['me','把這兩篇的原文段落標出來給我。'],['ai','已標出,並附上頁碼。']]},
+   {t:'13:00',h:13,title:'午餐:跟朋友,不跟螢幕',mode:'you',save:0,y26:'邊吃邊查等一下小組要討論什麼。',y30:'小組討論的議程、每個人的進度,Agent 已經在群組裡整理好。你可以放心吃飯。',chat:[['ai','小組 4 人的進度都已更新,下午 2 點討論的議程放在共享頁面上。沒有需要你現在處理的事。']]},
+   {t:'14:00',h:14,title:'小組報告:Agent 當秘書,你們當作者',mode:'co',save:45,y26:'一半時間在確認「誰做哪一段」、找上次的檔案。',y30:'Agent 追蹤分工、合併大家的段落、統一格式與引用;你們把時間花在爭論論點。',chat:[['ai','已把 4 個人的段落合併,引用格式統一為 APA。第 2 段與第 4 段的論點有點重複,要我標出來給大家看嗎?'],['me','標出來,順便提醒 Mia 她的圖還沒放。'],['ai','已標註並在群組留言提醒。']]},
+   {t:'16:30',h:16.5,title:'寫報告:初稿 15 分鐘,思考 90 分鐘',mode:'co',save:90,y26:'面對空白頁 40 分鐘,先去洗衣服。',y30:'Agent 依你的大綱與筆記產生初稿骨架;你把大部分時間花在改寫論點、加入自己的例子。',chat:[['ai','初稿骨架好了,但第三段的論點是我從文獻推的,不是你的想法。你要保留、修改,還是自己重寫這段?'],['me','我自己寫,這段是重點。']]},
+   {t:'19:30',h:19.5,title:'複習:AI 知道你哪裡不會',mode:'auto',save:40,y26:'整本重讀,會的重讀三次,不會的跳過。',y30:'Agent 依你的錯題與遲疑時間,生成 25 分鐘的針對性複習;你的時間只花在真正的弱點上。',chat:[['ai','今晚複習清單:假設檢定的 p 值解釋(你錯了 3 次)、信賴區間的圖解。預估 25 分鐘。準備好就說開始。'],['me','開始。']]},
+   {t:'22:00',h:22,title:'關機。明天的你,會謝謝今天的你',mode:'you',save:0,y26:'焦慮還有什麼沒做,滑手機到 1 點。',y30:'Agent 給你一張今天的完成清單,告訴你「可以放心睡了」。剩下的它會在早上提醒你。',chat:[['ai','今天完成 7 件事,報告進度 75%。明天沒有截止日。晚安,好好睡。']]}
+  ]},
+ creator:{name:'內容創作者',en:'Content Creator',icon:'🎬',color:'#f472b6',
+  calc:{emails:30,meetings:5,reports:4,search:2},
+  split:[['數據分析與趨勢','Analytics & trends',85],['剪輯、字幕與多版本','Editing & versions',75],['社群排程與回覆','Scheduling & replies',80],['腳本與文案初稿','Script drafts',60],['創意方向與風格','Creative direction',15],['與觀眾的真實連結','Audience connection',10]],
+  day:[
+   {t:'08:30',h:8.5,title:'昨晚的數據,今早的洞察',mode:'auto',save:40,y26:'切換 4 個平台後台,截圖,自己做表。',y30:'Agent 整合所有平台數據,告訴你「哪支影片為什麼跑起來」,而不是只給數字。',chat:[['ai','昨晚的短片觸及比平均高 3.2 倍,主因是第 4 秒的反轉;留言有 60% 問「下一集」。要我把這個開場結構存成你的模板嗎?'],['me','存,叫「4 秒反轉」。']]},
+   {t:'10:00',h:10,title:'腳本:AI 給你 5 個方向,你決定靈魂',mode:'co',save:60,y26:'對著空白文件,滑別人的影片找靈感,滑掉兩小時。',y30:'Agent 依你的風格庫與本週趨勢,提出 5 個切角與大綱;你選一個,親自寫下最重要的那 3 句話。',chat:[['ai','5 個切角好了。第 3 個「上班族的 AI 早晨」最符合你的觀眾,但第 5 個「AI 幫我拒絕老闆」最有爭議性。你想安全還是想衝?'],['me','衝。但語氣不要酸。'],['ai','了解,我把「幽默但尊重」加進風格提示。']]},
+   {t:'12:00',h:12,title:'拍攝:你在鏡頭前,Agent 在鏡頭後',mode:'co',save:30,y26:'拍完才發現音軌爆音、第 3 段忘了拍。',y30:'Agent 即時監看音量與腳本進度,漏拍的段落立刻提醒;你只要專心表演。',chat:[['ai','第 3 段的「反轉句」你講了兩個版本,第二個比較有力。另外環境噪音在 12:14 有一段,建議重拍 10 秒。']]},
+   {t:'14:00',h:14,title:'剪輯:粗剪 20 分鐘,精修才是你的',mode:'co',save:120,y26:'剪 6 小時,其中 4 小時在切字幕、找素材、輸出多種尺寸。',y30:'Agent 依腳本自動粗剪、上字幕、生成直式/橫式版本;你花時間在節奏與情緒。',chat:[['ai','粗剪好了,長度 6:40。我保留了你講「不好意思重來」的那段 — 你的觀眾很喜歡這種真實感。要留還是剪?'],['me','留 2 秒就好。']]},
+   {t:'16:30',h:16.5,title:'品牌合作:報價與合約,Agent 先過一輪',mode:'co',save:45,y26:'來回 6 封信確認需求,合約看不懂,怕吃虧。',y30:'Agent 整理合作需求、比對你的過往報價、標出合約中對你不利的條款;你決定接不接、開多少。',chat:[['ai','品牌 B 的合約有兩個要注意:授權期「永久」、且要求不能接同類品牌 6 個月。以你過往的報價,這兩條至少要加 40%。要我擬回覆嗎?'],['me','擬,但先讓我看。']]},
+   {t:'18:00',h:18,title:'社群:排程自動,回覆親自',mode:'auto',save:40,y26:'手動貼 4 個平台,回覆到手軟。',y30:'Agent 產生各平台版本並排程;一般留言代擬回覆,你只親自回那些「真正在跟你說話」的留言。',chat:[['ai','已排程 4 個平台。留言裡有 3 則是觀眾分享自己的故事,我覺得這些值得你親自回。其餘 47 則我擬好了回覆,等你一鍵確認。']]},
+   {t:'20:30',h:20.5,title:'直播:你跟觀眾,沒有中間人',mode:'you',save:0,y26:'一邊看留言一邊講,漏掉一半問題。',y30:'Agent 幫你聚合並排序問題、記錄承諾的事,但講話的、笑的、卡住的、真誠的,都是你。',chat:[['ai','直播中你答應了 3 件事:下週出教學、回覆 Amy 的私訊、試試那個新工具。我已放進待辦。']]},
+   {t:'23:00',h:23,title:'關機前,看一眼「為什麼做這件事」',mode:'you',save:0,y26:'不停刷新播放數,越看越焦慮。',y30:'Agent 已把數據關掉直到早上。它只給你一句:今天有 12 個人留言說被你的影片幫到了。',chat:[['ai','數據明早再看。今天有 12 位觀眾說「被幫到了」。晚安。']]}
+  ]},
+ knowledge:{name:'知識工作者',en:'Knowledge Worker',icon:'🔬',color:'#f5b342',
+  calc:{emails:40,meetings:8,reports:4,search:2.5},
+  split:[['資料蒐集與整理','Data gathering',90],['文獻與競品掃描','Literature & market scan',85],['分析初稿與圖表','Draft analysis & charts',75],['假設形成','Hypothesis forming',40],['洞察與判斷','Insight & judgment',20],['說服利害關係人','Influencing stakeholders',15]],
+  day:[
+   {t:'07:00',h:7,title:'領域雷達:昨晚世界變了什麼',mode:'auto',save:45,y26:'訂閱 20 個電子報,一個都沒時間看。',y30:'Agent 掃過你關注的領域、對手與內部資料,只挑出「會改變你正在做的分析」的 3 件事。',chat:[['ai','3 件值得你知道:競品 X 昨晚發表新定價;央行的最新數據與你模型的假設相差 0.4%;內部團隊上傳了新的用戶研究。要我先更新模型的假設嗎?'],['me','先更新,標出對結論的影響。']]},
+   {t:'09:00',h:9,title:'深度工作:2 小時無干擾',mode:'you',save:0,y26:'每 8 分鐘被一則訊息打斷,深度思考從未真正開始。',y30:'Agent 守門:接電話、回訊息、擋會議。你思考的這 2 小時,是它今天最重要的任務。',chat:[['ai','深度工作模式已開啟。期間有 22 則訊息、2 個會議邀請,我都處理或延後了。只有一件事:法務問的問題我回答不了,我排在 11:00 給你。']]},
+   {t:'11:00',h:11,title:'資料分析:從「搬資料」到「問問題」',mode:'co',save:150,y26:'清理資料 3 小時,分析 30 分鐘,然後發現漏了一欄。',y30:'Agent 清理、對齊、驗證資料並產生初步圖表;你的時間全花在「這個趨勢代表什麼、下一個問題是什麼」。',chat:[['ai','資料清完了。有一個異常:2029 Q4 的數字有 1,200 筆重複,我已排除並附上原因。另外,我注意到年齡層 25–34 的行為與其他不同,你要往這裡挖嗎?'],['me','挖。切三個收入層再看一次。'],['ai','三個收入層的圖已產生,差異在中收入層最明顯。']]},
+   {t:'13:00',h:13,title:'午餐 + 散步:讓想法沉澱',mode:'you',save:0,y26:'午餐在桌上吃,下午腦袋一片漿糊。',y30:'Agent 已把早上的分析整理成 3 個開放問題,你散步時用語音跟它「想出聲」。',chat:[['ai','你剛剛說的「也許不是收入而是職業階段」很有意思。我記下了,並找到 2 篇相關研究,回來再看。']]},
+   {t:'14:30',h:14.5,title:'寫報告:論點是你的,鋪陳是它的',mode:'co',save:120,y26:'寫 8 頁,一半時間在調格式、找引用、重畫圖。',y30:'你口述論點與結構,Agent 生成完整初稿、圖表與引用;你精修每一個關鍵句子。',chat:[['ai','初稿 9 頁好了。我在第 4 節標了一個問題:你的結論比證據強了一點 — 資料只支持「相關」,不是「因果」。要我調整語氣,還是你想補充論證?'],['me','調語氣,並在附錄加上限制說明。']]},
+   {t:'16:30',h:16.5,title:'向主管簡報:15 分鐘,只講決策',mode:'you',save:30,y26:'40 頁投影片,講到第 12 頁時間就到。',y30:'Agent 把 9 頁報告壓成 1 頁決策摘要、3 張圖。你講故事、回答問題、爭取資源 — 這是你最擅長的部分。',chat:[['ai','簡報前提醒:Jerry 上次問過「成本」,這次我在第 2 張圖加了成本比較。另外他喜歡先聽結論,所以我把建議放在最前面。']]},
+   {t:'18:00',h:18,title:'收尾:知識存回組織的大腦',mode:'auto',save:40,y26:'報告寄出後就消失在信箱裡,半年後有人重做一次。',y30:'Agent 把今天的分析、資料、決策與「為什麼」自動歸檔到知識庫,並連結到相關專案。',chat:[['ai','已將報告、資料集、決策紀錄與 3 個未解問題歸檔,並連結到「2030 定價策略」專案。有 2 位同事在做相關主題,要我通知他們嗎?'],['me','通知。']]},
+   {t:'21:00',h:21,title:'閱讀:為了好奇,不為了工作',mode:'you',save:0,y26:'太累,連想讀的書都沒力氣翻。',y30:'Agent 已把工作關在門外。它只留下你早上散步時提到想看的那本書的第一章。',chat:[['ai','工作模式已關閉。你早上提到的那本書,第一章 18 頁,大概 25 分鐘。享受。']]}
+  ]}
+};
+const MODE={auto:['auto','AI 自動'],co:['co','人機協作'],you:['you','你主導']};
+
+/* ================= STATE ================= */
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+let cur=store.get('wb2030.persona')||'office';
+if(!P[cur])cur='office';
+let calcState={};
+function setAccent(hex){const [r,g,b]=hexToRgb(hex);document.documentElement.style.setProperty('--accent',hex);document.documentElement.style.setProperty('--accent-rgb',`${r},${g},${b}`);}
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('show'),2200);}
+
+/* ================= Cursor glow ================= */
+const glow=$('#glow');let gx=innerWidth/2,gy=innerHeight/2,tx=gx,ty=gy;
+addEventListener('pointermove',e=>{tx=e.clientX;ty=e.clientY;glow.classList.add('on')},{passive:true});
+(function loop(){gx+=(tx-gx)*.12;gy+=(ty-gy)*.12;glow.style.transform=`translate(${gx-210}px,${gy-210}px)`;requestAnimationFrame(loop)})();
+
+/* ================= Nav progress + active ================= */
+const prog=$('#progress');const navLinks=$$('.nav-links a');
+const secs=navLinks.map(a=>$(a.getAttribute('href')));
+addEventListener('scroll',()=>{const h=document.documentElement;prog.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+  let idx=-1;secs.forEach((s,i)=>{if(s&&s.getBoundingClientRect().top<innerHeight*.4)idx=i});navLinks.forEach((a,i)=>a.classList.toggle('active',i===idx));},{passive:true});
+
+/* ================= Reveal ================= */
+const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target)}}),{threshold:.12});
+$$('.reveal').forEach(el=>ro.observe(el));
+
+/* ================= Counters ================= */
+function countTo(el,to,dur=1400,fmt=v=>Math.round(v)){if(reduce){el.textContent=fmt(to);return}const from=parseFloat(el.dataset.cur||'0')||0;const t0=performance.now();
+  function step(t){const p=Math.min(1,(t-t0)/dur);const e=1-Math.pow(1-p,3);const v=from+(to-from)*e;el.textContent=fmt(v);if(p<1)requestAnimationFrame(step);else el.dataset.cur=to}
+  requestAnimationFrame(step)}
+const co=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){countTo(e.target,+e.target.dataset.count);co.unobserve(e.target)}}),{threshold:.5});
+$$('[data-count]').forEach(el=>co.observe(el));
+
+/* ================= Clock ================= */
+(function clock(){const d=new Date();const y=d.getFullYear()+4;
+  $('#clk-date').textContent=`${y}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
+  $('#clk-time').textContent=d.toTimeString().slice(0,8);setTimeout(clock,1000)})();
+setInterval(()=>{const el=$('#clk-agents');el.textContent=5+Math.floor(Math.random()*4)},4000);
+
+/* ================= Hero network canvas ================= */
+(function(){const c=$('#net'),ctx=c.getContext('2d');let W,H,pts=[],mouse={x:-9999,y:-9999},dpr=Math.min(2,devicePixelRatio||1);
+  function size(){W=c.clientWidth;H=c.clientHeight;c.width=W*dpr;c.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);const n=Math.round(Math.min(120,W*H/14000));pts=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,r:1+Math.random()*1.8,ph:Math.random()*6.28}))}
+  size();addEventListener('resize',size);
+  c.parentElement.addEventListener('pointermove',e=>{const b=c.getBoundingClientRect();mouse.x=e.clientX-b.left;mouse.y=e.clientY-b.top},{passive:true});
+  c.parentElement.addEventListener('pointerleave',()=>{mouse.x=-9999});
+  let packets=[];
+  function frame(t){ctx.clearRect(0,0,W,H);const [r,g,b]=hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#4fe3ff');
+    for(const p of pts){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;const dx=p.x-mouse.x,dy=p.y-mouse.y,d=Math.hypot(dx,dy);if(d<140){p.x+=dx/d*1.6;p.y+=dy/d*1.6}}
+    ctx.lineWidth=1;
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const a=pts[i],b2=pts[j];const d=Math.hypot(a.x-b2.x,a.y-b2.y);if(d<130){ctx.strokeStyle=`rgba(${r},${g},${b},${(1-d/130)*.35})`;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b2.x,b2.y);ctx.stroke();if(!reduce&&Math.random()<.0006)packets.push({a,b:b2,p:0})}}
+    for(const p of pts){const s=1+Math.sin(t/600+p.ph)*.3;ctx.fillStyle=`rgba(${r},${g},${b},.9)`;ctx.beginPath();ctx.arc(p.x,p.y,p.r*s,0,6.28);ctx.fill()}
+    packets=packets.filter(k=>k.p<1);for(const k of packets){k.p+=.02;const x=k.a.x+(k.b.x-k.a.x)*k.p,y=k.a.y+(k.b.y-k.a.y)*k.p;ctx.fillStyle='#fff';ctx.shadowColor=`rgb(${r},${g},${b})`;ctx.shadowBlur=12;ctx.beginPath();ctx.arc(x,y,2.2,0,6.28);ctx.fill();ctx.shadowBlur=0}
+    if(!reduce)requestAnimationFrame(frame)}
+  requestAnimationFrame(frame)})();
+
+/* ================= Sky canvas ================= */
+const sky=$('#sky'),sctx=sky.getContext('2d');let skyHour=7.5,skyTarget=7.5;
+function skyColors(h){const stops=[[0,'#04060f','#0a0f24'],[5,'#0b1030','#2a1e4a'],[6.5,'#3b2a5e','#f08a5d'],[8,'#5aa7e8','#bfe3ff'],[12,'#3b8fe0','#a8d8ff'],[17,'#3d7fd0','#ffb26b'],[18.5,'#2b2350','#ff6b6b'],[20,'#0b1030','#3a2a5e'],[24,'#04060f','#0a0f24']];
+  let i=0;while(i<stops.length-2&&h>stops[i+1][0])i++;const a=stops[i],b=stops[i+1];const p=(h-a[0])/(b[0]-a[0]);
+  const mix=(c1,c2)=>{const x=hexToRgb(c1),y=hexToRgb(c2);return `rgb(${x.map((v,k)=>Math.round(v+(y[k]-v)*p)).join(',')})`};return[mix(a[1],b[1]),mix(a[2],b[2])]}
+const stars=Array.from({length:70},()=>({x:Math.random(),y:Math.random()*.7,r:Math.random()*1.4+.3,ph:Math.random()*6}));
+function drawSky(t){const dpr=Math.min(2,devicePixelRatio||1);const W=sky.clientWidth,H=sky.clientHeight;const cw=Math.round(W*dpr),ch=Math.round(H*dpr);if(sky.width!==cw||sky.height!==ch){sky.width=cw;sky.height=ch}sctx.setTransform(dpr,0,0,dpr,0,0);
+  skyHour+=(skyTarget-skyHour)*(reduce?1:.08);const h=skyHour;const [top,bot]=skyColors(h);const g=sctx.createLinearGradient(0,0,0,H);g.addColorStop(0,top);g.addColorStop(1,bot);sctx.fillStyle=g;sctx.fillRect(0,0,W,H);
+  const night=h<5.5||h>19.5?1:(h<7?(7-h)/1.5:h>18?(h-18)/1.5:0);
+  if(night>0){for(const s of stars){sctx.globalAlpha=night*(.5+.5*Math.sin(t/700+s.ph));sctx.fillStyle='#fff';sctx.beginPath();sctx.arc(s.x*W,s.y*H,s.r,0,6.28);sctx.fill()}sctx.globalAlpha=1}
+  const dayP=(h-6)/13;const ang=Math.PI*(1-Math.max(0,Math.min(1,dayP)));const cx=W/2+Math.cos(ang)*(W*.42),cy=H*.95-Math.sin(ang)*(H*.75);
+  if(dayP>-.05&&dayP<1.05){const rg=sctx.createRadialGradient(cx,cy,4,cx,cy,70);rg.addColorStop(0,'rgba(255,240,200,.9)');rg.addColorStop(1,'rgba(255,200,120,0)');sctx.fillStyle=rg;sctx.beginPath();sctx.arc(cx,cy,70,0,6.28);sctx.fill();sctx.fillStyle='#fff6d6';sctx.beginPath();sctx.arc(cx,cy,14,0,6.28);sctx.fill()}
+  else{const mh=h>=19?h-19:h+5;const mp=mh/11;const ma=Math.PI*(1-mp);const mx=W/2+Math.cos(ma)*(W*.42),my=H*.95-Math.sin(ma)*(H*.75);sctx.fillStyle='#e8ecf7';sctx.beginPath();sctx.arc(mx,my,12,0,6.28);sctx.fill();sctx.fillStyle=top;sctx.beginPath();sctx.arc(mx+5,my-3,10,0,6.28);sctx.fill()}
+  // skyline
+  sctx.fillStyle='rgba(5,7,15,.75)';const bw=W/18;for(let i=0;i<18;i++){const bh=20+((i*37)%53);sctx.fillRect(i*bw,H-bh,bw-3,bh);if(night>.3){sctx.fillStyle=`rgba(255,220,150,${night*.6})`;for(let k=0;k<3;k++)if((i*7+k*13)%5<2)sctx.fillRect(i*bw+4+k*(bw/3),H-bh+6,3,3);sctx.fillStyle='rgba(5,7,15,.75)'}}
+  requestAnimationFrame(drawSky)}
+requestAnimationFrame(drawSky);
+
+/* ================= Timeline ================= */
+const tl=$('#timeline'),scrub=$('#scrub');let cards=[],activeIdx=0,scrubLock=false;
+const tlObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const i=+e.target.dataset.i;setActive(i,false);playChat(e.target)}})},{rootMargin:'-35% 0px -45% 0px',threshold:0});
+function renderTimeline(){const d=P[cur];tl.innerHTML='';cards=[];
+  d.day.forEach((it,i)=>{const [cls,lab]=MODE[it.mode];const el=document.createElement('article');el.className='card tcard';el.dataset.i=i;
+    el.innerHTML=`<span class="node"></span><div class="time">${it.t}</div><h3>${it.title}</h3>
+      <div class="compare"><div class="y26"><h4>2026 · 今天</h4><p>${it.y26}</p></div><div class="y30"><h4>2030 · 未來</h4><p>${it.y30}</p></div></div>
+      <div class="chat" data-chat='${JSON.stringify(it.chat).replace(/'/g,'&#39;')}'></div>
+      <div class="foot"><span class="chip ${cls}">${lab}</span><span class="save">${it.save?`本段回收約 <b>${it.save} 分鐘</b>`:'這段時間 <b>完全屬於你</b>'}</span></div>`;
+    tl.appendChild(el);cards.push(el);tlObs.observe(el)});
+  scrub.max=d.day.length-1;scrub.value=0;$('#day-name').textContent=d.name;setActive(0,false);}
+function setActive(i,scrollTo){const d=P[cur],it=d.day[i];activeIdx=i;cards.forEach((c,k)=>c.classList.toggle('active',k===i));
+  skyTarget=it.h;$('#sky-time').textContent=it.t;$('#sky-title').textContent=it.title;const [cls,lab]=MODE[it.mode];const m=$('#sky-mode');m.className='chip '+cls;m.textContent=lab;$('#sky-count').textContent=`${i+1} / ${d.day.length}`;
+  const tot=d.day.reduce((s,x)=>s+x.save,0);const done=d.day.slice(0,i+1).reduce((s,x)=>s+x.save,0);const pct=Math.round(done/tot*100);$('#take-pct').textContent=pct+'%';$('#take-bar').style.width=pct+'%';
+  if(!scrubLock)scrub.value=i;
+  if(scrollTo){const y=cards[i].getBoundingClientRect().top+scrollY-innerHeight*.38;scrollTo_(y)}}
+function scrollTo_(y){window.scrollTo({top:y,behavior:reduce?'auto':'smooth'})}
+scrub.addEventListener('input',()=>{scrubLock=true;setActive(+scrub.value,true);playChat(cards[+scrub.value]);setTimeout(()=>scrubLock=false,600)});
+function playChat(card){const box=$('.chat',card);if(box.dataset.played)return;box.dataset.played='1';const msgs=JSON.parse(box.dataset.chat);let delay=200;
+  msgs.forEach((m,k)=>{const [who,text]=m;setTimeout(()=>{const el=document.createElement('div');el.className='msg '+who;el.innerHTML=`<span class="av">${who==='ai'?'AI':'你'}</span><div class="bub">${who==='ai'?'<span class="typing"><i></i><i></i><i></i></span>':text}</div>`;box.appendChild(el);requestAnimationFrame(()=>el.classList.add('show'));
+      if(who==='ai'){const bub=$('.bub',el);setTimeout(()=>typeText(bub,text),reduce?0:600)}},delay);delay+=who==='ai'?Math.min(2600,900+text.length*22):900})}
+function typeText(el,text){if(reduce){el.textContent=text;return}el.textContent='';let i=0;(function tick(){el.textContent=text.slice(0,i);i+=2;if(i<=text.length+1)setTimeout(tick,14)})()}
+
+/* ================= Split chart ================= */
+const donut=$('#donut'),dctx=donut.getContext('2d');let donutVal=0,donutTarget=0,donutSegs=[];
+function renderSplit(){const d=P[cur];const bars=$('#bars');bars.innerHTML='';
+  d.split.forEach(([lab,en,v])=>{const row=document.createElement('div');row.className='brow';row.innerHTML=`<div class="lab">${lab}<small>${en}</small></div><div class="track"><i style="width:0"></i></div><div class="pct">0%</div>`;bars.appendChild(row);
+    requestAnimationFrame(()=>setTimeout(()=>{$('.track i',row).style.width=v+'%';countTo($('.pct',row),v,1200,x=>Math.round(x)+'%')},80))});
+  donutTarget=Math.round(d.split.reduce((s,x)=>s+x[2],0)/d.split.length);donutSegs=d.split.map(x=>x[2]);countTo($('#donut-val'),donutTarget,1400,x=>Math.round(x)+'%');}
+function drawDonut(){const W=donut.width,H=donut.height,cx=W/2,cy=H/2,R=W*.42,r=W*.31;dctx.clearRect(0,0,W,H);donutVal+=(donutTarget-donutVal)*(reduce?1:.06);
+  dctx.lineWidth=R-r;dctx.lineCap='butt';dctx.strokeStyle='rgba(255,255,255,.08)';dctx.beginPath();dctx.arc(cx,cy,(R+r)/2,0,6.283);dctx.stroke();
+  const acc=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#4fe3ff';const grad=dctx.createLinearGradient(0,0,W,H);grad.addColorStop(0,acc);grad.addColorStop(1,'#8b5cf6');
+  dctx.strokeStyle=grad;dctx.lineCap='round';dctx.beginPath();dctx.arc(cx,cy,(R+r)/2,-Math.PI/2,-Math.PI/2+6.283*donutVal/100);dctx.stroke();
+  // segment ticks (one per category)
+  const n=donutSegs.length;for(let i=0;i<n;i++){const a=-Math.PI/2+6.283*i/n;dctx.strokeStyle='rgba(6,10,23,.9)';dctx.lineWidth=3;dctx.beginPath();dctx.moveTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r);dctx.lineTo(cx+Math.cos(a)*R,cy+Math.sin(a)*R);dctx.stroke()}
+  requestAnimationFrame(drawDonut)}
+requestAnimationFrame(drawDonut);
+
+/* ================= Calculator ================= */
+const F={emails:$('#f-emails'),meetings:$('#f-meetings'),reports:$('#f-reports'),search:$('#f-search')};
+function calc(){const e=+F.emails.value,m=+F.meetings.value,r=+F.reports.value,s=+F.search.value;
+  $('#v-emails').textContent=e+' 封';$('#v-meetings').textContent=m+' 場';$('#v-reports').textContent=r+' 份';$('#v-search').textContent=s+' 小時';
+  const minWeek=e*2.5*.7*5+m*20+r*180*.6+s*60*.65*5;const hw=minWeek/60;const hy=hw*48;calcState={hw,hy};
+  countTo($('#o-week'),hw,700,v=>v.toFixed(1));$('#o-bar').style.width=Math.min(100,hw/40*100)+'%';$('#o-pct').textContent=`約等於每週工時的 ${Math.round(hw/40*100)}%`;
+  countTo($('#o-year'),hy,700,v=>Math.round(v).toLocaleString());countTo($('#o-days'),hy/8,700,v=>Math.round(v));countTo($('#o-weeks'),hy/40,700,v=>v.toFixed(1));
+  countTo($('#e-books'),hy/6,700);countTo($('#e-runs'),hy,700);countTo($('#e-skills'),hy/40,700,v=>v.toFixed(1));countTo($('#e-daily'),hw*60/5,700);
+  drawShare();}
+Object.values(F).forEach(i=>i.addEventListener('input',calc));
+
+/* ================= Persona switch ================= */
+function applyPersona(p,announce){cur=p;store.set('wb2030.persona',p);const d=P[p];document.body.dataset.persona=p;setAccent(d.color);
+  $$('.persona').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.p===p)));
+  Object.entries(d.calc).forEach(([k,v])=>F[k].value=v);renderTimeline();renderSplit();calc();
+  if(announce)toast(`已切換為「${d.name}」— 整個網站已為你重新編排`)}
+$$('.persona').forEach(b=>b.addEventListener('click',()=>{applyPersona(b.dataset.p,true);setTimeout(()=>$('#day').scrollIntoView({behavior:reduce?'auto':'smooth'}),700)}));
+
+/* ================= Agent playground ================= */
+const SCEN=[
+ {k:['會議','meeting','季度','開會'],think:'這是一個「準備」型任務,我需要:找到會議、了解與會者、整理資料、預測問題。',steps:[['找到會議與與會者','明天 10:30 · 季度檢討 · 6 人',900],['讀取上季紀錄與待辦','3 項待辦中 1 項未完成,已標註',1300],['整理本季數據與趨勢','來自 3 個系統,已對帳',1600],['預測與會者可能的問題','依過往提問,列出 5 題並準備答案',1200],['產出 1 頁決策摘要 + 8 張投影片','等你審閱',1000]],
+  res:{t:'會議準備包已完成',b:['1 頁決策摘要:結論在最前面,3 個建議與風險','8 張投影片初稿(依你的簡報風格)','5 個可能被問的問題與參考答案','未完成的待辦:「產線調度」— 建議會前先跟 Kelly 確認'],save:'省下約 2 小時',ask:'要我寄會前資料給所有與會者嗎?'}},
+ {k:['信','email','mail','訊息','回'],think:'這是「整理 + 代擬」任務。原則:分類與草擬我做,涉及承諾與金額的必須你決定。',steps:[['讀取並分類 40 封信','12 封資訊、19 封可代回、9 封需要你',1100],['歸檔資訊類、代擬 19 封回覆','語氣依收件人關係調整',1500],['標出 9 封「需要你」的原因','3 封涉及金額、4 封承諾、2 封敏感關係',1000],['依緊急度排序','最急:客戶 A 下午 5 點前要回覆',700]],
+  res:{t:'Inbox 已整理:9 封等你',b:['19 封回覆已擬好,一鍵確認即可寄出','9 封需要你決定,已附上背景摘要與建議','最急:客戶 A(17:00 前),我擬了 2 個版本','12 封資訊類已歸檔並建立摘要'],save:'省下約 70 分鐘',ask:'要先看最急的那封嗎?'}},
+ {k:['報告','初稿','文件','簡報','寫'],think:'「產出」型任務。我要先確認範圍與讀者,再從資料到初稿。最後的論點要留給你。',steps:[['確認報告範圍與讀者','依上週的討論:主管層,10 頁內',800],['蒐集並驗證資料來源','5 個來源,2 筆數字有出入已標註',1500],['建立大綱與論證結構','3 個主論點 + 支持證據',1200],['生成初稿與圖表','9 頁,6 張圖,引用已統一',1800],['自我檢查:結論是否強過證據','第 4 節建議調整語氣',900]],
+  res:{t:'報告初稿(v0.1)已就緒',b:['9 頁初稿,3 個主論點,6 張圖','2 個數據出入已標黃,附上兩個來源','第 4 節:結論比證據強 — 建議你親自改寫','所有引用已統一格式並附上連結'],save:'省下約 3.5 小時',ask:'要我開一個 30 分鐘的時段讓你精修嗎?'}},
+ {k:['出差','旅行','東京','機票','飯店','行程'],think:'「安排」型任務,涉及花費與個人偏好。我先規劃,訂購一定要你確認。',steps:[['確認出差目的與日期','下個月 12–15 日 · 客戶拜訪 2 場',800],['比對你的偏好與公司差旅政策','靠窗、非紅眼、政策上限內',1000],['搜尋機票與飯店組合','3 個組合,價差 NT$ 8,400',1600],['排出每日行程與交通','含客戶地點距離與備援時間',1200],['準備行前清單與簽證/保險檢查','無需簽證;保險自動涵蓋',700]],
+  res:{t:'東京出差方案(3 選 1)',b:['方案 A:最省錢 · 方案 B:最省時 · 方案 C:平衡(建議)','每日行程已含客戶會議與交通緩衝','行前清單 12 項,已完成 8 項','所有訂購都等你確認後才會執行'],save:'省下約 2.5 小時',ask:'要訂方案 C 嗎?(需你確認付款)'}},
+ {k:['影片','腳本','社群','貼文','剪','創作'],think:'「創作」型任務。我提供結構與多版本,但核心創意與語氣要跟你確認。',steps:[['分析你最近 10 支影片的表現','「4 秒反轉」開場的完播率最高',1100],['依本週趨勢提出 5 個切角','含風險與預期觸及',1200],['寫出選定切角的腳本初稿','6 分鐘 · 3 個段落 · 2 個 CTA',1500],['生成 4 個平台的貼文版本','語氣依平台調整',1000],['建議發佈時間','週四 19:30(你的觀眾最活躍)',600]],
+  res:{t:'本週內容包已就緒',b:['腳本初稿 6 分鐘,標註了 3 句「建議你自己寫」的關鍵句','4 個平台貼文版本 + 縮圖文案 3 選 1','5 個切角的比較表,含爭議度評估','建議發佈時間與排程已設定(未啟用)'],save:'省下約 3 小時',ask:'要用第 3 個切角嗎?還是你想先改語氣?'}},
+ {k:['論文','文獻','筆記','讀','研究','paper'],think:'「理解」型任務。我做結構化整理,但「這對你的研究意味什麼」要由你判斷。',steps:[['讀取 12 篇論文全文','總計 214 頁',1400],['每篇產出重點卡','問題、方法、發現、限制',1600],['找出彼此的爭論與缺口','2 組對立觀點,1 個明顯缺口',1300],['對應到你的研究問題','有 4 篇直接相關,3 篇方法可借用',1000],['產出結構化筆記與引用','已匯入你的筆記系統',700]],
+  res:{t:'12 篇文獻已整理成筆記',b:['12 張重點卡 + 1 頁綜覽圖','關鍵爭論:第 2 篇 vs 第 7 篇,原文段落已標出','研究缺口:2028 年後幾乎沒人做過亞洲樣本 — 可能是你的機會','引用格式已統一,可直接引用'],save:'省下約 4 小時',ask:'要我把第 2 與第 7 篇的爭論段落唸給你聽嗎?'}}
+];
+const FALLBACK={think:'我先理解這個任務屬於哪一類,再拆成可以執行的步驟。涉及對外承諾或花費的部分,我會停下來問你。',steps:[['理解任務與目標','已識別關鍵字與期望結果',900],['尋找相關資料與脈絡','跨信件、檔案、行事曆',1300],['擬定執行計畫','4 個步驟,其中 1 個需要你確認',1000],['執行可自動化的部分','已完成 3/4',1400],['整理結果與待決事項','等你審閱',700]],
+  res:{t:'任務完成 3/4,剩 1 步等你',b:['可自動化的部分已完成,結果整理成 1 頁','有 1 個步驟涉及對外承諾,我停在這裡','相關資料與來源已附上','建議下一步已列出'],save:'省下約 45 分鐘',ask:'要我繼續最後一步嗎?'}};
+const alog=$('#agent-log'),aempty=$('#agent-empty');let runId=0;
+function pick(q){q=q.toLowerCase();return SCEN.find(s=>s.k.some(k=>q.includes(k.toLowerCase())))||FALLBACK}
+async function runAgent(q){const id=++runId;const sc=pick(q);aempty.classList.add('hide');alog.innerHTML='';
+  const me=document.createElement('div');me.className='msg me show';me.innerHTML=`<span class="av">你</span><div class="bub">${escapeHtml(q)}</div>`;alog.appendChild(me);
+  const th=document.createElement('div');th.className='thought';th.innerHTML=`<span class="typing"><i></i><i></i><i></i></span><span></span>`;alog.appendChild(th);await wait(reduce?0:500);if(id!==runId)return;
+  $('span:last-child',th).textContent=sc.think;$('.typing',th).remove();await wait(reduce?0:900);if(id!==runId)return;
+  const plan=document.createElement('div');plan.className='plan';alog.appendChild(plan);
+  const steps=sc.steps.map(([a,b],i)=>{const s=document.createElement('div');s.className='step';s.innerHTML=`<span class="ic">${i+1}</span><div><b>${a}</b><small>${b}</small></div><span class="t"></span>`;plan.appendChild(s);return s});
+  const t0=performance.now();
+  for(let i=0;i<steps.length;i++){steps[i].classList.add('run');$('.ic',steps[i]).textContent='';await wait(reduce?50:sc.steps[i][2]);if(id!==runId)return;steps[i].classList.remove('run');steps[i].classList.add('done');$('.ic',steps[i]).textContent='✓';$('.t',steps[i]).textContent=((performance.now()-t0)/1000).toFixed(1)+'s'}
+  const r=sc.res;const res=document.createElement('div');res.className='result';res.innerHTML=`<h4>✨ ${r.t}</h4><ul>${r.b.map(x=>`<li>${x}</li>`).join('')}</ul><div class="meta"><span class="chip auto">${r.save}</span><span class="chip you">需要你確認</span></div><p style="margin-block-start:12px;font-size:.92rem">${r.ask}</p><div class="approve"><button type="button" class="ok">✓ 好,繼續</button><button type="button" class="no">先不要</button></div>`;
+  alog.appendChild(res);requestAnimationFrame(()=>res.classList.add('show'));
+  $('.ok',res).addEventListener('click',()=>{toast('已確認 — 在 2030,最後一步永遠是你的。');$('.approve',res).innerHTML='<span class="chip auto">已執行 ✓</span>'});
+  $('.no',res).addEventListener('click',()=>{toast('已暫停。Agent 會等你,不會自己動。');$('.approve',res).innerHTML='<span class="chip you">已暫停,等你</span>'});
+  res.scrollIntoView({behavior:reduce?'auto':'smooth',block:'nearest'})}
+function wait(ms){return new Promise(r=>setTimeout(r,ms))}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+$('#agent-form').addEventListener('submit',e=>{e.preventDefault();const v=$('#agent-input').value.trim();if(!v)return;runAgent(v)});
+$$('#sugg button').forEach(b=>b.addEventListener('click',()=>{$('#agent-input').value=b.dataset.q;runAgent(b.dataset.q)}));
+
+/* ================= Compare slider ================= */
+const cmp=$('#cmp'),cmpR=$('#cmp-range');let dragging=false;
+function setPos(p){p=Math.max(2,Math.min(98,p));cmp.style.setProperty('--pos',p+'%');cmpR.value=Math.round(p)}
+function posFrom(e){const b=cmp.getBoundingClientRect();return (e.clientX-b.left)/b.width*100}
+cmp.addEventListener('pointerdown',e=>{dragging=true;cmp.setPointerCapture(e.pointerId);setPos(posFrom(e))});
+cmp.addEventListener('pointermove',e=>{if(dragging)setPos(posFrom(e))});
+cmp.addEventListener('pointerup',()=>dragging=false);cmp.addEventListener('pointercancel',()=>dragging=false);
+cmpR.addEventListener('input',()=>cmp.style.setProperty('--pos',cmpR.value+'%'));
+// auto-tease when first seen
+new IntersectionObserver((es,o)=>{es.forEach(e=>{if(e.isIntersecting&&!reduce){o.disconnect();let t=0;const iv=setInterval(()=>{t+=.05;setPos(50+Math.sin(t)*22);if(t>Math.PI*2||dragging){clearInterval(iv);if(!dragging)setPos(50)}},16)}})},{threshold:.5}).observe(cmp);
+
+/* ================= Flip cards ================= */
+$$('.flip').forEach(f=>f.addEventListener('click',()=>f.classList.toggle('on')));
+
+/* ================= Share card ================= */
+const sc=$('#sharecard'),scx=sc.getContext('2d');
+function rr(x,y,w,h,r){scx.beginPath();scx.moveTo(x+r,y);scx.arcTo(x+w,y,x+w,y+h,r);scx.arcTo(x+w,y+h,x,y+h,r);scx.arcTo(x,y+h,x,y,r);scx.arcTo(x,y,x+w,y,r);scx.closePath()}
+function drawShare(){const d=P[cur];const W=sc.width,H=sc.height;const acc=d.color;const [r,g,b]=hexToRgb(acc);
+  const bg=scx.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#070b18');bg.addColorStop(1,'#141a3a');scx.fillStyle=bg;scx.fillRect(0,0,W,H);
+  const glowG=scx.createRadialGradient(W*.85,H*.2,10,W*.85,H*.2,520);glowG.addColorStop(0,`rgba(${r},${g},${b},.35)`);glowG.addColorStop(1,'rgba(0,0,0,0)');scx.fillStyle=glowG;scx.fillRect(0,0,W,H);
+  scx.strokeStyle='rgba(255,255,255,.06)';scx.lineWidth=1;for(let x=0;x<W;x+=60){scx.beginPath();scx.moveTo(x,0);scx.lineTo(x,H);scx.stroke()}for(let y=0;y<H;y+=60){scx.beginPath();scx.moveTo(0,y);scx.lineTo(W,y);scx.stroke()}
+  const font='"Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif';
+  scx.fillStyle=acc;scx.font=`700 22px ${font}`;scx.textBaseline='top';scx.fillText('2030 AI WORKBENCH · MY DAY CARD',70,60);
+  scx.fillStyle='#fff';scx.font=`900 64px ${font}`;scx.fillText(`${d.icon} ${d.name}的 2030`,70,100);
+  scx.fillStyle='#9aa6c8';scx.font=`500 26px ${font}`;scx.fillText(`${d.en} · 一天 ${d.day.length} 個場景 · AI 接手 ${donutTarget}% 的工作量`,70,185);
+  const hw=(calcState.hw||0).toFixed(1),hy=Math.round(calcState.hy||0);
+  const boxes=[[`${hw} hr`,'每週回收'],[`${hy} hr`,'每年回收'],[`${Math.round((calcState.hy||0)/8)} 天`,'等於多出的工作日']];
+  boxes.forEach((bx,i)=>{const x=70+i*350,y=250;scx.fillStyle='rgba(255,255,255,.06)';rr(x,y,320,140,20);scx.fill();scx.strokeStyle=`rgba(${r},${g},${b},.5)`;scx.stroke();scx.fillStyle='#fff';scx.font=`800 52px ${font}`;scx.fillText(bx[0],x+26,y+26);scx.fillStyle='#9aa6c8';scx.font=`500 20px ${font}`;scx.fillText(bx[1],x+26,y+94)});
+  scx.fillStyle='#9aa6c8';scx.font=`600 20px ${font}`;scx.fillText('AI 接手最多的三件事',70,430);
+  const top3=[...d.split].sort((a,b2)=>b2[2]-a[2]).slice(0,3);top3.forEach((s,i)=>{const y=470+i*42;scx.fillStyle='#e8ecf7';scx.font=`600 24px ${font}`;scx.fillText(`${s[0]}`,70,y);scx.fillStyle='rgba(255,255,255,.1)';rr(420,y+8,400,14,7);scx.fill();scx.fillStyle=acc;rr(420,y+8,400*s[2]/100,14,7);scx.fill();scx.fillStyle=acc;scx.font=`700 22px ${font}`;scx.fillText(s[2]+'%',840,y)});
+  scx.fillStyle='#6b769a';scx.font=`500 18px ${font}`;scx.textAlign='right';scx.fillText('2030 不是 AI 取代你,是你 + AI。 · 情境為設計假設',W-70,H-50);scx.textAlign='left';}
+$('#dl').addEventListener('click',()=>{drawShare();const a=document.createElement('a');a.download=`my-2030-workday-${cur}.png`;a.href=sc.toDataURL('image/png');document.body.appendChild(a);a.click();a.remove();toast('已下載你的 2030 工作卡 🎉')});
+
+/* ================= Init ================= */
+applyPersona(cur,false);
+})();
+</script>
+</body>
+</html>
