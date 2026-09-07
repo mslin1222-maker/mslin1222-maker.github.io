@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>2030 AI 工作台 · 台灣金融業 100 種角色的 AI 工作日</title>
+<style>
+:root{
+  color-scheme: dark;
+  --bg:#070a14;--panel:rgba(18,24,44,0.66);--panel-solid:#111830;
+  --stroke:rgba(120,150,220,0.16);--stroke-strong:rgba(130,170,255,0.35);
+  --text:#eaf0ff;--muted:#93a0c4;--dim:#6b779a;
+  --cyan:#3df0e0;--violet:#8b7bff;--amber:#ffb547;--pink:#ff6ba6;--green:#54e08b;
+  --radius:20px;--shadow:0 24px 60px -22px rgba(0,0,0,0.75);
+  --font:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;z-index:-3;
+  background:radial-gradient(900px 600px at 12% -8%,rgba(139,123,255,0.18),transparent 60%),
+    radial-gradient(900px 700px at 92% 4%,rgba(61,240,224,0.14),transparent 60%),
+    radial-gradient(700px 700px at 60% 108%,rgba(255,107,166,0.10),transparent 60%),
+    linear-gradient(180deg,#070a14,#080b18 40%,#06080f)}
+#bg-canvas{position:fixed;inset:0;z-index:-2;width:100%;height:100%;opacity:0.9}
+.grain{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0.035;
+  background-image:radial-gradient(rgba(255,255,255,0.9) 0.5px,transparent 0.5px);background-size:3px 3px}
+::selection{background:rgba(139,123,255,0.4);color:#fff}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:0.22em;text-transform:uppercase;color:var(--cyan);font-weight:700}
+.eyebrow::before{content:"";width:26px;height:1px;background:linear-gradient(90deg,var(--cyan),transparent)}
+h1,h2,h3{line-height:1.15;letter-spacing:-0.01em;font-weight:800}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.gradient-text{background:linear-gradient(120deg,#fff 10%,var(--cyan) 45%,var(--violet) 80%);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* warning strip */
+.warnstrip{position:fixed;top:0;left:0;right:0;z-index:55;background:linear-gradient(90deg,rgba(255,181,71,0.16),rgba(255,107,166,0.14));
+  border-bottom:1px solid rgba(255,181,71,0.3);backdrop-filter:blur(10px);font-size:12.5px;color:#ffdca3}
+.warnstrip .wr{max-width:1240px;margin:0 auto;padding:8px 24px;display:flex;align-items:center;gap:10px;justify-content:center;text-align:center}
+.warnstrip b{color:#fff}
+.warnstrip button{margin-left:auto;background:none;border:1px solid rgba(255,255,255,0.2);color:#ffdca3;border-radius:8px;padding:3px 9px;cursor:pointer;font-family:inherit;font-size:11px;flex:none}
+@media(max-width:760px){.warnstrip .wr span.long{display:none}}
+
+header.nav{position:fixed;top:36px;left:0;right:0;z-index:50;transition:.4s}
+header.nav .bar{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;max-width:1240px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800}
+.brand .dot{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:linear-gradient(135deg,var(--violet),var(--cyan));font-size:15px;box-shadow:0 0 22px rgba(139,123,255,0.55)}
+.brand small{display:block;font-size:10px;letter-spacing:.22em;color:var(--dim);font-weight:600}
+header.nav.scrolled{top:0;backdrop-filter:blur(14px);background:rgba(7,10,20,0.8);border-bottom:1px solid var(--stroke)}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:600;transition:.25s}
+.nav-links a:hover{color:#fff}
+.nav-cta{border:1px solid var(--stroke-strong);padding:9px 16px;border-radius:999px;color:#fff!important;font-size:13px}
+.nav-cta:hover{background:rgba(139,123,255,0.16)}
+@media(max-width:860px){.nav-links a:not(.nav-cta){display:none}}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;position:relative;padding:150px 0 60px}
+.hero .status{display:inline-flex;gap:10px;align-items:center;font-size:12.5px;color:var(--muted);border:1px solid var(--stroke);background:var(--panel);backdrop-filter:blur(10px);padding:8px 15px;border-radius:999px;margin-bottom:22px;width:max-content}
+.hero .status b{color:var(--cyan);font-variant-numeric:tabular-nums}
+.pulse{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(84,224,139,.55)}70%{box-shadow:0 0 0 12px rgba(84,224,139,0)}100%{box-shadow:0 0 0 0 rgba(84,224,139,0)}}
+.hero h1{font-size:clamp(2.6rem,6.4vw,5.2rem);margin-bottom:22px}
+.hero p.lead{font-size:clamp(1.05rem,2vw,1.32rem);color:var(--muted);max-width:660px;margin-bottom:20px}
+.hero p.lead b{color:var(--text);font-weight:700}
+.hero .hero-warn{font-size:13px;color:#ffdca3;background:rgba(255,181,71,0.08);border:1px solid rgba(255,181,71,0.28);border-radius:12px;padding:12px 16px;max-width:660px;margin-bottom:34px;display:flex;gap:10px}
+.hero .hero-warn b{color:#fff}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:52px}
+.btn{border:none;cursor:pointer;font-family:inherit;font-weight:700;font-size:15px;padding:15px 26px;border-radius:14px;transition:.3s;display:inline-flex;align-items:center;gap:9px;text-decoration:none}
+.btn-primary{background:linear-gradient(120deg,var(--violet),#5b7bff);color:#fff;box-shadow:0 14px 34px -12px rgba(91,123,255,0.8)}
+.btn-primary:hover{transform:translateY(-3px)}
+.btn-ghost{background:var(--panel);border:1px solid var(--stroke-strong);color:#fff;backdrop-filter:blur(10px)}
+.btn-ghost:hover{transform:translateY(-3px);background:rgba(255,255,255,0.06)}
+.hero-stats{display:flex;gap:36px;flex-wrap:wrap}
+.hero-stats .s .n{font-size:2.2rem;font-weight:800;font-variant-numeric:tabular-nums;background:linear-gradient(120deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-stats .s .l{font-size:12.5px;color:var(--dim)}
+.scroll-cue{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);color:var(--dim);font-size:11px;letter-spacing:.3em;text-align:center}
+.scroll-cue .line{width:1px;height:34px;margin:10px auto 0;background:linear-gradient(var(--cyan),transparent);animation:drop 1.8s infinite}
+@keyframes drop{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+section{position:relative;padding:90px 0}
+.sec-head{max-width:760px;margin-bottom:46px}
+.sec-head h2{font-size:clamp(1.9rem,4vw,3rem);margin:16px 0}
+.sec-head p{color:var(--muted);font-size:1.05rem}
+
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.step{background:var(--panel);border:1px solid var(--stroke);border-radius:var(--radius);padding:30px 26px;backdrop-filter:blur(12px);position:relative;overflow:hidden}
+.step::after{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--violet),var(--cyan));opacity:.7}
+.step .no{font-size:13px;font-weight:800;color:var(--cyan);letter-spacing:.2em}
+.step h3{font-size:1.25rem;margin:14px 0 10px}
+.step p{color:var(--muted);font-size:.96rem}
+@media(max-width:820px){.steps{grid-template-columns:1fr}}
+
+/* groups reference */
+.grp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.grp{background:var(--panel);border:1px solid var(--stroke);border-radius:16px;padding:22px;backdrop-filter:blur(12px);transition:.3s}
+.grp:hover{border-color:var(--stroke-strong);transform:translateY(-4px)}
+.grp h3{font-size:1.15rem;margin-bottom:4px}
+.grp .en{font-size:11px;color:var(--dim);letter-spacing:.08em;margin-bottom:14px}
+.grp .bus{display:flex;flex-wrap:wrap;gap:7px}
+.grp .bus span{font-size:11.5px;color:var(--muted);border:1px solid var(--stroke);border-radius:999px;padding:4px 10px}
+
+.explorer-top{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:flex-end;margin-bottom:14px}
+.filters{display:flex;gap:9px;flex-wrap:wrap}
+.chip{border:1px solid var(--stroke);background:var(--panel);color:var(--muted);padding:9px 15px;border-radius:999px;font-size:13.5px;font-weight:600;cursor:pointer;transition:.25s;font-family:inherit;display:inline-flex;align-items:center;gap:7px}
+.chip:hover{color:#fff;border-color:var(--stroke-strong)}
+.chip.active{background:linear-gradient(120deg,var(--violet),#5b7bff);color:#fff;border-color:transparent}
+.chip .cnt{font-size:11px;opacity:.75;font-variant-numeric:tabular-nums}
+.search-box{position:relative;min-width:240px}
+.search-box input{width:100%;background:var(--panel);border:1px solid var(--stroke);color:#fff;border-radius:12px;padding:12px 14px 12px 40px;font-family:inherit;font-size:14px;outline:none;transition:.25s}
+.search-box input:focus{border-color:var(--stroke-strong);box-shadow:0 0 0 3px rgba(139,123,255,.16)}
+.search-box svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);opacity:.5}
+.search-box input::placeholder{color:var(--dim)}
+.callout-warn{display:flex;gap:12px;align-items:flex-start;background:rgba(255,181,71,0.07);border:1px solid rgba(255,181,71,0.26);border-radius:14px;padding:14px 18px;margin:0 0 24px;font-size:13.5px;color:#ffdca3}
+.callout-warn b{color:#fff}
+.result-count{font-size:13px;color:var(--dim);margin-bottom:16px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.card{position:relative;background:var(--panel);border:1px solid var(--stroke);border-radius:var(--radius);padding:22px;cursor:pointer;transition:transform .4s cubic-bezier(.2,.7,.2,1),border-color .3s,box-shadow .4s;backdrop-filter:blur(12px);overflow:hidden;isolation:isolate}
+.card::before{content:"";position:absolute;inset:0;z-index:-1;opacity:0;transition:.4s;background:radial-gradient(400px 200px at var(--mx,50%) var(--my,0%),rgba(139,123,255,0.18),transparent 70%)}
+.card:hover{transform:translateY(-8px);border-color:var(--stroke-strong);box-shadow:var(--shadow)}
+.card:hover::before{opacity:1}
+.card .c-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.card .ic{width:50px;height:50px;border-radius:14px;display:grid;place-items:center;font-size:25px;background:linear-gradient(135deg,rgba(139,123,255,0.22),rgba(61,240,224,0.14));border:1px solid var(--stroke)}
+.card .tag{font-size:11px;font-weight:700;padding:5px 10px;border-radius:999px;border:1px solid var(--stroke);color:var(--muted);white-space:nowrap}
+.card h3{font-size:1.12rem;margin-bottom:7px}
+.card .hook{color:var(--muted);font-size:.9rem;min-height:42px;margin-bottom:16px}
+.ai-meter{display:flex;align-items:center;gap:12px}
+.ai-meter .ring{--p:0;width:44px;height:44px;border-radius:50%;flex:none;display:grid;place-items:center;background:conic-gradient(var(--violet) calc(var(--p)*1%),rgba(255,255,255,0.08) 0);position:relative}
+.ai-meter .ring::after{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--panel-solid)}
+.ai-meter .ring b{position:relative;z-index:1;font-size:12px;font-weight:800;font-variant-numeric:tabular-nums}
+.ai-meter .mlab{font-size:11px;color:var(--dim);line-height:1.35}
+.ai-meter .mlab b{color:var(--cyan);display:block;font-size:12.5px}
+.ai-meter .mlab i{font-style:normal;font-size:10px;opacity:.7}
+.card .go{position:absolute;bottom:20px;right:20px;color:var(--dim);font-size:12px;opacity:0;transition:.3s;transform:translateX(-6px)}
+.card:hover .go{opacity:1;transform:none;color:var(--cyan)}
+.no-result{grid-column:1/-1;text-align:center;color:var(--dim);padding:60px 0}
+
+.insight{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center}
+.bars{display:flex;flex-direction:column;gap:13px}
+.bar-row{display:grid;grid-template-columns:120px 1fr 42px;gap:14px;align-items:center;font-size:13.5px}
+.bar-row .bl{color:var(--muted);font-weight:600}
+.bar-track{height:11px;border-radius:999px;background:rgba(255,255,255,0.06);overflow:hidden}
+.bar-fill{height:100%;width:0;border-radius:999px;transition:width 1.4s cubic-bezier(.2,.7,.2,1);background:linear-gradient(90deg,var(--violet),var(--cyan))}
+.bar-row .bv{text-align:right;font-variant-numeric:tabular-nums;font-weight:700;color:#fff}
+.insight-note{background:var(--panel);border:1px solid var(--stroke);border-radius:var(--radius);padding:32px;backdrop-filter:blur(12px)}
+.insight-note h3{font-size:1.45rem;margin-bottom:14px}
+.insight-note p{color:var(--muted);margin-bottom:14px}
+.insight-note .pill{display:block;font-size:12.5px;color:var(--amber);border:1px solid rgba(255,181,71,.35);background:rgba(255,181,71,.08);padding:10px 14px;border-radius:12px;margin-top:6px}
+@media(max-width:860px){.insight{grid-template-columns:1fr}}
+
+.closing{text-align:center;padding:100px 0}
+.closing h2{font-size:clamp(2rem,5vw,3.4rem);margin-bottom:22px;max-width:840px;margin-inline:auto}
+.closing p{color:var(--muted);max-width:580px;margin:0 auto 34px;font-size:1.08rem}
+footer{border-top:1px solid var(--stroke);padding:34px 0;color:var(--dim);font-size:13px;text-align:center}
+footer b{color:var(--muted)}
+footer .disc{max-width:760px;margin:14px auto 0;font-size:12px;color:var(--dim);line-height:1.7;border:1px solid rgba(255,181,71,0.22);background:rgba(255,181,71,0.05);border-radius:12px;padding:14px 18px}
+
+.modal-scrim{position:fixed;inset:0;z-index:100;background:rgba(4,6,12,0.72);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:.4s}
+.modal-scrim.open{opacity:1;pointer-events:auto}
+.modal{position:fixed;top:0;right:0;bottom:0;z-index:101;width:min(680px,100%);background:linear-gradient(180deg,#0c1226,#0a0f1f);border-left:1px solid var(--stroke-strong);box-shadow:-40px 0 90px -30px rgba(0,0,0,.8);transform:translateX(100%);transition:transform .5s cubic-bezier(.2,.8,.2,1);overflow-y:auto;overscroll-behavior:contain}
+.modal.open{transform:none}
+.modal-inner{padding:28px 34px 60px}
+.modal-close{position:sticky;top:0;float:right;z-index:5;width:40px;height:40px;border-radius:11px;border:1px solid var(--stroke);background:var(--panel);color:#fff;cursor:pointer;font-size:18px;backdrop-filter:blur(8px);transition:.25s}
+.modal-close:hover{background:rgba(255,107,166,.18)}
+.m-hero{display:flex;gap:18px;align-items:flex-start;margin:6px 0 8px}
+.m-hero .ic{width:62px;height:62px;border-radius:16px;display:grid;place-items:center;font-size:31px;flex:none;background:linear-gradient(135deg,rgba(139,123,255,0.28),rgba(61,240,224,0.16));border:1px solid var(--stroke-strong)}
+.m-hero .tag{font-size:11.5px;color:var(--cyan);font-weight:700}
+.m-hero h2{font-size:1.6rem;margin:4px 0 6px}
+.m-hero .sub{color:var(--muted);font-size:.95rem}
+.m-orgs{margin:16px 0 0;font-size:12px;color:var(--dim)}
+.m-orgs .ol{margin-bottom:8px}
+.m-orgs .chips{display:flex;flex-wrap:wrap;gap:6px}
+.m-orgs .chips span{font-size:11px;color:var(--muted);border:1px solid var(--stroke);border-radius:999px;padding:3px 9px}
+.m-warn{display:flex;gap:9px;font-size:12px;color:#ffdca3;background:rgba(255,181,71,0.08);border:1px solid rgba(255,181,71,0.26);border-radius:11px;padding:10px 13px;margin:16px 0 0}
+.m-headline{border:1px solid var(--stroke);background:var(--panel);border-radius:16px;padding:18px 22px;margin:20px 0}
+.m-headline .row{display:flex;gap:16px;align-items:center}
+.m-headline .big{font-size:2.5rem;font-weight:800;font-variant-numeric:tabular-nums;background:linear-gradient(120deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+.m-headline .lab{font-size:12.5px;color:var(--dim)}
+.m-headline .lab b{color:var(--text);display:block;font-size:14px}
+.m-headline .lab i{font-style:normal;font-size:11px;color:var(--amber)}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0}
+.ba .box{border:1px solid var(--stroke);border-radius:14px;padding:18px}
+.ba .box.before{background:rgba(255,107,166,.05);border-color:rgba(255,107,166,.2)}
+.ba .box.after{background:rgba(61,240,224,.05);border-color:rgba(61,240,224,.2)}
+.ba .box .k{font-size:11.5px;font-weight:700;margin-bottom:8px}
+.ba .box.before .k{color:var(--pink)}.ba .box.after .k{color:var(--cyan)}
+.ba .box p{font-size:.9rem;color:var(--muted)}
+.m-title{font-size:.8rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin:28px 0 4px}
+.sim-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:10px}
+.sim-play{border:1px solid var(--stroke-strong);background:var(--panel);color:#fff;cursor:pointer;font-family:inherit;font-weight:700;font-size:12.5px;padding:8px 15px;border-radius:999px;transition:.25s;flex:none}
+.sim-play:hover{background:rgba(139,123,255,.18)}
+.sim-meter{margin:6px 0 20px}
+.sim-meter .track{height:8px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden}
+.sim-meter .fill{height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--violet),var(--cyan));transition:width .5s}
+.sim-meter .cap{display:flex;justify-content:space-between;font-size:11.5px;color:var(--dim);margin-top:7px}
+.sim-meter .cap b{color:var(--cyan);font-variant-numeric:tabular-nums}
+.timeline{position:relative;padding-left:26px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--violet),var(--cyan),transparent)}
+.tl-item{position:relative;padding:0 0 22px 8px;opacity:.4;transition:.4s}
+.tl-item.active{opacity:1}
+.tl-item .node{position:absolute;left:-24px;top:4px;width:16px;height:16px;border-radius:50%;background:var(--panel-solid);border:2px solid var(--dim);transition:.4s}
+.tl-item.active .node{border-color:var(--cyan);box-shadow:0 0 0 4px rgba(61,240,224,.16)}
+.tl-item .time{font-size:12px;font-weight:800;color:var(--cyan);font-variant-numeric:tabular-nums}
+.tl-item .mode{display:inline-block;font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:999px;margin-left:8px}
+.mode-ai{background:rgba(139,123,255,.16);color:#b3a8ff;border:1px solid rgba(139,123,255,.3)}
+.mode-collab{background:rgba(61,240,224,.14);color:#7ff2e8;border:1px solid rgba(61,240,224,.3)}
+.mode-human{background:rgba(255,181,71,.14);color:#ffcc80;border:1px solid rgba(255,181,71,.3)}
+.tl-item h4{font-size:1rem;margin:8px 0 4px}
+.tl-item p{font-size:.88rem;color:var(--muted)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:10px}
+.li-block .li-h{font-size:.86rem;font-weight:700;margin-bottom:10px}
+.li-block.ai .li-h{color:var(--violet)}.li-block.you .li-h{color:var(--amber)}
+.li-block ul{list-style:none}
+.li-block li{font-size:.88rem;color:var(--muted);padding:7px 0 7px 22px;position:relative;border-top:1px solid var(--stroke)}
+.li-block li:first-child{border-top:none}
+.li-block li::before{position:absolute;left:0;top:7px;font-size:12px}
+.li-block.ai li::before{content:"🤖"}
+.li-block.you li::before{content:"✦";color:var(--amber)}
+.m-quote{margin-top:26px;border-left:3px solid var(--cyan);padding:6px 0 6px 18px;font-size:1.1rem;font-weight:600;font-style:italic}
+.m-quote div{font-size:.85rem;font-style:normal;color:var(--dim);margin-top:8px;font-weight:400}
+@media(max-width:600px){.ba,.two-col{grid-template-columns:1fr}.modal-inner{padding:24px 20px 50px}}
+#scrollbar{position:fixed;top:0;left:0;height:3px;width:0;z-index:60;background:linear-gradient(90deg,var(--violet),var(--cyan))}
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<div class="grain"></div>
+<div id="scrollbar"></div>
+
+<div class="warnstrip" id="warnstrip">
+  <div class="wr">
+    <span>⚠️</span>
+    <span><b>提醒</b>：本站所有 AI 接手比例、情境與時間軸均為<b>假設性示意</b>，僅供啟發討論。<span class="long">實際導入程度與分工須回歸各公司真實作業場景、法規與內部規範。</span></span>
+    <button id="warnclose" aria-label="關閉提醒">知道了 ×</button>
+  </div>
+</div>
+
+<header class="nav" id="nav">
+  <div class="bar">
+    <div class="brand"><span class="dot">◈</span><span>AI 工作台<small>2030 · TAIWAN FSI</small></span></div>
+    <nav class="nav-links">
+      <a href="#how">運作方式</a>
+      <a href="#groups">金控 BU 對照</a>
+      <a href="#explore">100 種角色</a>
+      <a href="#insight">全業洞察</a>
+      <a href="#explore" class="nav-cta">開始探索 →</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div class="status"><span class="pulse"></span>系統時間 <b id="clock">2030 · 08:00:00</b> · AI 協作模式運行中</div>
+      <h1 class="reveal">2030，<span class="gradient-text">AI 接手你一天的工作</span><br>而你，做更值得做的事。</h1>
+      <p class="lead reveal">走進台灣金融業 <b>100 種角色</b>的 2030 年——涵蓋富邦、國泰、元大、中信、玉山、永豐、凱基等金控的
+        <b>金控總部、銀行、證券、人壽、產險、投信投顧、期貨、租賃創投</b>各事業體。看 AI 如何處理報表、風控、對帳與草稿，把時間還給判斷、關係與創造。</p>
+      <div class="hero-warn reveal"><span>⚠️</span><span><b>數據皆為假設情境</b>：頁面中的「AI 接手比例」與工作日流程為想像性示意，用來啟發思考，並非實際統計或產業預測；真實情況請回歸各自的工作現場。</span></div>
+      <div class="hero-cta reveal">
+        <a href="#explore" class="btn btn-primary">探索 100 種金融角色 →</a>
+        <a href="#groups" class="btn btn-ghost">先看金控 BU 對照</a>
+      </div>
+      <div class="hero-stats reveal">
+        <div class="s"><div class="n" data-count="100">0</div><div class="l">金融角色 × 情境</div></div>
+        <div class="s"><div class="n" data-count="10">0</div><div class="l">事業單位別（BU）</div></div>
+        <div class="s"><div class="n" data-count="7">0</div><div class="l">參照金控集團</div></div>
+        <div class="s"><div class="n" data-count="400" data-suffix="+">0</div><div class="l">一天中的 AI 協作時刻</div></div>
+      </div>
+    </div>
+    <div class="scroll-cue">向下探索<div class="line"></div></div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">運作方式</span>
+        <h2>三步，看懂 <span class="gradient-text">AI 怎麼進入你的一天</span></h2>
+        <p>每個角色都是一次可探索的體驗。不談技術規格，只看真實金融工作場景裡，AI 到底幫你做了什麼、又把什麼留給你。</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal"><div class="no">STEP 01</div><h3>挑一個角色</h3><p>從 100 位金融從業者中選一位——用「事業單位別」篩選，或直接搜尋你的職稱與所屬集團。</p></div>
+        <div class="step reveal"><div class="no">STEP 02</div><h3>播放他的一天</h3><p>看時間軸上每一刻由誰主導：<b style="color:var(--violet)">AI 主導</b>、<b style="color:var(--cyan)">AI 協作</b>、還是<b style="color:var(--amber)">你主導</b>。</p></div>
+        <div class="step reveal"><div class="no">STEP 03</div><h3>發現你的新價值</h3><p>AI 接走例行事，你的一天重新分配——更多判斷、關係與創造。看看 2030 的你會長什麼樣子。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="groups">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">產業地圖</span>
+        <h2>七大金控 × <span class="gradient-text">旗下事業體（BU）</span></h2>
+        <p>台灣金控多採「一控多子」結構——同一集團橫跨銀行、保險、證券、投信等事業體。本站的 100 個角色即依這些 BU 設計；以下為各集團主要子公司對照（僅列代表性事業體）。</p>
+      </div>
+      <div class="grp-grid" id="grpgrid"></div>
+    </div>
+  </section>
+
+  <section id="explore">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">互動探索</span>
+        <h2>100 種金融角色，<span class="gradient-text">100 個 AI 工作日</span></h2>
+        <p>點任一張卡片，走進他的 2030 年。用事業別篩選，或直接搜尋你的職稱。</p>
+      </div>
+      <div class="callout-warn reveal"><span>⚠️</span><span><b>再次提醒</b>：卡片上的「AI 接手 %」與每個角色的一天，都是<b>假設性的想像場景</b>，用來啟發「AI 可能怎麼幫我」的討論，不代表任何公司的真實作業、導入現況或未來承諾。</span></div>
+      <div class="explorer-top reveal">
+        <div class="filters" id="filters"></div>
+        <div class="search-box">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="text" id="search" placeholder="搜尋職稱／事業別，如「核保」「證券」…" aria-label="搜尋角色">
+        </div>
+      </div>
+      <div class="result-count reveal" id="rcount"></div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <section id="insight">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">全業洞察</span>
+        <h2>哪些事業別，<span class="gradient-text">AI 接得最多？</span></h2>
+        <p>把 100 個角色依事業單位別彙整後的平均「AI 接手比例」（假設值）。數字越高，代表例行、可規則化的任務越多——也代表人的價值越往判斷端移動。</p>
+      </div>
+      <div class="insight">
+        <div class="bars reveal" id="bars"></div>
+        <div class="insight-note reveal">
+          <h3>AI 接得走流程，接不走判斷</h3>
+          <p>接手比例最高的，往往是資料密集、規則明確的環節：對帳、初審、彙整、監控、草稿。這些正是最耗時、卻最不需要「你」的部分。</p>
+          <p>接手比例較低的，是需要承擔責任、建立信任、面對不確定的決策時刻——這裡，AI 是副駕，你仍是機長。</p>
+          <span class="pill">⚠️ 本圖所有百分比皆為<b>假設性示意</b>，非產業實測統計；實際 AI 導入程度因公司、法規與流程而異，請回歸真實工作場景判讀。</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="closing">
+    <div class="wrap">
+      <span class="eyebrow reveal" style="justify-content:center;display:flex">給 2030 的你</span>
+      <h2 class="reveal">問題從來不是「AI 會不會取代我」，<br>而是「我要把省下的時間，<span class="gradient-text">拿去做什麼</span>」。</h2>
+      <p class="reveal">當草稿、對帳與報表都不再佔滿你的一天，剩下的，是只有人能做的事。</p>
+      <a href="#explore" class="btn btn-primary reveal">再逛一次 100 種角色 →</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>2030 AI 工作台</b> · 台灣金融業 100 種角色的 AI 工作日 · 為對 AI 有興趣的金融從業者而設計</p>
+    <div class="disc">⚠️ <b>免責與資料說明</b>：本網站為互動概念展示。所有「AI 接手比例」、工作日時間軸與情境描述皆為<b>假設性示意</b>，用以想像可能的工作型態，<b>並非任何公司的真實統計、內部流程或未來承諾</b>。文中提及之金控與子公司名稱僅用於說明事業體結構（BU）對照，不代表其實際 AI 導入狀況。實際的工作內容、分工與 AI 應用，仍須回歸各公司真實作業場景、法規遵循與內部規範。</div>
+  </div>
+</footer>
+
+<div class="modal-scrim" id="scrim"></div>
+<aside class="modal" id="modal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="modal-inner" id="modal-inner"></div>
+</aside>
+
+<script>
+/* ============ BU SECTORS ============ */
+const SECTORS={
+  holding:{name:"金控總部",color:"#8b7bff"},
+  bank:{name:"銀行",color:"#6fa8ff"},
+  sec:{name:"證券",color:"#ffb547"},
+  life:{name:"人壽",color:"#3df0e0"},
+  pc:{name:"產險",color:"#54e08b"},
+  am:{name:"投信投顧",color:"#f78ff0"},
+  fut:{name:"期貨",color:"#ff8f6b"},
+  lease:{name:"租賃創投",color:"#c9a86a"},
+  risk:{name:"風控法遵",color:"#ff6ba6"},
+  digi:{name:"數位科技",color:"#5ad0ff"}
+};
+const M={ai:"AI 主導",collab:"AI 協作",human:"你主導"};
+
+/* ============ 7 GROUPS × BU ============ */
+const GROUPS=[
+ {name:"富邦金控",en:"Fubon Financial",bus:["台北富邦銀行","富邦人壽","富邦證券","富邦產險","富邦投信","富邦銀行(香港)","富邦金控創投"]},
+ {name:"國泰金控",en:"Cathay Financial",bus:["國泰世華銀行","國泰人壽","國泰產險","國泰證券","國泰投信","國泰創投"]},
+ {name:"元大金控",en:"Yuanta Financial",bus:["元大銀行","元大證券","元大人壽","元大投信","元大期貨","元大投顧","元大創投"]},
+ {name:"中信金控",en:"CTBC Holding",bus:["中國信託銀行","台灣人壽","中國信託證券","中國信託投信","中信保經","台灣彩券"]},
+ {name:"玉山金控",en:"E.SUN FHC",bus:["玉山銀行","玉山證券","玉山投信","玉山創投"]},
+ {name:"永豐金控",en:"SinoPac Holdings",bus:["永豐銀行","永豐金證券","京城銀行","永豐投信","永豐期貨","永豐金租賃","永豐創投"]},
+ {name:"凱基金控",en:"KGI Financial",bus:["凱基銀行","凱基證券","凱基人壽","凱基投信","凱基期貨","中華開發資本"]}
+];
+
+/* org shortcuts per BU */
+const O={
+ holding:["富邦金控","國泰金控","元大金控","中信金控","玉山金控","永豐金控","凱基金控"],
+ bank:["台北富邦銀行","國泰世華銀行","中國信託銀行","玉山銀行","永豐銀行","元大銀行","凱基銀行"],
+ sec:["富邦證券","國泰證券","元大證券","中國信託證券","永豐金證券","凱基證券","玉山證券"],
+ life:["富邦人壽","國泰人壽","凱基人壽","台灣人壽","元大人壽"],
+ pc:["富邦產險","國泰產險"],
+ am:["富邦投信","國泰投信","元大投信","中國信託投信","玉山投信","永豐投信","凱基投信"],
+ fut:["元大期貨","凱基期貨","永豐期貨","國泰期貨","富邦期貨"],
+ lease:["永豐金租賃","富邦金控創投","國泰創投","中華開發資本","元大創投"],
+ risk:["各金控風管處","銀行法遵/稽核處","保險核保/法遵","證券自律/稽核"],
+ digi:["各金控數位金融處","資訊處/資料科學團隊","數位長辦公室(CDO)"]
+};
+
+/* ============ 100 ROLES ============ */
+const R=[];
+function add(sec,bu,emoji,name,ai,hook,before,after,aiT,youO,day,quote){
+  R.push({id:R.length+1,sec,bu,orgs:O[sec],emoji,name,ai,hook,before,after,aiTakes:aiT,youOwn:youO,day,quote});
+}
+const D=(t,m,h,d)=>({t,m,h,d});
+
+/* ---- 金控總部 holding ---- */
+add("holding","金控總部","🧠","集團策略規劃師",60,"要看懂整個集團、又要預判市場，簡報永遠做不完。",
+ "手動蒐集各子公司數據、跑競爭分析、彙整成董事會材料，前置作業吃掉大半時間。","AI 把資料與初稿備妥，你專注在策略選擇與跨事業體的取捨。",
+ ["彙整各子公司績效與市場情報","生成策略簡報與情境分析初稿","監控競爭者與法規動態","模擬購併/擴張的財務影響"],
+ ["集團資源配置的取捨","跨事業體綜效的判斷","對董事會的策略說服","不確定下的方向抉擇"],
+ [D("08:30","ai","集團儀表板就緒","AI 彙整昨日各子公司關鍵指標與市場動態，標出兩處異常。"),
+  D("10:30","human","策略方向的辯論","銀行與壽險資源該往哪傾斜，是你帶領團隊的判斷。"),
+  D("14:00","collab","情境快速試算","你設定三種擴張假設，AI 立刻算出對集團 EPS 的影響。"),
+  D("16:30","human","對董事會的定調","數字之外，故事怎麼講、風險怎麼揭露，靠你的分寸。")],
+ "AI 幫我看懂全局，我負責決定集團要往哪走。"),
+add("holding","金控總部","📣","投資人關係(IR)專員",64,"法說會前後被問題與資料追著跑，喘不過氣。",
+ "手動整理財報重點、準備 QA、回覆投資人來信，重複性問題佔多數。","AI 打理素材與初步回覆，你專注在與法人的溝通與訊息定調。",
+ ["彙整財報與同業比較、生成法說簡報","整理投資人常見問題與擬答","監控賣方報告與市場評價","草擬新聞稿與投資人信件"],
+ ["與法人、分析師的關係經營","敏感訊息的揭露分寸","市場疑慮的策略回應","管理層溝通的協調"],
+ [D("09:00","ai","法說材料備妥","AI 生成財報重點、同業對比與 QA 擬答，你聚焦差異訊息。"),
+  D("11:00","human","與法人的深談","分析師的疑慮，要你用理解與分寸親自回應。"),
+  D("14:00","collab","即時數據回覆","投資人問明細，你請 AI 秒拉歷史數據佐證。"),
+  D("16:00","ai","賣方報告監控","AI 掃出一篇新報告下調評等，提醒你預備說明。")],
+ "數字 AI 幫我備齊，但市場的信任要人來經營。"),
+add("holding","金控總部","💰","集團財務長幕僚",66,"合併報表、資金調度、預算，月底像打仗。",
+ "手動勾稽各子公司財報、編合併報表、追預算差異，繁瑣又易錯。","AI 接手彙整與勾稽，你專注在資金策略與財務決策。",
+ ["自動合併各子公司財報並勾稽","監控集團資金部位與流動性","生成預算差異分析","試算籌資與股利方案影響"],
+ ["集團資本與股利政策判斷","跨子公司資金調度策略","與評等機構、銀行團溝通","財務風險的最終把關"],
+ [D("09:00","ai","合併報表初稿","AI 完成跨子公司合併與勾稽，標出三處待確認差異。"),
+  D("10:30","human","資本政策的抉擇","要發債還是保留盈餘，是你權衡後的建議。"),
+  D("14:00","collab","籌資方案試算","你請 AI 比較三種籌資結構的成本與稀釋。"),
+  D("16:30","human","與評等機構對話","集團財務故事怎麼說服評等方，靠你的經驗。")],
+ "AI 讓數字準時到位，我專心佈局集團的資本策略。"),
+add("holding","金控總部","👥","集團人資規劃師",62,"招募、考核、盤點人才，行政壓縮了策略思考。",
+ "手動彙整人力數據、跑考核流程、整理培訓需求，事務性工作繁重。","AI 接手數據與流程，你專注在人才策略與組織發展。",
+ ["彙整人力結構與流動率分析","初篩履歷與安排面談","生成培訓需求與職涯地圖","監控敬業度與離職風險訊號"],
+ ["關鍵人才的識別與留任","組織文化與變革推動","敏感人事的判斷與溝通","領導梯隊的培育設計"],
+ [D("09:00","ai","人力儀表板","AI 更新各單位編制、流動率，標出兩個高離職風險團隊。"),
+  D("10:30","human","一場留才對話","關鍵人才動搖，這場談心只能由人來。"),
+  D("14:00","collab","履歷智慧初篩","你請 AI 依職能初篩百份履歷，聚焦面談前段。"),
+  D("16:30","human","組織調整的判斷","AI 給了數據，怎麼調整團隊靠你的洞察。")],
+ "AI 幫我看數字，我負責看見數字背後的人。"),
+add("holding","金控總部","🎨","品牌行銷幕僚",68,"跨子公司行銷資源要整合，內容產不完。",
+ "手動協調各子公司行銷、產內容、追成效，重複製作壓縮創意。","AI 接手產製與分析，你專注在品牌策略與整合。",
+ ["生成多版行銷素材與文案初稿","彙整跨子公司行銷成效","監控品牌聲量與輿情","法遵用語初步檢核"],
+ ["集團品牌定位與一致性","跨事業體行銷整合策略","打動人心的創意方向","危機公關的判斷"],
+ [D("09:00","ai","素材批量產出","AI 依主題生成跨通路素材初稿，你挑選打磨。"),
+  D("10:30","human","品牌的一致性","各子公司調性怎麼統一，是你的策略拿捏。"),
+  D("14:00","collab","輿情即時掌握","AI 監控聲量，某話題升溫立刻提示你評估。"),
+  D("16:00","ai","成效自動彙整","AI 整合各活動數據，標出最有效的一組。")],
+ "AI 幫我快速產出，品牌的靈魂由人來守。"),
+add("holding","金控總部","🌱","ESG 永續發展專員",70,"永續資料又雜又多，揭露報告做到崩潰。",
+ "手動蒐集各子公司 ESG 數據、對照框架、撰寫永續報告，整合曠日費時。","AI 整合與初稿，你專注在永續策略與實質行動。",
+ ["彙整集團 ESG 數據與碳盤查","比對國際框架與法規落差","生成永續報告與揭露初稿","監控 ESG 評級與爭議事件"],
+ ["永續策略與重大議題判斷","減碳路徑與投融資政策","對利害關係人的溝通","漂綠風險的把關"],
+ [D("09:00","ai","永續數據整合","AI 彙整各子公司碳排與社會數據，標出缺漏。"),
+  D("10:30","human","重大性的判斷","哪些議題對集團最關鍵，靠你的專業評估。"),
+  D("14:00","collab","報告初稿成形","你定架構，AI 依 GRI/SASB 產出揭露初稿。"),
+  D("16:30","human","減碳承諾的拍板","對外承諾要務實可行，由你權衡建議。")],
+ "AI 幫我整理資料，永續的真心要人來實踐。"),
+add("holding","金控總部","⚖️","集團法務專員",65,"合約、訴訟、法規諮詢，讀不完也回不完。",
+ "手動審閱合約、研究法規、回覆各單位法律諮詢，量大又怕漏。","AI 接手審閱與研究，你專注在風險判斷與談判。",
+ ["自動審閱合約、標示風險條款","檢索法規與判例、生成研究摘要","初步回覆常見法律諮詢","追蹤訴訟進度與文件管理"],
+ ["法律風險的判斷與建議","重大合約的談判策略","訴訟策略與和解決策","灰色地帶的裁量"],
+ [D("09:00","ai","合約風險掃描","AI 掃出新合約三處不利條款並附修改建議。"),
+  D("10:30","human","談判的攻防","關鍵條款怎麼談，是你的策略與經驗。"),
+  D("14:00","collab","法規研究加速","你請 AI 檢索相關判例，快速形成意見。"),
+  D("16:30","human","訴訟策略決定","打或和、如何佈局，由你判斷承擔。")],
+ "AI 幫我讀完卷宗，關鍵的判斷由人負責。"),
+add("holding","金控總部","🤝","併購策略投資分析師",67,"盡職調查、估值、整合，一樁案子磨到深夜。",
+ "手動建模、拉可比、做盡調清單、寫投資評估，重複與加班多。","AI 接手建模與資料，你專注在交易邏輯與整合判斷。",
+ ["自動建立估值模型與可比分析","彙整盡職調查資料與紅旗","生成投資評估報告初稿","監控潛在標的與市場機會"],
+ ["交易策略與價格的判斷","綜效與整合的評估","談判與交易結構設計","投後整合的關鍵決策"],
+ [D("09:00","ai","標的初評自動化","AI 拉好目標財務、估值區間與同業對比。"),
+  D("11:00","collab","綜效試算","你設定整合假設，AI 算出綜效與回收年限。"),
+  D("14:00","human","交易的取捨","這樁併購值不值得、怎麼談，靠你的判斷。"),
+  D("16:30","ai","盡調紅旗彙整","AI 從資料室掃出三個需追查的風險點。")],
+ "AI 幫我算清數字，扣板機的是我的判斷。"),
+add("holding","金控總部","🔐","集團資安治理專員",63,"威脅看不完、稽核做不完，防線繃很緊。",
+ "手動彙整各子公司資安事件、追蹤修補、準備稽核，事務繁重。","AI 接手監控與彙整，你專注在治理策略與應變。",
+ ["彙整跨子公司資安事件與威脅情報","監控弱點修補進度","生成資安稽核與合規報告","偵測異常行為並預警"],
+ ["資安策略與資源配置","重大事件的應變決策","對董事會的資安溝通","第三方風險的判斷"],
+ [D("09:00","ai","威脅情報彙整","AI 整合外部情報與內部告警，排出優先處理。"),
+  D("10:30","human","一起事件的判斷","疑似入侵，是否啟動應變由你決斷。"),
+  D("14:00","collab","弱點修補追蹤","AI 盤點未修補系統，你排定風險優先序。"),
+  D("16:30","human","對董事會示警","資安風險如何讓高層重視，靠你的溝通。")],
+ "AI 幫我盯住警報，最後的防線是人的判斷。"),
+add("holding","金控總部","🏛️","公司治理幕僚",66,"董事會議程、法遵、股東會，行程排到滿。",
+ "手動準備董事會資料、追蹤決議、整理法遵事項，繁瑣易漏。","AI 接手文件與追蹤，你專注在治理品質與溝通。",
+ ["彙整董事會議案與背景資料","追蹤決議執行與待辦","監控公司治理法規變動","生成議事錄與揭露初稿"],
+ ["議程與議題的規劃","董事間的溝通協調","治理爭議的判斷","股東關係的經營"],
+ [D("09:00","ai","董事會材料備妥","AI 彙整各議案資料與前次決議追蹤。"),
+  D("10:30","human","議程的取捨","哪些議題該上會、怎麼呈現，靠你判斷。"),
+  D("14:00","collab","決議追蹤更新","AI 更新各決議執行進度，標出落後項。"),
+  D("16:30","human","董事間的溝通","敏感議題事前如何溝通，是你的分寸。")],
+ "AI 幫我備齊文件，治理的分寸由人拿捏。"),
+
+/* ---- 銀行 bank ---- */
+add("bank","銀行","🏦","分行理財專員",70,"從早上跑報表跑到晚上，陪客戶的時間卻越來越少。",
+ "花大把時間整理部位、對帳、產出建議書與 KYC，會談前臨時抱佛腳。","AI 把準備工作做完，你帶著客製觀點走進每場會談。",
+ ["彙整客戶跨帳戶資產與市場異動","生成客製投資摘要與話術","填寫並預檢 KYC/適合度文件","追蹤到期商品與再平衡提醒"],
+ ["解讀客戶人生目標與擔憂","虧損時的情緒與信任對話","跨產品的整體規劃拍板","高資產客戶長期關係"],
+ [D("08:30","ai","晨間簡報就緒","AI 為今天要見的 6 位客戶各生成一頁重點。"),
+  D("10:00","human","與退休客戶深談","客戶擔心提早退休，你談的是他真正的焦慮。"),
+  D("13:30","collab","方案即時微調","客戶想加保單，AI 立刻算現金流影響。"),
+  D("16:00","ai","合規文件到位","當日適合度說明與對帳單由 AI 產出自檢。")],
+ "我不再是報表操作員，而是客戶的財務策略夥伴。"),
+add("bank","銀行","💼","個人金融產品經理",67,"要懂數據、又要懂通路，需求排不完。",
+ "手動拉用戶數據、做產品分析、寫規格與行銷素材，雜務稀釋思考。","AI 整合洞察與文件，你專注在產品策略與客戶價值。",
+ ["彙整用戶行為與產品績效數據","生成需求文件與規格初稿","監控產品指標與異常","競品與市場動態彙整"],
+ ["產品定位與優先序判斷","客戶痛點的洞察","跨部門協調與說服","體驗與獲利的權衡"],
+ [D("09:00","ai","用戶洞察彙整","AI 把上週數據歸納成五個關鍵洞察。"),
+  D("10:30","human","做與不做的取捨","資源有限，優先序由你判斷。"),
+  D("14:00","collab","規格快速成形","你口述需求，AI 產出 PRD 初稿。"),
+  D("16:00","ai","指標即時看板","AI 監控轉換率，下滑立刻提示你。")],
+ "AI 幫我省下雜務，我專心想該為客戶做什麼。"),
+add("bank","銀行","🏢","法人金融客戶經理(RM)",62,"要懂客戶產業、又要盯自家產品，準備不完。",
+ "為每次拜訪手動整理產業動態、客戶財務、交叉銷售機會，簡報做到深夜。","AI 把功課做足，你投入提案洞見與現場關係。",
+ ["彙整客戶產業趨勢與競爭動態","盤點既有往來與交叉銷售缺口","生成量身簡報與提案初稿","監控帳戶異常與商機訊號"],
+ ["與 CFO/財務長的信任關係","複雜聯貸與現金管理設計","定價與整體往來談判","判讀未說出口的需求"],
+ [D("08:45","ai","拜訪功課備妥","AI 整理客戶上下游動態、匯率曝險與往年往來。"),
+  D("11:00","human","與財務長會談","你談他明年的擴廠與資金結構。"),
+  D("14:30","collab","現場即時試算","客戶問聯貸成本，AI 當場跑三種結構。"),
+  D("16:00","ai","商機雷達","AI 掃出客戶海外收款需求，提示外匯機會。")],
+ "AI 讓我從準備會議的人，變成創造價值的人。"),
+add("bank","銀行","📝","授信審查員",75,"一份案件要翻十份文件、抓十個數字，眼都花了。",
+ "手動蒐集財報、聯徵、擔保品，逐項算比率、寫制式段落，一件磨半天。","AI 把資料與試算備妥、紅旗標好，你專注在信用判斷。",
+ ["自動擷取財報聯徵並算關鍵比率","比對產業基準、標示風險紅旗","草擬授信分析報告初稿","監控貸放戶的預警訊號"],
+ ["還款來源與經營者誠信判斷","結構與擔保條件談判","例外個案的裁量與承擔","風險與業務的平衡"],
+ [D("09:00","ai","案件包成形","AI 擷取三年財報、聯徵、鑑價並標出異常。"),
+  D("10:30","collab","追問關鍵疑點","你請 AI 比對應收帳款與同業判斷營收品質。"),
+  D("14:00","human","委員會前定調","要不要承作、條件怎麼設，是你的擔當。"),
+  D("16:30","ai","存量戶巡檢","AI 掃出一家現金流轉弱的公司推給你。")],
+ "AI 幫我看完所有數字，我負責看懂數字背後的人。"),
+add("bank","銀行","🏠","房貸業務專員",71,"估價、對保、進件追蹤，作業繁瑣又趕件。",
+ "手動蒐集財力文件、估價、算成數、追撥款，例行作業佔滿時間。","AI 接手文件與試算，你專注在客戶溝通與方案設計。",
+ ["自動蒐集財力文件並預檢","估價與貸款成數初步試算","進件與撥款進度自動追蹤","比對利率方案與優惠"],
+ ["客戶需求與還款能力判斷","方案與利率的溝通說明","特殊案件的協調","轉介與關係經營"],
+ [D("09:00","ai","文件自動整備","AI 蒐集並檢核財力文件，缺件自動提醒。"),
+  D("10:30","human","與客戶談方案","你依他的現金流建議最適合的組合。"),
+  D("14:00","collab","成數即時試算","客戶問能貸多少，AI 依估價當場算給他。"),
+  D("16:00","ai","進度自動追蹤","AI 追撥款流程，卡關即時通知你處理。")],
+ "AI 接走了跑件的苦工，我專心幫客戶圓一個家。"),
+add("bank","銀行","💳","信用卡行銷企劃",72,"活動檔期趕不完、成效追不完，創意被進度追著跑。",
+ "手動產素材、做名單、跑法遵、追成效，重複製作壓縮創意。","AI 接手產製與分析，你專注在活動策略與客群洞察。",
+ ["生成多版行銷文案與素材","依消費行為建立行銷名單","彙整活動成效與客群洞察","法遵用語初步檢核"],
+ ["活動策略與客群定位","打動人心的創意","跨通路整合規劃","合規與品牌把關"],
+ [D("09:00","ai","素材批量生成","AI 依檔期產出多版文案與視覺初稿。"),
+  D("10:30","human","想一個好點子","真正打動人的活動，來自對客群的洞察。"),
+  D("14:00","collab","精準名單產出","你設定條件，AI 依消費樣態圈出目標客群。"),
+  D("16:00","ai","成效即時分析","AI 標出反應最好的一組活動。")],
+ "AI 幫我快速產出，打動人心永遠從人開始。"),
+add("bank","銀行","💎","財富管理顧問(高資產)",64,"客戶資產複雜、期待又高，準備比談話還久。",
+ "手動整合客戶跨行資產、跑規劃、做報告，前置工作繁重。","AI 建立全貌與模擬，你專注在信任、傳承與判斷。",
+ ["整合客戶跨機構資產全貌","模擬退休、稅務、傳承情境","生成視覺化財務規劃報告","監控組合風險與再平衡"],
+ ["理解客戶價值觀與人生目標","跨世代與家庭的敏感溝通","整體財務策略的設計","變故時的情感支持"],
+ [D("09:00","ai","客戶全貌成形","AI 拼出客戶跨行資產、保單、不動產地圖。"),
+  D("10:30","human","談他想要的生活","退休不只是數字，這場對話由人引導。"),
+  D("13:30","collab","多情境模擬","客戶問能否提早退休，AI 當場跑三種路徑。"),
+  D("15:30","ai","規劃書視覺化","AI 把複雜規劃變成一頁看得懂的圖。")],
+ "財富規劃規劃的是人生，而人生只能用心去聽。"),
+add("bank","銀行","📱","數位存款產品經理",68,"純數位服務要好用又合規，需求與數據兩頭燒。",
+ "手動分析用戶旅程、拉數據、寫規格、追迭代，雜務稀釋產品思考。","AI 整合數據與文件，你專注在體驗與成長策略。",
+ ["彙整用戶旅程與流失點分析","生成需求與規格初稿","A/B 測試設計與結果分析","監控核心指標與異常"],
+ ["產品願景與優先序","數位體驗的洞察","跨團隊協調落地","合規與體驗的權衡"],
+ [D("09:00","ai","旅程分析就緒","AI 標出開戶流程三個高流失步驟。"),
+  D("10:30","human","體驗的取捨","為了合規與順暢的平衡，由你拍板。"),
+  D("14:00","collab","實驗快速設計","你定假設，AI 產出 A/B 方案與指標。"),
+  D("16:00","ai","指標即時監控","AI 盯轉換率，異常立刻提示你。")],
+ "AI 幫我看清數據，好體驗的決策由人來下。"),
+add("bank","銀行","⚙️","集中作業中心專員",78,"單據海量、重複核對，錯一筆就要重來。",
+ "手動處理開戶、匯款、對帳等後台作業，重複性高、期末爆量。","AI 自動處理標準作業，你專注在例外與品質把關。",
+ ["OCR 判讀單據並自動建檔","自動對帳與異常標示","標準作業流程自動化","偵測疑似異常交易"],
+ ["例外與疑難案件處理","作業風險的判斷","流程優化的建議","跨單位協調"],
+ [D("09:00","ai","標準件自動處理","AI 完成八成例行作業，你只抽查。"),
+  D("10:30","human","一件例外處理","非典型案件，靠你的經驗判斷。"),
+  D("14:00","collab","異常交易確認","AI 標出可疑匯款，你複核後決定。"),
+  D("16:00","ai","對帳自動完成","AI 跑完全量對帳，標出差異待你確認。")],
+ "AI 接走了重複的核對，我專注在真正需要判斷的例外。"),
+add("bank","銀行","💱","金融交易部外匯交易員",64,"盯多市場、抓價差，手動執行怕慢又怕錯。",
+ "手動監控行情、拆單執行、記錄交易，高壓高速中易疲勞出錯。","AI 處理執行與監控，你專注在策略與部位判斷。",
+ ["監控跨市場匯率與流動性","智慧拆單、最佳化執行","即時風控與限額監控","自動記錄交易與日誌"],
+ ["交易策略與時機判斷","異常行情的臨場決斷","大額交易的談判","風險胃納與停損紀律"],
+ [D("08:00","ai","流動性地圖","AI 掃出各幣別價差與好進出時段。"),
+  D("09:30","human","策略定調","今天偏防守或進攻，方向由你拍板。"),
+  D("11:00","collab","智慧執行大單","你要建部位，AI 拆單壓低衝擊。"),
+  D("14:00","human","意外行情決斷","消息面跳空，要不要砍由你判斷。")],
+ "AI 讓執行更快更準，我專心做只有人能做的判斷。"),
+
+/* ---- 證券 sec ---- */
+add("sec","證券","📈","證券營業員(經紀)",64,"盯盤、下單、回報，還要安撫客戶情緒。",
+ "手動整理個股、回覆詢問、處理下單對帳，盤中忙到沒空思考。","AI 打理資訊與作業，你專注在客戶關係與陪伴。",
+ ["彙整個股、產業與盤面即時資訊","自動處理下單、對帳與帳務查詢","監控客戶部位風險並提示","生成客製盤後報告"],
+ ["掌握客戶風險屬性與情緒","波動時的陪伴溝通","投資策略的討論建議","違約風險部位處理"],
+ [D("08:30","ai","盤前重點就緒","AI 整理隔夜美股、法說與客戶持股新聞。"),
+  D("10:00","human","安撫緊張客戶","持股大跌，你先接住情緒再談要不要動。"),
+  D("12:30","collab","即時查部位風險","客戶想加碼，AI 算集中度與維持率。"),
+  D("14:00","ai","盤後報告自動送","收盤後 AI 為每位客戶生成損益重點。")],
+ "行情機器看得懂，但客戶的恐懼與貪婪要人來陪。"),
+add("sec","證券","🔬","股票研究分析師",70,"讀不完的財報與法說，寫不完的報告。",
+ "手動蒐集財報、建模、整理法說、寫制式報告，資料工作吃掉精力。","AI 接手蒐集與初稿，你投入獨到觀點與投資邏輯。",
+ ["自動擷取財報、法說與產業資料","更新財務模型與估值試算","生成報告初稿與圖表","監控追蹤標的關鍵變化"],
+ ["形成與眾不同的投資觀點","對管理層與產業的實地訪查","估值假設與目標價判斷","對經理人的觀點溝通"],
+ [D("08:30","ai","法說會秒摘要","昨晚法說 AI 已生成重點與模型影響。"),
+  D("10:30","human","形成非共識觀點","你從供應鏈訪查嗅到市場沒看到的隱憂。"),
+  D("13:30","collab","壓力測試模型","你請 AI 跑三種成長假設看目標價敏感度。"),
+  D("15:00","ai","報告初稿成形","你的邏輯輸入後 AI 產出結構完整初稿。")],
+ "AI 幫我讀完全世界，與眾不同的判斷只能來自我。"),
+add("sec","證券","🤝","投資銀行(承銷)分析師",69,"做不完的簡報、拉不完的可比，常做到天亮。",
+ "手動建模、拉可比、做 pitch book、微調格式，重複與加班多。","AI 接手建模與素材，你專注在交易邏輯與客戶溝通。",
+ ["自動建立估值模型與可比分析","生成 pitch book 初稿與圖表","彙整產業與交易案例","格式校對與版本管理"],
+ ["交易結構與策略思考","客戶需求判讀","與資深銀行家協作","盡職調查關鍵判斷"],
+ [D("09:00","ai","可比自動更新","AI 拉好同業最新財務與交易倍數。"),
+  D("11:00","collab","模型情境調整","你請 AI 改成三種假設看每股盈餘增減。"),
+  D("14:00","human","交易邏輯打磨","這樁承銷的故事怎麼講，靠你的思考。"),
+  D("16:00","ai","Pitch book 成形","素材輸入後 AI 產出格式一致的初稿。")],
+ "AI 接走了通宵的苦工，我終於能思考交易本身。"),
+add("sec","證券","⚡","自營部交易員",68,"盯多螢幕抓稍縱即逝的機會，手動執行怕慢怕錯。",
+ "手動監控多市場、拆單執行、記錄交易，高壓中易疲勞出錯。","AI 處理執行細節，你專注在策略與大局判斷。",
+ ["監控跨市場行情與流動性","智慧拆單、最佳化執行","即時風控與部位限額","自動記錄與生成日誌"],
+ ["交易策略與時機判斷","異常行情臨場決斷","複雜部位的建構","停損與紀律"],
+ [D("08:00","ai","流動性地圖","AI 掃出各標的流動性與價差。"),
+  D("09:30","human","策略定調","今天偏防守或進攻由你拍板。"),
+  D("11:00","collab","智慧執行","你建部位，AI 擇時壓低衝擊。"),
+  D("14:00","human","意外決斷","突發消息，要不要砍是你的判斷。")],
+ "AI 讓執行更準，我專心做只有人能做的判斷。"),
+add("sec","證券","💎","證券財富管理顧問",65,"客戶多、商品雜，個人化服務難規模化。",
+ "手動追蹤客戶部位、準備溝通、處理雜務，難兼顧每位客戶。","AI 放大你的服務能量，你專注在關鍵時刻。",
+ ["監控客戶組合與市場訊號","生成個人化溝通與提醒","自動處理排程與行政","彙整客戶偏好與歷程"],
+ ["深度客戶關係","關鍵決策的陪伴","整體資產配置建議","風險屬性的掌握"],
+ [D("09:00","ai","客戶動態雷達","AI 掃出三位客戶組合偏離，提示你關心。"),
+  D("10:30","human","陪客戶做決定","面臨重大抉擇，客戶要的是你的判斷。"),
+  D("13:30","collab","個人化溝通備妥","AI 依偏好生成不同語氣的關懷草稿。"),
+  D("15:00","ai","雜務自動處理","排程、文件、追蹤 AI 一手包辦。")],
+ "AI 讓我把有限的自己，放大成無限的服務。"),
+add("sec","證券","📐","衍生性商品業務",63,"商品結構複雜、報價要快，說明客戶很吃力。",
+ "手動算報價、做結構說明、跑試算，複雜商品準備耗時。","AI 接手試算與說明，你專注在需求設計與風險溝通。",
+ ["自動試算商品報價與情境損益","生成結構說明與風險揭露","彙整市場波動與定價參數","監控客戶部位風險"],
+ ["客戶避險/投資需求判讀","商品結構的設計","風險與適合度溝通","複雜交易談判"],
+ [D("09:00","ai","報價自動試算","AI 依市場參數算出多結構報價。"),
+  D("11:00","human","需求的判讀","客戶要避險還是增益，靠你釐清。"),
+  D("14:00","collab","情境損益模擬","你請 AI 跑不同市況下的損益圖。"),
+  D("16:00","ai","風險揭露備妥","AI 生成合規的結構說明與揭露文件。")],
+ "AI 幫我算清結構，客戶的需求要人來讀懂。"),
+add("sec","證券","🌏","複委託(海外股)專員",66,"跨市場資訊多、時差難顧，客戶問題接不完。",
+ "手動整理海外標的、處理下單對帳、回覆詢問，跨市場作業繁瑣。","AI 打理資訊與作業，你專注在客戶配置與陪伴。",
+ ["彙整海外市場與個股資訊","自動處理跨市場下單對帳","監控匯率與交割風險","生成海外投資報告"],
+ ["全球資產配置建議","跨市場風險溝通","客戶投資陪伴","稅務與交割的協助"],
+ [D("08:30","ai","隔夜市場摘要","AI 整理美股歐股重點與客戶持股動態。"),
+  D("10:00","human","配置的建議","客戶想布局海外，你談整體配置。"),
+  D("13:30","collab","跨市場下單","你確認策略，AI 處理下單與匯率。"),
+  D("15:30","ai","報告自動生成","AI 為客戶生成跨市場損益與觀察。")],
+ "AI 幫我顧全球，客戶的配置由人來規劃。"),
+add("sec","證券","📲","證券數位交易產品經理",68,"交易 App 要快又穩，需求與數據兩頭燒。",
+ "手動分析交易行為、拉數據、寫規格、追迭代，雜務多。","AI 整合數據與文件，你專注在體驗與交易流暢度。",
+ ["彙整交易行為與痛點分析","生成需求與規格初稿","A/B 測試設計與分析","監控系統穩定與指標"],
+ ["產品願景與優先序","交易體驗的洞察","跨團隊協調","穩定與體驗的權衡"],
+ [D("09:00","ai","行為分析就緒","AI 標出下單流程的卡點。"),
+  D("10:30","human","體驗取捨","速度與資訊的平衡，由你判斷。"),
+  D("14:00","collab","實驗設計","你定假設，AI 產出 A/B 方案。"),
+  D("16:00","ai","指標監控","AI 盯下單成功率，異常即提示。")],
+ "AI 幫我看數據，好交易體驗的決策由人下。"),
+add("sec","證券","🏛️","法人業務(機構銷售)",62,"要懂產品、又要懂法人需求，簡報做不完。",
+ "手動整理研究、準備法人簡報、追蹤下單，前置繁重。","AI 備妥研究與素材，你專注在法人關係與洞見。",
+ ["彙整研究觀點與市場資訊","生成法人簡報與投資構想","監控法人部位與交易","整理路演與會議紀錄"],
+ ["法人關係經營","投資構想的說服","客製化研究溝通","大額交易協調"],
+ [D("08:30","ai","晨會構想備妥","AI 整合研究團隊觀點成投資構想。"),
+  D("10:30","human","與法人的深談","你把研究翻成打動基金的投資邏輯。"),
+  D("14:00","collab","客製資料","法人要細節，AI 秒拉數據佐證。"),
+  D("16:00","ai","路演行程整理","AI 安排並記錄法人拜訪重點。")],
+ "研究 AI 幫我備齊，法人的信任靠人來建立。"),
+add("sec","證券","🧾","證券結算交割專員",78,"交割量大、時限緊，錯一筆就影響全局。",
+ "手動核對成交、處理交割、對帳，重複性高、時限壓力大。","AI 自動處理交割對帳，你專注在例外與風險把關。",
+ ["自動核對成交與交割明細","異常與違約交割標示","款券收付自動勾稽","生成結算報表"],
+ ["交割異常的處理","違約風險的判斷","跨機構協調","流程風險把關"],
+ [D("09:00","ai","交割自動核對","AI 完成成交與交割明細比對。"),
+  D("10:30","human","一筆異常處理","交割不符，靠你追查與協調。"),
+  D("14:00","collab","違約風險確認","AI 標出高風險帳戶，你複核處理。"),
+  D("16:00","ai","報表自動產出","AI 生成當日結算報表並勾稽。")],
+ "AI 接走了對帳的苦工，我專注在風險的把關。"),
+
+/* ---- 人壽 life ---- */
+add("life","人壽","🛡️","壽險業務顧問",66,"手動比商品、算保費、追進度，談需求的時間被壓縮。",
+ "為每位客戶手動試算、比較保單、整理建議書，行政佔掉大半天。","AI 打理試算與文件，你回到聆聽人生、給對保障。",
+ ["依客戶輪廓試算與比較保單","生成客製建議書與缺口分析","提醒續保、繳費與保單健檢","整理理賠與契變文件"],
+ ["傾聽人生階段與擔憂","保障規劃的取捨說明","面對疑慮的溝通","經營轉介與信任"],
+ [D("09:00","ai","客戶健檢報告","AI 掃出三位客戶保障缺口與試算。"),
+  D("10:30","human","關於家庭的對話","客戶剛升格父母，你談責任與安心。"),
+  D("13:30","collab","當場調整方案","預算有限，AI 即時換三種組合。"),
+  D("15:30","ai","建議書自動生成","談定方向後 AI 產出精美建議書。")],
+ "保險賣的是安心，而安心只能由人來給。"),
+add("life","人壽","📋","核保人員(壽險)",78,"逐件看病歷、查規則、算風險，量大又怕漏。",
+ "人工審閱健康告知、財務與職業資料，逐條比對規則，例行件也從頭看。","AI 處理標準件、標好風險件，你把專業留給需要判斷的個案。",
+ ["自動判讀健康告知與體檢","比對規則、秒批標準件","標示高風險件與缺件","計算加費與批註建議"],
+ ["複雜病史與非典型風險判斷","加費、批註與拒保裁量","與再保、醫學顧問協作","規則邊界的最終決定"],
+ [D("09:00","ai","標準件自動放行","八成件屬標準體，AI 依規則秒核。"),
+  D("10:30","collab","一件棘手病史","AI 附醫學摘要，你請它補相似個案。"),
+  D("13:30","human","加費與否裁量","規則灰色地帶，承保條件由你拍板。"),
+  D("15:00","ai","缺件自動催補","AI 偵測缺體檢，直接發通知追蹤。")],
+ "AI 讓我不再被標準件淹沒，專注在需要專業的個案。"),
+add("life","人壽","🩹","理賠審查員(壽險)",74,"翻不完的單據、對不完的條款，還要防詐領。",
+ "手動核對單據、比對條款、查病歷，逐件算給付，疑點還要人工追。","AI 完成判讀與初核，你專注在爭議判定與詐欺調查。",
+ ["OCR 判讀單據並比對條款","自動算給付、秒賠小額件","標示異常樣態與疑似詐領","生成理賠決定通知初稿"],
+ ["爭議案件的條款解釋","疑似詐欺的深入調查","對客戶的同理溝通","例外從寬的裁量"],
+ [D("09:00","ai","小額件即時給付","AI 判讀單據、比對條款、算好金額。"),
+  D("10:30","collab","追一個疑點","AI 標出就醫時間異常，你拉關聯比對。"),
+  D("13:30","human","同理的溝通","重症部分拒賠，這通電話由人來接。"),
+  D("15:00","ai","詐欺樣態預警","AI 揪出重複樣態附關聯圖給你。")],
+ "理賠是保險的承諾兌現，我守的是溫度與公平。"),
+add("life","人壽","📐","保險精算師(壽險)",64,"跑不完的模型、整理不完的資料，洞見反而沒空想。",
+ "手動清資料、建模跑準備金、產制式報表，時間耗在前置。","AI 接手資料與運算，你專注在假設設定與策略解讀。",
+ ["自動清理與勾稽經驗資料","批次跑保費、準備金與情境模型","生成敏感度分析與監理報表","偵測資料異常與趨勢變化"],
+ ["精算假設的設定與辯護","模型結果的商業解讀","商品定價與風險策略","與監理、稽核溝通"],
+ [D("09:00","ai","資料自動整備","AI 清好經驗資料，模型輸入就緒。"),
+  D("10:30","collab","跑一批情境","你設利率死亡率情境，AI 平行跑完。"),
+  D("13:30","human","假設要不要改","經驗顯示趨勢轉變，調整由你判斷。"),
+  D("15:00","ai","監理報表初稿","AI 依法規產出準備金報表初稿。")],
+ "模型 AI 跑得動，但要不要相信它是精算師的判斷。"),
+add("life","人壽","📞","保戶服務專員",76,"接不完的電話、查不完的保單，累也難有成就感。",
+ "重複回答保單問題、查契約、處理變更，情緒勞動大。","AI 處理標準查詢，你專注在複雜與高價值的服務。",
+ ["即時回答條款與權益查詢","自動處理契約變更","主動提醒繳費續保權益","整理來電摘要與待辦"],
+ ["複雜爭議與情緒安撫","跨部門協調個案","察覺需求並轉介","對長者的耐心陪伴"],
+ [D("09:00","ai","標準問題自動解","AI 即時處理八成條款查詢。"),
+  D("10:30","human","接住焦慮保戶","理賠卡關，安撫的話由你來說。"),
+  D("13:30","collab","跨部門協調","AI 彙整歷程並同步核保理賠。"),
+  D("15:00","ai","主動關懷名單","AI 挑出即將失效保單備好腳本。")],
+ "AI 接走了重複的問題，我接住了客戶的情緒。"),
+add("life","人壽","🗂️","保單行政/契約變更",80,"表單海量、規則繁瑣，重複建檔到手軟。",
+ "手動處理契變、受益人變更、貸款、建檔，重複性極高。","AI 自動處理標準契變，你專注在例外與品質。",
+ ["OCR 判讀申請書並自動建檔","標準契變自動處理","異常與缺件標示","生成契變通知"],
+ ["複雜契變的判斷","例外案件處理","作業風險把關","跨單位協調"],
+ [D("09:00","ai","標準契變自動化","AI 完成八成地址繳別變更。"),
+  D("10:30","human","一件複雜契變","受益人爭議，靠你依規判斷。"),
+  D("14:00","collab","缺件自動追","AI 偵測缺文件，發通知追補。"),
+  D("16:00","ai","通知自動生成","AI 產出契變完成通知並歸檔。")],
+ "AI 接走了建檔的重複，我專注在需要判斷的例外。"),
+add("life","人壽","📊","投資型保單投資經理",63,"要顧投資、又要顧保戶，配置與溝通兩頭燒。",
+ "手動監控投資標的、算績效、寫溝通，前置耗時。","AI 接手監控與報告，你專注在配置策略與保戶溝通。",
+ ["監控連結標的與帳戶價值","計算績效與再平衡建議","生成保戶投資報告","掃描市場機會與風險"],
+ ["投資策略與配置決策","保戶風險溝通","市場波動的應變","長期投資紀律"],
+ [D("08:30","ai","組合健檢","AI 報出各帳戶偏離與風險曝險。"),
+  D("10:00","human","配置的取捨","市場轉向，要不要調整由你判斷。"),
+  D("13:00","collab","再平衡試算","你定方向，AI 算交易清單與成本。"),
+  D("15:00","ai","保戶報告自動化","AI 產出淺白易懂的績效說明。")],
+ "AI 是我的分析師，扣板機的手永遠是我的。"),
+add("life","人壽","🤝","通路經營(銀保/經代)專員",65,"通路多、需求雜，教育訓練與支援做不完。",
+ "手動整理商品資料、準備教育訓練、追蹤業績，事務繁重。","AI 備妥素材與分析，你專注在通路關係與策略。",
+ ["生成商品訓練素材與話術","彙整通路業績與客群分析","監控通路合規與品質","整理常見問題與支援"],
+ ["通路關係經營","業績策略與資源配置","合規文化推動","疑難個案協調"],
+ [D("09:00","ai","訓練素材備妥","AI 依新商品生成訓練簡報與話術。"),
+  D("10:30","human","與通路的經營","你經營銀行端關係，談合作深化。"),
+  D("14:00","collab","業績分析","你請 AI 拆解各通路業績與客群。"),
+  D("16:00","ai","合規品質監控","AI 掃出招攬品質異常提示你關注。")],
+ "AI 幫我備齊彈藥，通路的關係靠人來經營。"),
+add("life","人壽","💡","壽險商品開發企劃",66,"市場、法規、精算要整合，商品設計曠日費時。",
+ "手動蒐集市場需求、研究競品、協調精算與法遵，前置繁重。","AI 整合資訊與初稿，你專注在商品設計與差異化。",
+ ["彙整市場需求與競品分析","協助商品條款與 DM 初稿","監控法規與同業商品動態","模擬商品定價與利潤"],
+ ["商品定位與差異化設計","跨部門(精算/法遵/通路)協調","客戶需求的洞察","商品策略的判斷"],
+ [D("09:00","ai","競品自動彙整","AI 整理同業新商品的條款與費率。"),
+  D("10:30","human","商品的差異化","要打什麼客群、給什麼保障，靠你設計。"),
+  D("14:00","collab","利潤試算","你請精算與 AI 快速跑商品利潤情境。"),
+  D("16:00","ai","文件初稿成形","AI 產出條款與 DM 初稿供你打磨。")],
+ "AI 幫我看市場，好商品的靈魂由人來設計。"),
+add("life","人壽","🕵️","保險防詐調查專員",73,"疑點看不完、證據拼不完，真正的詐團怕漏掉。",
+ "人工比對理賠樣態、查證關係人、寫調查報告，耗時費神。","AI 過濾誤報、備妥證據，你專注在調查與判斷。",
+ ["智慧過濾誤報、排序高風險件","彙整關係人與理賠關聯","建立可疑樣態網絡","生成調查報告初稿"],
+ ["可疑樣態的最終判斷","詐團手法的識別","申報與否的裁量","與檢調協作"],
+ [D("09:00","ai","警示智慧分流","AI 濾掉多數誤報，排序可疑件。"),
+  D("10:30","collab","關聯追蹤","你請 AI 畫出可疑理賠的關係人網絡。"),
+  D("13:30","human","是否申報","樣態可疑但證據不足，由你判斷。"),
+  D("15:00","ai","證據備齊","你決定後 AI 彙整完整證據鏈。")],
+ "AI 幫我濾掉雜訊，我專心抓真正的詐團。"),
+
+/* ---- 產險 pc ---- */
+add("pc","產險","📋","產險核保人員",76,"逐件評風險、查規則、算費率，量大又怕漏。",
+ "人工審閱要保資料、比對核保規則、算費率，例行件佔多數。","AI 處理標準件、標好風險件，你專注在複雜風險判斷。",
+ ["自動判讀要保與標的資料","比對規則、秒批標準件","標示高風險與異常件","計算費率與批註建議"],
+ ["複雜風險的評估","費率與條件裁量","與再保協商","例外個案判斷"],
+ [D("09:00","ai","標準件自動核","AI 依規則秒核多數車險與住火險。"),
+  D("10:30","collab","一件工廠火險","AI 附風險評估，你請它補相似案例。"),
+  D("13:30","human","費率的裁量","高風險標的條件由你拍板。"),
+  D("15:00","ai","異常件標示","AI 標出資料矛盾件推給你複核。")],
+ "AI 讓我不被標準件淹沒，專注在複雜風險的判斷。"),
+add("pc","產險","🚗","車險理賠查勘員",72,"現場跑不完、單據對不完，估損又要快又要準。",
+ "手動查勘、拍照、估損、比對條款、寫報告，現場與文書兩頭忙。","AI 接手估損與文件，你專注在現場判斷與爭議處理。",
+ ["AI 影像辨識估算車損","自動比對條款與給付","生成查勘與理賠報告初稿","標示疑似詐領樣態"],
+ ["現場事實的判斷","責任歸屬的認定","爭議與情緒處理","詐欺的識別"],
+ [D("09:00","ai","估損自動化","客戶上傳照片，AI 秒估車損金額。"),
+  D("11:00","human","現場的判斷","責任怎麼分、事實如何，靠你到場看。"),
+  D("14:00","collab","給付快速核算","AI 依條款算給付，你確認後放行。"),
+  D("16:00","ai","詐領預警","AI 標出疑似安排事故的樣態。")],
+ "AI 幫我估損，現場的是非曲直要人來判斷。"),
+add("pc","產險","🏭","企業財產險業務",63,"企業風險複雜、方案要客製，準備比拜訪還久。",
+ "手動蒐集企業風險資料、做風險評估、設計方案、寫建議書，前置繁重。","AI 備妥評估與方案，你專注在風險諮詢與關係。",
+ ["彙整企業營運與風險資料","生成風險評估與方案初稿","比對再保與承保條件","監控續保與商機"],
+ ["企業風險的診斷","客製方案的設計","風險諮詢與溝通","定價與條件談判"],
+ [D("09:00","ai","風險評估備妥","AI 整理客戶廠區、營運與歷史損失。"),
+  D("11:00","human","風險諮詢","你像顧問一樣幫企業盤點風險缺口。"),
+  D("14:00","collab","方案試算","你設保額，AI 跑保費與再保安排。"),
+  D("16:00","ai","建議書成形","AI 產出專業的風險與保障建議書。")],
+ "AI 幫我備齊評估，企業的風險要人來診斷。"),
+add("pc","產險","📐","產險精算師",65,"資料清不完、模型跑不完，定價與準備金兩頭燒。",
+ "手動清損失資料、建模跑費率與準備金、產報表，前置耗時。","AI 接手資料與運算，你專注在假設與定價策略。",
+ ["自動清理與勾稽損失資料","批次跑費率與準備金模型","生成敏感度與監理報表","偵測損失趨勢異常"],
+ ["費率假設的設定","準備金的判斷","商品定價策略","與監理溝通"],
+ [D("09:00","ai","損失資料整備","AI 清好各險種損失經驗資料。"),
+  D("10:30","collab","費率模型","你設情境，AI 跑各險種費率充足性。"),
+  D("13:30","human","定價的判斷","市場競爭下費率怎麼設，由你權衡。"),
+  D("15:00","ai","準備金報表","AI 產出準備金評估報表初稿。")],
+ "模型 AI 跑得動，定價的取捨是精算師的判斷。"),
+add("pc","產險","🔁","再保險安排專員",64,"條件複雜、對象多，安排與對帳繁瑣。",
+ "手動整理承保組合、詢價再保、對帳理算，跨對象作業繁重。","AI 接手彙整與對帳，你專注在再保策略與談判。",
+ ["彙整承保組合與曝險分析","比較再保條件與報價","自動對帳與理算","監控再保人信用與額度"],
+ ["再保策略的設計","條件與價格談判","巨災風險的判斷","再保人關係經營"],
+ [D("09:00","ai","曝險自動彙整","AI 整理各險種曝險與累積風險。"),
+  D("11:00","human","再保策略","保留多少、分出多少，由你設計。"),
+  D("14:00","collab","報價比較","你請 AI 比較各再保人條件。"),
+  D("16:00","ai","對帳自動化","AI 完成再保費與理賠攤回對帳。")],
+ "AI 幫我算清曝險，再保的策略由人來佈局。"),
+add("pc","產險","💹","車險商品定價分析師",70,"變數多、資料雜，定價分析跑到眼花。",
+ "手動整理費率因子、跑定價模型、分析競爭力，重複性高。","AI 接手資料與建模，你專注在定價策略與市場判斷。",
+ ["彙整費率因子與損失資料","跑定價模型與價格彈性分析","監控競爭者費率動態","生成定價分析報告"],
+ ["定價策略與市場定位","費率因子的取捨","獲利與市占的平衡","法規與公平性判斷"],
+ [D("09:00","ai","因子分析就緒","AI 跑完費率因子的損失相關性。"),
+  D("10:30","human","定價策略","要衝市占還是顧獲利，由你判斷。"),
+  D("14:00","collab","彈性模擬","你請 AI 跑不同費率的量價模擬。"),
+  D("16:00","ai","競爭力分析","AI 比較同業費率標出差異。")],
+ "AI 幫我算彈性，定價的策略由人來下。"),
+add("pc","產險","📞","產險客服專員",75,"投保、理賠、變更問不完，情緒勞動大。",
+ "重複回答保單與理賠問題、查資料、記工單，標準問題佔多數。","AI 處理標準問答，你專注在複雜與情緒服務。",
+ ["即時回答投保與理賠查詢","自動查詢保單與理賠進度","生成通話摘要與工單","主動提示續保與權益"],
+ ["複雜爭議與情緒安撫","疑難個案協調","察覺需求並關懷","事故當下的即時協助"],
+ [D("09:00","ai","標準問題自動答","AI 處理八成投保與進度查詢。"),
+  D("10:30","human","安撫出險客戶","剛出事故的客戶慌張，由你安定引導。"),
+  D("13:30","collab","個案協調","AI 彙整歷程並同步理賠單位。"),
+  D("15:00","ai","摘要自動化","每通電話 AI 生成摘要與待辦。")],
+ "AI 接走了重複的問答，我接住客戶的情緒。"),
+add("pc","產險","🌪️","巨災風險模型分析師",67,"資料龐雜、模型複雜，情境跑到頭昏。",
+ "手動整合曝險與天災資料、跑巨災模型、分析結果，前置耗時。","AI 接手資料與運算，你專注在情境判斷與風險策略。",
+ ["整合曝險與天災危害資料","批次跑巨災情境模型","生成累積風險與 PML 分析","監控氣候與地震風險趨勢"],
+ ["巨災情境的判斷","風險胃納與再保策略","氣候風險的評估","對經營層的溝通"],
+ [D("09:00","ai","曝險資料整合","AI 彙整全台曝險與地震淹水圖層。"),
+  D("11:00","collab","情境模擬","你設颱風路徑，AI 跑累積損失。"),
+  D("14:00","human","風險策略","巨災曝險怎麼控管，由你建議。"),
+  D("16:00","ai","PML 報告","AI 產出最大可能損失分析。")],
+ "AI 幫我跑情境，極端風險的判斷由人承擔。"),
+add("pc","產險","🩺","健康傷害險核保",76,"病歷與職業要逐件看，量大又怕漏。",
+ "人工審閱健康告知與職業風險、比對規則，例行件佔多數。","AI 處理標準件、標好風險件，你專注在複雜判斷。",
+ ["自動判讀健康告知與職業","比對規則、秒批標準件","標示高風險與缺件","計算加費建議"],
+ ["複雜病史與高風險職業判斷","加費與拒保裁量","與醫學顧問協作","例外個案決定"],
+ [D("09:00","ai","標準件自動核","AI 秒核多數傷害險投保。"),
+  D("10:30","collab","高風險職業","AI 附風險評估，你請它補案例。"),
+  D("13:30","human","加費裁量","灰色地帶條件由你拍板。"),
+  D("15:00","ai","缺件催補","AI 偵測缺健檢自動通知。")],
+ "AI 讓我不被標準件淹沒，專注在需要專業的個案。"),
+add("pc","產險","🏗️","產險防災工程師(風險工程)",66,"現場勘查跑不完、報告寫不完，改善追蹤難。",
+ "手動勘查、拍照、評估、寫防災建議、追改善，現場與文書兩頭忙。","AI 接手評估與文件，你專注在現場診斷與改善。",
+ ["AI 影像辨識標的風險隱患","生成防災評估與建議報告","比對法規與安全標準","追蹤改善進度"],
+ ["現場風險的專業診斷","改善方案的設計","與企業的溝通說服","承保風險的判斷"],
+ [D("09:00","ai","勘查準備","AI 整理標的歷史損失與同業案例。"),
+  D("11:00","human","現場的診斷","走一趟廠房，你看出機器沒看到的隱患。"),
+  D("14:00","collab","報告快速成形","你口述發現，AI 產出防災建議初稿。"),
+  D("16:00","ai","改善追蹤","AI 追蹤企業改善進度並提醒。")],
+ "AI 幫我備齊資料，現場的隱患要人來看見。"),
+
+/* ---- 投信投顧 am ---- */
+add("am","投信投顧","🎯","基金經理人",61,"研究、決策、法遵、行銷樣樣來，分身乏術。",
+ "手動整合研究、監控基金、應對法遵與行銷，決策精力被稀釋。","AI 整合資訊與作業，你專注在選股邏輯與基金定位。",
+ ["整合內外部研究與市場訊號","監控部位、風險與法遵限額","生成投資人溝通素材","追蹤同類基金與競品"],
+ ["選股與配置的核心決策","基金策略與定位堅持","市場轉折的判斷","對投資人的信念溝通"],
+ [D("08:30","ai","晨會材料整合","AI 整合研究與盤面成晨會摘要。"),
+  D("10:00","human","一檔股票的信念","市場看壞你看到轉機，這是你的 alpha。"),
+  D("13:00","collab","風險法遵檢核","你想加碼，AI 即時檢查集中度限額。"),
+  D("15:00","ai","投資人溝通備妥","AI 依績效生成投資人月報。")],
+ "資訊 AI 幫我整合，相信什麼得由我承擔。"),
+add("am","投信投顧","🔬","投資研究員(買方)",70,"讀不完的資料、跑不完的模型，深度思考沒時間。",
+ "手動蒐集財報產業資料、建模、寫報告，資料工作吃掉精力。","AI 接手蒐集與初稿，你投入獨到觀點與投資邏輯。",
+ ["自動擷取財報與產業資料","更新模型與估值試算","生成研究報告初稿","監控標的關鍵變化"],
+ ["形成投資觀點","實地訪查與驗證","估值假設判斷","對經理人溝通"],
+ [D("08:30","ai","資料自動彙整","AI 整理追蹤標的的最新財報與新聞。"),
+  D("10:30","human","形成觀點","你從產業訪查嗅到市場沒看到的機會。"),
+  D("13:30","collab","模型試算","你請 AI 跑成長假設看估值敏感度。"),
+  D("15:00","ai","報告初稿","你的邏輯輸入後 AI 產出研究初稿。")],
+ "AI 幫我讀完全世界，判斷只能來自我。"),
+add("am","投信投顧","📊","ETF 產品經理",68,"指數、造市、行銷要整合，發行與維運忙不停。",
+ "手動追蹤指數、監控折溢價、協調造市、做行銷，事務繁重。","AI 接手監控與素材，你專注在產品策略與市場拓展。",
+ ["監控 ETF 折溢價與追蹤誤差","彙整指數成分與調整","生成產品行銷素材","分析資金流與競品"],
+ ["產品策略與商品線規劃","指數與主題的判斷","造市與流動性協調","通路與市場拓展"],
+ [D("09:00","ai","折溢價監控","AI 盯各檔 ETF 折溢價與追蹤誤差。"),
+  D("10:30","human","商品線的規劃","下一檔主題 ETF 打什麼，由你判斷。"),
+  D("14:00","collab","資金流分析","你請 AI 拆解各檔申贖與競品。"),
+  D("16:00","ai","行銷素材生成","AI 依主題產出 ETF 說明素材。")],
+ "AI 幫我盯數據，商品的方向由人來定。"),
+add("am","投信投顧","🗺️","財富規劃師/投顧",67,"整合客戶全貌、跑規劃、做報告，準備比談話還久。",
+ "手動蒐集客戶資產、跑退休與稅務規劃、做報告，前置繁重。","AI 建立全貌與模擬，你專注在人生對話與陪伴。",
+ ["整合客戶跨機構資產全貌","模擬退休、教育、稅務情境","生成視覺化規劃報告","定期檢視進度並提示"],
+ ["理解客戶價值觀與目標","跨世代敏感溝通","規劃取捨的引導","變故時的情感支持"],
+ [D("09:00","ai","客戶全貌成形","AI 拼出客戶完整財務地圖。"),
+  D("10:30","human","聊他想要的生活","退休不只是數字，這場對話由人引導。"),
+  D("13:30","collab","多情境模擬","客戶問能否提早退休，AI 跑三種路徑。"),
+  D("15:00","ai","規劃書視覺化","AI 把複雜規劃變成一頁看得懂的圖。")],
+ "財富規劃規劃的是人生，只能用心去聽。"),
+add("am","投信投顧","🏛️","機構業務(法人銷售)",63,"法人需求高、競爭激烈，簡報與服務做不完。",
+ "手動整理績效、準備法人簡報、追蹤申贖，前置繁重。","AI 備妥素材與分析，你專注在法人關係與方案。",
+ ["彙整基金績效與歸因","生成法人簡報與提案","監控法人申贖與需求","整理路演與會議紀錄"],
+ ["法人關係經營","客製方案的設計","投資策略的說服","大額申贖協調"],
+ [D("08:30","ai","績效歸因備妥","AI 生成各基金績效與歸因分析。"),
+  D("10:30","human","與法人的深談","你把績效翻成打動法人的投資邏輯。"),
+  D("14:00","collab","客製提案","法人要客製，AI 秒拉數據做方案。"),
+  D("16:00","ai","申贖監控","AI 提示某法人大額贖回需你關注。")],
+ "數據 AI 幫我備齊，法人的信任靠人來建立。"),
+add("am","投信投顧","🎨","基金行銷企劃",71,"內容做不完、法規改不完、成效追不完。",
+ "手動產內容、做設計、跑法遵、追成效，重複製作壓縮創意。","AI 接手產製與分析，你專注在策略與品牌。",
+ ["生成多版行銷文案與素材","法遵用語初步檢核","彙整活動成效與客群洞察","競品與市場動態彙整"],
+ ["品牌與訊息定位","打動人心的創意","跨活動整合規劃","合規最終把關"],
+ [D("09:00","ai","素材批量生成","AI 依主題產出多版文案與圖。"),
+  D("10:30","human","想一個好點子","打動人的創意來自對投資人的洞察。"),
+  D("14:00","collab","法遵初審","AI 標出可能違規用語，你判斷修改。"),
+  D("16:00","ai","成效分析","AI 標出表現最好的一組活動。")],
+ "AI 幫我快速產出，打動人心永遠從人開始。"),
+add("am","投信投顧","🌱","ESG/永續投資分析師",71,"永續資料又雜又亂，查證與整合耗盡心力。",
+ "手動蒐集 ESG 揭露、比對評級、查證爭議，資料整合曠日費時。","AI 整合與查證，你專注在實質判斷與投資整合。",
+ ["彙整企業 ESG 揭露與評級","監控爭議事件與負面新聞","比對揭露與框架落差","生成 ESG 分析初稿"],
+ ["實質性議題的判斷","漂綠與真實作為辨別","與企業的議合對話","ESG 與財務整合"],
+ [D("09:00","ai","永續資料整合","AI 把數十家公司 ESG 整成可比表。"),
+  D("10:30","human","辨別漂綠","你從細節看出言行落差。"),
+  D("13:30","collab","爭議深挖","AI 標出供應鏈爭議，你拉時間線。"),
+  D("15:00","human","與企業議合","你代表股東推動改變。")],
+ "資料 AI 整理得完，是不是玩真的要人來判斷。"),
+add("am","投信投顧","🧮","量化研究員",66,"清資料、跑回測、除錯，一個想法驗證老半天。",
+ "手動清資料、寫回測、跑參數、整理結果，時間耗在工程。","AI 接手資料工程與回測，你專注在因子發想與設計。",
+ ["自動清理與對齊多來源資料","批次回測與參數掃描","偵測過度擬合與資料洩漏","生成績效與風險圖表"],
+ ["因子與策略的原創發想","經濟直覺的驗證","過度擬合的判斷","策略上線的評估"],
+ [D("09:00","ai","資料管線就緒","AI 清好資料並標出疑似洩漏。"),
+  D("10:30","human","一個新因子","你從市場現象想到因子，AI 生不出。"),
+  D("13:00","collab","大規模回測","你定假設，AI 平行跑數百組參數。"),
+  D("15:00","ai","過擬合體檢","AI 用樣本外測試警示過度擬合。")],
+ "AI 幫我快速試錯，為什麼賺錢的邏輯得我想清楚。"),
+add("am","投信投顧","💵","固定收益基金經理人",62,"殖利率、信用、存續期要盯，決策前整理費時。",
+ "手動監控債券部位、算存續期、追信用事件，前置耗時。","AI 接手監控與運算，你專注在利率判斷與信用配置。",
+ ["監控債券部位與存續期","追蹤信用評等與利差變化","計算再投資與現金流","生成績效歸因報告"],
+ ["利率與殖利率曲線判斷","信用選券與配置","違約風險的判斷","市場轉折應變"],
+ [D("08:30","ai","部位健檢","AI 報出存續期、信用與利差曝險。"),
+  D("10:00","human","利率的判斷","升息或降息怎麼佈局，由你決定。"),
+  D("13:00","collab","選券試算","你請 AI 比較不同債券的風險報酬。"),
+  D("15:00","ai","信用事件監控","AI 提示一檔持債評等遭下調。")],
+ "AI 幫我盯利差，利率的方向由人來判斷。"),
+add("am","投信投顧","🧾","基金作業/淨值計算",80,"每日結價、對帳、申贖，錯一個數字就重來。",
+ "手動計算淨值、對帳、處理申贖、勾稽，重複性高、時限緊。","AI 自動處理淨值與對帳，你專注在例外與品質把關。",
+ ["自動計算基金淨值(NAV)","多來源對帳與勾稽","處理申贖與帳務","異常與差異標示"],
+ ["淨值異常的判斷","評價爭議的處理","作業風險把關","跨單位協調"],
+ [D("09:00","ai","淨值自動計算","AI 完成各基金淨值計算與勾稽。"),
+  D("10:30","human","一筆評價爭議","冷門標的評價，靠你依政策判斷。"),
+  D("14:00","collab","申贖對帳","AI 對帳申贖，你複核差異。"),
+  D("16:00","ai","報表產出","AI 生成淨值與持股報表。")],
+ "AI 接走了對帳的苦工，我專注在評價的判斷。"),
+
+/* ---- 期貨 fut ---- */
+add("fut","期貨","📈","期貨營業員",64,"盯盤、下單、追保證金，客戶問題接不完。",
+ "手動整理商品資訊、處理下單、追保證金、回覆詢問，盤中忙碌。","AI 打理資訊與監控，你專注在客戶關係與風險陪伴。",
+ ["彙整期貨商品與盤面資訊","自動處理下單與保證金查詢","監控客戶部位與追繳風險","生成盤後損益報告"],
+ ["客戶風險屬性掌握","波動時的陪伴溝通","槓桿風險的提醒","違約部位處理"],
+ [D("08:30","ai","盤前重點","AI 整理夜盤與國際商品動態。"),
+  D("10:00","human","提醒高槓桿客戶","部位過大，你主動提醒風險。"),
+  D("13:00","collab","保證金試算","客戶想加碼，AI 算所需保證金。"),
+  D("14:00","ai","盤後報告","AI 為客戶生成當日損益。")],
+ "行情 AI 看得懂，槓桿的風險要人來提醒。"),
+add("fut","期貨","⚡","期貨自營交易員",68,"多商品多市場，手動執行怕慢又怕錯。",
+ "手動監控行情、拆單執行、記錄交易，高壓中易疲勞出錯。","AI 處理執行與監控，你專注在策略與判斷。",
+ ["監控跨商品行情與價差","智慧執行與最佳化","即時風控與部位限額","自動記錄與日誌"],
+ ["交易策略與時機","異常行情決斷","跨商品套利判斷","停損紀律"],
+ [D("08:00","ai","價差地圖","AI 掃出跨商品價差機會。"),
+  D("09:30","human","策略定調","今天做什麼策略由你拍板。"),
+  D("11:00","collab","智慧執行","你建部位，AI 擇時壓低衝擊。"),
+  D("14:00","human","意外決斷","跳空行情要不要砍由你判斷。")],
+ "AI 讓執行更準，判斷仍由人來做。"),
+add("fut","期貨","🛡️","期貨風控專員",74,"保證金、限額、風險看不完，一刻不能鬆。",
+ "手動監控保證金、算風險曝險、追追繳，即時性壓力大。","AI 即時監控與預警，你專注在風險判斷與處置。",
+ ["即時監控保證金與部位風險","自動計算風險值與壓力測試","追繳與強平風險預警","生成風險報表"],
+ ["風險限額的設定","強平時機的判斷","極端行情的處置","客戶風險溝通"],
+ [D("08:30","ai","風險儀表板","AI 更新全體客戶保證金與風險。"),
+  D("10:00","human","限額的判斷","市場波動，要不要收緊由你決定。"),
+  D("13:00","collab","壓力測試","你設極端情境，AI 算爆倉風險。"),
+  D("14:00","ai","追繳預警","AI 標出瀕臨追繳的帳戶提示你。")],
+ "AI 幫我盯每個帳戶，處置的判斷由人承擔。"),
+add("fut","期貨","🎲","選擇權造市商",67,"報價要快、風險要控，手動盯希臘字母吃力。",
+ "手動監控波動率、算希臘字母、調整報價與避險，高速高壓。","AI 處理報價與避險，你專注在波動率策略與判斷。",
+ ["自動報價與波動率曲面更新","即時計算希臘字母與曝險","動態 delta 避險","監控庫存與風險限額"],
+ ["波動率策略的判斷","極端行情的應變","庫存風險的取捨","做市策略設計"],
+ [D("08:30","ai","波動率曲面","AI 更新各履約價的隱含波動率。"),
+  D("10:00","human","波動率策略","看多還是看空波動，由你判斷。"),
+  D("11:30","collab","動態避險","AI 自動 delta 避險，你監看曝險。"),
+  D("14:00","human","極端應變","波動飆升時的處置由你決斷。")],
+ "AI 幫我算希臘字母，波動的判斷由人來下。"),
+add("fut","期貨","🧾","期貨結算專員",80,"結算量大、時限緊，錯一筆影響全局。",
+ "手動核對成交、處理結算交割、對帳，重複性高、時限壓力大。","AI 自動處理結算對帳，你專注在例外與風險。",
+ ["自動核對成交與結算","保證金與部位勾稽","異常與違約標示","生成結算報表"],
+ ["結算異常處理","違約風險判斷","跨機構協調","流程風險把關"],
+ [D("09:00","ai","結算自動核對","AI 完成成交與部位比對。"),
+  D("10:30","human","一筆異常","結算不符，靠你追查協調。"),
+  D("14:00","collab","違約確認","AI 標出高風險帳戶你複核。"),
+  D("16:00","ai","報表產出","AI 生成當日結算報表。")],
+ "AI 接走了對帳，風險的把關由人來做。"),
+add("fut","期貨","💻","程式交易(演算法)開發",65,"策略寫不完、回測跑不完，除錯到深夜。",
+ "手動寫策略程式、跑回測、調參、除錯，重複工程佔多數。","AI 接手樣板與回測，你專注在策略設計與風控。",
+ ["生成策略樣板與回測程式","批次回測與參數優化","偵測過擬合與異常","監控上線策略表現"],
+ ["策略邏輯的設計","市場結構的判斷","風控機制設計","上線風險評估"],
+ [D("09:00","ai","樣板生成","AI 產出策略骨架與回測程式。"),
+  D("10:30","human","策略的邏輯","為什麼會賺錢，由你想清楚。"),
+  D("13:00","collab","回測優化","你定範圍，AI 掃參數找穩健區。"),
+  D("15:00","ai","上線監控","AI 盯策略表現，偏離即提示。")],
+ "AI 幫我寫程式，策略的靈魂由人來想。"),
+add("fut","期貨","🔬","商品研究分析師(期貨)",70,"基本面、技術面資料多，報告寫不完。",
+ "手動蒐集商品供需、庫存、盤面資料，寫制式報告，資料工作重。","AI 接手蒐集與初稿，你投入觀點與交易構想。",
+ ["彙整商品供需與庫存資料","更新技術指標與盤面分析","生成研究報告初稿","監控關鍵商品變化"],
+ ["形成交易觀點","供需的判斷","交易構想的設計","對客戶的溝通"],
+ [D("08:30","ai","資料自動彙整","AI 整理原油黃金等商品供需與庫存。"),
+  D("10:30","human","形成觀點","你判讀供需給出交易方向。"),
+  D("13:30","collab","情境分析","你請 AI 跑不同供需情境的價格。"),
+  D("15:00","ai","報告初稿","你的邏輯輸入後 AI 產出報告。")],
+ "AI 幫我讀資料，交易的觀點由人來判斷。"),
+add("fut","期貨","🏛️","期貨法人業務",62,"法人策略多、需求雜，服務與研究做不完。",
+ "手動整理研究、準備法人簡報、追蹤交易，前置繁重。","AI 備妥研究與素材，你專注在法人關係與策略。",
+ ["彙整研究與市場資訊","生成法人簡報與交易構想","監控法人部位與需求","整理會議紀錄"],
+ ["法人關係經營","交易策略的說服","客製服務設計","大額交易協調"],
+ [D("08:30","ai","構想備妥","AI 整合研究成交易構想。"),
+  D("10:30","human","與法人深談","你把研究翻成打動法人的策略。"),
+  D("14:00","collab","客製資料","法人要細節，AI 秒拉數據。"),
+  D("16:00","ai","部位監控","AI 提示法人部位變化。")],
+ "研究 AI 幫我備齊，法人的信任靠人建立。"),
+add("fut","期貨","📉","保證金風險監控專員",76,"帳戶多、行情快，風險一刻不能鬆。",
+ "手動監控保證金、算風險、追追繳，即時性壓力極大。","AI 即時監控與預警，你專注在判斷與處置。",
+ ["即時監控保證金充足率","自動計算風險值","追繳與強平預警","生成風險報表"],
+ ["強平時機判斷","極端行情處置","客戶風險溝通","限額設定"],
+ [D("08:30","ai","風險儀表板","AI 更新全帳戶保證金風險。"),
+  D("10:00","human","強平的判斷","瀕臨爆倉，何時處置由你決斷。"),
+  D("13:00","collab","壓力測試","你設情境，AI 算風險曝險。"),
+  D("14:00","ai","追繳預警","AI 標出高風險帳戶。")],
+ "AI 幫我盯帳戶，處置的判斷由人承擔。"),
+add("fut","期貨","🌏","海外期貨(CTA)產品經理",66,"跨市場商品多、策略雜，發行維運忙不停。",
+ "手動追蹤海外商品、監控策略、做行銷，事務繁重。","AI 接手監控與素材，你專注在產品策略與拓展。",
+ ["監控海外期貨與 CTA 策略績效","彙整商品與策略資料","生成產品行銷素材","分析資金流與競品"],
+ ["產品策略與商品線規劃","策略的評估","通路與市場拓展","風險與適合度判斷"],
+ [D("09:00","ai","績效監控","AI 盯各 CTA 策略績效與回撤。"),
+  D("10:30","human","商品線規劃","下一檔策略打什麼客群由你判斷。"),
+  D("14:00","collab","資金流分析","你請 AI 拆解申贖與競品。"),
+  D("16:00","ai","行銷素材","AI 依策略產出說明素材。")],
+ "AI 幫我盯績效，商品的方向由人來定。"),
+
+/* ---- 租賃創投 lease ---- */
+add("lease","租賃創投","🚜","租賃業務專員(設備/車輛)",67,"案源要開發、資料要備齊，跑客戶又跑文件。",
+ "手動蒐集客戶財務、評估標的、備文件、追進度，事務繁重。","AI 接手評估與文件，你專注在客戶開發與方案設計。",
+ ["彙整客戶財務與標的資料","初步試算租賃方案與利率","文件備齊與進度追蹤","監控既有客戶續約商機"],
+ ["客戶需求與信用判斷","租賃方案的設計","定價與條件談判","客戶關係經營"],
+ [D("09:00","ai","案件備妥","AI 整理客戶財務與設備殘值資料。"),
+  D("11:00","human","與客戶談方案","你依他的現金流設計租賃結構。"),
+  D("14:00","collab","方案試算","客戶問月租，AI 當場算給他。"),
+  D("16:00","ai","進度追蹤","AI 追撥款流程，卡關即提示。")],
+ "AI 接走了跑件，客戶的需求由人來讀懂。"),
+add("lease","租賃創投","📝","融資租賃審查",74,"財務要看、標的要評，一件案子磨半天。",
+ "手動蒐集財報、評估標的殘值、算比率、寫審查，重複性高。","AI 備妥資料與試算，你專注在信用與標的判斷。",
+ ["自動擷取財報並算關鍵比率","評估標的殘值與變現性","標示風險紅旗","草擬審查報告初稿"],
+ ["還款能力與誠信判斷","標的風險評估","條件與擔保裁量","例外個案判斷"],
+ [D("09:00","ai","案件包成形","AI 擷取財報、殘值並標出異常。"),
+  D("10:30","collab","追問疑點","你請 AI 比對同業判斷營運品質。"),
+  D("14:00","human","承作與否","要不要做、條件怎麼設由你判斷。"),
+  D("16:00","ai","存量巡檢","AI 掃出一戶還款轉弱推給你。")],
+ "AI 幫我看數字，信用的判斷由人負責。"),
+add("lease","租賃創投","💰","應收帳款承購(Factoring)專員",72,"買方信用要查、帳款要核，作業繁瑣又怕呆帳。",
+ "手動查買方信用、核對帳款、追收款、算額度，事務繁重。","AI 接手查核與監控，你專注在信用判斷與風險。",
+ ["查核買方信用與交易真實性","核對帳款與發票","監控收款與逾期風險","計算承購額度"],
+ ["買賣雙方信用判斷","交易真實性把關","額度與條件裁量","呆帳風險處置"],
+ [D("09:00","ai","買方信用查核","AI 彙整買方信用與付款紀錄。"),
+  D("10:30","human","真實性判斷","交易真不真，靠你的經驗把關。"),
+  D("14:00","collab","帳款核對","AI 比對發票與交易，標出異常。"),
+  D("16:00","ai","逾期監控","AI 提示某買方付款延遲。")],
+ "AI 幫我查核，交易的真偽由人來判斷。"),
+add("lease","租賃創投","🚀","創業投資(VC)投資經理",65,"案源看不完、盡調做不完，決策前功課繁重。",
+ "手動篩案源、看 BP、做市場與團隊盡調、寫評估，前置繁重。","AI 接手篩選與研究，你專注在團隊判斷與投資決策。",
+ ["初篩 BP 與市場規模分析","彙整創辦團隊與競品資料","生成投資評估初稿","監控投組進度與里程碑"],
+ ["創辦團隊的判斷","賽道與時機的評估","估值與條件談判","投後價值的協助"],
+ [D("09:00","ai","案源初篩","AI 從上百份 BP 篩出符合主題的十家。"),
+  D("11:00","human","看一個團隊","創辦人行不行，靠你面對面判斷。"),
+  D("14:00","collab","市場盡調","你請 AI 拆解賽道規模與競品。"),
+  D("16:00","ai","投組追蹤","AI 追各被投公司里程碑進度。")],
+ "AI 幫我篩案源，投人的判斷由人來做。"),
+add("lease","租賃創投","📈","私募股權(PE)投資分析師",67,"建模、盡調、整合，一樁案子磨到深夜。",
+ "手動建模、做產業與財務盡調、寫投資評估，重複與加班多。","AI 接手建模與資料，你專注在交易邏輯與價值創造。",
+ ["自動建立 LBO 模型與估值","彙整盡調資料與紅旗","生成投資評估初稿","監控投組營運與價值"],
+ ["交易與價格判斷","價值創造計畫設計","談判與結構","投後營運改善"],
+ [D("09:00","ai","模型自動化","AI 建好 LBO 模型與回報試算。"),
+  D("11:00","collab","價值創造試算","你設改善假設，AI 算 IRR 提升。"),
+  D("14:00","human","交易的取捨","值不值得投、怎麼談由你判斷。"),
+  D("16:00","ai","盡調紅旗","AI 從資料室掃出風險點。")],
+ "AI 幫我算數字，投資的判斷由人來下。"),
+add("lease","租賃創投","🌟","投後管理(價值創造)專員",64,"要懂營運、又要懂財務，多家投組顧不過來。",
+ "手動追蹤投組營運、彙整報表、找改善點，事務繁重。","AI 接手監控與分析，你專注在營運改善與策略。",
+ ["監控投組營運與財務指標","彙整月報與異常分析","找出營運改善機會","生成董事會材料"],
+ ["營運改善的設計","與經營團隊協作","策略與資源協調","價值提升的判斷"],
+ [D("09:00","ai","投組儀表板","AI 更新各被投公司指標，標出落後。"),
+  D("10:30","human","改善的設計","哪裡能提升，靠你的營運經驗。"),
+  D("14:00","collab","方案試算","你請 AI 算改善方案的財務效益。"),
+  D("16:00","ai","董事會材料","AI 產出投組董事會報告初稿。")],
+ "AI 幫我看數字，價值的創造由人來推動。"),
+add("lease","租賃創投","☀️","綠能融資專案經理",66,"專案複雜、現金流長，評估與追蹤繁重。",
+ "手動評估發電量、現金流、風險，做融資結構，前置耗時。","AI 接手模型與監控，你專注在專案判斷與結構設計。",
+ ["建立發電與現金流模型","評估專案風險與敏感度","監控建置與營運進度","生成融資評估報告"],
+ ["專案可行性判斷","融資結構設計","風險分擔談判","長期營運監控"],
+ [D("09:00","ai","現金流模型","AI 建好發電量與現金流試算。"),
+  D("11:00","human","可行性判斷","專案行不行，由你綜合評估。"),
+  D("14:00","collab","敏感度分析","你請 AI 跑電價與發電情境。"),
+  D("16:00","ai","進度監控","AI 追建置進度並提示風險。")],
+ "AI 幫我算現金流，專案的判斷由人來做。"),
+add("lease","租賃創投","🏭","中小企業金融業務",67,"客戶多、需求雜，開發與服務兩頭燒。",
+ "手動評估客戶、備方案、追進度，事務繁重難兼顧。","AI 接手評估與追蹤，你專注在客戶關係與方案。",
+ ["彙整客戶財務與經營資料","初步試算融資方案","進度追蹤與商機提示","監控既有客戶風險"],
+ ["客戶需求與信用判斷","方案設計與談判","關係經營","風險的判斷"],
+ [D("09:00","ai","客戶評估","AI 整理客戶財務與往來。"),
+  D("11:00","human","與老闆談需求","你像顧問幫中小企業解資金問題。"),
+  D("14:00","collab","方案試算","客戶問能借多少，AI 當場算。"),
+  D("16:00","ai","商機提示","AI 掃出客戶有擴廠資金需求。")],
+ "AI 幫我備評估，客戶的需求由人來讀懂。"),
+add("lease","租賃創投","⚖️","資產處分(不良債權)專員",68,"案件複雜、催理繁瑣，回收與協商耗神。",
+ "手動評估債權、追催理、協商還款、處分擔保，事務繁重。","AI 接手評估與追蹤，你專注在協商與處分策略。",
+ ["評估債權回收價值","彙整債務人與擔保資料","監控催理與訴訟進度","生成處分評估報告"],
+ ["回收策略的設計","協商與談判","擔保處分判斷","法律程序決策"],
+ [D("09:00","ai","債權評估","AI 算各案回收價值與擔保變現。"),
+  D("11:00","human","協商的談判","與債務人的協商靠你的手腕。"),
+  D("14:00","collab","進度追蹤","AI 更新催理與訴訟進度。"),
+  D("16:00","ai","處分評估","AI 產出擔保處分方案分析。")],
+ "AI 幫我算回收，協商的手腕由人來使。"),
+add("lease","租賃創投","🔗","供應鏈金融產品經理",66,"要串核心廠與上下游，產品與風控兩頭燒。",
+ "手動分析供應鏈、設計產品、評估風險，事務繁重。","AI 整合資料與監控，你專注在產品設計與生態串接。",
+ ["彙整供應鏈交易與信用資料","設計產品與風控規則","監控交易真實性與風險","分析商機與滲透率"],
+ ["產品與生態設計","核心廠關係經營","風控規則的判斷","跨方協調"],
+ [D("09:00","ai","供應鏈分析","AI 拆解核心廠上下游交易。"),
+  D("10:30","human","產品的設計","怎麼串核心廠與供應商由你設計。"),
+  D("14:00","collab","風控規則","你定原則，AI 建交易真實性檢核。"),
+  D("16:00","ai","商機分析","AI 標出高滲透潛力的供應鏈。")],
+ "AI 幫我看數據，生態的串接由人來設計。"),
+
+/* ---- 風控法遵 risk ---- */
+add("risk","風控法遵","⚖️","集團風險管理師",69,"監控無數指標、跑壓測、寫報告，永遠在追數字。",
+ "手動蒐集風險資料、跑壓測、彙整報表，例行監控佔滿時間。","AI 接手監控與運算，你專注在風險判斷與治理。",
+ ["即時監控市場、信用、流動性風險","批次跑壓力測試與情境","自動生成風險儀表板","偵測異常並預警"],
+ ["風險胃納與限額設定","新興與尾端風險判斷","對董事會的風險溝通","危機的應變決策"],
+ [D("08:30","ai","風險儀表板","AI 更新全集團指標，標出逼近限額。"),
+  D("10:00","human","新興風險直覺","地緣生變，你判斷需提前部署。"),
+  D("13:00","collab","壓測演練","你設極端情境，AI 算資本衝擊。"),
+  D("15:00","ai","監理報表","AI 依規範產出風險報表初稿。")],
+ "AI 幫我看住指標，我看見還沒變成指標的風險。"),
+add("risk","風控法遵","📉","市場風險分析師",72,"部位多、模型雜，風險值算到眼花。",
+ "手動蒐集部位、算 VaR、跑情境、寫報告，重複性高。","AI 接手運算與監控，你專注在風險解讀與策略。",
+ ["自動彙整部位與市場資料","計算 VaR 與敏感度","跑壓力情境分析","偵測風險集中與異常"],
+ ["風險模型的判斷","市場情境的設計","限額與避險建議","模型侷限的認知"],
+ [D("09:00","ai","風險值自動算","AI 算完全行 VaR 與敏感度。"),
+  D("10:30","human","情境的設計","該測什麼極端情境靠你設計。"),
+  D("14:00","collab","壓測分析","你設情境，AI 量化損失衝擊。"),
+  D("16:00","ai","集中度預警","AI 標出風險集中的部位。")],
+ "AI 幫我算風險值，情境與判斷由人來設計。"),
+add("risk","風控法遵","🔬","信用風險模型驗證",70,"模型看不完、驗證做不完，責任重大。",
+ "手動檢視模型、跑驗證、比對表現、寫報告，繁瑣又嚴謹。","AI 接手檢核與運算，你專注在模型判斷與治理。",
+ ["自動跑模型回測與穩定度","比對預測與實際表現","標示模型弱點與偏誤","生成驗證報告初稿"],
+ ["模型適用性的判斷","偏誤與公平性把關","模型風險的評估","對治理層的建議"],
+ [D("09:00","ai","回測自動化","AI 跑完模型回測與穩定度分析。"),
+  D("10:30","human","適用性判斷","模型還能不能用，由你評估。"),
+  D("14:00","collab","偏誤檢核","你請 AI 測模型對各族群的表現。"),
+  D("16:00","ai","報告初稿","AI 產出驗證報告初稿。")],
+ "AI 幫我跑驗證，模型能不能信由人判斷。"),
+add("risk","風控法遵","📜","法令遵循人員",73,"法規追不完、諮詢問不完，像救火隊。",
+ "手動追法規、比對內規、回覆諮詢、整理報告，繁瑣易漏。","AI 監控法規並初比對，你專注在解釋與判斷。",
+ ["即時監控法規與函令","比對新規與內規落差","初步回覆常見諮詢","生成法遵檢查初稿"],
+ ["法規的實務解釋","灰色地帶裁量","與監理溝通","法遵文化推動"],
+ [D("09:00","ai","法規速報","AI 掃出三則函令並標出落差條文。"),
+  D("10:30","human","一個灰色地帶","新業務踩邊界，能不能做由你判斷。"),
+  D("13:00","collab","諮詢回覆","AI 給法條依據，你補實務判斷。"),
+  D("15:00","ai","檢查初稿","AI 產出法遵檢查清單與初步發現。")],
+ "法條 AI 讀得快，行不行的判斷由人負責。"),
+add("risk","風控法遵","🕵️","反洗錢/KYC 專員",77,"警示看不完、誤報一堆，真正的壞人怕漏掉。",
+ "人工審交易警示、查客戶背景、寫可疑報告，誤報消耗精力。","AI 過濾誤報、備妥證據，你專注在可疑調查與判斷。",
+ ["智慧過濾誤報、排序高風險","彙整背景與交易關聯","建立資金流向網絡","生成可疑交易報告初稿"],
+ ["可疑樣態的最終判斷","洗錢手法識別","申報與否裁量","與檢調協作"],
+ [D("09:00","ai","警示智慧分流","AI 濾掉八成誤報，排序可疑件。"),
+  D("10:30","collab","資金流追蹤","你請 AI 畫可疑資金的多層流向。"),
+  D("13:30","human","是否申報","證據不足時申不申報由你判斷。"),
+  D("15:00","ai","報告備齊","你決定後 AI 彙整證據鏈。")],
+ "AI 幫我濾雜訊，我專心抓真正的壞人。"),
+add("risk","風控法遵","🔐","內部稽核",70,"抽樣看不完、底稿寫不完，重點反而沒空查。",
+ "手動抽樣、核憑證、比流程、寫底稿，時間花在核對。","AI 做全量檢核與初析，你專注在高風險深度查核。",
+ ["全量交易檢核取代抽樣","比對流程與控制落差","標示異常與例外","生成底稿與報告初稿"],
+ ["高風險領域深度查核","控制缺失根因判斷","對管理層溝通","舞弊調查判斷"],
+ [D("09:00","ai","全量檢核","AI 掃完整季交易標出例外。"),
+  D("10:30","human","鎖定真風險","哪些例外值得深挖靠你的嗅覺。"),
+  D("14:00","collab","流程比對","你請 AI 比對交易與規範找漏洞。"),
+  D("16:00","ai","底稿成形","AI 依發現生成結構化底稿。")],
+ "AI 讓我從全量看問題，我查最該查的地方。"),
+add("risk","風控法遵","⚙️","作業風險管理",71,"事件蒐集不完、控制檢核不完，防不勝防。",
+ "手動蒐集作業事件、評估控制、追改善，事務繁重。","AI 接手蒐集與分析，你專注在風險判斷與改善。",
+ ["彙整作業風險事件與損失","評估控制有效性","監控關鍵風險指標(KRI)","生成風險評估報告"],
+ ["作業風險的判斷","控制設計的建議","風險文化推動","重大事件應變"],
+ [D("09:00","ai","事件彙整","AI 整理作業事件與損失分類。"),
+  D("10:30","human","風險的判斷","哪個環節最脆弱靠你評估。"),
+  D("14:00","collab","控制評估","你請 AI 檢視控制點的落差。"),
+  D("16:00","ai","KRI 監控","AI 盯關鍵指標，異常即提示。")],
+ "AI 幫我盯指標，脆弱點的判斷由人來看。"),
+add("risk","風控法遵","💧","資本適足/流動性管理",68,"比率算不完、報表編不完，監理要求嚴。",
+ "手動蒐集資料、算資本與流動性比率、編監理報表，繁瑣易錯。","AI 接手運算與報表，你專注在資本策略與判斷。",
+ ["自動計算資本適足與流動性比率","監控資金缺口與集中度","生成監理報表初稿","跑資本與流動性壓測"],
+ ["資本與流動性策略","監理要求的判斷","資產負債配置建議","危機的應變"],
+ [D("09:00","ai","比率自動算","AI 算完資本適足與流動性比率。"),
+  D("10:30","human","資本的策略","要不要補資本、怎麼配置由你建議。"),
+  D("14:00","collab","流動性壓測","你設情境，AI 算資金缺口。"),
+  D("16:00","ai","監理報表","AI 產出監理報表初稿並勾稽。")],
+ "AI 幫我算比率，資本的策略由人來佈局。"),
+add("risk","風控法遵","🔏","個資保護/隱私專員",70,"個資盤點做不完、法規追不完，風險藏在細節。",
+ "手動盤點個資流、評估合規、回覆諮詢、追事件，繁瑣易漏。","AI 接手盤點與監控，你專注在合規判斷與治理。",
+ ["彙整個資盤點與流向地圖","比對法規與合規落差","監控存取與外洩風險","生成合規評估初稿"],
+ ["隱私風險的判斷","合規與體驗的權衡","個資事件的應變","治理與教育推動"],
+ [D("09:00","ai","個資盤點","AI 更新個資流向地圖，標出風險點。"),
+  D("10:30","human","合規的判斷","新服務個資怎麼用，由你評估。"),
+  D("14:00","collab","落差比對","你請 AI 比對法規找合規缺口。"),
+  D("16:00","ai","存取監控","AI 標出異常存取提示你。")],
+ "AI 幫我盤點，隱私的分寸由人來拿捏。"),
+add("risk","風控法遵","🚨","舞弊防制調查專員",74,"疑點看不完、證據拼不完，真正的舞弊怕漏。",
+ "人工比對異常、查關係人、寫調查報告，耗時費神。","AI 過濾誤報、備妥證據，你專注在調查與判斷。",
+ ["智慧偵測舞弊樣態","彙整關係人與交易關聯","建立可疑網絡圖譜","生成調查報告初稿"],
+ ["舞弊樣態的判斷","手法的識別","證據的認定","與司法協作"],
+ [D("09:00","ai","樣態偵測","AI 從交易揪出可疑舞弊樣態。"),
+  D("10:30","collab","關聯追蹤","你請 AI 畫關係人與資金網絡。"),
+  D("13:30","human","證據的認定","是不是舞弊由你專業判斷。"),
+  D("15:00","ai","報告備齊","你決定後 AI 彙整證據鏈。")],
+ "AI 幫我濾雜訊，舞弊的認定由人負責。"),
+
+/* ---- 數位科技 digi ---- */
+add("digi","數位科技","🧭","數位金融產品經理",63,"需求、數據、跨部門樣樣顧，思考被會議切碎。",
+ "手動整理回饋、拉數據、寫規格、記會議，雜務稀釋產品思考。","AI 整合洞察與文件，你專注在產品策略與用戶價值。",
+ ["彙整用戶回饋與行為洞察","生成需求與規格初稿","整理會議紀錄與待辦","監控產品指標與異常"],
+ ["產品願景與優先序","用戶痛點的洞察","跨部門協調說服","體驗與商業的權衡"],
+ [D("09:00","ai","用戶洞察","AI 把數千則回饋歸納成五個洞察。"),
+  D("10:30","human","做與不做","資源有限，優先序由你判斷。"),
+  D("13:30","collab","規格成形","你口述需求，AI 產出 PRD 初稿。"),
+  D("15:00","ai","指標看板","AI 監控轉換率，下滑即提示。")],
+ "AI 幫我省雜務，我專心想該為用戶做什麼。"),
+add("digi","數位科技","📊","金融資料科學家",65,"清資料、調模型、寫報告，一半時間耗在工程。",
+ "手動清資料、特徵工程、訓練調參、產報告，重複工程佔多數。","AI 接手資料工程與建模，你專注在問題定義與轉化。",
+ ["自動清理、特徵工程與標註","訓練、調參與模型比較","監控模型表現與漂移","生成分析報告與視覺化"],
+ ["商業問題的定義","結果的商業轉化","公平性與偏誤判斷","與業務溝通落地"],
+ [D("09:00","ai","管線自動化","AI 清好資料並標出漂移警訊。"),
+  D("10:30","human","定義對的問題","要預測什麼由你來拆解。"),
+  D("13:30","collab","模型迭代","你設目標，AI 平行訓練多模型。"),
+  D("15:00","human","公平性把關","模型是否對某族群不利由你判斷。")],
+ "AI 幫我建模型，解決什麼問題得人想清楚。"),
+add("digi","數位科技","🛠️","核心系統工程師",64,"樣板寫不完、bug 修不完，沒空想架構。",
+ "手寫大量樣板、除錯、寫測試文件，重複開發佔心力。","AI 接手樣板與測試，你專注在架構與難題攻堅。",
+ ["生成樣板程式與單元測試","協助除錯與程式碼審查","自動生成技術文件","監控系統與異常告警"],
+ ["系統架構與技術選型","複雜問題攻堅","安全與穩定把關","跨團隊技術協作"],
+ [D("09:00","ai","樣板生成","AI 產好 API 骨架、測試與文件。"),
+  D("10:30","human","架構的抉擇","高併發交易怎麼設計靠你判斷。"),
+  D("13:30","collab","一起除錯","偶發 bug，你和 AI 快速縮小範圍。"),
+  D("15:00","ai","審查輔助","AI 掃出潛在缺陷與安全風險。")],
+ "AI 幫我寫重複的程式，我解真正難的問題。"),
+add("digi","數位科技","🤖","AI 模型治理專員(MLOps)",67,"模型上線多、風險難控，治理責任重。",
+ "手動監控模型、追效能、查偏誤、寫治理文件，繁瑣又嚴謹。","AI 接手監控與檢核，你專注在治理判斷與風險。",
+ ["監控模型效能與資料漂移","自動化偏誤與公平性檢測","彙整模型清冊與文件","偵測模型異常並告警"],
+ ["模型風險的判斷","公平性與可解釋把關","治理政策的設計","對監理的說明"],
+ [D("09:00","ai","模型監控","AI 盯各上線模型效能與漂移。"),
+  D("10:30","human","風險的判斷","模型退化該不該下架由你決定。"),
+  D("14:00","collab","偏誤檢測","你請 AI 測模型對各族群公平性。"),
+  D("16:00","ai","清冊更新","AI 更新模型清冊與文件。")],
+ "AI 幫我監控，模型能不能上由人負責。"),
+add("digi","數位科技","🎨","金融 UX 設計師",66,"研究、設計、驗證，交付與迭代忙不停。",
+ "手動做用戶研究、畫稿、寫規格、追迭代，重複產出多。","AI 接手產出與分析，你專注在體驗洞察與設計。",
+ ["彙整用戶研究與行為洞察","生成介面草稿與文案","分析可用性測試結果","監控體驗指標"],
+ ["用戶痛點的洞察","體驗策略的設計","設計取捨的判斷","跨團隊協作"],
+ [D("09:00","ai","研究彙整","AI 把訪談與數據歸納成洞察。"),
+  D("10:30","human","體驗的設計","怎麼讓流程更順，靠你的設計判斷。"),
+  D("14:00","collab","草稿快速產","你定方向，AI 產出多版介面草稿。"),
+  D("16:00","ai","測試分析","AI 分析可用性測試找出卡點。")],
+ "AI 幫我快速產出，好體驗的洞察來自人。"),
+add("digi","數位科技","💬","客服中心專員",75,"重複問題接到麻，情緒勞動大，難有成就感。",
+ "重複回答帳卡務問題、查系統、記工單，標準問題佔大宗。","AI 處理標準問答，你專注在複雜、情緒與高價值服務。",
+ ["即時回答帳務、卡務標準問題","自動查詢客戶資料與交易","生成通話摘要與工單","主動提示潛在需求"],
+ ["複雜爭議與情緒安撫","疑難個案協調","察覺需求並關懷","詐騙受害者即時協助"],
+ [D("09:00","ai","標準問題自動答","AI 助理處理八成帳卡務查詢。"),
+  D("10:30","human","安撫受騙客戶","客戶被詐慌張，安定引導由人來。"),
+  D("13:30","collab","個案協調","AI 彙整歷程並同步相關部門。"),
+  D("15:00","ai","摘要自動化","每通電話 AI 生成摘要與待辦。")],
+ "AI 接走了重複問答，我接住客戶的情緒與信任。"),
+add("digi","數位科技","🛡️","資訊安全工程師(SOC)",67,"告警看不完、威脅擋不完，防線繃很緊。",
+ "手動分析告警、追威脅、寫事件報告，誤報多、壓力大。","AI 過濾誤報與初步分析，你專注在威脅獵捕與應變。",
+ ["智慧過濾告警、排序高風險","自動關聯事件與威脅情報","初步分析與封鎖建議","生成事件報告初稿"],
+ ["威脅獵捕的判斷","重大事件的應變","攻擊手法的識別","防禦策略的設計"],
+ [D("09:00","ai","告警智慧分流","AI 濾掉多數誤報，排序真威脅。"),
+  D("10:30","human","一起入侵的判斷","是否為真攻擊由你判斷應變。"),
+  D("14:00","collab","威脅獵捕","你請 AI 關聯日誌追攻擊路徑。"),
+  D("16:00","ai","事件報告","AI 產出事件分析報告初稿。")],
+ "AI 幫我濾告警，真正的威脅由人來獵捕。"),
+add("digi","數位科技","🔓","開放銀行/API 產品經理",65,"生態要串、合規要顧，產品與夥伴兩頭燒。",
+ "手動協調夥伴、分析 API 使用、寫規格、追合規，事務繁重。","AI 整合資料與文件，你專注在生態策略與夥伴關係。",
+ ["彙整 API 使用與夥伴數據","生成規格與文件初稿","監控 API 效能與異常","分析生態商機"],
+ ["開放策略與生態設計","夥伴關係經營","合規與風險判斷","商業模式的取捨"],
+ [D("09:00","ai","使用數據彙整","AI 整理各 API 呼叫量與夥伴表現。"),
+  D("10:30","human","生態的策略","要開放什麼、串誰由你判斷。"),
+  D("14:00","collab","規格成形","你定需求，AI 產出 API 文件初稿。"),
+  D("16:00","ai","效能監控","AI 盯 API 效能，異常即提示。")],
+ "AI 幫我看數據，生態的策略由人來設計。"),
+add("digi","數位科技","⚙️","RPA 流程自動化分析師",73,"要找流程、又要建機器人，需求接不完。",
+ "手動盤流程、寫自動化、維護機器人、追效益，事務繁重。","AI 接手開發與監控，你專注在流程診斷與優化。",
+ ["彙整流程與自動化機會","生成 RPA 腳本與測試","監控機器人執行與異常","分析自動化效益"],
+ ["流程診斷與優化","自動化優先序判斷","跨部門協調","例外處理設計"],
+ [D("09:00","ai","流程機會彙整","AI 從作業數據找出可自動化環節。"),
+  D("10:30","human","優先序的判斷","先自動化哪個流程由你評估。"),
+  D("14:00","collab","腳本快速產","你定流程，AI 產出 RPA 腳本。"),
+  D("16:00","ai","執行監控","AI 盯機器人執行，異常即提示。")],
+ "AI 幫我建機器人，流程的優化由人來想。"),
+add("digi","數位科技","📈","數據分析師(BI/經營分析)",70,"報表拉不完、需求接不完，洞見反而沒空想。",
+ "手動拉數據、做報表、回覆各單位需求，重複性高。","AI 接手取數與報表，你專注在洞察與決策支援。",
+ ["自動取數與報表產出","彙整經營指標與趨勢","偵測異常與變化","生成分析與建議初稿"],
+ ["商業問題的拆解","數據背後的洞察","對經營決策的建議","跨單位溝通"],
+ [D("09:00","ai","報表自動化","AI 產好各單位例行經營報表。"),
+  D("10:30","human","洞察的挖掘","數字背後是什麼故事由你解讀。"),
+  D("14:00","collab","異常分析","你請 AI 拆解某指標下滑的原因。"),
+  D("16:00","ai","建議初稿","AI 產出分析報告與行動建議。")],
+ "AI 幫我拉數據，我把數字變成經營的洞見。");
+/* set orgs by sec */
+R.forEach(r=>{r.orgs=O[r.sec];});
+
+/* ================= RENDER ================= */
+const grid=document.getElementById('grid');
+const filtersEl=document.getElementById('filters');
+const searchEl=document.getElementById('search');
+const rcount=document.getElementById('rcount');
+let activeSector='all',query='';
+
+/* groups reference */
+document.getElementById('grpgrid').innerHTML=GROUPS.map(g=>
+  `<div class="grp reveal"><h3>${g.name}</h3><div class="en">${g.en}</div>
+   <div class="bus">${g.bus.map(b=>`<span>${b}</span>`).join('')}</div></div>`).join('');
+
+function sectorCounts(){const c={all:R.length};for(const k in SECTORS)c[k]=R.filter(r=>r.sec===k).length;return c;}
+function buildFilters(){
+  const counts=sectorCounts();
+  const opts=[['all','全部']].concat(Object.keys(SECTORS).map(k=>[k,SECTORS[k].name]));
+  filtersEl.innerHTML=opts.map(([k,n])=>
+    `<button class="chip${k==='all'?' active':''}" data-sec="${k}">${n}<span class="cnt">${counts[k]}</span></button>`).join('');
+  filtersEl.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>{
+    activeSector=b.dataset.sec;
+    filtersEl.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');renderGrid();
+  }));
+}
+function cardHTML(r){
+  return `<article class="card" data-id="${r.id}" tabindex="0" role="button" aria-label="${r.name}">
+    <div class="c-top"><div class="ic">${r.emoji}</div>
+      <span class="tag" style="color:${SECTORS[r.sec].color};border-color:${SECTORS[r.sec].color}55">${SECTORS[r.sec].name}</span></div>
+    <h3>${r.name}</h3><p class="hook">${r.hook}</p>
+    <div class="ai-meter"><div class="ring" style="--p:${r.ai}"><b>${r.ai}%</b></div>
+      <div class="mlab">例行工作<b>AI 接手 ${r.ai}%</b><i>假設值</i></div></div>
+    <span class="go">走進他的一天 →</span></article>`;
+}
+function renderGrid(){
+  let list=R.filter(r=>activeSector==='all'||r.sec===activeSector);
+  if(query){const q=query.toLowerCase();
+    list=list.filter(r=>(r.name+r.hook+SECTORS[r.sec].name+r.bu).toLowerCase().includes(q));}
+  rcount.textContent=`顯示 ${list.length} / ${R.length} 個角色`;
+  if(!list.length){grid.innerHTML='<div class="no-result">找不到符合的角色，換個關鍵字試試 🔍</div>';return;}
+  grid.innerHTML=list.map(cardHTML).join('');
+  grid.querySelectorAll('.card').forEach(c=>{
+    const id=+c.dataset.id;
+    c.addEventListener('click',()=>openModal(id));
+    c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openModal(id);}});
+    c.addEventListener('mousemove',e=>{const rc=c.getBoundingClientRect();
+      c.style.setProperty('--mx',(e.clientX-rc.left)+'px');c.style.setProperty('--my',(e.clientY-rc.top)+'px');});
+  });
+}
+searchEl.addEventListener('input',e=>{query=e.target.value.trim();renderGrid();});
+
+/* ================= MODAL ================= */
+const scrim=document.getElementById('scrim'),modal=document.getElementById('modal'),modalInner=document.getElementById('modal-inner');
+let simTimer=null;
+function openModal(id){
+  const r=R.find(x=>x.id===id);if(!r)return;const total=r.day.length;
+  modalInner.innerHTML=`
+    <button class="modal-close" id="mclose" aria-label="關閉">×</button>
+    <div class="m-hero"><div class="ic">${r.emoji}</div>
+      <div><div class="tag">${SECTORS[r.sec].name} · 2030 工作日</div><h2>${r.name}</h2><div class="sub">${r.hook}</div></div></div>
+    <div class="m-orgs"><div class="ol">常見於這些集團事業體：</div><div class="chips">${r.orgs.map(o=>`<span>${o}</span>`).join('')}</div></div>
+    <div class="m-warn"><span>⚠️</span><span>以下的「AI 接手比例」與一天流程皆為<b>假設性示意</b>，用來啟發想像，非真實統計；實際情況請回歸你的工作現場。</span></div>
+    <div class="m-headline"><div class="row"><div class="big">${r.ai}%</div>
+      <div class="lab">例行工作由 AI 接手<b>剩下的 ${100-r.ai}%，是只有你能做的事</b><i>＊此為假設數字</i></div></div></div>
+    <div class="ba">
+      <div class="box before"><div class="k">2025 · 現在的你</div><p>${r.before}</p></div>
+      <div class="box after"><div class="k">2030 · AI 協作的你</div><p>${r.after}</p></div></div>
+    <div class="m-title">AI 工作日模擬</div>
+    <div class="sim-head"><div style="font-size:.9rem;color:var(--muted)">按下播放，看 AI 接手比例隨一天累積</div>
+      <button class="sim-play" id="simplay">▶ 播放這一天</button></div>
+    <div class="sim-meter"><div class="track"><div class="fill" id="simfill"></div></div>
+      <div class="cap"><span>07:00 上工</span><span>累積 AI 參與 <b id="simpct">0%</b></span><span>19:00 收工</span></div></div>
+    <div class="timeline" id="timeline">
+      ${r.day.map((e,i)=>`<div class="tl-item" data-i="${i}"><div class="node"></div>
+        <span class="time">${e.t}</span><span class="mode mode-${e.m}">${M[e.m]}</span>
+        <h4>${e.h}</h4><p>${e.d}</p></div>`).join('')}</div>
+    <div class="m-title">分工一覽</div>
+    <div class="two-col">
+      <div class="li-block ai"><div class="li-h">🤖 AI 幫你接手</div><ul>${r.aiTakes.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+      <div class="li-block you"><div class="li-h">✦ 你更專注於</div><ul>${r.youOwn.map(x=>`<li>${x}</li>`).join('')}</ul></div></div>
+    <div class="m-quote">「${r.quote}」<div>— 2030 的${r.name}</div></div>`;
+  scrim.classList.add('open');modal.classList.add('open');modal.setAttribute('aria-hidden','false');
+  modal.scrollTop=0;document.body.style.overflow='hidden';
+  document.getElementById('mclose').addEventListener('click',closeModal);
+  const items=[...modalInner.querySelectorAll('.tl-item')];
+  const fill=document.getElementById('simfill'),pct=document.getElementById('simpct');
+  const weight={ai:1,collab:0.6,human:0.15};
+  const maxAcc=r.day.reduce((s,e)=>s+weight[e.m],0);
+  function stepTo(n){items.forEach((it,i)=>it.classList.toggle('active',i<=n));
+    let acc=0;for(let i=0;i<=n;i++)acc+=weight[r.day[i].m];
+    fill.style.width=(acc/maxAcc*100)+'%';pct.textContent=Math.round(acc/maxAcc*r.ai)+'%';}
+  let cur=-1;
+  document.getElementById('simplay').addEventListener('click',function(){
+    if(simTimer){clearInterval(simTimer);simTimer=null;this.textContent='▶ 播放這一天';return;}
+    if(cur>=total-1)cur=-1;this.textContent='⏸ 進行中…';const btn=this;
+    simTimer=setInterval(()=>{cur++;stepTo(cur);
+      if(cur>=total-1){clearInterval(simTimer);simTimer=null;btn.textContent='↺ 再看一次';}},900);
+  });
+  stepTo(total-1);cur=total-1;
+}
+function closeModal(){scrim.classList.remove('open');modal.classList.remove('open');
+  modal.setAttribute('aria-hidden','true');document.body.style.overflow='';
+  if(simTimer){clearInterval(simTimer);simTimer=null;}}
+scrim.addEventListener('click',closeModal);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+/* ================= INSIGHT ================= */
+function buildBars(){
+  const agg=Object.keys(SECTORS).map(k=>{const rs=R.filter(r=>r.sec===k);
+    return {name:SECTORS[k].name,avg:Math.round(rs.reduce((s,r)=>s+r.ai,0)/rs.length)};
+  }).sort((a,b)=>b.avg-a.avg);
+  document.getElementById('bars').innerHTML=agg.map(a=>
+    `<div class="bar-row"><div class="bl">${a.name}</div>
+     <div class="bar-track"><div class="bar-fill" data-w="${a.avg}"></div></div>
+     <div class="bv">${a.avg}%</div></div>`).join('');
+}
+/* ================= REVEAL + COUNTERS ================= */
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){
+  e.target.classList.add('in');
+  if(e.target.id==='bars')e.target.querySelectorAll('.bar-fill').forEach(f=>f.style.width=f.dataset.w+'%');
+  io.unobserve(e.target);}});},{threshold:0.12});
+function countUp(el){const target=+el.dataset.count,suf=el.dataset.suffix||'';let cur=0;const step=target/60;
+  const t=setInterval(()=>{cur+=step;if(cur>=target){cur=target;clearInterval(t);}el.textContent=Math.round(cur)+suf;},18);}
+const heroIO=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){countUp(e.target);heroIO.unobserve(e.target);}});},{threshold:0.5});
+/* ================= CANVAS ================= */
+function initCanvas(){
+  const cv=document.getElementById('bg-canvas'),ctx=cv.getContext('2d');let w,h,pts;
+  const COLORS=['#8b7bff','#3df0e0','#ffb547'];
+  function resize(){w=cv.width=innerWidth;h=cv.height=innerHeight;
+    const n=Math.min(84,Math.floor(w*h/17000));
+    pts=Array.from({length:n},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*0.35,vy:(Math.random()-.5)*0.35,
+      c:COLORS[Math.floor(Math.random()*COLORS.length)],r:Math.random()*1.6+0.6}));}
+  resize();addEventListener('resize',resize);
+  let mx=-999,my=-999;addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  function draw(){ctx.clearRect(0,0,w,h);
+    for(let i=0;i<pts.length;i++){const p=pts[i];p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>w)p.vx*=-1;if(p.y<0||p.y>h)p.vy*=-1;
+      const dm=Math.hypot(p.x-mx,p.y-my);if(dm<130){p.x+=(p.x-mx)/dm*0.6;p.y+=(p.y-my)/dm*0.6;}
+      for(let j=i+1;j<pts.length;j++){const q=pts[j];const d=Math.hypot(p.x-q.x,p.y-q.y);
+        if(d<116){ctx.globalAlpha=(1-d/116)*0.17;ctx.strokeStyle=p.c;ctx.lineWidth=0.6;
+          ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();}}
+      ctx.globalAlpha=0.8;ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,7);ctx.fill();}
+    ctx.globalAlpha=1;requestAnimationFrame(draw);}
+  draw();
+}
+/* ================= CLOCK ================= */
+function tickClock(){const el=document.getElementById('clock');if(!el)return;
+  function up(){const d=new Date();const hh=String(d.getHours()).padStart(2,'0');
+    const mm=String(d.getMinutes()).padStart(2,'0');const ss=String(d.getSeconds()).padStart(2,'0');
+    el.textContent=`2030 · ${hh}:${mm}:${ss}`;}up();setInterval(up,1000);}
+/* ================= INIT ================= */
+buildFilters();renderGrid();buildBars();initCanvas();tickClock();
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+document.querySelectorAll('[data-count]').forEach(el=>heroIO.observe(el));
+io.observe(document.getElementById('bars'));
+document.getElementById('warnclose').addEventListener('click',()=>{
+  document.getElementById('warnstrip').style.display='none';
+  document.getElementById('nav').style.top='0';});
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>{nav.classList.toggle('scrolled',scrollY>40);
+  const sc=document.getElementById('scrollbar');const dh=document.documentElement.scrollHeight-innerHeight;
+  sc.style.width=(scrollY/dh*100)+'%';});
+</script>
+</body>
+</html>
