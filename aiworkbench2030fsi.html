@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>2030 AI 工作台 · 金融業版｜看看 AI 會怎麼接手你一天的工作</title>
+<meta name="description" content="一個可探索的未來 AI 工作體驗:選一個金融業角色,拖動時間軸,看 2030 年的你怎麼跟 AI Agent 一起度過一天。">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#070a16;--bg2:#0b1022;--bg3:#101632;
+  --card:rgba(20,26,52,.72);--card2:rgba(28,34,66,.85);
+  --line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.16);
+  --text:#eef1ff;--muted:#9aa3c7;--dim:#6b739a;
+  --amber:#f5b942;--amber2:#ffd166;--pink:#ff6fae;--violet:#8b5cf6;--cyan:#3dd6f5;--green:#4ade80;--red:#fb7185;
+  --grad:linear-gradient(90deg,#f5b942 0%,#ff6fae 50%,#8b5cf6 100%);
+  --grad2:linear-gradient(135deg,#f5b942,#a855f7);
+  --mode-ai:#8b5cf6;--mode-co:#f5b942;--mode-you:#4ade80;
+  --radius:18px;--radius-s:12px;
+  --shadow:0 20px 60px rgba(0,0,0,.45);
+  --font:"Segoe UI","Segoe UI Variable","Noto Sans TC","PingFang TC","Microsoft JhengHei","Helvetica Neue",Arial,sans-serif;
+  --mono:"Cascadia Code","Cascadia Mono","SF Mono",Consolas,"Roboto Mono",ui-monospace,monospace;
+  --nav-h:60px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.6;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-2;background:
+  radial-gradient(1200px 600px at 15% -10%,rgba(139,92,246,.22),transparent 60%),
+  radial-gradient(900px 500px at 90% 10%,rgba(245,185,66,.12),transparent 60%),
+  radial-gradient(800px 600px at 50% 110%,rgba(61,214,245,.10),transparent 60%),
+  linear-gradient(180deg,#070a16 0%,#0b1022 100%)}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;color:inherit;cursor:pointer}
+img,canvas,svg{display:block;max-inline-size:100%}
+::selection{background:rgba(245,185,66,.35)}
+.sr-only{position:absolute;inline-size:1px;block-size:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{inline-size:min(1180px,calc(100% - 40px));margin-inline:auto}
+.mono{font-family:var(--mono)}
+.grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ---- Nav ---- */
+.nav{position:fixed;inset-block-start:0;inset-inline:0;block-size:var(--nav-h);z-index:50;display:flex;align-items:center;
+  background:rgba(7,10,22,.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-block-end:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.2px}
+.brand .dot{inline-size:10px;block-size:10px;border-radius:50%;background:var(--amber);box-shadow:0 0 14px var(--amber)}
+.brand small{font-weight:400;color:var(--muted);font-size:12px}
+.nav-links{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.nav-links a{font-size:13px;color:var(--muted);padding:6px 12px;border-radius:999px;transition:.2s}
+.nav-links a:hover{color:var(--text);background:rgba(255,255,255,.06)}
+.nav-links a.active{color:var(--text);background:rgba(255,255,255,.1)}
+.progress-bar{position:fixed;inset-block-start:var(--nav-h);inset-inline-start:0;block-size:2px;inline-size:0;background:var(--grad);z-index:51;transition:inline-size .1s linear}
+.nav-toggle{display:none;background:none;border:1px solid var(--line2);border-radius:10px;padding:6px 10px;color:var(--text)}
+@media (max-width:900px){
+  .nav-links{display:none;position:absolute;inset-block-start:var(--nav-h);inset-inline:0;flex-direction:column;background:rgba(7,10,22,.96);padding:12px 20px 18px;border-block-end:1px solid var(--line)}
+  .nav-links.open{display:flex}
+  .nav-toggle{display:block}
+}
+
+/* ---- Hero ---- */
+.hero{position:relative;min-block-size:100vh;display:grid;place-items:center;text-align:center;padding-block:calc(var(--nav-h) + 60px) 60px;overflow:hidden}
+#stars{position:absolute;inset:0;z-index:0;opacity:.9}
+.hero .inner{position:relative;z-index:1}
+.pill{display:inline-flex;align-items:center;gap:10px;padding:6px 14px 6px 6px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--line2);font-size:13px;color:var(--muted)}
+.pill b{background:var(--amber);color:#1a1200;padding:3px 10px;border-radius:999px;font-size:12px;letter-spacing:1px}
+.hero h1{font-size:clamp(40px,8vw,96px);line-height:1.08;margin:26px 0 20px;font-weight:800;letter-spacing:-1px}
+.hero p.lead{max-inline-size:720px;margin:0 auto 34px;color:var(--muted);font-size:clamp(15px,1.6vw,19px)}
+.cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:999px;border:1px solid transparent;font-weight:700;font-size:15px;transition:transform .2s,box-shadow .2s,background .2s}
+.btn-primary{background:var(--grad2);color:#130a00;box-shadow:0 10px 30px rgba(245,185,66,.25)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(168,85,247,.35)}
+.btn-ghost{background:rgba(255,255,255,.06);border-color:var(--line2)}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+.stat-strip{display:inline-grid;grid-auto-flow:column;gap:0;margin-block-start:44px;border:1px solid var(--line2);border-radius:14px;background:rgba(10,14,30,.7);overflow:hidden}
+.stat-strip div{padding:14px 26px;border-inline-end:1px solid var(--line)}
+.stat-strip div:last-child{border:none}
+.stat-strip small{display:block;font-size:10px;letter-spacing:2px;color:var(--dim);text-transform:uppercase}
+.stat-strip span{font-family:var(--mono);font-size:20px;font-weight:700}
+.stat-strip .amber{color:var(--amber)}
+.scroll-hint{position:absolute;inset-block-end:24px;inset-inline-start:50%;transform:translateX(-50%);color:var(--dim);font-size:12px;letter-spacing:2px;z-index:1;animation:float 2.4s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
+@media (max-width:640px){.stat-strip{grid-auto-flow:row}.stat-strip div{border-inline-end:none;border-block-end:1px solid var(--line)}}
+
+/* ---- Sections ---- */
+section.block{padding-block:110px;position:relative}
+.step{display:flex;align-items:center;gap:12px;color:var(--amber);font-size:12px;letter-spacing:3px;text-transform:uppercase;font-family:var(--mono)}
+.step::before{content:"";inline-size:26px;block-size:1px;background:var(--amber)}
+h2.title{font-size:clamp(30px,5vw,54px);line-height:1.12;margin:14px 0 16px;font-weight:800;letter-spacing:-.5px}
+p.sub{color:var(--muted);max-inline-size:680px;font-size:17px;margin:0 0 40px}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* ---- Role picker ---- */
+.filter-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-block-end:22px}
+.chip{padding:8px 14px;border-radius:999px;border:1px solid var(--line2);background:rgba(255,255,255,.04);font-size:13px;color:var(--muted);transition:.2s}
+.chip:hover{color:var(--text);border-color:rgba(255,255,255,.3)}
+.chip.active{background:var(--text);color:#0b1022;border-color:var(--text);font-weight:700}
+.chip .n{opacity:.6;margin-inline-start:6px;font-family:var(--mono);font-size:11px}
+.search{margin-inline-start:auto;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.05);border:1px solid var(--line2);border-radius:999px;padding:8px 14px;min-inline-size:220px}
+.search input{background:none;border:none;outline:none;color:var(--text);font-size:14px;inline-size:100%}
+.roles{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.role{position:relative;text-align:start;padding:20px 18px 18px;border-radius:var(--radius);border:1px solid var(--line);background:var(--card);transition:transform .25s,border-color .25s,box-shadow .25s,opacity .3s;overflow:hidden}
+.role::after{content:"";position:absolute;inset:0;background:radial-gradient(300px 120px at 100% 0%,rgba(245,185,66,.16),transparent 60%);opacity:0;transition:.3s}
+.role:hover{transform:translateY(-4px);border-color:var(--line2);box-shadow:var(--shadow)}
+.role:hover::after{opacity:1}
+.role.active{border-color:var(--amber);box-shadow:0 0 0 1px var(--amber),0 20px 50px rgba(245,185,66,.18)}
+.role.active::after{opacity:1}
+.role .icon{inline-size:44px;block-size:44px;border-radius:12px;display:grid;place-items:center;font-size:22px;background:rgba(255,255,255,.06);margin-block-end:14px}
+.role .name{font-weight:700;font-size:17px}
+.role .en{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;margin:2px 0 8px}
+.role .desc{font-size:13px;color:var(--muted);line-height:1.55}
+.role .check{position:absolute;inset-block-start:14px;inset-inline-end:14px;inline-size:22px;block-size:22px;border-radius:50%;border:1px solid var(--line2);display:grid;place-items:center;font-size:12px;color:var(--dim)}
+.role.active .check{background:var(--amber);color:#1a1200;border-color:var(--amber)}
+.role.hidden{display:none}
+.cat-1 .en{color:var(--cyan)}.cat-2 .en{color:var(--amber)}.cat-3 .en{color:var(--pink)}.cat-4 .en{color:var(--green)}.cat-5 .en{color:#f97316}.cat-6 .en{color:var(--violet)}
+.roles-empty{text-align:center;color:var(--dim);padding:40px;display:none}
+.selected-banner{margin-block-start:26px;display:flex;align-items:center;gap:16px;padding:16px 20px;border-radius:var(--radius);background:linear-gradient(90deg,rgba(245,185,66,.12),rgba(139,92,246,.12));border:1px solid var(--line2)}
+.selected-banner .big{font-size:34px}
+.selected-banner .txt b{font-size:18px}
+.selected-banner .txt span{display:block;color:var(--muted);font-size:14px}
+.selected-banner .btn{margin-inline-start:auto;padding:10px 18px;font-size:14px}
+
+/* ---- Day timeline ---- */
+.day-grid{display:grid;grid-template-columns:340px 1fr;gap:40px;align-items:start}
+.sticky-card{position:sticky;inset-block-start:calc(var(--nav-h) + 20px);border-radius:var(--radius);border:1px solid var(--line2);background:var(--card2);overflow:hidden;box-shadow:var(--shadow)}
+#sky{inline-size:100%;block-size:190px}
+.sticky-body{padding:20px 22px 22px}
+.clock{font-family:var(--mono);font-size:46px;font-weight:700;line-height:1;letter-spacing:1px}
+.now-title{font-size:17px;font-weight:700;margin:12px 0 12px;min-block-size:48px}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:700;border:1px solid}
+.badge.ai{color:#c4b5fd;border-color:rgba(139,92,246,.6);background:rgba(139,92,246,.15)}
+.badge.co{color:var(--amber2);border-color:rgba(245,185,66,.6);background:rgba(245,185,66,.12)}
+.badge.you{color:#86efac;border-color:rgba(74,222,128,.6);background:rgba(74,222,128,.12)}
+.meta-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);margin-block-start:18px}
+.bar{block-size:8px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;margin-block-start:8px}
+.bar i{display:block;block-size:100%;inline-size:0;background:var(--grad);border-radius:999px;transition:inline-size .8s cubic-bezier(.2,.8,.2,1)}
+.scrub{margin-block-start:22px}
+.scrub label{font-size:12px;color:var(--muted);letter-spacing:1px}
+.scrub input[type=range]{inline-size:100%;margin:10px 0 4px;accent-color:var(--amber);cursor:grab}
+.scrub input[type=range]:active{cursor:grabbing}
+.ticks{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--dim)}
+.timeline{position:relative;padding-inline-start:40px}
+.timeline::before{content:"";position:absolute;inset-inline-start:11px;inset-block:10px;inline-size:2px;background:linear-gradient(180deg,var(--amber),var(--violet),transparent)}
+.slot{position:relative;margin-block-end:22px;padding:26px 28px;border-radius:var(--radius);border:1px solid var(--line);background:var(--card);transition:border-color .3s,box-shadow .3s,transform .3s}
+.slot::before{content:"";position:absolute;inset-inline-start:-36px;inset-block-start:30px;inline-size:14px;block-size:14px;border-radius:50%;background:var(--bg3);border:2px solid var(--dim);transition:.3s}
+.slot.active{border-color:var(--amber);box-shadow:0 0 0 1px rgba(245,185,66,.5),0 20px 50px rgba(0,0,0,.4);transform:scale(1.01)}
+.slot.active::before{background:var(--amber);border-color:var(--amber);box-shadow:0 0 16px var(--amber)}
+.slot .t{font-family:var(--mono);color:var(--amber);font-size:13px;letter-spacing:1px}
+.slot h3{margin:4px 0 16px;font-size:21px}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.cmp div{padding:16px 18px;border-radius:var(--radius-s);border:1px solid var(--line);background:rgba(0,0,0,.25);font-size:14px;line-height:1.6}
+.cmp div small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:2px;margin-block-end:8px;color:var(--dim)}
+.cmp .future{border-color:rgba(245,185,66,.35);background:rgba(245,185,66,.06)}
+.cmp .future small{color:var(--amber)}
+.cmp .now{color:var(--muted)}
+.ai-bubble{display:flex;gap:12px;align-items:flex-start;margin-block-start:14px;padding:14px 16px;border-radius:var(--radius-s);background:rgba(0,0,0,.35);border:1px solid var(--line)}
+.avatar{flex:none;inline-size:30px;block-size:30px;border-radius:50%;background:var(--grad2);display:grid;place-items:center;font-size:11px;font-weight:800;color:#130a00}
+.ai-bubble p{margin:0;font-size:14px;background:rgba(255,255,255,.06);padding:10px 14px;border-radius:12px;border-start-start-radius:4px}
+.slot-foot{display:flex;justify-content:space-between;align-items:center;margin-block-start:16px;font-size:13px;color:var(--muted)}
+.slot-foot b{color:var(--green)}
+@media (max-width:900px){.day-grid{grid-template-columns:1fr}.sticky-card{position:relative;inset-block-start:0}.cmp{grid-template-columns:1fr}}
+
+/* ---- Takeover ---- */
+.take-grid{display:grid;grid-template-columns:380px 1fr;gap:40px;align-items:center}
+.donut-wrap{position:relative;display:grid;place-items:center}
+.donut-wrap .center{position:absolute;text-align:center}
+.donut-wrap .center b{font-family:var(--mono);font-size:46px;display:block;line-height:1}
+.donut-wrap .center span{font-size:12px;color:var(--muted);letter-spacing:1px}
+.legend{display:flex;gap:16px;justify-content:center;margin-block-start:16px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;inline-size:10px;block-size:10px;border-radius:3px;margin-inline-end:6px;vertical-align:middle}
+.task-bars{display:grid;gap:14px}
+.tb{padding:14px 18px;border-radius:var(--radius-s);border:1px solid var(--line);background:var(--card)}
+.tb .row{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:14px}
+.tb .row b{font-family:var(--mono)}
+.tb .bar{block-size:10px}
+.tb .bar i{background:var(--mode-ai)}
+.tb.co .bar i{background:var(--mode-co)}
+.tb.you .bar i{background:var(--mode-you)}
+.tb .hint{font-size:12px;color:var(--dim);margin-block-start:6px}
+.mode-tabs{display:flex;gap:8px;margin-block-end:16px;flex-wrap:wrap}
+@media (max-width:900px){.take-grid{grid-template-columns:1fr}}
+
+/* ---- Calculator ---- */
+.calc{display:grid;grid-template-columns:1.2fr .8fr;gap:30px}
+.panel{padding:26px;border-radius:var(--radius);border:1px solid var(--line);background:var(--card)}
+.sl{margin-block-end:20px}
+.sl .lbl{display:flex;justify-content:space-between;font-size:14px;margin-block-end:6px}
+.sl .lbl b{font-family:var(--mono);color:var(--amber)}
+.sl input{inline-size:100%;accent-color:var(--amber)}
+.sl small{color:var(--dim);font-size:12px}
+.result{background:linear-gradient(160deg,rgba(139,92,246,.18),rgba(245,185,66,.10));border-color:var(--line2);display:flex;flex-direction:column;gap:18px}
+.result .big{font-family:var(--mono);font-size:64px;font-weight:800;line-height:1}
+.result .big small{font-size:18px;font-weight:400;color:var(--muted);font-family:var(--font)}
+.kpi{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.kpi div{padding:14px;border-radius:var(--radius-s);background:rgba(0,0,0,.3);border:1px solid var(--line)}
+.kpi div b{font-family:var(--mono);font-size:24px;display:block}
+.kpi div span{font-size:12px;color:var(--muted)}
+.convert{font-size:14px;color:var(--muted);border-block-start:1px solid var(--line);padding-block-start:14px}
+.convert b{color:var(--text)}
+@media (max-width:900px){.calc{grid-template-columns:1fr}}
+
+/* ---- Agent ---- */
+.agent{display:grid;grid-template-columns:300px 1fr;gap:26px;min-block-size:520px}
+.agent-side{display:flex;flex-direction:column;gap:10px}
+.task-btn{text-align:start;padding:14px 16px;border-radius:var(--radius-s);border:1px solid var(--line);background:var(--card);font-size:14px;transition:.2s;line-height:1.5}
+.task-btn:hover{border-color:var(--line2);transform:translateX(3px)}
+.task-btn.active{border-color:var(--amber);background:rgba(245,185,66,.08)}
+.task-btn small{display:block;color:var(--dim);font-size:11px;letter-spacing:1px;font-family:var(--mono);margin-block-end:4px}
+.custom-task{display:flex;gap:8px;margin-block-start:auto}
+.custom-task input{flex:1;background:rgba(255,255,255,.05);border:1px solid var(--line2);border-radius:10px;padding:10px 12px;color:var(--text);outline:none;font-size:14px;min-inline-size:0}
+.custom-task button{padding:10px 14px;border-radius:10px;border:none;background:var(--amber);color:#1a1200;font-weight:700}
+.console{display:flex;flex-direction:column;border-radius:var(--radius);border:1px solid var(--line2);background:#060913;overflow:hidden;box-shadow:var(--shadow)}
+.console .bar-top{display:flex;align-items:center;gap:8px;padding:12px 16px;border-block-end:1px solid var(--line);font-size:12px;color:var(--muted);font-family:var(--mono)}
+.console .bar-top i{inline-size:10px;block-size:10px;border-radius:50%;background:#333}
+.console .bar-top i:nth-child(1){background:#ff5f57}.console .bar-top i:nth-child(2){background:#febc2e}.console .bar-top i:nth-child(3){background:#28c840}
+.console .bar-top .live{margin-inline-start:auto;color:var(--green);display:flex;align-items:center;gap:6px}
+.console .bar-top .live::before{content:"";inline-size:7px;block-size:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:blink 1.2s infinite}
+@keyframes blink{50%{opacity:.3}}
+.chat{flex:1;padding:22px;display:flex;flex-direction:column;gap:14px;overflow-y:auto;max-block-size:560px;scroll-behavior:smooth}
+.msg{display:flex;gap:12px;max-inline-size:92%;animation:pop .35s ease}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.msg.user{align-self:flex-end;flex-direction:row-reverse}
+.msg .who{flex:none;inline-size:32px;block-size:32px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800}
+.msg.user .who{background:rgba(255,255,255,.12)}
+.msg.ai .who{background:var(--grad2);color:#130a00}
+.msg .body{padding:12px 16px;border-radius:14px;background:rgba(255,255,255,.06);font-size:14px;line-height:1.65;white-space:pre-wrap}
+.msg.user .body{background:rgba(245,185,66,.15);border:1px solid rgba(245,185,66,.3)}
+.steps{display:flex;flex-direction:column;gap:8px;padding:12px 14px;border-radius:12px;background:rgba(139,92,246,.08);border:1px dashed rgba(139,92,246,.4);font-family:var(--mono);font-size:12.5px}
+.steps div{display:flex;align-items:center;gap:10px;color:var(--muted);opacity:.35;transition:.3s}
+.steps div.on{opacity:1;color:var(--text)}
+.steps div.done{opacity:.85;color:#c4b5fd}
+.steps .ico{inline-size:18px;block-size:18px;border-radius:50%;border:1.5px solid currentColor;display:grid;place-items:center;font-size:10px;flex:none}
+.steps div.on .ico{border-color:var(--amber);color:var(--amber);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.steps div.done .ico{background:var(--violet);border-color:var(--violet);color:#fff;animation:none}
+.approve{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-block-start:8px;padding:12px 14px;border-radius:12px;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.35);font-size:13px}
+.approve button{padding:8px 14px;border-radius:999px;border:none;font-weight:700;font-size:13px}
+.approve .ok{background:var(--green);color:#052e16}
+.approve .edit{background:rgba(255,255,255,.1);color:var(--text)}
+.approve .lock{margin-inline-start:auto;color:var(--dim);font-family:var(--mono);font-size:11px}
+.cursor{display:inline-block;inline-size:8px;block-size:16px;background:var(--amber);vertical-align:-3px;animation:blink 1s infinite;margin-inline-start:2px}
+.console-foot{display:flex;gap:16px;padding:10px 16px;border-block-start:1px solid var(--line);font-size:11px;color:var(--dim);font-family:var(--mono);flex-wrap:wrap}
+.console-foot span::before{content:"◆ ";color:var(--amber)}
+@media (max-width:900px){.agent{grid-template-columns:1fr}}
+
+/* ---- Then vs Now ---- */
+.compare{position:relative;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line2);background:var(--card);min-block-size:420px;user-select:none}
+.compare .side{position:absolute;inset:0;padding:40px;display:grid;grid-template-columns:1fr;align-content:center;gap:14px}
+.compare .side.now{background:linear-gradient(135deg,#141a30,#0b1022)}
+.compare .side.future{background:linear-gradient(135deg,#1b1240,#2b1a3f 60%,#3a2412);clip-path:inset(0 0 0 var(--cut,50%))}
+.compare .tag{font-family:var(--mono);font-size:11px;letter-spacing:3px;color:var(--dim)}
+.compare .side.future .tag{color:var(--amber)}
+.compare h3{margin:0;font-size:clamp(22px,3vw,34px)}
+.compare ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;max-inline-size:520px}
+.compare li{display:flex;gap:10px;font-size:15px;color:var(--muted)}
+.compare .side.future li{color:var(--text)}
+.compare li::before{content:"✕";color:var(--red);font-weight:700;flex:none}
+.compare .side.future li::before{content:"✓";color:var(--green)}
+.handle{position:absolute;inset-block:0;inset-inline-start:var(--cut,50%);inline-size:2px;background:var(--amber);transform:translateX(-1px);cursor:ew-resize;z-index:2}
+.handle::after{content:"◀ ▶";position:absolute;inset-block-start:50%;inset-inline-start:50%;transform:translate(-50%,-50%);inline-size:52px;block-size:52px;border-radius:50%;background:var(--amber);color:#1a1200;display:grid;place-items:center;font-size:11px;font-weight:800;box-shadow:0 10px 30px rgba(245,185,66,.4)}
+.compare-hint{text-align:center;color:var(--dim);font-size:13px;margin-block-start:14px;letter-spacing:1px}
+.shift-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-block-start:40px}
+.shift{padding:20px;border-radius:var(--radius);border:1px solid var(--line);background:var(--card)}
+.shift .from{color:var(--dim);font-size:13px;text-decoration:line-through}
+.shift .to{font-size:17px;font-weight:700;margin-block-start:6px}
+.shift .to::before{content:"→ ";color:var(--amber)}
+.shift p{color:var(--muted);font-size:13px;margin:8px 0 0}
+
+/* ---- Human value + card ---- */
+.value-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.pillars{display:grid;gap:12px}
+.pillar{display:flex;gap:16px;padding:18px 20px;border-radius:var(--radius);border:1px solid var(--line);background:var(--card)}
+.pillar .ic{flex:none;inline-size:44px;block-size:44px;border-radius:12px;background:rgba(255,255,255,.06);display:grid;place-items:center;font-size:22px}
+.pillar b{font-size:16px}
+.pillar p{margin:4px 0 0;color:var(--muted);font-size:14px}
+.idcard{border-radius:22px;padding:2px;background:var(--grad);box-shadow:0 30px 80px rgba(139,92,246,.35)}
+.idcard .in{border-radius:20px;background:#0a0e1f;padding:28px}
+.idcard .top{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--dim)}
+.idcard .role-line{display:flex;gap:16px;align-items:center;margin:22px 0}
+.idcard .role-line .big{font-size:48px}
+.idcard .role-line b{font-size:24px;display:block}
+.idcard .role-line span{color:var(--amber);font-size:13px}
+.idcard .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.idcard .grid3 div{padding:12px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--line)}
+.idcard .grid3 b{font-family:var(--mono);font-size:22px;display:block}
+.idcard .grid3 span{font-size:11px;color:var(--muted)}
+.idcard .quote{margin:20px 0 0;font-size:15px;color:var(--muted);border-inline-start:3px solid var(--amber);padding-inline-start:14px}
+.idcard .agents{display:flex;gap:8px;flex-wrap:wrap;margin-block-start:18px}
+.idcard .agents span{font-size:12px;padding:5px 10px;border-radius:999px;background:rgba(139,92,246,.18);border:1px solid rgba(139,92,246,.45);color:#d8ccff}
+.card-actions{display:flex;gap:10px;margin-block-start:16px;flex-wrap:wrap}
+.card-actions .btn{padding:10px 18px;font-size:14px}
+#cardCanvas{display:none}
+@media (max-width:900px){.value-grid{grid-template-columns:1fr}}
+
+/* ---- Footer ---- */
+footer{padding:60px 0 40px;border-block-start:1px solid var(--line);color:var(--dim);font-size:13px}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+footer .disclaimer{max-inline-size:680px;line-height:1.7}
+.toast{position:fixed;inset-block-end:24px;inset-inline-start:50%;transform:translate(-50%,20px);background:var(--text);color:#0b1022;padding:10px 18px;border-radius:999px;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:.3s;z-index:99}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}.reveal{opacity:1;transform:none}}
+@media print{.nav,.progress-bar,#stars,.scroll-hint,.toast{display:none}body{background:#fff;color:#000}section.block{padding-block:30px}}
+</style>
+</head>
+<body data-role="wealth">
+<a class="progress-bar" id="progress" aria-hidden="true"></a>
+<nav class="nav" aria-label="主導覽">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="dot"></span>2030 AI 工作台 <small>/ AI Workbench · FSI Edition</small></a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks">選單</button>
+    <div class="nav-links" id="navLinks">
+      <a href="#roles">選角色</a>
+      <a href="#day">你的一天</a>
+      <a href="#takeover">接手比例</a>
+      <a href="#calc">時間計算器</a>
+      <a href="#agent">Agent 體驗</a>
+      <a href="#compare">今昔對照</a>
+      <a href="#human">人的價值</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <canvas id="stars" aria-hidden="true"></canvas>
+  <div class="inner wrap">
+    <div class="pill"><b>2030</b> Interactive Experience · 金融業的未來工作體驗</div>
+    <h1>看看 AI 會怎麼<br><span class="grad-text">接手你一天的工作</span></h1>
+    <p class="lead">這不是工具清單,也不是預言。這是一台時光機:從 30 個金融業角色裡選一個最像你的,拖動時間軸,看 2030 年的你怎麼跟 AI Agent 一起度過從早到晚的每一個小時 — 以及,哪些事仍然只有你能做。</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#roles">開始你的一天 →</a>
+      <a class="btn btn-ghost" href="#agent">先玩 Agent 體驗</a>
+    </div>
+    <div class="stat-strip" role="group" aria-label="模擬狀態">
+      <div><small>Simulated date</small><span id="simDate">2030.09.07</span></div>
+      <div><small>Local time · Taipei</small><span class="amber" id="clockNow">--:--:--</span></div>
+      <div><small>Roles · Scenarios</small><span>30 · <span id="scenarioCount">180</span></span></div>
+      <div><small>Agents online</small><span id="agentsOnline">9</span></div>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL ↓</div>
+</header>
+
+<main>
+<!-- 01 Roles -->
+<section class="block" id="roles">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="step">Step 01 · Choose your role</div>
+      <h2 class="title">先告訴我,<span class="grad-text">你在金融業做什麼?</span></h2>
+      <p class="sub">AI 接手的方式,對每個角色都不一樣。從 6 大領域、30 個角色裡選一個最像你的,整個網站會跟著你改變:時間軸、接手比例、計算器預設值、Agent 對話,還有最後那張專屬的 2030 工作卡。</p>
+    </div>
+    <div class="filter-row reveal" id="filters">
+      <button class="chip active" data-cat="all">全部 <span class="n">30</span></button>
+      <button class="chip" data-cat="1">零售銀行 <span class="n">5</span></button>
+      <button class="chip" data-cat="2">企金與投行 <span class="n">5</span></button>
+      <button class="chip" data-cat="3">保險 <span class="n">5</span></button>
+      <button class="chip" data-cat="4">證券與投資 <span class="n">5</span></button>
+      <button class="chip" data-cat="5">風控與法遵 <span class="n">5</span></button>
+      <button class="chip" data-cat="6">科技與營運 <span class="n">5</span></button>
+      <label class="search"><span aria-hidden="true">⌕</span><input id="roleSearch" type="search" placeholder="搜尋角色,例如:核保、AML、理專" aria-label="搜尋角色"></label>
+    </div>
+    <div class="roles reveal" id="roleGrid" role="list"></div>
+    <div class="roles-empty" id="rolesEmpty">找不到符合的角色,換個關鍵字試試。</div>
+    <div class="selected-banner reveal" id="selectedBanner">
+      <div class="big" id="selIcon">💼</div>
+      <div class="txt"><b id="selName">—</b><span id="selDesc">—</span></div>
+      <a class="btn btn-primary" href="#day">看這個角色的一天 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- 02 Day -->
+<section class="block" id="day">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="step">Step 02 · Your day in 2030</div>
+      <h2 class="title"><span id="dayRoleName">理財專員</span>的一天,<span class="grad-text">哪些被接手了?</span></h2>
+      <p class="sub">拖動左側的時間軸,或直接捲動右側的時間卡。每一段都比較「2026 · 今天」與「2030 · 未來」的做法,並標示這段是 AI 全接手、人機協作,還是完全由你主導。</p>
+    </div>
+    <div class="day-grid">
+      <aside class="sticky-card reveal">
+        <canvas id="sky" width="340" height="190" aria-hidden="true"></canvas>
+        <div class="sticky-body">
+          <div class="clock" id="dayClock">08:30</div>
+          <div class="now-title" id="dayTitle">—</div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span class="badge co" id="dayBadge">人機協作</span>
+            <span class="mono" style="font-size:12px;color:var(--muted)" id="dayIndex">1 / 6</span>
+          </div>
+          <div class="meta-row"><span>到目前為止 AI 已接手的工作量</span><b class="mono" id="dayPct">0%</b></div>
+          <div class="bar"><i id="dayBar"></i></div>
+          <div class="meta-row"><span>今日已回收時間</span><b class="mono" id="daySaved" style="color:var(--green)">0 分</b></div>
+          <div class="scrub">
+            <label for="scrubber">拖曳時間軸 · SCRUB THE DAY</label>
+            <input type="range" id="scrubber" min="0" max="1000" value="0" aria-label="時間軸">
+            <div class="ticks"><span>06:00</span><span>10:00</span><span>14:00</span><span>18:00</span><span>22:00</span></div>
+          </div>
+        </div>
+      </aside>
+      <div class="timeline" id="timeline"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 Takeover -->
+<section class="block" id="takeover">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="step">Step 03 · Takeover ratio</div>
+      <h2 class="title">你的工作,<span class="grad-text">AI 接手多少?</span></h2>
+      <p class="sub">不是「這個職位會不會被取代」,而是「這個職位裡的哪些任務會被接手」。我們把每個角色拆成 6 類任務,分別估算 2030 年 AI 的接手程度。點任務條可以看說明。</p>
+    </div>
+    <div class="take-grid">
+      <div class="reveal">
+        <div class="donut-wrap">
+          <canvas id="donut" width="320" height="320" aria-label="接手比例圓餅圖"></canvas>
+          <div class="center"><b id="donutPct">0%</b><span>整體任務接手度</span></div>
+        </div>
+        <div class="legend">
+          <span><i style="background:var(--mode-ai)"></i>AI 全接手</span>
+          <span><i style="background:var(--mode-co)"></i>人機協作</span>
+          <span><i style="background:var(--mode-you)"></i>你主導</span>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="mode-tabs" id="modeTabs">
+          <button class="chip active" data-mode="all">全部任務</button>
+          <button class="chip" data-mode="ai">AI 全接手</button>
+          <button class="chip" data-mode="co">人機協作</button>
+          <button class="chip" data-mode="you">你主導</button>
+        </div>
+        <div class="task-bars" id="taskBars"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 Calculator -->
+<section class="block" id="calc">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="step">Step 04 · Time calculator</div>
+      <h2 class="title">算算看,<span class="grad-text">一年可以拿回多少時間?</span></h2>
+      <p class="sub">預設值已依你選的角色帶入,拖動滑桿改成你真實的一週。右邊會即時算出 AI 接手後每週、每年省下的時間,以及這些時間可以換成什麼。</p>
+    </div>
+    <div class="calc">
+      <div class="panel reveal" id="sliders"></div>
+      <div class="panel result reveal">
+        <div>
+          <small style="color:var(--muted);letter-spacing:2px;font-size:11px;font-family:var(--mono)">每週回收</small>
+          <div class="big"><span id="calcWeek">0</span><small> 小時 / 週</small></div>
+        </div>
+        <div class="kpi">
+          <div><b id="calcYear">0</b><span>小時 / 年</span></div>
+          <div><b id="calcDays">0</b><span>個工作日 / 年</span></div>
+          <div><b id="calcPct">0%</b><span>佔每週工時</span></div>
+          <div><b id="calcHuman">0</b><span>小時仍需你判斷 / 週</span></div>
+        </div>
+        <div class="convert" id="calcConvert">—</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 Agent -->
+<section class="block" id="agent">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="step">Step 05 · Agent experience</div>
+      <h2 class="title">跟 2030 年的 <span class="grad-text">AI Agent 一起工作</span></h2>
+      <p class="sub">這是一個模擬的 Agent 工作台。選一個任務,看 Agent 如何規劃步驟、查詢系統、產出結果 — 然後把最終決定權交回給你。金融業的原則很清楚:AI 建議、人決策、系統留痕。</p>
+    </div>
+    <div class="agent">
+      <div class="agent-side reveal" id="agentTasks"></div>
+      <div class="console reveal">
+        <div class="bar-top"><i></i><i></i><i></i><span id="consoleTitle">agent://workbench/2030</span><span class="live">LIVE</span></div>
+        <div class="chat" id="chat" aria-live="polite"></div>
+        <div class="console-foot"><span>Human-in-the-loop</span><span>Audit trail 留痕</span><span>資料不出行</span><span>模型不做最終決策</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 Compare -->
+<section class="block" id="compare">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="step">Step 06 · Then vs now</div>
+      <h2 class="title">2026 vs 2030,<span class="grad-text">同一個職位,兩種日常</span></h2>
+      <p class="sub">左右拖動中間的把手,看同一份工作在兩個年代的樣子。</p>
+    </div>
+    <div class="compare reveal" id="compareBox" aria-label="2026 與 2030 對照">
+      <div class="side now">
+        <div class="tag">2026 · TODAY</div>
+        <h3 id="cmpNowTitle">—</h3>
+        <ul id="cmpNowList"></ul>
+      </div>
+      <div class="side future">
+        <div class="tag">2030 · FUTURE</div>
+        <h3 id="cmpFutureTitle">—</h3>
+        <ul id="cmpFutureList"></ul>
+      </div>
+      <div class="handle" id="handle" role="slider" aria-label="拖動比較" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" tabindex="0"></div>
+    </div>
+    <div class="compare-hint">◀ 拖動把手、或用鍵盤 ← → 切換 ▶</div>
+    <div class="shift-grid reveal" id="shiftGrid"></div>
+  </div>
+</section>
+
+<!-- 07 Human -->
+<section class="block" id="human">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="step">Step 07 · What stays human</div>
+      <h2 class="title">AI 接手了任務,<span class="grad-text">你接手了什麼?</span></h2>
+      <p class="sub">在金融業,信任、責任與判斷從來不是可以外包的東西。AI 讓你從「處理」升級到「決定」,這是 2030 年你的新職稱。</p>
+    </div>
+    <div class="value-grid">
+      <div class="pillars reveal" id="pillars"></div>
+      <div class="reveal">
+        <div class="idcard" id="idcard">
+          <div class="in">
+            <div class="top"><span>2030 WORK CARD · FSI</span><span id="cardId">#FSI-0000</span></div>
+            <div class="role-line"><div class="big" id="cardIcon">💼</div><div><b id="cardTitle">—</b><span id="cardSub">—</span></div></div>
+            <div class="grid3">
+              <div><b id="cardPct">0%</b><span>任務接手度</span></div>
+              <div><b id="cardHours">0h</b><span>每週回收</span></div>
+              <div><b id="cardAgents">0</b><span>協作 Agents</span></div>
+            </div>
+            <p class="quote" id="cardQuote">—</p>
+            <div class="agents" id="cardAgentList"></div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-primary" id="downloadCard">下載我的 2030 工作卡 (PNG)</button>
+          <button class="btn btn-ghost" id="copySummary">複製文字摘要</button>
+        </div>
+        <canvas id="cardCanvas" width="1200" height="720"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="disclaimer">
+      <b style="color:var(--muted)">關於這個體驗</b><br>
+      所有角色、情境、接手比例與時間估算皆為 2030 年的情境設計 (scenario design),用來幫助非技術背景的金融從業者想像 AI 如何改變日常工作,並非任何機構的實際數據或承諾。金融機構實際導入 AI 需經資安、法遵、個資保護與委外作業評估,並保留人工審核與稽核軌跡。
+    </div>
+    <div class="mono" style="font-size:11px;text-align:end">2030 AI WORKBENCH · FSI EDITION<br>Designed as an explorable future · 繁體中文 · Traditional Chinese</div>
+  </div>
+</footer>
+<div class="toast" id="toast"></div>
+<script>
+
+// ===== 角色資料 (1/3):零售銀行、企金與投行 =====
+// day: [時間, 標題, 2026做法, 2030做法, Agent 訊息, 模式 ai|co|you, 回收分鐘]
+// tasks: [任務, 接手%, 模式, 說明]   calc: 每週小時 [資料查找整理, 文件報表, 溝通協調會議, 專業判斷與客戶互動]
+const ROLES = [
+{id:"wealth",cat:1,icon:"💼",name:"理財專員",en:"Wealth Advisor / RM",desc:"KYC、商品說明、資產配置建議。你想要的是:少一點填表,多一點真正的對話。",
+ title2030:"客戶財務人生教練",quote:"AI 算得比我快,但客戶簽字前看的是我的眼睛。",agents:["客戶洞察 Agent","投組建議 Agent","法遵檢核 Agent","會後摘要 Agent"],
+ day:[
+  ["08:30","開盤前的客戶名單","翻 CRM、看昨天市場,自己想今天該打給誰。","Agent 早上 6 點已掃完市場與 200 位客戶部位,列出 8 位「今天最需要聯繫」的名單與原因。","早安。台股期貨夜盤下跌,王太太的 ETF 部位波動超過她的風險屬性,建議 9 點前致電。","ai",45],
+  ["10:00","面談前的 KYC 與適合度檢核","翻紙本 KYC、逐項核對商品風險等級,常常漏簽。","Agent 預先比對 KYC、風險屬性與商品資料庫,只把「需要你決定的例外」標出來。","陳先生風險屬性 RR3,但想買 RR4 商品,已備妥超額風險告知書草稿,請你面談時說明。","co",30],
+  ["11:30","客戶面談","邊聊邊記、邊查商品 DM,客戶等你翻資料。","你專心聊人生目標,Agent 在旁即時轉錄、模擬配置情境,面談結束前就生成投影頁。","依剛剛提到的 2032 年女兒留學,我試算了三種配置的達成機率:68%、81%、89%。","you",20],
+  ["14:00","投資組合建議書","開 Excel 拉資料、套版、寫說明,一份 2 小時。","口述重點,Agent 生成合規版建議書、風險揭露與圖表,你逐頁確認關鍵句。","建議書草稿完成,第 3 頁的配息假設我用了保守值,要不要看一下?","ai",90],
+  ["16:00","主管業績回報","手動填週報表、抓數字、寫進度。","Agent 從 CRM 與交易系統自動彙整,你只補一句「本週最值得注意的客戶」。","本週 AUM +2.3%,3 位客戶到期續約風險,已附建議話術。","ai",40],
+  ["17:30","客戶關係經營","下班後回訊息、記得誰生日,靠人腦。","Agent 提醒重要人生事件、草擬個人化訊息,你決定要不要親自打這通電話。","林小姐女兒明天大學放榜,你去年答應要恭喜她。要我幫你擬個訊息,還是你想直接打電話?","co",25]],
+ tasks:[["KYC 與適合度檢核",85,"ai","規則明確、資料結構化,AI 可預先比對並標出例外。"],["市場與客戶部位監控",90,"ai","24 小時掃描,比人更早看見風險。"],["建議書與報表製作",80,"ai","生成初稿與圖表,你確認關鍵假設。"],["投組配置建議",55,"co","AI 提供情境試算,配置決定與解釋由你負責。"],["客戶面談與信任建立",15,"you","傾聽、同理、承諾,這是理專存在的理由。"],["爭議處理與情緒安撫",10,"you","市場下跌時客戶要的是人,不是報告。"]],
+ calc:[9,8,7,16],
+ agent:[
+  {label:"客戶面談前準備",prompt:"幫我準備明天 10 點跟陳先生的面談,他上次提到想幫女兒準備留學基金。",steps:["讀取 CRM 客戶檔與過去 3 次會談摘要","檢核 KYC 有效期與風險屬性 (RR3)","試算 3 種留學基金配置達成機率","比對商品適合度與法遵規則","生成面談大綱與投影頁"],reply:"面談準備完成 ✅\n\n**客戶脈絡**:陳先生 52 歲,RR3,現有 AUM 680 萬,上次 (6/14) 提到 2032 年女兒赴英留學,預估需 450 萬。\n\n**三種配置試算** (達成機率):\n• 穩健型 (債 70/股 30) → 68%\n• 平衡型 (債 50/股 50) → 81%\n• 積極型 (債 30/股 70) → 89%,但超出 RR3,需簽署超額風險告知\n\n**建議切入點**:先確認留學時程是否可能提前,再談配置。\n\n⚠️ 注意:KYC 將於 10/02 到期,建議面談時一併更新。",approve:"投影頁與超額風險告知書已備妥草稿,是否送出至你的 Outlook 行事曆附件?"},
+  {label:"市場下跌客戶安撫",prompt:"今天市場跌 3%,幫我找出最需要主動聯繫的客戶,並擬安撫要點。",steps:["掃描 214 位客戶今日部位損益","比對風險屬性與歷史情緒紀錄","篩選跌幅超過容忍度的 6 位客戶","擷取各客戶的長期目標與配置理由","生成個人化話術要點"],reply:"已篩出 **6 位**需要你今天親自聯繫的客戶 (依優先序):\n\n1. **王美玲** — 部位 -4.8%,去年 8 月曾在下跌時要求全數贖回。話術重點:提醒她 2028 退休目標的達成機率仍在 77%。\n2. **張志豪** — 新客戶 (3 個月),第一次經歷下跌。重點:解釋再平衡機制。\n3. **李淑芬** — 持有高波動 ETF,建議討論部分轉換。\n... (另 3 位已列於清單)\n\n每位的話術要點與禁語 (不得保證獲利) 已附。",approve:"要我把這 6 通電話排進你今天 14:00–16:00 的行事曆嗎?"}],
+ cmp:{now:["一天 40% 時間在填表、比對、套版","市場波動時被動等客戶打來","業績報表週五晚上手動彙整"],future:["Agent 處理 KYC、報表與監控,你的時間留給對話","波動當天早上就知道該先打給誰","週報自動生成,你只補一句判斷"]},
+ shifts:[["資料整理員","財務人生教練","從整理商品資料變成傾聽客戶的人生節點。"],["商品推銷者","風險翻譯者","把 AI 的試算翻譯成客戶聽得懂的選擇。"],["被動回應者","主動守門人","AI 監控預警,你在客戶恐慌前先出現。"]]
+},
+{id:"teller",cat:1,icon:"🏦",name:"分行櫃員",en:"Branch Teller",desc:"臨櫃交易、身分驗證、表單與異常處理。你想要的是:少排隊、少錯帳、多一點時間服務真正需要幫忙的人。",
+ title2030:"分行體驗顧問",quote:"櫃台還在,但排隊的人變成了來聊天的人。",agents:["表單辨識 Agent","身分驗證 Agent","異常交易 Agent","服務導引 Agent"],
+ day:[
+  ["08:30","開櫃準備與現金點收","手動點鈔、對帳、開系統,約 40 分鐘。","智慧櫃機夜間已盤點,Agent 生成開櫃檢核表,你只確認差異項。","昨日尾箱與今日開櫃現金一致,無差異。ATM 3 號機補鈔需求已通知保全。","ai",30],
+  ["10:00","高齡客戶匯款","逐欄填寫匯款單、核對受款人,常需重寫。","客戶口述,Agent 即時填單並朗讀確認;疑似詐騙模式立即提示你介入關懷。","此受款帳戶近 7 日被 3 家分行標記為疑似詐騙人頭帳戶,建議啟動關懷提問。","co",15],
+  ["11:30","開戶與 KYC","紙本 + 系統雙重輸入,一位客戶 45 分鐘。","證件 OCR + 生物辨識自動建檔,你負責說明與確認客戶意願,15 分鐘完成。","證件資料已比對戶政系統,職業欄位客戶口述為「自由接案」,請確認收入來源說明。","ai",30],
+  ["14:00","跨櫃錯帳追查","翻傳票、調監視器、跨部門電話。","Agent 比對交易流水與影像時間戳,3 分鐘定位差異交易。","14:02 的 5,000 元差異來自第 2 櫃 11:47 一筆重複輸入,已備妥更正傳票。","ai",50],
+  ["16:00","服務導引與商品轉介","憑經驗判斷誰可能需要理財或貸款。","Agent 依客戶需求訊號提示轉介機會與合規話術,決定開口的是你。","剛辦定存解約的客戶提到「要付小孩學費」,可轉介教育貸款,注意不得搭售。","co",20],
+  ["17:30","關帳與日結","逐筆核對、印報表、簽核,常拖到 18:30。","系統自動日結,Agent 標記 2 筆需人工說明的異常,你 15 分鐘下班。","今日 312 筆交易全數平衡,2 筆大額現金存入已完成申報草稿,待你簽核。","ai",45]],
+ tasks:[["表單填寫與資料輸入",90,"ai","OCR 與語音填單取代手動輸入。"],["身分驗證與 KYC 建檔",80,"ai","生物辨識 + 政府資料比對。"],["日結與對帳",90,"ai","即時平衡,差異自動定位。"],["異常與詐騙警示",60,"co","AI 偵測模式,你負責關懷提問。"],["高齡與弱勢客戶服務",15,"you","耐心、同理與在場感無法自動化。"],["爭議現場處理",10,"you","客戶生氣時需要的是一個人。"]],
+ calc:[6,10,4,20],
+ agent:[
+  {label:"疑似詐騙匯款關懷",prompt:"一位 72 歲客戶要匯 80 萬到一個陌生帳戶,說是投資。幫我判斷並準備關懷提問。",steps:["查詢受款帳戶警示紀錄","比對客戶過去 12 個月交易模式","比對 165 反詐騙資料庫關鍵字","生成關懷提問腳本與通報流程"],reply:"⚠️ **高風險** — 建議啟動關懷提問並暫緩交易\n\n**風險訊號**:\n• 受款帳戶開戶 11 天,近 3 日收到 14 筆來自不同縣市匿名匯款\n• 客戶過去 12 個月單筆最高匯款 6 萬,本次為 13 倍\n• 客戶描述「老師帶單、保證獲利」符合投資詐騙模式\n\n**關懷提問腳本** (請以聊天語氣):\n1. 「阿姨,這個投資是朋友介紹的嗎?有見過面嗎?」\n2. 「他們有說什麼時候可以領回來嗎?」\n3. 「要不要我幫您打給家人一起確認?」\n\n**流程**:若客戶仍堅持,依規定填寫關懷提問紀錄並通報 165。",approve:"是否要我先生成「關懷提問紀錄表」草稿,並通知分行主管到櫃台協助?"},
+  {label:"日結差異追查",prompt:"今天日結差 5,000 元,幫我找出來。",steps:["載入今日 312 筆交易流水","比對系統帳與現金櫃差異","交叉比對監視影像時間戳","定位可疑交易並生成更正傳票"],reply:"找到了 ✅\n\n**差異來源**:第 2 櫃 11:47:32 一筆 5,000 元現金存入被重複輸入 (交易序號 0217 與 0218 內容完全相同,間隔 9 秒)。\n\n**佐證**:監視影像顯示該時段僅一位客戶臨櫃,且僅遞交一次現金。\n\n**建議動作**:沖銷序號 0218,更正傳票已生成,需你與第 2 櫃同仁雙簽。",approve:"要我把更正傳票送到簽核系統,並通知第 2 櫃同仁嗎?"}],
+ cmp:{now:["一位開戶 45 分鐘,客戶排隊 20 分鐘","日結錯帳翻傳票到 18:30","詐騙靠經驗與直覺攔截"],future:["開戶 15 分鐘,多出的時間用來說明與陪伴","日結自動平衡,差異 3 分鐘定位","AI 即時預警,你負責關懷提問"]},
+ shifts:[["輸入員","體驗顧問","從敲鍵盤變成解釋、陪伴與導引。"],["對帳者","例外處理者","只處理系統無法判斷的那 2 筆。"],["流程執行者","詐騙守門人","AI 看見模式,你看見人。"]]
+},
+{id:"branchmgr",cat:1,icon:"🏢",name:"分行經理",en:"Branch Manager",desc:"業績、人員、風險、客訴一手抓。你想要的是:別再被報表與簽核淹沒,把時間留給團隊與大客戶。",
+ title2030:"分行營運指揮官",quote:"我不再問『數字在哪』,而是問『我們該怎麼做』。",agents:["營運儀表 Agent","簽核助理 Agent","人力排班 Agent","客訴洞察 Agent"],
+ day:[
+  ["08:30","晨會前的營運全貌","開 5 個系統看昨日業績、客訴、人力,自己拼湊。","Agent 把業績、風險、客訴、人力壓成一頁「今日重點 3 件事」,含建議動作。","早安。1) 房貸案件積壓 12 件超過 SLA;2) 昨日一則客訴涉及高齡客戶;3) 下午 2 位同仁請假,櫃台人力吃緊。","ai",40],
+  ["10:00","簽核大額交易與例外","逐筆看簽呈、翻規定、找前例。","Agent 附上法規依據、類似前例與風險評分,你只看紅色項目。","本案類似 2029 年 3 起前例皆核准,但客戶職業欄與資金來源不一致,建議退回補件。","co",45],
+  ["11:30","大客戶拜訪","靠關係與記憶,資料在同仁腦裡。","Agent 整理客戶全行往來、集團關係與潛在需求,你帶著洞察去談。","該集團子公司上月在他行開立信用狀 2 億,可能有聯貸需求。","you",20],
+  ["14:00","團隊 1:1 與教練","憑印象與業績數字談。","Agent 提供每位同仁的能力雷達與成長建議,對話的溫度由你給。","小張的轉介成功率 3 個月提升 40%,但 KYC 退件率偏高,可安排法遵同仁協助。","co",20],
+  ["16:00","客訴根因分析","逐案讀客訴內容,難以看出模式。","Agent 分析 90 天客訴,找出 3 個根本原因並提出改善方案。","62% 客訴集中在「等候時間」,尖峰為週一 11:00–12:00,建議調整排班。","ai",50],
+  ["17:30","月報與策略檢討","週末在家寫月報。","Agent 生成月報初稿與 3 個策略選項,你補上判斷與決定。","月報初稿完成。三個提升 AUM 的策略我列了利弊,你比較傾向哪一個?","ai",60]],
+ tasks:[["營運數據彙整與月報",90,"ai","多系統整合、一頁摘要。"],["簽核與例外審查",55,"co","AI 標風險,你負最終責任。"],["客訴分析與流程改善",75,"ai","從個案到模式。"],["人力排班與資源配置",70,"ai","依人流預測自動排班。"],["團隊領導與教練",15,"you","信任、激勵與衝突處理。"],["大客戶關係與策略判斷",20,"you","關係與策略是經理的護城河。"]],
+ calc:[8,10,12,14],
+ agent:[
+  {label:"今日營運簡報",prompt:"幫我準備 5 分鐘晨會簡報,今天最該注意什麼?",steps:["彙整昨日業績、客訴、案件 SLA","比對人力排班與請假紀錄","偵測異常指標 (超過 2 個標準差)","生成 3 件重點與建議動作"],reply:"**今日晨會重點 (3 件事)**\n\n🔴 **房貸案件積壓**:12 件超過 5 日 SLA,主因為估價報告延遲。建議:今日指派 2 人專責追進度。\n\n🟡 **高齡客訴**:昨日一位 78 歲客戶投訴「被推銷保單」,涉及公平待客原則,建議今日親自致電。\n\n🟡 **人力**:下午 2 人請假,預測 14:00–15:00 等候時間將超過 15 分鐘。建議:啟用 1 名後台同仁支援叫號。\n\n✅ 昨日業績達成率 104%,轉介率創單日新高。",approve:"要我把這三件事建立成待辦,並指派給對應同仁嗎?"},
+  {label:"客訴根因分析",prompt:"分析近 90 天客訴,告訴我最該改什麼。",steps:["讀取 147 則客訴文本與分類","主題建模與情緒分析","交叉比對時段、櫃位與人員","生成 3 個根因與改善方案"],reply:"**近 90 天客訴分析 (147 則)**\n\n**根因 1 · 等候時間 (62%)**\n集中在週一 11:00–12:00 與月初 3 日。建議:彈性排班 + 預約制推廣。\n\n**根因 2 · 商品說明不清 (21%)**\n多為結構型商品,建議導入 AI 商品說明輔助與雙錄檢核。\n\n**根因 3 · 表單重填 (11%)**\n主因系統欄位設計,已轉數位部門評估。\n\n預估改善後客訴可下降 45%。",approve:"是否要我草擬給區域主管的改善計畫,並附上數據附件?"}],
+ cmp:{now:["早上開 5 個系統拼湊全貌","簽呈逐筆翻規定,一天 2 小時","月報週末在家寫"],future:["一頁摘要 + 3 件今日重點","AI 附法規與前例,你只看紅色項目","月報自動生成,你補判斷"]},
+ shifts:[["報表消費者","決策者","數字自動來,你負責回答『所以呢』。"],["簽核機器","風險守門人","把時間花在真正有疑慮的案件上。"],["管理者","教練","AI 給你每個人的成長地圖,溫度由你給。"]]
+},
+{id:"contact",cat:1,icon:"🎧",name:"客服中心專員",en:"Contact Center Agent",desc:"每天 80 通電話,查資料、轉接、記錄。你想要的是:少查系統,多解決問題,下班不帶情緒回家。",
+ title2030:"複雜案件解決師",quote:"簡單的問題 AI 接了,留給我的都是值得被好好對待的人。",agents:["語音助理 Agent","知識庫 Agent","情緒偵測 Agent","案件摘要 Agent"],
+ day:[
+  ["08:30","上線前知識更新","翻公告、背新活動規則。","Agent 把昨夜 6 則公告轉成 3 句話 + 常見問答,測驗確認你都懂了。","今日新規:信用卡分期手續費調整,客戶最常問的 3 種情境我已準備答案。","ai",25],
+  ["10:00","一般查詢電話","查餘額、查進度、改資料,佔 70% 通話量。","70% 由 AI 語音助理完成,轉到你手上的是它處理不了的複雜或情緒案件。","來電客戶對信用卡爭議款很不滿,情緒指數高,我已調出交易明細與爭議流程,轉給你。","ai",120],
+  ["11:30","複雜爭議處理","邊聽邊查 3 個系統,客戶等你「稍等一下」。","Agent 即時把相關交易、規定、可用方案推到你螢幕,你專心對話。","此筆爭議款符合 Visa 爭議規則 10.4,可直接受理,退款預估 7–10 日。","co",30],
+  ["14:00","通話後記錄","每通電話手動打 3 分鐘摘要。","Agent 自動生成摘要與分類,你只確認。","案件摘要已生成:客戶要求取消自動扣繳,已完成,並轉介信用卡部門確認年費。","ai",60],
+  ["16:00","情緒高張客戶","硬撐,常被罵到下班。","情緒偵測即時提示緩和策略,並建議何時升級主管,通話後自動安排 5 分鐘恢復時間。","客戶情緒持續升高超過 90 秒,建議使用同理句式並說明明確時程,或轉由主管接手。","co",20],
+  ["17:30","案件追蹤與回饋","下班前補回電、補記錄。","Agent 追蹤未結案件、預排回電、整理當日客戶回饋給產品部門。","今日 5 件待回電已排入明日上午,另有 3 位客戶反映 App 登入問題,已彙整給數位部門。","ai",30]],
+ tasks:[["一般查詢與帳務問題",85,"ai","語音助理 + 知識庫直接回答。"],["通話記錄與案件分類",95,"ai","自動轉錄、摘要、分類。"],["知識庫更新與學習",70,"ai","公告轉問答,個人化學習。"],["爭議與複雜案件處理",45,"co","AI 提供選項,你負責談判與決定。"],["情緒安撫與關係修復",15,"you","被罵之後還能溫柔的,是人。"],["跨部門問題升級",30,"co","AI 彙整,你判斷嚴重度。"]],
+ calc:[8,10,4,18],
+ agent:[
+  {label:"信用卡爭議款",prompt:"客戶說 8/14 有一筆 12,800 元的網購從沒買過,要爭議。",steps:["調出 8/14 交易明細與商店資訊","比對客戶裝置與位置紀錄","檢核 Visa 爭議規則適用條款","生成爭議申請草稿與客戶說明話術"],reply:"**案件分析**\n\n• 交易:8/14 23:47,商店「SHOP-GLOBAL LTD」(境外),12,800 元,3D 驗證未觸發\n• 客戶裝置紀錄:當日 23:00 後無 App 登入,IP 位於台北;交易 IP 位於境外\n• 判定:符合「未經授權交易」爭議條件 (規則 10.4)\n\n**建議話術**:\n「陳小姐,這筆交易我幫您確認過,符合爭議申請條件。我現在就幫您送出,並先停卡補發新卡,退款預計 7–10 個工作日,過程中有任何進度我會主動通知您。」\n\n爭議申請表已預填完成。",approve:"是否送出爭議申請並執行停卡補發?"},
+  {label:"通話後自動摘要",prompt:"幫我把剛剛那通 12 分鐘的電話做成案件摘要。",steps:["讀取通話轉錄文本","擷取客戶需求、承諾與待辦","分類案件類型與情緒標記","生成 CRM 摘要格式"],reply:"**案件摘要 #CC-20300907-0312**\n\n**客戶需求**:取消房貸自動扣繳,改為每月手動轉帳\n**處理結果**:已完成取消 (生效日 10/01),客戶知悉需在每月 5 日前繳款\n**衍生需求**:客戶詢問提前還款是否有違約金 → 已轉介房貸部,預計 2 日內回覆\n**情緒**:平穩 → 滿意\n**待辦**:9/9 追蹤房貸部回覆狀態",approve:"要我存入 CRM 並建立 9/9 的追蹤提醒嗎?"}],
+ cmp:{now:["80 通電話,70% 是查餘額改資料","每通結束手打 3 分鐘記錄","被罵完立刻接下一通"],future:["AI 接走 70% 簡單查詢,你處理值得的 20 通","摘要自動生成,你只確認","情緒偵測 + 恢復時間,把人當人"]},
+ shifts:[["查詢機器","問題解決師","留給你的都是複雜、需要判斷的案件。"],["記錄員","對話者","專心聽,不用邊聽邊打字。"],["情緒承受者","關係修復者","AI 幫你撐住第一波,你負責讓客戶重新信任。"]]
+},
+{id:"mortgage",cat:1,icon:"🏠",name:"房貸 / 消金承辦",en:"Mortgage & Consumer Loan Officer",desc:"收件、徵信、估價、對保、撥款。你想要的是:案件不再卡在文件與等待,把時間花在幫客戶找到最好的方案。",
+ title2030:"融資方案設計師",quote:"我不再追文件,我在幫一個家庭算得起未來。",agents:["文件審核 Agent","估價 Agent","徵信摘要 Agent","對保助理 Agent"],
+ day:[
+  ["08:30","案件進度總覽","翻 Excel 追每件卡在哪,打電話問代書。","Agent 依系統與 Email 自動更新 28 件案件狀態,標出 4 件會超過 SLA。","4 件案件估價報告延遲,已自動催辦估價公司並預估 2 日內回覆。","ai",35],
+  ["10:00","文件收件與審核","逐頁看薪資單、存摺、謄本,找缺漏。","Agent OCR 讀取並比對一致性,標出缺件、塗改與收入異常,你確認例外。","客戶提供的薪轉存摺 6 月入帳金額與薪資單差異 18%,可能含年中獎金,建議確認。","ai",60],
+  ["11:30","客戶需求面談","照制式問題問,方案只有 2–3 種。","你專注了解家庭現金流與人生規劃,Agent 即時模擬 6 種還款方案的每月負擔。","若採 30 年寬限期 3 年方案,前 3 年月付 3.2 萬;第 4 年起 5.8 萬,超過客戶說的 5 萬上限。","you",20],
+  ["14:00","徵信與授信報告","查聯徵、算 DBR、寫報告,一件 90 分鐘。","Agent 生成徵信摘要、負債比與風險評分,附建議額度與理由,你審閱並決定送件條件。","客戶 DBR 18 倍,近 3 個月新增 2 張信用卡,建議額度 1,200 萬、利率加碼 0.1%。","co",70],
+  ["16:00","對保安排與說明","協調客戶、代書、保證人時間,反覆電話。","Agent 協調三方行事曆、發送對保文件預覽與影片說明,你只在對保現場確認意願。","對保已排定 9/11 10:00,客戶已觀看說明影片並提出 2 個問題,已附回覆草稿。","ai",40],
+  ["17:30","撥款與結案","核對帳號、印撥款單、通知客戶。","系統自動撥款檢核,Agent 通知客戶並產生還款提醒設定。","3 件今日撥款已完成檢核,客戶通知與首期繳款提醒已寄出。","ai",30]],
+ tasks:[["文件審核與缺件追蹤",90,"ai","OCR、一致性比對、自動催件。"],["徵信與負債比計算",85,"ai","結構化資料,規則明確。"],["估價與擔保品評估",70,"ai","AVM 自動估價,例外送人工。"],["授信條件與額度決定",50,"co","AI 建議,你負責授信判斷。"],["客戶需求了解與方案設計",25,"you","了解一個家庭的財務人生。"],["困難案件溝通",15,"you","被婉拒的客戶需要被解釋,不是被通知。"]],
+ calc:[10,12,6,12],
+ agent:[
+  {label:"房貸方案模擬",prompt:"客戶年收 180 萬,想買 2,400 萬的房子,自備 600 萬,幫我模擬方案。",steps:["查詢聯徵與現有負債","計算 DBR 與可貸額度","載入今日利率與方案規則","模擬 6 種還款組合與月負擔"],reply:"**可貸額度**:1,800 萬 (貸款成數 75%,DBR 約 12 倍,符合規範)\n\n**方案比較 (月付)**:\n| 方案 | 年期 | 寬限期 | 月付 (前期/後期) |\n|---|---|---|---|\n| A 標準 | 30 年 | 無 | 6.8 萬 |\n| B 寬限 | 30 年 | 3 年 | 3.2 萬 / 7.6 萬 |\n| C 長年期 | 40 年 | 無 | 5.7 萬 |\n\n**提醒**:客戶年收 180 萬,月收約 15 萬,方案 B 後期月付 7.6 萬佔比 51%,超過建議上限 40%,需向客戶充分揭露。\n\n**建議切入**:先問「三年後收入預期會怎麼變」,再選 B 或 C。",approve:"要我生成三方案比較表 PDF,並排入客戶面談議程嗎?"},
+  {label:"文件缺件自動追蹤",prompt:"檢查案件 #ML-3312 的文件,還缺什麼?",steps:["讀取案件 14 份已上傳文件","OCR 辨識並比對必要文件清單","檢核文件有效期與一致性","生成缺件通知草稿"],reply:"**案件 #ML-3312 文件檢核**\n\n✅ 已齊全 (11/14):身分證、戶籍謄本、薪資單 (3 月)、所得清單、買賣契約...\n\n❌ **缺件 (3)**:\n1. 財力證明:存摺封面與內頁 (近 6 月)\n2. 建物謄本:已上傳版本為 6/20,超過 1 個月需重新申請\n3. 保證人同意書:未簽名\n\n⚠️ **一致性提醒**:買賣契約買方姓名「陳志明」,身分證為「陳志銘」,需確認是否誤植。\n\n缺件通知已草擬 (LINE + Email 版本)。",approve:"要我發送缺件通知給客戶與代書嗎?"}],
+ cmp:{now:["一件案子追文件 2 週","徵信報告一件 90 分鐘","方案只有制式 2–3 種"],future:["AI 審件催件,你只看例外","徵信摘要 5 分鐘,你做授信判斷","6 種方案即時模擬,幫家庭算得起"]},
+ shifts:[["文件追蹤員","方案設計師","了解一個家庭,而不是一疊文件。"],["流程執行者","授信判斷者","AI 算數字,你判斷風險與人。"],["通知者","解釋者","被婉拒的客戶,需要有人好好說明。"]]
+},
+{id:"corprm",cat:2,icon:"🤝",name:"企業金融關係經理",en:"Corporate Relationship Manager",desc:"拜訪企業、做財報分析、寫授信簽呈。你想要的是:少做簡報、少寫簽呈,多坐在客戶的財務長旁邊。",
+ title2030:"企業成長夥伴",quote:"AI 讀完財報,我讀的是這家公司的野心。",agents:["財報分析 Agent","產業情報 Agent","簽呈撰寫 Agent","集團關係 Agent"],
+ day:[
+  ["08:30","客戶產業動態","看新聞、翻研究報告,拼湊產業訊息。","Agent 追蹤 40 家客戶的新聞、法說、供應鏈與匯率曝險,推送「今天該知道的 5 件事」。","客戶 A 主要供應商昨日宣布停產,可能影響其 Q4 營收;客戶 B 公告擴廠,可能有 8 億中長期資金需求。","ai",40],
+  ["10:00","財報分析與預審","下載財報、做 Excel、算比率,一家 3 小時。","Agent 生成財務分析摘要、同業比較與異常科目說明,你決定要深挖哪裡。","客戶存貨週轉天數由 45 天增至 78 天,同業平均 50 天,建議面談時了解原因。","ai",120],
+  ["11:30","客戶財務長拜訪","帶簡報、聽需求、回來再想方案。","你帶著 Agent 的洞察與初步方案去談,面談中 Agent 即時試算聯貸與利率情境。","財務長剛提到的 3 年期 10 億聯貸,依目前市場,主辦費率區間 0.35–0.45%。","you",30],
+  ["14:00","授信簽呈撰寫","寫 30 頁簽呈,一半時間在找資料與排版。","口述授信邏輯與風險看法,Agent 生成簽呈草稿、五 P 分析與擔保品評估,你精修關鍵段落。","簽呈草稿完成。風險段我依你的口述寫了「產業景氣循環」風險,是否要補充匯率曝險?","co",150],
+  ["16:00","集團往來檢視","靠記憶與同事,關係圖在腦袋裡。","Agent 繪製集團關係圖與全行往來,找出交叉銷售與集中度風險。","該集團 3 家子公司在本行往來,合計曝險 22 億,接近集團限額 25 億。","ai",40],
+  ["17:30","業務週報","週五晚上填 pipeline 表。","Agent 從 CRM 與 Email 自動更新 pipeline,你補判斷與下一步。","本週 pipeline 新增 2 案、推進 3 案、1 案客戶轉他行,已附原因分析。","ai",40]],
+ tasks:[["財報分析與同業比較",85,"ai","結構化財務資料,AI 擅長。"],["產業與客戶情報蒐集",90,"ai","即時追蹤與摘要。"],["授信簽呈撰寫",70,"co","AI 生成草稿,風險判斷是你的。"],["集團關係與曝險管理",75,"ai","關係圖與限額自動計算。"],["客戶關係與需求發掘",15,"you","坐在財務長旁邊的信任。"],["聯貸條件談判",20,"you","談判是人與人的事。"]],
+ calc:[10,14,8,10],
+ agent:[
+  {label:"拜訪前企業分析",prompt:"明天要拜訪 XX 光電的財務長,幫我準備。",steps:["讀取近 3 年財報與最新季報","蒐集近 30 日新聞、法說與同業動態","分析本行往來與集團曝險","偵測潛在資金需求訊號","生成拜訪重點與提問清單"],reply:"**XX 光電 · 拜訪簡報**\n\n**財務亮點**:Q2 營收 YoY +18%,毛利率 24% (同業 19%),但存貨週轉天數 78 天 (同業 50) 值得追問。\n\n**近期訊號**:\n• 8/28 董事會通過越南擴廠 12 億,尚未公告資金來源 → **聯貸機會**\n• 美元應收占 65%,近月台幣升值 → 可談避險方案\n\n**本行往來**:短期額度 5 億 (動用率 40%),無中長期往來\n\n**建議提問**:\n1. 越南擴廠的資金結構規劃?\n2. 存貨增加是備貨還是滯銷?\n3. 匯率避險目前怎麼做?",approve:"要我生成一頁式拜訪簡報,並排進明天的行事曆附件嗎?"},
+  {label:"授信簽呈草稿",prompt:"幫我寫 XX 光電 12 億中長期授信簽呈的草稿,我的看法是產業景氣風險可接受,重點在擔保品。",steps:["載入財報分析與五 P 資料","檢核授信政策與產業限額","評估擬提供擔保品 (廠房 + 機器設備)","生成簽呈草稿 (含風險與因應)"],reply:"**簽呈草稿已生成 (28 頁)**,重點摘要:\n\n**申請**:中長期擔保授信 12 億,7 年,寬限 2 年\n**用途**:越南廠建置\n**五 P 摘要**:借款戶信用良好 (TCRI 4)、資金用途明確、還款來源為新廠產能 (保守估 EBITDA 覆蓋倍數 2.1x)\n**擔保**:越南廠房 + 設備,估值 15 億,擔保覆蓋率 125%\n\n**風險 (依你的方向)**:\n• 產業景氣循環 → 中風險,以財務承諾 (DSCR ≥1.3) 因應\n• 海外擔保品執行風險 → 建議加母公司保證\n\n⚠️ 政策提醒:光電業產業限額使用率將達 88%。",approve:"是否將草稿送至你的簽呈系統為「待編輯」狀態?"}],
+ cmp:{now:["一家財報分析 3 小時","一份簽呈 2 天,一半在排版","客戶動態靠新聞與運氣"],future:["AI 分析摘要,你決定深挖哪裡","口述邏輯,AI 寫草稿,你精修風險段","40 家客戶動態每天早上推給你"]},
+ shifts:[["財報分析員","成長夥伴","讀懂數字之後,讀懂這家公司想去哪。"],["簽呈寫手","風險判斷者","把時間花在『我怎麼看』,不是『怎麼排版』。"],["拜訪者","顧問","帶著洞察與方案去,不是帶著簡報去。"]]
+},
+{id:"credit",cat:2,icon:"🔍",name:"信用審查人員",en:"Credit Analyst",desc:"審簽呈、查資料、找風險、寫審查意見。你想要的是:少翻文件,多想真正的風險在哪裡。",
+ title2030:"風險判斷架構師",quote:"AI 找出所有不一致,我判斷哪些真的重要。",agents:["文件比對 Agent","財務異常 Agent","前例檢索 Agent","審查意見 Agent"],
+ day:[
+  ["08:30","案件分派與初篩","逐件打開簽呈,看哪件複雜。","Agent 依金額、產業、複雜度與政策例外自動分級,你先看高風險的。","今日 9 件,3 件觸及政策例外 (集中度、保證人資格),建議優先審查。","ai",30],
+  ["10:00","文件一致性檢核","對財報、簽呈、擔保品資料,找矛盾。","Agent 交叉比對所有附件,列出 7 處不一致與嚴重度。","簽呈稱營收成長 18%,但財報附註顯示含一次性處分利益 6%,實質成長 12%。","ai",90],
+  ["11:30","與業務單位討論","來回 Email、開會問細節。","Agent 生成問題清單並整理業務回覆,你只針對關鍵疑點深談。","業務單位已回覆 5 個問題,其中「存貨增加原因」的回答與財報附註不符,建議追問。","co",30],
+  ["14:00","風險評估與前例比對","靠記憶找類似案件與結果。","Agent 檢索 5 年內類似案件、核准條件與後續表現,提供決策參考。","類似產業、規模的 12 件前例中,3 件於第 3 年出現逾期,共同特徵為客戶集中度 > 60%。","ai",60],
+  ["16:00","審查意見撰寫","寫 8 頁審查意見,重複描述案件背景。","Agent 生成背景與數據段,你只寫「審查看法與條件」那一頁。","審查意見草稿完成,請撰寫核心看法。我依前例建議增加「客戶集中度改善承諾」條件。","co",60],
+  ["17:30","組合風險回顧","每月才做一次組合檢視。","Agent 每日更新產業與集中度變化,今日核准案件對組合的邊際影響即時可見。","今日核准的 3 件將使光電業曝險由 84% 升至 88% 限額,請留意。","ai",30]],
+ tasks:[["文件審閱與一致性檢核",90,"ai","AI 不會漏看附註。"],["財務比率與異常偵測",90,"ai","結構化計算與同業比較。"],["前例檢索與結果追蹤",85,"ai","記憶力不再是限制。"],["審查意見撰寫",60,"co","背景自動化,看法是你的。"],["風險判斷與條件設計",25,"you","哪些風險真的重要,由你定。"],["與業務單位協商",20,"you","立場不同的人,需要人來談。"]],
+ calc:[12,12,6,10],
+ agent:[
+  {label:"簽呈矛盾點掃描",prompt:"掃描 XX 光電 12 億授信簽呈,列出所有需要注意的不一致。",steps:["解析簽呈與 14 份附件","交叉比對財報、簽呈敘述與擔保品資料","檢核政策例外與限額","依嚴重度排序不一致項目"],reply:"**發現 7 處不一致,3 處為高嚴重度**\n\n🔴 **高**\n1. 簽呈稱營收成長 18%,財報附註 12 顯示含一次性處分利益,實質約 12%\n2. 擔保品估值 15 億採 2029 年估價,越南當地商用不動產近 1 年下跌約 8%\n3. 保證人 (母公司) 淨值 22 億,但已為 3 家子公司保證合計 30 億\n\n🟡 **中**\n4. 存貨週轉天數惡化未於風險段說明\n5. DSCR 計算採用樂觀產能利用率 (85%)\n... (另 2 項)\n\n**政策提醒**:光電業限額使用率將達 88%。",approve:"要我把這 7 點整理成給業務單位的問題清單並發送嗎?"},
+  {label:"類似前例檢索",prompt:"找出近 5 年跟這案類似的授信案件,以及它們後來怎麼了。",steps:["定義相似度特徵 (產業/規模/用途/擔保)","檢索 5 年內 1,240 件授信紀錄","篩選 12 件高相似案件","比對核准條件與後續表現"],reply:"**12 件相似案件分析**\n\n**表現**:9 件正常、3 件曾逾期 (第 2–3 年)\n\n**逾期案件共同特徵**:\n• 客戶集中度 > 60% (前三大客戶)\n• 海外擴廠且未附母公司保證\n• 核准時 DSCR 估算 < 1.5\n\n**本案比對**:客戶集中度 58%、海外擴廠、擬附母公司保證、DSCR 估算 1.6 → **與逾期組有 1.5 項重疊**\n\n**建議條件**:\n1. 財務承諾 DSCR ≥ 1.3 (季檢視)\n2. 客戶集中度 2 年內降至 50% 以下\n3. 第 3 年起擔保品重估",approve:"要我把這三項建議條件寫入審查意見草稿嗎?"}],
+ cmp:{now:["逐頁翻附件找矛盾,一件 3 小時","前例靠記憶與資深同事","審查意見一半在重述背景"],future:["AI 列出 7 處不一致,你判斷哪些重要","12 件前例與後續表現 1 分鐘","你只寫『看法與條件』那一頁"]},
+ shifts:[["文件核對者","風險架構師","設計條件、定義可接受的風險。"],["記憶依賴者","前例分析師","組織記憶變成可檢索的知識。"],["審查員","協商者","跟業務單位談的不再是資料,而是判斷。"]]
+},
+{id:"ibanalyst",cat:2,icon:"📊",name:"投資銀行分析師",en:"Investment Banking Analyst",desc:"估值模型、pitch book、DD 資料室。你想要的是:半夜兩點不再改字型,把腦力用在真正的交易判斷。",
+ title2030:"交易洞察策略師",quote:"模型 AI 建,故事我來講。",agents:["估值模型 Agent","Pitch Book Agent","DD 資料室 Agent","市場情報 Agent"],
+ day:[
+  ["08:30","市場與可比公司更新","手動更新 comps 表、抓股價、對財報。","Agent 每日自動更新可比公司倍數、交易前例與市場情緒,標出異動。","可比公司 3 家昨夜公布財報,EV/EBITDA 中位數由 11.2x 降至 10.6x,已更新模型。","ai",60],
+  ["10:00","估值模型建構","從零建 DCF、LBO,一週改 30 版。","口述假設與情境,Agent 建模並做敏感度分析,你檢查邏輯與假設合理性。","DCF 完成,WACC 8.2%,終值成長率 2.5%。敏感度顯示估值區間 42–58 億,主要受毛利率假設影響。","co",180],
+  ["11:30","客戶會議","MD 講,你記筆記、回來改 deck。","Agent 即時轉錄、擷取客戶要求與待辦,會後 10 分鐘生成修改清單。","客戶要求增加「亞洲策略買家」名單與「分拆情境」估值,已建立待辦並開始準備。","co",30],
+  ["14:00","Pitch Book 製作","改字型、對齊、更新數字到半夜。","Agent 依模板生成 pitch book 初稿並自動連動模型數字,你專注在敘事邏輯。","Pitch book 初稿 42 頁完成,所有數字已連動模型。第 12 頁的敘事我提供了 2 種版本供選擇。","ai",240],
+  ["16:00","DD 資料室管理","整理數千份文件、回答買方問題清單。","Agent 自動分類資料室文件、標記缺漏、草擬 Q&A 回覆,你審閱敏感問題。","買方提出 38 個問題,32 個可從資料室文件直接回答 (草稿已備),6 個涉及敏感資訊需你決定揭露程度。","ai",120],
+  ["17:30","交易情報與買家名單","翻資料庫、憑印象列潛在買家。","Agent 依策略契合度、財務能力與近期併購紀錄產生買家名單與接觸理由。","潛在買家 24 家,依契合度排序,其中 3 家近 6 個月表達過對東南亞資產的興趣。","ai",90]],
+ tasks:[["可比公司與市場資料更新",95,"ai","完全結構化的重複工作。"],["估值模型建構與敏感度",75,"co","AI 建模,你審假設。"],["Pitch Book 製作與排版",90,"ai","半夜改字型的日子結束了。"],["DD 資料室與 Q&A",80,"ai","分類、檢索、草擬。"],["交易敘事與策略判斷",25,"you","為什麼這個交易合理,由你講。"],["客戶與對手互動",15,"you","建立信任、讀懂弦外之音。"]],
+ calc:[14,20,6,8],
+ agent:[
+  {label:"快速估值與情境",prompt:"幫我對一家年營收 120 億、EBITDA 18 億的食品公司做初步估值,含分拆情境。",steps:["篩選可比公司 (食品/亞太/規模相近)","載入交易前例倍數","建構 DCF 基礎假設","模擬整體出售 vs 分拆情境","生成估值足球場圖"],reply:"**初步估值摘要**\n\n**可比公司法**:EV/EBITDA 9.5–12.0x → EV **171–216 億**\n**交易前例法**:含控制權溢價 11.0–13.5x → EV **198–243 億**\n**DCF** (WACC 7.8%, g 2%):EV **185–225 億**\n\n**分拆情境**:\n• 零售品牌事業 (EBITDA 12 億) @ 13x = 156 億\n• 代工事業 (EBITDA 6 億) @ 8x = 48 億\n• 合計 204 億 vs 整體中位數 205 億 → **分拆無明顯溢價**,但可吸引不同類型買家\n\n足球場圖已生成。**建議**:向客戶說明分拆的價值在買家多元性,非估值提升。",approve:"要我把估值摘要與足球場圖放進 pitch book 第 8–9 頁嗎?"},
+  {label:"DD 問題清單回覆",prompt:"買方寄來 38 個 DD 問題,幫我先處理。",steps:["解析問題清單並分類 (財務/法務/營運/HR)","檢索資料室 2,340 份文件","草擬可直接回答的問題","標記需管理層或敏感判斷的問題"],reply:"**38 個問題處理狀態**\n\n✅ **32 個可直接回答** (草稿已備,附文件索引)\n例:Q7「近 3 年客戶集中度」→ 資料室 3.2.4 財務附錄,前五大客戶 34%\n\n⚠️ **6 個需你決定揭露程度**:\n• Q12 進行中訴訟的和解金額預估\n• Q19 關鍵員工留任協議細節\n• Q23 未公開的新產品線毛利率\n• Q27 主要供應商合約續約條件\n• Q31 稅務查核進度\n• Q35 關係人交易明細\n\n**建議**:Q12、Q31 建議由法務審閱後於第二階段揭露。",approve:"是否將 32 份草稿回覆送至 VP 審閱佇列?"}],
+ cmp:{now:["半夜 2 點在改 pitch book 字型","comps 表手動更新,常有錯","DD 問題逐一翻資料室"],future:["Pitch book 自動連動模型,你專注敘事","可比公司每日自動更新","32/38 個 DD 問題自動草擬"]},
+ shifts:[["Excel 操作員","估值判斷者","AI 建模,你審假設、講故事。"],["排版工","敘事設計師","為什麼這筆交易合理,由你來講。"],["資料室管理員","揭露策略者","決定什麼時候、跟誰、揭露什麼。"]]
+},
+{id:"treasury",cat:2,icon:"💱",name:"資金部交易員",en:"Treasury / FX Dealer",desc:"報價、避險、流動性管理、盯盤。你想要的是:別再手動填部位表,把注意力留給真正需要判斷的行情。",
+ title2030:"流動性與風險策略師",quote:"AI 盯 200 個螢幕,我盯那個真正重要的訊號。",agents:["部位監控 Agent","報價 Agent","流動性預測 Agent","市場事件 Agent"],
+ day:[
+  ["07:30","開盤前市場摘要","看彭博、讀夜盤、整理部位,自己判斷今天重點。","Agent 整理隔夜市場、央行動態與本行部位曝險,給出「今天的 3 個關鍵風險」。","隔夜美債殖利率 +12bp,本行 USD 部位 DV01 曝險 180 萬,建議開盤前檢視避險比率。","ai",40],
+  ["09:00","企業客戶報價","客戶來電,手動查價、算利差、報價。","Agent 依客戶分級、部位、市場深度即時建議報價區間,你按下確認或調整。","客戶 A 詢價 USD/TWD 500 萬遠期 3 個月,建議報價 31.42–31.45,含利差 3 pips。","co",60],
+  ["11:00","流動性管理","手動算日終部位、預估現金流。","Agent 預測日內現金流與 LCR 變化,提前建議拆借或投資動作。","預估 15:00 前有 12 億大額匯出,LCR 仍達 128%,但建議午盤前補 5 億隔夜拆入以保留緩衝。","ai",45],
+  ["13:30","避險策略調整","憑經驗調整,回測靠 Excel。","Agent 模擬 5 種避險組合在不同情境下的損益,你選擇策略。","若 Fed 明日升息 25bp,現行避險組合損益 -320 萬;調整為組合 C 可壓至 -80 萬,成本增加 45 萬。","co",60],
+  ["15:30","日終部位與風險報告","手動填部位表、計算 VaR、發報告。","系統自動生成部位、VaR、限額使用率,Agent 標出異常並撰寫說明。","日終 VaR 4,200 萬,限額使用率 84%,主要來自 USD 利率部位,說明已附。","ai",50],
+  ["17:00","市場事件研究","下班後讀研究報告、準備明天。","Agent 追蹤明日事件 (央行、數據) 並模擬對部位的影響,你只讀關鍵情境。","明日 20:30 美國 CPI,市場預期 3.2%。若高於 3.5%,本行部位預估損失 280 萬,已備妥應對選項。","ai",40]],
+ tasks:[["市場資訊整理與監控",90,"ai","24 小時多市場即時掃描。"],["部位計算與風險報告",95,"ai","即時、自動、無誤。"],["客戶報價",65,"co","AI 建議區間,你決定報價。"],["流動性預測與管理",75,"ai","現金流預測與 LCR 模擬。"],["避險策略與交易決策",30,"you","在不確定中下決定,是交易員的核心。"],["重大事件判斷與應變",20,"you","黑天鵝時,人類判斷仍是最後防線。"]],
+ calc:[10,10,4,16],
+ agent:[
+  {label:"事件情境模擬",prompt:"明天美國 CPI 公布,幫我模擬對本行部位的影響與應對選項。",steps:["載入本行 FX、利率部位與現行避險","擷取市場預期與選擇權隱含波動率","模擬 3 種 CPI 情境 (低/符合/高於預期)","計算各情境損益與 VaR 變化","生成應對選項與成本"],reply:"**CPI 事件模擬 (公布 20:30)**\n\n| 情境 | 機率 | USD/TWD | 部位損益 | VaR 變化 |\n|---|---|---|---|---|\n| 低於預期 (<3.0%) | 25% | -0.3% | +150 萬 | -5% |\n| 符合 (3.0–3.4%) | 50% | ±0.1% | ±40 萬 | 持平 |\n| 高於預期 (>3.5%) | 25% | +0.6% | **-280 萬** | +18% |\n\n**應對選項**:\nA. 維持現狀 — 期望值 -12 萬,尾端風險 -280 萬\nB. 買入 USD/TWD 買權 (1 週) — 成本 45 萬,尾端風險壓至 -90 萬\nC. 減碼 30% 部位 — 無成本,但放棄低於預期時的獲利\n\n**建議**:若你對「高於預期」機率看法 > 30%,選 B。",approve:"要我把選項 B 的交易單準備好放入待執行佇列 (需你確認執行) 嗎?"},
+  {label:"企業客戶報價",prompt:"客戶 XX 光電問 USD/TWD 遠期 3 個月 500 萬美元賣出,幫我報價。",steps:["查詢即期與 3 個月換匯點","檢查客戶信用額度與往來分級","比對本行部位與市場深度","計算建議利差與報價"],reply:"**報價建議**\n\n即期:31.385 / 3M 換匯點:-0.062\n遠期中價:**31.323**\n\n客戶分級:A 級 (年交易量 8,000 萬,建議利差 2–4 pips)\n本行部位:目前 USD 略多頭,此筆客戶賣出 USD 有助部位平衡 → 可給較優報價\n\n**建議報價**:**31.305** (利差 1.8 pips,含部位獎勵)\n區間:31.295–31.315\n\n額度檢核:客戶遠期額度剩餘 1,200 萬美元 ✅",approve:"要以 31.305 回報客戶並鎖定 30 秒嗎?"}],
+ cmp:{now:["開盤前 40 分鐘拼湊市場全貌","日終部位表手動填、常晚下班","事件影響靠經驗與感覺"],future:["3 個關鍵風險自動推送","部位與 VaR 即時、自動","3 種情境損益與應對選項,你選"]},
+ shifts:[["盯盤者","策略師","AI 盯 200 個螢幕,你決定策略。"],["報價員","關係定價者","報價區間 AI 給,給誰優惠你定。"],["報表製作者","風險解釋者","跟主管講的不再是數字,而是為什麼。"]]
+},
+{id:"finance",cat:2,icon:"🧮",name:"財務 / 會計人員",en:"Finance & Accounting (Bank)",desc:"月結、對帳、財報、法定申報。你想要的是:月底不用加班到深夜,把時間花在分析而不是核對。",
+ title2030:"財務洞察夥伴",quote:"月結從 10 天變 3 天,我終於有時間看『為什麼』。",agents:["對帳 Agent","分錄 Agent","申報 Agent","差異分析 Agent"],
+ day:[
+  ["08:30","銀行與內部對帳","逐筆對帳、找差異,每天 2 小時。","Agent 自動對帳 99.7%,只把 12 筆無法配對的交易與建議原因給你。","今日 4,312 筆交易自動配對 4,300 筆,12 筆待處理,其中 8 筆疑為手續費入帳時間差。","ai",100],
+  ["10:00","應計與調整分錄","翻合約、算應計、手動輸入分錄。","Agent 依合約與規則生成應計分錄與支持文件,你審閱核准。","本月應計利息、租金與獎金分錄共 47 筆已生成,3 筆金額與上月差異 > 20%,已標記說明。","ai",60],
+  ["11:30","月結差異分析","主管問「為什麼費用增加」,翻半天。","Agent 即時分解差異到科目、部門與單筆交易,你判斷是否合理。","行政費用 MoM +18%,主因 IT 部門一次性授權費 320 萬,屬預算內,其餘變動正常。","co",50],
+  ["14:00","法定申報準備","手動填報表,格式年年改。","Agent 依最新法規格式生成申報草稿並自動檢核,你複核簽署。","金管會 Q3 申報 14 張表已生成,交叉檢核通過,2 處需你確認科目歸類。","ai",90],
+  ["16:00","預算與預測","Excel 拉歷史資料、加成長率。","Agent 依業務 driver 生成滾動預測與情境,你討論假設。","若明年放款成長 8%、淨利差持平,預估淨利 +6.2%;若 Fed 降息 2 碼,則為 +3.8%。","co",60],
+  ["17:30","財報附註與揭露","對照 IFRS 逐條檢查揭露。","Agent 檢核 IFRS 揭露完整性與一致性,標出遺漏或矛盾。","IFRS 9 預期信用損失揭露與風險管理章節數字一致;IFRS 16 租賃到期分析缺一項,已補草稿。","ai",50]],
+ tasks:[["對帳與交易配對",95,"ai","規則明確、量大、重複。"],["分錄與月結作業",85,"ai","依規則生成,人複核。"],["法定申報與格式檢核",85,"ai","法規格式化,自動生成檢核。"],["差異分析與說明",60,"co","AI 分解,你判斷合理性。"],["預算假設與財務判斷",30,"you","假設是管理判斷,不是計算。"],["審計溝通與會計政策決定",20,"you","會計政策選擇是專業判斷。"]],
+ calc:[14,14,5,7],
+ agent:[
+  {label:"月結差異分析",prompt:"本月營業費用比上月多 12%,幫我找出原因並寫說明。",steps:["載入本月與上月總帳明細","分解差異至科目與部門","識別一次性 vs 經常性項目","比對預算與核准紀錄","生成主管說明段落"],reply:"**營業費用差異分析 (MoM +12%,+2,840 萬)**\n\n**主要來源**:\n1. IT 軟體授權費 +1,920 萬 (68%) — 一次性,年度授權於本月入帳,預算內 ✅\n2. 行銷費用 +580 萬 (20%) — 新卡活動,已核准 ✅\n3. 人事費用 +260 萬 (9%) — 年中調薪生效,符合預期 ✅\n4. 其他 +80 萬 (3%) — 正常波動\n\n**調整後經常性費用 MoM**:+3.2%,與業務成長一致。\n\n**建議說明**:「本月費用增加主因 IT 年度授權費一次性入帳,排除後經常性費用成長 3.2%,符合預算。」",approve:"要我把這段說明加進月報,並附差異分解表嗎?"},
+  {label:"申報表自動檢核",prompt:"檢查 Q3 金管會申報的 14 張表有沒有問題。",steps:["載入 14 張申報表草稿","執行表間交叉檢核 (86 條規則)","比對總帳與財報數字","檢核最新申報格式版本"],reply:"**Q3 申報檢核結果**\n\n✅ 84/86 條交叉檢核通過\n\n⚠️ **2 處需確認**:\n1. 表 AI-3 「其他放款」 vs 總帳 1330 科目差異 120 萬 — 疑為新產品「綠色貸款」歸類,請確認應列「其他」或「企業放款」\n2. 表 AI-9 流動性缺口第 3 區間與 LCR 報表數字相差 0.3%,屬四捨五入層級,建議統一取位\n\n📋 格式:已採用 2030 年 7 月版本 (新增 ESG 曝險欄位),ESG 欄位已依放款標籤自動填入。",approve:"確認後是否要我生成申報檔並送至主管簽核?"}],
+ cmp:{now:["月結 10 天,最後 3 天加班到深夜","對帳每天 2 小時逐筆核對","主管問差異,翻半天才回答"],future:["月結 3 天,你花時間看『為什麼』","99.7% 自動配對,你只看 12 筆","差異即時分解,你判斷合理性"]},
+ shifts:[["核對者","分析者","從『對不對』升級到『為什麼』。"],["報表製作者","洞察提供者","主管要的不是表,是判斷。"],["月底救火隊","財務夥伴","有時間坐在業務旁邊談預算假設。"]]
+},
+
+// ===== 角色資料 (2/3):保險、證券與投資 =====
+{id:"insagent",cat:3,icon:"☂️",name:"保險業務員",en:"Insurance Agent",desc:"開發客戶、需求分析、建議書、保全服務。你想要的是:少一點行政,多一點真正被信任的對話。",
+ title2030:"家庭風險規劃師",quote:"AI 算保額,我陪一個家庭想像最壞的情況,然後一起安心。",agents:["需求分析 Agent","建議書 Agent","保全服務 Agent","續期提醒 Agent"],
+ day:[
+  ["08:30","今日客戶名單","翻筆記本,想今天要約誰。","Agent 依人生事件 (生子、換工作、房貸)、保單到期與理賠紀錄,列出今天最該聯繫的 6 位。","陳太太上月剛生第二胎,家庭保障缺口預估 800 萬,建議本週安排家庭保障檢視。","ai",30],
+  ["10:00","需求分析與保額試算","手算保額、翻費率表,客戶邊等邊滑手機。","客戶口述家庭狀況,Agent 即時計算保障缺口、模擬 3 種方案,你專注解釋「為什麼」。","依雙薪家庭、房貸 1,200 萬、兩個孩子,壽險缺口 1,800 萬;方案 B 年繳 8.6 萬最接近預算。","co",40],
+  ["11:30","客戶面談","從商品開始講,客戶覺得被推銷。","從人生風險開始聊,Agent 在旁備妥每個問題的數據與話術,你決定怎麼說。","客戶問「失能險真的需要嗎」,可分享:35–45 歲失能主因為意外與癌症,失能後平均照護月費 5–7 萬。","you",20],
+  ["14:00","建議書與要保文件","套版填資料、列印、簽名,漏填就重跑。","Agent 生成合規建議書與電子要保文件,自動檢核適合度與告知事項,你陪客戶確認。","建議書與要保書已生成,注意:客戶 3 年內有住院紀錄,健康告知第 7 項需如實填寫。","ai",60],
+  ["16:00","保全與理賠協助","客戶問進度,你打電話問公司。","Agent 即時查詢理賠進度、預告可能補件,你負責告知與安撫。","王先生理賠案審核中,預估 3 日內核付,但診斷書缺 ICD 碼,建議提前請醫院補開。","ai",30],
+  ["17:30","客戶經營與續期","靠記憶記生日、續期日。","Agent 提醒續期、生日與人生節點,草擬個人化訊息,親自出現的時機由你選。","下週 3 位客戶續期、1 位孩子滿 18 歲可討論轉換要保人,訊息草稿已備。","co",25]],
+ tasks:[["客戶名單與人生事件追蹤",85,"ai","CRM + 事件偵測。"],["保額試算與方案比較",90,"ai","精算與費率是 AI 的主場。"],["建議書與要保文件",90,"ai","生成、檢核、電子簽。"],["保全與理賠進度查詢",85,"ai","即時查詢與補件預警。"],["家庭風險對話與信任建立",15,"you","談最壞的情況,需要溫度。"],["拒絕處理與長期關係",10,"you","被拒絕 10 次還會回來的,是人。"]],
+ calc:[6,10,6,18],
+ agent:[
+  {label:"家庭保障缺口分析",prompt:"雙薪家庭,先生 38 歲年收 150 萬,太太 35 歲年收 90 萬,房貸 1,200 萬,兩個孩子 3 歲與剛出生,幫我做保障分析。",steps:["建立家庭財務與責任模型","計算各成員保障缺口 (壽險/醫療/失能)","載入現有保單與費率表","模擬 3 種預算方案","檢核適合度與告知事項"],reply:"**家庭保障缺口分析**\n\n**先生 (主要經濟來源)**\n• 壽險缺口:**1,800 萬** (房貸 1,200 + 子女教育 900 + 家庭生活 5 年 750 − 現有 1,050)\n• 失能缺口:月 6 萬照護費 × 20 年 → 建議失能扶助月給付 5 萬\n\n**太太**\n• 壽險缺口:900 萬;醫療:實支實付建議提高至 30 萬/次\n\n**孩子**:新生兒建議優先醫療與重大傷病,保費低、核保寬鬆\n\n**方案** (年繳):A 基礎 5.2 萬|**B 平衡 8.6 萬** ✓|C 完整 12.4 萬\n\n**面談切入**:先問「如果先生 6 個月無法工作,家裡撐得住幾個月?」",approve:"要我生成方案 B 的建議書草稿與家庭保障圖,供面談使用嗎?"},
+  {label:"理賠進度與補件預警",prompt:"王先生上週送的住院理賠,進度怎樣?",steps:["查詢理賠系統案件狀態","檢核文件完整性","比對常見補件原因","生成客戶說明訊息"],reply:"**理賠案 #CL-30-88213**\n\n**狀態**:審核中 (已 4 個工作日,平均核付 6 日)\n**預估核付**:9/10 前,金額約 **48,000 元** (住院 6 日 × 日額 5,000 + 手術 18,000)\n\n⚠️ **補件風險**:診斷證明書未載明 ICD-10 代碼,依經驗 60% 機率被要求補件。**建議**:今天請王先生向醫院申請補開,可省 3–5 天。\n\n**客戶訊息草稿**:\n「王先生您好,理賠正在審核中,預計下週三前核付約 4.8 萬。為了加速,麻煩您請醫院在診斷書補上疾病代碼,我把申請方式傳給您 😊」",approve:"要我把這則訊息透過 LINE 官方帳號發送給王先生嗎?"}],
+ cmp:{now:["需求分析靠手算與費率表","建議書套版 1 小時,漏填重跑","理賠進度靠打電話問公司"],future:["即時缺口試算與 3 方案模擬","建議書自動生成與適合度檢核","理賠進度即時,補件提前預警"]},
+ shifts:[["商品銷售員","家庭風險規劃師","從賣保單到幫一個家庭想像最壞情況。"],["行政處理者","對話者","時間留給『為什麼』,不是『填哪裡』。"],["進度查詢者","安心提供者","AI 查進度,你負責讓客戶安心。"]]
+},
+{id:"underwriter",cat:3,icon:"🩺",name:"核保人員",en:"Underwriter",desc:"審體檢、看病歷、評風險、定條件。你想要的是:標準件秒過,把專業留給真正複雜的案子。",
+ title2030:"風險選擇專家",quote:"標準件 AI 秒核,我核的每一件都值得被仔細看。",agents:["病歷解讀 Agent","風險評分 Agent","核保規則 Agent","再保諮詢 Agent"],
+ day:[
+  ["08:30","案件分級","逐件打開,判斷難易。","Agent 自動核通過 70% 標準件,剩下 30% 依複雜度排序給你。","今日 86 件,60 件已自動承保,26 件待人工,其中 5 件涉及重大病史。","ai",60],
+  ["10:00","病歷與體檢解讀","逐頁讀病歷、查醫學手冊。","Agent 摘要病歷、標記關鍵診斷與用藥,對照核保手冊給出建議等級與依據。","客戶 3 年前甲狀腺結節 TI-RADS 3,追蹤穩定,依核保手冊 §4.2 可標準體承保,建議附追蹤聲明。","co",90],
+  ["11:30","業務員溝通","來回電話解釋為什麼加費。","Agent 生成業務員可理解的核保說明與替代方案,你只處理有異議的案件。","已向業務員說明加費 25% 原因與 2 個替代方案 (降保額/排除條款),等待客戶回覆。","ai",30],
+  ["14:00","複雜案件評估","翻再保手冊、問資深同事。","Agent 提供類似案件決定、再保指引與醫學文獻摘要,你做最終判斷。","類似 47 件前例中,68% 以加費 50% 承保,理賠經驗顯示實際風險略低於預期。","co",60],
+  ["16:00","反欺詐與告知檢核","靠經驗發現不實告知。","Agent 交叉比對投保紀錄、理賠史與健康告知,標出矛盾。","客戶告知無住院紀錄,但 2 年前他公司理賠紀錄顯示住院 5 日,建議照會。","ai",40],
+  ["17:30","核保品質回顧","月底才看核保統計。","Agent 每日回饋自動核保準確率與理賠經驗,協助你調整規則。","本月自動核保 1,840 件,人工抽查一致率 97.8%,建議微調 BMI 規則。","ai",30]],
+ tasks:[["標準件自動核保",95,"ai","規則明確,秒核。"],["病歷與體檢報告解讀",80,"ai","醫學摘要與手冊對照。"],["不實告知與欺詐偵測",85,"ai","跨資料庫比對。"],["業務員溝通與說明",60,"co","AI 生成說明,異議由你談。"],["複雜與次標準體判斷",30,"you","醫學 + 統計 + 經驗的綜合判斷。"],["核保規則設計與調整",25,"you","規則是你定的,AI 執行。"]],
+ calc:[12,10,6,12],
+ agent:[
+  {label:"複雜病史核保評估",prompt:"客戶 45 歲男性,投保 500 萬終身壽險,告知 3 年前甲狀腺結節、目前服用降血壓藥,幫我評估。",steps:["解析健康告知與體檢報告","比對核保手冊條款 (甲狀腺/高血壓)","檢索類似案件決定與理賠經驗","計算建議風險等級","生成核保決定草稿與說明"],reply:"**核保評估**\n\n**甲狀腺結節**:TI-RADS 3,1.2cm,3 年追蹤無變化 → 手冊 §4.2.1:**標準體**,建議附「甲狀腺追蹤聲明」\n\n**高血壓**:服藥控制,近 3 次量測 128–135/82–88 → 手冊 §7.1.3:BMI 26、無併發症 → **標準體至加費 25%** 邊界\n\n**類似前例**:47 件,68% 加費 25%,32% 標準體;理賠經驗:加費組實際損失率 0.82 (略優於預期)\n\n**建議**:加費 **25%**,或補 3 個月血壓日記後重評\n\n**替代方案**:保額降至 300 萬可標準體承保",approve:"要我把「加費 25% + 替代方案」的說明發給業務員嗎?"},
+  {label:"告知矛盾檢核",prompt:"檢查這件投保案的健康告知有沒有問題。",steps:["讀取健康告知書 12 項","比對同業通報與理賠資料庫","比對本公司歷史投保紀錄","標記矛盾與嚴重度"],reply:"**告知一致性檢核**\n\n⚠️ **發現 1 處重大矛盾**\n\n告知第 5 項「過去 5 年內是否曾住院」→ 客戶填「否」\n但:同業通報資料顯示 2028/03 曾申請住院理賠 5 日 (診斷:急性胰臓炎)\n\n**風險**:若承保後 2 年內出險,可能涉及告知不實解除契約爭議\n\n**建議**:\n1. 發出照會請客戶補充說明\n2. 若確認為漏告知,依胰臓炎痊癒 2 年評估,可能加費或延期\n\n✅ 其餘 11 項無矛盾",approve:"是否發出照會通知給業務員與客戶?"}],
+ cmp:{now:["86 件逐件看,標準件也花 10 分鐘","病歷逐頁讀,查手冊翻半天","前例靠記憶與問同事"],future:["70% 標準件自動承保","病歷摘要 + 手冊對照 + 建議等級","47 件前例與理賠經驗 1 分鐘"]},
+ shifts:[["案件處理員","風險選擇專家","每一件經你手的都值得專業判斷。"],["手冊查閱者","規則設計者","你調規則,AI 執行。"],["說明者","異議協商者","例行說明 AI 做,你處理不服的。"]]
+},
+{id:"claims",cat:3,icon:"📋",name:"理賠人員",en:"Claims Adjuster",desc:"收件、審核、調查、核付。你想要的是:簡單案件當天賠,把時間花在真正需要調查的案子,和需要被安慰的人。",
+ title2030:"理賠體驗守護者",quote:"最壞的一天,客戶不該還要等我們 14 天。",agents:["文件辨識 Agent","醫療審核 Agent","欺詐偵測 Agent","客戶關懷 Agent"],
+ day:[
+  ["08:30","案件分流","逐件開,看哪件簡單。","Agent 依金額、文件完整度、欺詐分數分流:快賠、標準、調查。","今日 124 件,78 件符合快賠 (預估 2 小時內核付),38 件標準審核,8 件建議調查。","ai",60],
+  ["10:00","醫療文件審核","逐頁看診斷書、收據,對照條款。","Agent OCR 辨識、對照保單條款與醫療合理性,你複核例外。","診斷書 ICD J18.9 肺炎,住院 6 日,自費項目 3 筆中「單人房差額」不在條款範圍,已標記。","ai",90],
+  ["11:30","客戶聯繫與關懷","打電話說「還在審核」。","Agent 主動推送進度,你只在需要人的時候出現 — 重大傷病、身故案件。","林女士的身故理賠案文件已齊,建議由你親自致電說明流程與預估時間。","you",20],
+  ["14:00","可疑案件調查","靠直覺,查資料花一天。","Agent 提供欺詐風險說明、關聯網絡、時間線,你決定調查方向。","此案就診醫院與另 4 件近期理賠案相同,且皆由同一業務員招攬,關聯圖已生成。","co",120],
+  ["16:00","理賠決定與說明","寫拒賠信,客戶不懂為什麼。","Agent 生成白話版說明與條款依據,你確認語氣與正確性。","拒賠說明草稿以白話說明「等待期」概念並附條款第 8 條,語氣已調整為同理。","co",40],
+  ["17:30","理賠經驗回饋","無回饋機制。","Agent 彙整理賠模式回饋給核保與商品部門。","本月「門診手術」理賠件數 +32%,集中在特定術式,建議商品部門檢視費率假設。","ai",30]],
+ tasks:[["文件辨識與快賠處理",95,"ai","OCR + 規則 = 當日賠付。"],["醫療合理性與條款比對",85,"ai","條款結構化,AI 比對。"],["欺詐偵測與關聯分析",80,"ai","模式與網絡,AI 更強。"],["進度通知與一般溝通",85,"ai","主動推送。"],["身故與重大傷病關懷",10,"you","人生最壞的一天,需要人。"],["爭議案件判斷與調查決策",25,"you","調查方向與最終決定由你負責。"]],
+ calc:[12,12,5,10],
+ agent:[
+  {label:"快賠案件審核",prompt:"審核這件住院醫療理賠:肺炎住院 6 日,申請 42,000 元。",steps:["OCR 辨識診斷書、收據與明細","比對保單條款與保額","檢核醫療合理性 (診斷 vs 住院天數)","計算欺詐風險分數","生成核付建議"],reply:"**理賠審核 #CL-30-91027**\n\n**文件**:診斷證明 ✅、收據 ✅、費用明細 ✅\n**診斷**:J18.9 肺炎,住院 6 日 (該診斷合理天數 4–8 日 ✅)\n\n**給付計算**:\n• 住院日額 3,000 × 6 = 18,000\n• 實支實付 (自費部分):申請 24,000,其中「單人房差額 6,000」不在條款第 5 條範圍 → 可給付 18,000\n• **合計 36,000 元** (申請 42,000,差額原因已說明)\n\n**欺詐分數**:0.08 (低) ✅\n**建議**:快賠核付 36,000,附白話說明差額原因",approve:"確認核付 36,000 元並發送說明給客戶?"},
+  {label:"可疑案件關聯分析",prompt:"這件理賠感覺怪怪的,幫我看看。",steps:["擷取案件特徵 (醫院/醫師/術式/業務員)","比對近 12 個月理賠資料庫","建構關聯網絡","計算異常分數與時間線"],reply:"**欺詐風險分析**\n\n🔴 **風險分數 0.82 (高)**\n\n**關聯發現**:\n• 同一醫院、同一醫師,近 6 個月出現 **7 件**類似「門診手術」理賠\n• 7 件中 5 件由**同一業務員**招攬,投保後 3–5 個月內出險\n• 術式 (皮膚良性腫瘤切除) 給付金額集中在 3–4 萬區間\n\n**時間線**:投保 → 等待期結束後 14–30 日 → 就診 → 理賠 (模式一致)\n\n**建議**:\n1. 本案暫緩核付,啟動調查\n2. 調閱 7 件病歷原始紀錄\n3. 通報 SIU (特別調查單位)",approve:"要我建立調查案件並通報 SIU 嗎?"}],
+ cmp:{now:["平均理賠 14 天,客戶反覆問進度","文件逐頁看,一件 40 分鐘","可疑案件靠直覺"],future:["78/124 件當日快賠","AI 審文件,你複核例外","關聯網絡 1 分鐘,你決定調查"]},
+ shifts:[["文件審核員","體驗守護者","讓最壞的一天不要更壞。"],["進度回報者","關懷者","只在需要人的時候出現,但一定出現。"],["直覺調查者","調查決策者","AI 給你關聯圖,你決定往哪查。"]]
+},
+{id:"actuary",cat:3,icon:"📐",name:"精算師",en:"Actuary",desc:"定價、準備金、風險模型、法定報告。你想要的是:少跑模型,多想假設 — 因為假設才是精算的靈魂。",
+ title2030:"風險假設架構師",quote:"模型跑得更快了,問題變成:我相信這個假設嗎?",agents:["模型執行 Agent","經驗分析 Agent","法規解讀 Agent","報告生成 Agent"],
+ day:[
+  ["08:30","模型執行結果","等模型跑一夜,早上看有沒有錯。","Agent 夜間執行、自動驗證、比對前期,早上給你差異摘要。","IFRS 17 CSM 滾動完成,較上季 +3.2%,主因新契約;有 1 個產品線的損失組成分需你確認。","ai",60],
+  ["10:00","經驗分析","抓資料、清資料、算 A/E 比,一週。","Agent 每月自動更新死亡率、失效率、理賠率 A/E,標出顯著偏離。","失效率 A/E 在第 2 保單年度為 1.28 (顯著),集中在某通路,建議檢視假設。","ai",180],
+  ["11:30","假設討論會","報數字,大家憑經驗討論。","Agent 提供多種假設情境對準備金與利潤的影響,討論聚焦在「我們相信什麼」。","若失效率假設上調 15%,CSM 減少 4.8 億;若僅針對該通路調整,則為 1.2 億。","you",30],
+  ["14:00","新商品定價","建 Excel 模型、跑情境、改假設,兩週。","描述商品結構,Agent 建定價模型並產生利潤測試與敏感度,你判斷市場合理性與風險偏好。","新商品在基準假設下利潤率 6.8%,符合目標;但若利率下降 50bp 則降至 4.1%,建議加入利率調整機制。","co",240],
+  ["16:00","法規變動影響","讀法規全文、自己解釋。","Agent 解讀新法規對模型與資本的影響,列出需修改的項目。","金管會新公布 ICS 2.0 過渡辦法,影響利率風險資本計算,預估 RBC 比率變動 -8pp,模型修改清單已備。","ai",90],
+  ["17:30","精算報告撰寫","寫 80 頁報告,大半是表格與說明。","Agent 生成報告草稿、圖表與方法論說明,你寫「精算師意見」。","準備金報告草稿完成,需你撰寫第 1 章精算師意見與第 9 章假設充足性判斷。","ai",120]],
+ tasks:[["模型執行與驗證",95,"ai","運算是機器的事。"],["經驗分析與 A/E 計算",90,"ai","自動化資料處理與統計。"],["法規解讀與影響評估",75,"ai","法規文本 → 模型修改清單。"],["報告撰寫與圖表",80,"ai","方法論與數據自動化。"],["假設設定與判斷",20,"you","精算的靈魂是判斷,不是計算。"],["定價策略與風險偏好",25,"you","要多賺還是要多穩,是管理判斷。"]],
+ calc:[14,12,6,8],
+ agent:[
+  {label:"新商品定價與敏感度",prompt:"幫我為一個 20 年期繳、保證利率 2%、附加分紅的儲蓄險做初步定價。",steps:["建構現金流模型 (保費/給付/費用)","載入最新經驗假設 (死亡/失效/費用)","設定投資報酬與分紅假設","執行利潤測試與 200 情境敏感度","比對監理與內部利潤目標"],reply:"**初步定價結果**\n\n**基準假設**:投報 3.4%、失效率 (第 1–3 年) 6%/4%/3%、費用率 8%\n\n**利潤測試**:\n• 新契約利潤率 (NBV/APE):**6.8%** (目標 6%) ✅\n• IRR:9.2%\n• 損益兩平年度:第 7 年\n\n**敏感度** (利潤率變動):\n| 情境 | 利潤率 |\n|---|---|\n| 投報 -50bp | **4.1%** ⚠️ |\n| 失效率 +20% | 5.9% |\n| 費用 +10% | 6.2% |\n\n**風險提示**:利率敏感度高,建議 (a) 保證利率降至 1.75% 或 (b) 加入分紅調整機制\n\n**監理檢核**:責任準備金利率符合現行規範 ✅",approve:"要我生成定價報告草稿,並排入下週商品委員會議程嗎?"},
+  {label:"經驗偏離分析",prompt:"第 2 保單年度失效率明顯偏高,幫我找原因。",steps:["載入近 5 年保單失效資料","分解 A/E 至通路、商品、年齡層","檢定統計顯著性","比對通路佣金結構與市場事件"],reply:"**失效率 A/E 分析 (第 2 保單年度)**\n\n**整體 A/E**:1.28 (p < 0.01,顯著)\n\n**分解**:\n• 通路 C (經代):A/E **1.71** — 貢獻 82% 偏離\n• 其他通路:A/E 1.04 (正常)\n• 商品:集中於高佣金儲蓄型\n• 年齡:無顯著差異\n\n**可能原因**:\n通路 C 第 2 年續期佣金驟降 (首年 40% → 第 2 年 3%),與失效高峰時點吻合,疑為「轉保」行為\n\n**建議**:\n1. 假設調整僅針對通路 C (CSM 影響 -1.2 億 vs 全面調整 -4.8 億)\n2. 建議業務部門檢視通路 C 佣金結構與轉保監控",approve:"要我把分析結果與建議送給假設委員會與業務部門嗎?"}],
+ cmp:{now:["等模型跑一夜,早上看有沒有錯","經驗分析清資料一週","80 頁報告大半在做表"],future:["夜間自動執行 + 驗證 + 差異摘要","A/E 每月自動更新,標出顯著偏離","你只寫『精算師意見』那一章"]},
+ shifts:[["模型操作者","假設架構師","相信什麼假設,才是精算師的價值。"],["資料清理者","洞察發現者","偏離自動浮現,你解釋為什麼。"],["報告撰寫者","意見提供者","你的簽名代表判斷,不是排版。"]]
+},
+{id:"inspm",cat:3,icon:"🧩",name:"保險商品經理",en:"Insurance Product Manager",desc:"市場研究、商品設計、送審、上市。你想要的是:別再花三個月做市場調查,把時間花在設計真正有人要的商品。",
+ title2030:"保障體驗設計師",quote:"AI 告訴我市場缺什麼,我設計人們真正需要的保障。",agents:["市場情報 Agent","條款生成 Agent","送審助理 Agent","銷售洞察 Agent"],
+ day:[
+  ["08:30","市場與競品動態","翻同業官網、看新聞、問業務。","Agent 追蹤同業新商品、費率變動與客訴趨勢,推送「本週市場 5 件事」。","同業 X 昨日上市失能扶助險,保費低於本公司同類 12%,主要差異在等待期設計。","ai",60],
+  ["10:00","客戶需求洞察","委外市調,三個月後拿到報告。","Agent 分析理賠、客服、社群數據,即時找出未被滿足的需求。","近 6 個月客服詢問「長照險是否含失智」+240%,現有商品條款不明確,是機會也是風險。","ai",120],
+  ["11:30","商品概念會議","憑經驗與 PPT 討論。","Agent 即時模擬不同設計對保費、利潤與競爭力的影響,討論聚焦在取捨。","若等待期由 90 天縮至 30 天,保費 +8%,但競爭力排名由第 5 升至第 2。","you",30],
+  ["14:00","條款與費率草擬","逐條寫、對法規、來回法務。","Agent 依設計生成條款草稿、比對示範條款與法規,精算 Agent 同步出費率。","條款草稿 28 條完成,第 12 條除外責任與示範條款差異已標記,法務審閱重點已列。","co",180],
+  ["16:00","送審文件準備","整理 40 份文件,格式反覆修改。","Agent 依金管會格式生成送審文件包並自動檢核完整性。","送審文件包 40 份已生成,檢核通過 38 份,2 份需商品委員會會議紀錄簽名。","ai",120],
+  ["17:30","上市後追蹤","月底看銷售報表。","Agent 每日回饋銷售、理賠、客訴與通路反應,建議調整。","上市 2 週銷售達目標 140%,但 35 歲以下佔比僅 12%,建議檢視數位通路溝通。","ai",40]],
+ tasks:[["市場與競品追蹤",90,"ai","即時、全面。"],["客戶需求洞察",80,"ai","多源數據分析取代三個月市調。"],["條款草擬與法規比對",75,"co","AI 生成,法務與你把關。"],["送審文件準備",90,"ai","格式化文件自動生成。"],["商品設計取捨與定位",25,"you","要保誰、不保誰、賣多少,是判斷。"],["跨部門協調與說服",20,"you","精算、法務、業務、通路,需要人來對齊。"]],
+ calc:[10,14,10,6],
+ agent:[
+  {label:"市場機會掃描",prompt:"幫我找出目前市場上保障缺口最大、最值得開發的商品機會。",steps:["分析近 12 個月客服與理賠數據","掃描同業商品與費率","比對社群討論與搜尋趨勢","評估監理方向與可行性","排序商品機會"],reply:"**商品機會排序 (Top 3)**\n\n**1. 失智照護保障** 🔥\n• 需求訊號:客服詢問 +240%、搜尋量 +180%\n• 市場現況:僅 2 家同業有明確給付,條款複雜\n• 監理方向:金管會鼓勵長照商品 ✅\n• 建議:以「確診即給付 + 照護月給付」簡化設計\n\n**2. 自由工作者失能保障**\n• 需求訊號:非典型就業人口 +15%,現有商品以職業等級為主,自由工作者常被拒保\n• 建議:以收入證明替代職業等級\n\n**3. 微型寵物醫療**\n• 需求高但單價低,適合數位通路\n\n**建議優先**:失智照護 (預估首年 FYP 8 億,利潤率 5.5%)",approve:"要我生成失智照護商品的概念簡報,排入下週商品委員會嗎?"},
+  {label:"條款設計取捨模擬",prompt:"失智照護險,如果等待期從 90 天改成 30 天,影響是什麼?",steps:["載入定價模型與競品條款","模擬等待期變動對保費與利潤影響","計算競爭力排名變化","評估逆選擇風險"],reply:"**等待期 90 天 → 30 天 影響分析**\n\n| 面向 | 90 天 | 30 天 |\n|---|---|---|\n| 年繳保費 (45 歲) | 18,200 | **19,650** (+8%) |\n| 利潤率 | 5.5% | 5.1% |\n| 競爭力排名 | 第 5 | **第 2** |\n| 逆選擇風險 | 低 | 中 |\n\n**精算觀點**:逆選擇風險可用「投保前 2 年就診紀錄除外」控制\n**業務觀點**:通路反應「30 天」是強力賣點\n**法遵觀點**:符合示範條款範圍 ✅\n\n**建議**:採 30 天 + 既往症除外條款,保費 +8% 仍低於同業 X 的 21,000",approve:"要我更新條款草稿與定價假設,並通知精算、法務同步嗎?"}],
+ cmp:{now:["市調委外三個月","條款逐條寫、來回法務","送審文件反覆改格式"],future:["需求洞察即時浮現","AI 生成條款草稿,你決定取捨","送審文件包自動生成檢核"]},
+ shifts:[["市調等待者","需求洞察者","數據每天告訴你市場缺什麼。"],["條款撰寫者","體驗設計師","設計人們真正需要、看得懂的保障。"],["文件整理者","跨部門對齊者","把時間花在說服與協調。"]]
+},
+{id:"broker",cat:4,icon:"📈",name:"證券營業員",en:"Securities Broker",desc:"下單、盯盤、客戶服務、開發。你想要的是:別再只是接單,成為客戶真正信任的投資夥伴。",
+ title2030:"投資行為教練",quote:"AI 給客戶資訊,我給客戶紀律。",agents:["盤前摘要 Agent","客戶部位 Agent","適合度 Agent","投資教育 Agent"],
+ day:[
+  ["07:45","盤前準備","看新聞、翻研究報告、自己整理。","Agent 彙整隔夜美股、法說、研究報告與客戶持股相關訊息,生成個人化盤前摘要。","客戶持股中,台積電昨夜 ADR +2.1%;A 客戶持有的生技股今早有重大訊息,建議開盤前提醒。","ai",40],
+  ["09:00","盤中客戶服務","接電話、報價、下單,忙到沒時間思考。","客戶自助下單,Agent 處理查詢與提醒,你只接需要判斷的對話。","B 客戶連續 3 日追高買進同一股票,已偏離其風險屬性,建議關懷提醒。","co",90],
+  ["11:00","客戶投資檢視","憑印象聊,建議缺乏依據。","Agent 生成客戶部位分析、風險集中度與行為模式,你負責談紀律與目標。","C 客戶近 1 年交易 320 次,週轉率 18 倍,實現報酬 -4%,若持有不動則為 +11%。","you",30],
+  ["13:30","盤後回顧與訊息","逐一發訊息給客戶,常制式。","Agent 依客戶持股與交易生成個人化盤後摘要草稿,你選要親自聯繫的。","今日 42 位客戶盤後摘要已生成,3 位客戶帳戶今日跌幅 > 5%,建議親自致電。","ai",50],
+  ["15:00","適合度與法遵檢核","KYC 到期才發現,錄音補做。","Agent 即時檢核 KYC、商品適合度與錄音完整性,漏項即時提醒。","D 客戶 KYC 將於 3 日後到期,且今日欲申購複雜型商品,需先完成更新。","ai",30],
+  ["17:00","客戶開發與教育","陌生拜訪、發 DM。","Agent 找出現有客戶的推薦潛力與轉介話題,協助製作投資教育內容,你經營社群與信任。","5 位客戶近期提及家人想開戶;上週你的「ETF 配息迷思」短影音觸及 1,200 人,建議續作。","co",40]],
+ tasks:[["盤前資訊整理",95,"ai","即時、個人化。"],["下單與查詢",90,"ai","客戶自助 + Agent 處理。"],["盤後摘要與通知",85,"ai","個人化生成。"],["KYC 與適合度檢核",90,"ai","規則明確,即時提醒。"],["投資行為教練與紀律",15,"you","勸客戶不要追高,只有信任的人說得動。"],["客戶關係與社群經營",20,"you","信任是人與人的事。"]],
+ calc:[8,6,6,20],
+ agent:[
+  {label:"客戶投資行為檢視",prompt:"幫我分析 C 客戶近一年的交易,我想跟他談紀律。",steps:["載入近 12 個月 320 筆交易","計算週轉率、勝率、實現報酬","模擬「買進持有」對照組","識別行為偏誤模式","生成對話建議"],reply:"**C 客戶投資行為分析**\n\n**數據**:\n• 交易 320 次,週轉率 18x,手續費 + 稅 約 **28 萬**\n• 實現報酬:**-4.2%** (含成本)\n• 若首筆買進後持有不動:**+11.3%**\n• 勝率 48%,平均獲利 3.1% vs 平均虧損 5.8% → **虧損放大、獲利過早了結**\n\n**行為偏誤**:\n• 處置效應 (Disposition effect):獲利股平均持有 6 天,虧損股 41 天\n• 追高:62% 買進發生在股價 5 日內漲 > 8% 之後\n\n**對話建議** (避免說教):\n「我幫你算了一件有趣的事:如果去年你什麼都不做,現在會多 15%。想不想聊聊哪些交易其實可以不做?」",approve:"要我生成一頁客戶版的視覺化報告,供你面談使用嗎?"},
+  {label:"個人化盤後摘要",prompt:"幫我生成今天 42 位客戶的盤後摘要,並告訴我該親自打給誰。",steps:["載入 42 位客戶持股與今日交易","擷取相關個股新聞與法說","計算今日帳戶損益","篩選需親自聯繫的客戶","生成個人化摘要草稿"],reply:"**盤後摘要已生成 (42 份)**\n\n📞 **建議親自致電 (3 位)**:\n1. **張先生** — 帳戶 -6.8%,主因持股 XX 生技解盲失敗;他上月才加碼,情緒風險高\n2. **李小姐** — 帳戶 -5.2%,持有 3 檔同產業股,集中度過高,是談分散的好時機\n3. **王先生** — 新開戶 2 週,第一次遇到 -5%,需要陪伴\n\n💬 **訊息即可 (39 位)**:個人化摘要含持股相關訊息與明日關注事件\n\n**範例 (張先生)**:「張先生,今天 XX 生技解盲結果不如預期,股價 -18%。這類事件風險我們之前討論過,想跟您聊聊接下來的想法,方便的話我 5 點打給您?」",approve:"要我發送 39 份訊息摘要,並把 3 通電話排進你的行事曆嗎?"}],
+ cmp:{now:["盤中接單接到沒時間思考","客戶檢視憑印象聊","KYC 到期才發現"],future:["客戶自助下單,你接需要判斷的對話","行為分析 + 對照組,你談紀律","適合度即時檢核提醒"]},
+ shifts:[["接單員","行為教練","AI 給資訊,你給紀律。"],["資訊轉達者","風險翻譯者","把數據翻成客戶聽得進去的話。"],["陌生開發者","社群經營者","信任透過內容與關係累積。"]]
+},
+{id:"research",cat:4,icon:"🔬",name:"研究分析師",en:"Equity Research Analyst",desc:"追蹤產業、建模、寫報告、跑法說。你想要的是:別再花 60% 時間整理資料,把腦力留給真正的洞見。",
+ title2030:"洞見策展人",quote:"資料 AI 整理,觀點我來下 — 而且要跟市場不一樣。",agents:["財報解析 Agent","法說轉錄 Agent","模型更新 Agent","報告草稿 Agent"],
+ day:[
+  ["07:30","晨會準備","看新聞、更新觀點,自己判斷影響。","Agent 彙整隔夜訊息對覆蓋公司的影響,生成晨會 3 個重點與需回應的問題。","覆蓋的 A 公司主要客戶昨夜下修財測 10%,依供應鏈比重估影響 A 公司 Q4 營收 -4%,建議晨會說明。","ai",40],
+  ["09:30","財報與法說解析","邊聽法說邊打字,回來對數字。","Agent 即時轉錄法說、擷取指引變動、比對共識預期,標出「與市場預期不同」的點。","管理層將毛利率指引由 24–26% 上修至 26–28%,高於市場共識 25.5%,主因產品組合。","ai",90],
+  ["11:00","模型更新","改假設、拉公式,一家 3 小時。","Agent 依法說內容更新模型假設並顯示對目標價影響,你決定接受或調整。","依新指引更新後,2031 EPS 由 12.4 升至 13.6,DCF 目標價由 320 升至 352,是否採用?","co",120],
+  ["14:00","專家訪談與供應鏈調研","靠人脈與電話,資訊零散。","Agent 整理訪談摘要、比對供應鏈數據 (出口、船運、招聘),找出模型未反映的訊號。","供應鏈調查顯示 A 公司越南廠招聘 +40%,可能反映產能擴充早於管理層說法。","co",60],
+  ["16:00","報告撰寫","寫 30 頁報告,一半在做圖表與格式。","口述觀點與論證,Agent 生成報告草稿、圖表與估值表,你寫「與市場不同的看法」。","報告草稿完成。第 1 頁投資論點我用了你的口述,但「為何市場低估」段落需要你的洞見。","ai",150],
+  ["17:30","客戶互動與法遵","回覆機構客戶 Email,查法遵限制。","Agent 草擬回覆、檢核發布時序與利益衝突規定,你決定觀點與語氣。","3 位機構客戶詢問對 A 公司看法,回覆草稿已備,注意報告發布前 24 小時不得透露目標價變動。","co",40]],
+ tasks:[["資料蒐集與財報解析",95,"ai","結構化資料,AI 全面接手。"],["法說轉錄與指引比對",90,"ai","即時、精確。"],["模型更新與估值計算",75,"co","AI 更新,你審假設。"],["報告撰寫與圖表",80,"ai","草稿與視覺化自動生成。"],["投資觀點與差異化洞見",15,"you","跟市場不一樣的看法,是分析師的價值。"],["管理層與機構客戶關係",20,"you","問對問題、讀懂弦外之音。"]],
+ calc:[14,14,8,8],
+ agent:[
+  {label:"法說會即時解析",prompt:"A 公司法說剛結束,幫我抓重點並更新模型。",steps:["讀取法說轉錄與簡報","擷取財務指引與變動","比對市場共識 (12 家券商)","更新模型假設與目標價","識別分析師 Q&A 中的未解問題"],reply:"**A 公司 Q3 法說重點**\n\n**指引變動** (vs 上季):\n• 毛利率:24–26% → **26–28%** ⬆️ (共識 25.5%)\n• 資本支出:120 億 → **150 億** ⬆️ (越南擴廠)\n• Q4 營收:符合預期\n\n**模型更新影響**:\n• 2031E EPS:12.4 → **13.6** (+9.7%)\n• DCF 目標價:320 → **352**\n• 評等:維持買進\n\n**Q&A 中的未解問題** (可作差異化切入):\n• 3 位分析師追問越南廠客戶,管理層迴避 → 我比對供應鏈數據,招聘 +40% 且船運訂位增加,**疑似已取得新客戶**\n\n**建議**:報告標題可強調「市場尚未反映的越南新客戶」",approve:"要我依新假設更新模型並生成報告草稿嗎?"},
+  {label:"供應鏈訊號比對",prompt:"檢查 A 公司管理層說的越南擴廠進度,有沒有其他數據可以驗證?",steps:["蒐集越南工業區招聘資料","比對出口與船運訂位數據","分析衛星影像建物面積變化","比對設備供應商出貨紀錄"],reply:"**越南擴廠替代數據驗證**\n\n| 訊號 | 數據 | 解讀 |\n|---|---|---|\n| 招聘 | 近 3 月職缺 +40%,含 120 名品管 | 進度可能**早於**管理層說法 |\n| 船運訂位 | 越南 → 美國西岸訂位 +25% | 出貨已開始 |\n| 衛星影像 | 廠區建物面積 +18% (6 月 vs 9 月) | 二期已動工 |\n| 設備商 | 主要設備商 Q3 越南出貨 +60% | 產能安裝中 |\n\n**結論**:4 項訊號一致指向擴廠進度**領先**管理層保守說法約 1 季\n\n**對模型影響**:若產能提前 1 季,2031E 營收 +3%,EPS +4%\n\n⚠️ 資料來源皆為公開或合法商業資料庫,已檢核無 MNPI 疑慮",approve:"要我把這段「替代數據」分析加入報告,並附資料來源附錄嗎?"}],
+ cmp:{now:["60% 時間在整理資料與更新模型","法說邊聽邊打字","報告一半時間在做圖"],future:["資料自動解析,標出『與預期不同』","法說即時轉錄 + 指引比對","你只寫『為何市場低估』那段"]},
+ shifts:[["資料整理者","洞見策展人","AI 整理資料,你策展觀點。"],["模型維護者","假設判斷者","模型 AI 更新,你決定信不信。"],["報告寫手","差異化思考者","跟市場不一樣的看法,才有價值。"]]
+},
+{id:"pm",cat:4,icon:"🎯",name:"基金經理人",en:"Portfolio Manager",desc:"資產配置、選股、風控、投資人溝通。你想要的是:少一點雜訊,多一點在真正重要決策上的思考時間。",
+ title2030:"投資哲學守護者",quote:"AI 給我一百個訊號,我的工作是決定聽哪一個。",agents:["組合監控 Agent","訊號整合 Agent","風險歸因 Agent","投資人溝通 Agent"],
+ day:[
+  ["07:30","組合與市場總覽","看多個系統、自己拼湊風險。","Agent 整合組合曝險、隔夜市場與研究團隊觀點,給出「今天需要決定的 3 件事」。","組合科技股權重 32%,接近 35% 上限;隔夜半導體 ETF +3%,若開盤續漲將觸及上限,需決定減碼或調整上限。","ai",40],
+  ["09:30","投資決策會議","聽分析師報告、討論、決定。","Agent 預先整理分析師觀點的一致與分歧、歷史準確度,討論聚焦在真正的分歧點。","3 位分析師對 B 公司看法分歧,主因對毛利率假設不同;過去 2 年在此類分歧中,分析師甲準確率 71%。","you",30],
+  ["11:00","訊號評估與研究","讀 20 份報告、看數據,篩選訊號。","Agent 整合基本面、量化、另類數據訊號並標記衝突,你決定權重與是否行動。","B 公司基本面訊號正向、量化動能負向、另類數據 (信用卡消費) 正向,衝突點在短期動能。","co",90],
+  ["13:30","交易執行與風控","下單給交易台,事後看風險報告。","Agent 模擬交易對組合風險、流動性與交易成本的影響,執行策略自動優化。","擬加碼 B 公司 1.5%,預估市場衝擊成本 12bp,建議分 3 日執行;組合追蹤誤差由 3.2% 升至 3.4%。","co",40],
+  ["15:30","績效歸因與風險回顧","月底才有歸因報告。","Agent 每日歸因,標示超額報酬來源與非預期風險。","本月超額報酬 +80bp,其中選股貢獻 +110bp、產業配置 -30bp;非預期風險:匯率曝險上升。","ai",60],
+  ["17:00","投資人溝通","寫月報、準備投資人會議。","Agent 生成月報草稿與投資人常見問題回覆,你寫「投資觀點」與親自出席重要會議。","月報草稿完成,3 位機構投資人詢問對利率看法,回覆草稿已依你上週觀點生成。","ai",90]],
+ tasks:[["組合監控與風險報告",95,"ai","即時、自動、多維度。"],["訊號蒐集與整合",85,"ai","AI 整合百個訊號並標記衝突。"],["交易模擬與執行優化",80,"ai","成本、衝擊、流動性計算。"],["績效歸因與月報",85,"ai","每日歸因,自動生成。"],["投資決策與哲學",15,"you","決定聽哪個訊號、何時逆勢,是經理人的價值。"],["投資人信任與溝通",20,"you","市場下跌時,投資人要的是你的判斷。"]],
+ calc:[10,10,8,12],
+ agent:[
+  {label:"訊號衝突分析",prompt:"B 公司的訊號互相矛盾,幫我整理並給我思考框架。",steps:["彙整基本面、量化、另類數據訊號","分析各訊號歷史預測力","識別衝突根源","比對組合現有曝險","生成決策框架"],reply:"**B 公司訊號整合**\n\n| 訊號類型 | 方向 | 強度 | 過去 3 年準確率 |\n|---|---|---|---|\n| 基本面 (分析師) | 正向 | 強 | 64% |\n| 量化動能 (3 月) | **負向** | 中 | 58% |\n| 另類數據 (消費) | 正向 | 強 | 72% |\n| 內部人交易 | 中性 | — | — |\n\n**衝突根源**:短期動能負向反映近期法說後賣壓,但另類數據顯示基本面持續改善 → **典型的「市場反應過度」情境**\n\n**決策框架**:\n• 若你的投資哲學是基本面 + 中期 (6–12 月) → 訊號支持**加碼**\n• 若重視短期風險 → 等動能轉正 (預估 2–4 週)\n\n**組合檢核**:加碼 1.5% 後科技權重 33.5%,仍低於 35% 上限",approve:"要我把加碼 1.5%、分 3 日執行的交易單送到交易台待你確認嗎?"},
+  {label:"投資人月報草稿",prompt:"幫我寫這個月的投資人月報,我的核心觀點是「利率高原期,重質不重量」。",steps:["載入本月績效與歸因","彙整市場回顧與組合變動","擷取你過去 3 個月觀點確保一致","生成月報草稿與圖表"],reply:"**9 月投資人月報草稿**\n\n**績效**:本月 +2.4% (基準 +1.6%),超額 +80bp;今年以來 +14.2% (基準 +11.8%)\n\n**歸因**:選股 +110bp (B 公司、C 公司)、產業配置 -30bp (低配金融)\n\n**經理人觀點 (依你的核心訊息生成)**:\n「我們認為利率已進入高原期而非轉折點。在這個環境下,我們選擇『重質不重量』:偏好自由現金流穩定、負債比低的公司,而非依賴融資成長的題材股。本月加碳 B 公司即為此思路的體現...」\n\n**組合變動**:加碼 B (+1.5%)、減碼 D (-1.0%)\n\n**下月展望與風險**:已依你上週會議觀點草擬\n\n📊 圖表 4 張已生成",approve:"要我把草稿送至法遵審閱,並排入 9/12 發送排程嗎?"}],
+ cmp:{now:["早上拼湊 5 個系統看風險","讀 20 份報告篩訊號","歸因月底才有"],future:["今天需要決定的 3 件事","訊號整合 + 衝突標記 + 準確率","每日歸因,即時看見非預期風險"]},
+ shifts:[["資訊處理者","訊號判斷者","一百個訊號,你決定聽哪一個。"],["報告閱讀者","哲學守護者","AI 做分析,你守住投資哲學。"],["月報撰寫者","信任建立者","投資人要的是你的判斷,不是報表。"]]
+},
+{id:"private",cat:4,icon:"🏛️",name:"私人銀行家",en:"Private Banker",desc:"高資產客戶、家族傳承、跨境資產、稀有的信任。你想要的是:別再花時間協調 8 個部門,把心力留給客戶的人生大事。",
+ title2030:"家族財富總管家",quote:"AI 知道客戶的資產,我知道客戶的顧慮。",agents:["家族資產 Agent","傳承規劃 Agent","跨境稽核 Agent","專家協調 Agent"],
+ day:[
+  ["08:30","家族客戶全貌","翻 8 個系統與 3 個國家的報表。","Agent 整合家族跨境資產、信託、保險與企業持股,標出今日變化與到期事項。","陳家族新加坡信託年度審查 30 日內到期;家族企業股價波動使質押比率升至 58%,接近 60% 警戒。","ai",60],
+  ["10:00","傳承規劃情境","找律師、會計師開會,一輪 3 週。","Agent 模擬不同傳承架構 (信託/保險/贈與) 的稅務與控制權影響,你與客戶討論價值觀。","若採「家族信託 + 保險金信託」架構,預估遺產稅由 4.2 億降至 1.8 億,但第二代控制權需 10 年後才轉移。","co",90],
+  ["11:30","客戶家庭會談","你一個人面對三代人。","你主持,Agent 在旁備妥每個成員的顧慮、過往表達與法規限制,你處理家庭動力。","二代長女去年曾表示希望接手企業,次子偏好現金分配;此差異可能是今天會談的核心。","you",30],
+  ["14:00","跨境法遵與稽核","來回 Email 問各國法遵。","Agent 檢核 CRS、FATCA、各國稅務居民身分變動與申報義務,標出風險。","家族三代成員 1 人今年在美居留超過 183 天,可能觸發美國稅務居民身分,影響信託架構。","ai",60],
+  ["16:00","專家團隊協調","打電話約律師、會計師、投資顧問。","Agent 協調專家行事曆、整理各方意見、生成議程與決議追蹤。","傳承方案專家會議已排 9/14,律師意見與會計師稅務試算已彙整,3 個待決議點已列。","ai",50],
+  ["17:30","客戶人生事件追蹤","靠記憶與秘書。","Agent 追蹤家族重大事件與市場對其持股的影響,你決定何時親自出現。","陳董下週 70 歲生日,家族企業也將公布 Q3 財報;此時機適合討論下一階段傳承時程。","co",20]],
+ tasks:[["家族資產整合與監控",90,"ai","跨境、跨系統整合。"],["跨境法遵與稅務檢核",85,"ai","CRS、FATCA 規則明確。"],["傳承架構模擬",70,"co","AI 模擬,價值觀討論是你的。"],["專家團隊協調",85,"ai","排程、彙整、追蹤。"],["家族動力與價值觀對話",10,"you","三代人的顧慮,只有人能承接。"],["超高資產客戶信任",10,"you","稀有的信任,無法自動化。"]],
+ calc:[8,8,10,16],
+ agent:[
+  {label:"傳承架構模擬",prompt:"陳家族總資產 60 億,含企業持股 40 億、不動產 12 億、金融資產 8 億,幫我模擬 3 種傳承架構。",steps:["載入家族資產與成員稅務居民身分","建構 3 種架構 (直接繼承/信託/保險 + 信託)","計算遺產稅、贈與稅與執行成本","分析控制權轉移時程","檢核各國法規限制"],reply:"**傳承架構模擬**\n\n| 架構 | 預估稅負 | 控制權 | 彈性 | 複雜度 |\n|---|---|---|---|---|\n| A 直接繼承 | **11.2 億** | 立即分散 | 低 | 低 |\n| B 家族信託 (閉鎖型) | 4.2 億 | 受託人集中,10 年後轉移 | 中 | 高 |\n| C 信託 + 保險金信託 | **1.8 億** | 同 B,保險金作稅源 | 高 | 高 |\n\n**關鍵考量**:\n• 架構 B/C 需將企業持股移入信託,涉及 40 億股權移轉,建議分 3 年執行以控管贈與稅\n• 二代成員中 1 人可能為美國稅務居民,信託受益人設計需避開 PFIC 規則\n• 陳董曾表示「不希望孩子太早拿到錢」→ 架構 B/C 較符合\n\n**建議**:架構 C,但先與家族討論「控制權 10 年後轉移」是否可接受",approve:"要我生成三架構比較的一頁式圖表,並排入 9/14 專家會議議程嗎?"},
+  {label:"跨境稅務身分預警",prompt:"檢查陳家族所有成員的跨境稅務身分風險。",steps:["載入 8 位家族成員的居留紀錄","比對各國稅務居民判定規則","檢核 CRS/FATCA 申報義務","評估對現有信託與帳戶的影響"],reply:"**跨境稅務身分檢核 (8 位成員)**\n\n⚠️ **1 位高風險**\n**陳○○ (二代次子)**:今年在美居留 **191 天** (>183),可能觸發美國稅務居民身分\n• 影響:成為新加坡信託受益人 → 信託可能被視為 Grantor Trust,需申報 Form 3520\n• 影響:台灣金融帳戶需依 FATCA 申報\n• 建議:立即諮詢美國稅務律師,考慮年底前調整居留天數或修改受益人設計\n\n🟡 **1 位需注意**\n**陳○○ (三代)**:英國留學,居留 2 年,尚未達英國稅務居民,但明年可能\n\n✅ 其餘 6 位無變動\n\n**CRS 申報**:2030 年度申報資料已預備,無遺漏",approve:"要我安排與美國稅務律師的諮詢,並生成給陳董的說明摘要嗎?"}],
+ cmp:{now:["翻 8 個系統 3 個國家拼家族全貌","傳承方案一輪專家會議 3 週","跨境法遵靠來回 Email"],future:["家族資產一頁整合,到期事項自動提醒","3 種架構模擬,你談價值觀","稅務身分變動即時預警"]},
+ shifts:[["資訊整合者","總管家","AI 整合資產,你整合人。"],["會議協調者","家族對話主持人","三代人的顧慮,由你承接。"],["方案提供者","價值觀翻譯者","把家族的願望翻成可執行的架構。"]]
+},
+{id:"trader",cat:4,icon:"⚡",name:"自營 / 機構交易員",en:"Institutional Trader",desc:"執行大單、控制成本、管理風險、抓機會。你想要的是:讓演算法處理執行,把專注力留給市場真正的轉折點。",
+ title2030:"市場微結構策略師",quote:"演算法執行得比我好,但什麼時候不該交易,還是我說了算。",agents:["執行演算法 Agent","流動性地圖 Agent","異常偵測 Agent","風控 Agent"],
+ day:[
+  ["07:30","盤前流動性地圖","看昨日成交、預估今天流動性。","Agent 生成各標的流動性預測、事件日曆與執行策略建議。","今日 3 檔待執行標的中,C 公司平均日成交量下降 30%,建議延長執行至 2 日或採用暗池。","ai",40],
+  ["09:00","大單執行","手動切單、盯盤、調整。","演算法依市場微結構動態執行,Agent 即時報告偏離與市場異常,你決定何時介入。","B 公司買單已執行 40%,VWAP 偏離 -3bp (優於基準);偵測到 09:42 異常大單,已暫緩 5 分鐘。","co",120],
+  ["11:00","風險與部位監控","看風控系統,等警示。","Agent 即時追蹤部位、限額、Greeks,預測情境損益。","組合 delta 曝險上升,若午盤指數再跌 1%,將觸及日內損失限額 80%,建議預先調整。","ai",40],
+  ["13:30","市場異常應變","靠盤感,反應時間長。","Agent 偵測異常 (閃崩、流動性枯竭、新聞衝擊) 並提供應變選項,你按下決定。","偵測到 D 公司 30 秒內下跌 8%,新聞源顯示為誤傳,建議暫停該標的演算法並評估逢低機會。","you",30],
+  ["15:00","執行成本分析 (TCA)","隔天才看報告。","Agent 即時生成 TCA,標示成本來源與演算法調整建議。","今日執行成本 4.2bp (基準 6bp),主要節省來自暗池使用率提升;建議 C 公司類型標的改用 Adaptive 演算法。","ai",50],
+  ["16:30","策略回顧與研究","下班後看研究、寫日誌。","Agent 生成交易日誌、回測策略微調,你決定明天的策略方向。","本週演算法在高波動時段表現優於低波動時段;建議測試「波動率觸發切換」策略,回測結果已備。","co",40]],
+ tasks:[["訂單執行與切單",90,"ai","演算法執行優於人工。"],["流動性預測與執行策略",85,"ai","數據密集,AI 擅長。"],["風險與部位監控",95,"ai","即時、無盲點。"],["執行成本分析",95,"ai","即時 TCA。"],["市場異常判斷與介入",25,"you","什麼時候不該交易,是人的判斷。"],["策略方向與風險偏好",20,"you","策略是你定的,演算法執行。"]],
+ calc:[8,6,4,22],
+ agent:[
+  {label:"大單執行策略",prompt:"要買進 B 公司 200 萬股,約當日均量 15%,幫我建議執行策略。",steps:["分析 B 公司近 20 日流動性與波動","載入今日事件日曆","模擬 4 種演算法 (VWAP/TWAP/POV/Adaptive) 成本","評估暗池與大宗交易可行性"],reply:"**執行策略建議 · B 公司 200 萬股買進**\n\n**市場條件**:20 日均量 1,340 萬股,今日預估 1,200 萬;14:00 有同業法說可能影響波動\n\n**演算法模擬 (預估成本)**:\n| 策略 | 成本 (bp) | 完成時間 | 風險 |\n|---|---|---|---|\n| VWAP | 8.5 | 全日 | 法說時段曝險 |\n| POV 10% | 7.2 | 1.5 日 | 隔夜風險 |\n| **Adaptive** | **5.8** | 全日 | 低 |\n| 大宗 + 演算法 | 4.5 | 全日 | 需找到對手 |\n\n**建議**:先詢問 2 家大宗交易對手 (預估可成交 60 萬股),剩餘 140 萬股採 Adaptive,14:00 法說前後 15 分鐘暫停\n\n**風控**:此筆買進後 B 公司權重 4.8%,低於 5% 限額 ✅",approve:"要我啟動 Adaptive 演算法 (140 萬股) 並發送大宗詢價嗎?"},
+  {label:"市場異常應變",prompt:"D 公司突然跌 8%,怎麼回事?我該做什麼?",steps:["掃描新聞源與社群訊息","分析成交明細與委託簿變化","比對歷史類似事件","生成應變選項"],reply:"**D 公司異常下跌分析 (13:31–13:32)**\n\n**發生什麼**:30 秒內下跌 8.2%,成交量為平時 40 倍\n\n**可能原因**:\n• 13:30 社群流傳「D 公司遭調查」訊息,**經比對為 2027 年舊聞誤傳**\n• 委託簿顯示單一來源大量市價賣單,疑為演算法誤觸發\n\n**歷史比對**:類似「舊聞誤傳」事件 5 次,平均 20 分鐘內回補 70% 跌幅\n\n**應變選項**:\nA. 暫停我方 D 公司相關演算法 (已自動執行 ✅)\nB. 逢低買進:當前價格較公允價值折價 7%,流動性充足\nC. 觀望等待公司澄清\n\n**風控檢核**:選 B 若買進 50 萬股,日內限額使用率 62% → 72%",approve:"要執行選項 B (買進 50 萬股,限價 -6%) 嗎?"}],
+ cmp:{now:["手動切單、盯盤、調整","風控靠警示,常來不及","TCA 隔天才看"],future:["演算法執行 + 異常即時報告","情境損益預測,提前調整","即時 TCA + 策略微調建議"]},
+ shifts:[["執行者","策略師","演算法執行,你設計策略。"],["盯盤者","異常判斷者","什麼時候不該交易,由你決定。"],["事後分析者","即時優化者","每一筆執行都在教你下一筆。"]]
+},
+
+// ===== 角色資料 (3/3):風控與法遵、科技與營運 =====
+{id:"compliance",cat:5,icon:"⚖️",name:"法遵人員",en:"Compliance Officer",desc:"法規追蹤、內規修訂、教育訓練、監理回覆。你想要的是:別再手動比對法規異動,把時間留給真正需要判斷的灰色地帶。",
+ title2030:"法規風險導航員",quote:"AI 讀完所有法規,我判斷哪一條會真的咬到我們。",agents:["法規追蹤 Agent","內規比對 Agent","監理回覆 Agent","訓練生成 Agent"],
+ day:[
+  ["08:30","法規異動追蹤","每天看金管會公告、翻法規資料庫。","Agent 自動追蹤 12 個監理機關公告,比對本行內規,標出「需要修改的條文」。","金管會昨日修正《銀行辦理衍生性商品業務應注意事項》第 12 條,影響本行內規 3 份、作業流程 2 項。","ai",60],
+  ["10:00","內規修訂","逐條比對、寫修訂對照表。","Agent 生成修訂對照表與影響部門清單,你判斷修訂幅度與時程。","修訂對照表已生成,建議「重大修訂」路徑 (需董事會核准),因涉及客戶分級標準變動。","co",90],
+  ["11:30","業務單位法遵諮詢","業務問「這樣可以嗎」,翻半天才回。","Agent 依法規、內規與前例草擬初步意見,你判斷灰色地帶。","業務詢問「可否向專業投資人推介未上市債券」:法規允許但本行內規限制較嚴,前例 2 件皆為「有條件同意」。","co",60],
+  ["14:00","監理檢查回覆","彙整各部門資料、寫回覆,兩週。","Agent 整理檢查缺失、追蹤改善進度、生成回覆草稿,你確認立場與語氣。","金檢 8 項缺失中 6 項已改善並附證據,2 項進度落後 (資訊部門),回覆草稿已依實際進度撰寫。","ai",120],
+  ["16:00","法遵教育訓練","做投影片、講一樣的內容。","Agent 依各部門風險與近期案例生成客製化訓練內容與測驗,你設計重點與講解灰色地帶。","理財部門訓練教材已生成,加入本月 2 件同業裁罰案例,測驗題 10 題。","ai",90],
+  ["17:30","法遵風險儀表板","月報才有全貌。","Agent 每日更新法遵風險指標、裁罰趨勢與內部異常,你決定優先關注。","本月同業裁罰 4 件,3 件涉及 KYC 未更新;本行 KYC 逾期率 2.1%,較上月上升,建議關注。","ai",40]],
+ tasks:[["法規異動追蹤與比對",95,"ai","文本比對是 AI 的強項。"],["內規修訂對照表",80,"ai","生成對照與影響分析。"],["監理檢查回覆與追蹤",80,"ai","資料彙整與進度追蹤。"],["教育訓練內容製作",85,"ai","客製化生成。"],["灰色地帶判斷與意見",25,"you","法規沒寫清楚的,需要人判斷。"],["監理溝通與立場協商",15,"you","與監理機關的關係與信任。"]],
+ calc:[12,14,8,6],
+ agent:[
+  {label:"法規異動影響分析",prompt:"金管會剛修正衍生性商品業務注意事項,對我們有什麼影響?",steps:["擷取修正條文與新舊對照","比對本行 47 份相關內規","識別受影響作業流程與系統","評估修訂路徑與時程","生成影響摘要"],reply:"**法規異動影響分析**\n\n**修正重點**:第 12 條「專業客戶」認定新增「淨資產 + 交易經驗」雙重標準 (原僅淨資產)\n\n**對本行影響**:\n📄 **內規 (3 份需修)**:\n• 《衍生性商品客戶分級辦法》§4 — 重大修訂\n• 《KYC 作業手冊》§7.2 — 一般修訂\n• 《商品適合度檢核表》— 表單修改\n\n⚙️ **流程/系統 (2 項)**:\n• KYC 系統需新增「交易經驗」欄位 (資訊部評估 6 週)\n• 現有 1,240 位專業客戶需重新認定,預估 15% 不符新標準\n\n⏰ **時程**:法規生效 2031/01/01,建議 10 月底前完成內規修訂\n\n**建議路徑**:重大修訂 (董事會),因涉及客戶權益",approve:"要我生成修訂對照表與跨部門工作計畫,並發送給相關單位嗎?"},
+  {label:"業務法遵諮詢",prompt:"理財部問:可以主動向已認定的專業投資人推介境外未上市公司債嗎?",steps:["檢索相關法規 (境外商品/專業投資人)","比對本行內規限制","檢索過去 3 年類似諮詢與意見","識別灰色地帶"],reply:"**法遵初步意見 (供你判斷)**\n\n**法規層面**:《境外結構型商品管理規則》允許向專業投資人推介 ✅\n\n**內規層面**:本行《商品推介辦法》§9 限制「未上市債券僅限客戶主動詢問」⚠️ → **內規比法規嚴**\n\n**前例**:\n• 2028/05 類似諮詢 → 有條件同意 (需總經理核准 + 加強風險揭露)\n• 2029/11 類似諮詢 → 不同意 (該商品發行人評等不足)\n\n**灰色地帶**:本次商品發行人評等 BBB (投資等級),但為本行首次推介該發行人\n\n**建議選項**:\nA. 依內規不同意\nB. 有條件同意 (參照 2028 前例)\nC. 啟動內規檢討\n\n**需你判斷**:內規限制的立法意旨是否適用本案",approve:"你選擇後,要我生成正式法遵意見書並記錄至諮詢系統嗎?"}],
+ cmp:{now:["每天翻公告與法規資料庫","業務問問題,翻半天才回","金檢回覆兩週彙整"],future:["異動自動比對內規,標出要改的條文","AI 草擬初步意見,你判斷灰色地帶","缺失追蹤與回覆草稿自動化"]},
+ shifts:[["法規閱讀者","風險導航員","AI 讀法規,你判斷哪條會咬人。"],["對照表製作者","修訂決策者","改多少、什麼時候改,由你定。"],["訓練講師","灰色地帶解說者","講 AI 講不了的『為什麼』。"]]
+},
+{id:"aml",cat:5,icon:"🕵️",name:"AML 反洗錢調查員",en:"AML Investigator",desc:"警示審查、交易調查、可疑交易申報。你想要的是:別再花 80% 時間排除誤報,把調查功力用在真正的洗錢網絡。",
+ title2030:"金融犯罪網絡分析師",quote:"誤報 AI 排除,真正的壞人由我追。",agents:["警示分級 Agent","關聯網絡 Agent","調查報告 Agent","負面新聞 Agent"],
+ day:[
+  ["08:30","警示案件分流","每天 200 件警示,逐件看。","Agent 依風險分數與情境自動排除 75% 誤報並附理由,你先看高風險的。","今日 214 件警示,162 件已排除 (理由已附),52 件待審,其中 6 件涉及跨境多層轉帳模式。","ai",120],
+  ["10:00","交易模式分析","畫 Excel 表看資金流。","Agent 生成資金流向圖、關聯帳戶網絡與時間線,你判斷是否可疑。","帳戶 X 近 30 日收到 47 個不同來源小額匯入,合計 1,200 萬,48 小時內匯至 3 個境外帳戶,符合分層 (layering) 模式。","co",90],
+  ["11:30","客戶背景與負面新聞","Google、翻資料庫、看新聞。","Agent 整合公開資料、制裁名單、負面新聞與公司登記,生成客戶風險輪廓。","帳戶 X 負責人與 2028 年一起詐欺案被告為同一地址登記的另一公司董事,關聯已標記。","ai",60],
+  ["14:00","調查報告撰寫","寫 STR 報告 4 小時,一半在整理交易明細。","Agent 生成報告草稿與附件,你撰寫「可疑理由與判斷」。","STR 草稿完成,交易明細與關聯圖已附,請撰寫可疑理由段落。依模式判斷,建議引用「分層」與「快速轉出」指標。","co",120],
+  ["16:00","跨機構與執法協作","打電話、發公文、等回覆。","Agent 整理共享情資、追蹤回覆、比對其他機構通報。","調防中心回覆:帳戶 X 關聯帳戶已被另 2 家銀行通報,情資已整合至調查卷。","ai",40],
+  ["17:30","規則調校與回饋","誤報率高,規則年年不變。","Agent 依調查結果回饋警示規則效能,建議調整。","本月「大額現金」規則誤報率 94%,建議加入「職業類型」與「歷史模式」變數,預估誤報降至 70%。","ai",40]],
+ tasks:[["警示分流與誤報排除",90,"ai","AI 排除 75% 誤報,附理由。"],["資金流向與網絡分析",85,"ai","圖分析是 AI 主場。"],["客戶背景與負面新聞",90,"ai","多源整合。"],["STR 報告撰寫",65,"co","AI 生成草稿,可疑理由由你寫。"],["可疑判斷與申報決定",25,"you","要不要通報,是人的判斷與責任。"],["執法機關溝通",20,"you","與檢調的協作需要人。"]],
+ calc:[14,12,4,10],
+ agent:[
+  {label:"可疑交易網絡分析",prompt:"分析帳戶 X 的資金流,判斷是否符合洗錢模式。",steps:["載入帳戶 X 近 90 日 1,840 筆交易","建構資金流向圖 (上游/下游)","識別關聯帳戶與共同特徵","比對洗錢類型學 (typology)","計算風險分數"],reply:"**帳戶 X 資金流分析**\n\n🔴 **風險分數 0.91 (極高)**\n\n**模式識別**:\n• **集中 (Placement)**:47 個不同自然人帳戶匯入,單筆 15–28 萬 (低於申報門檻 50 萬),合計 1,200 萬\n• **分層 (Layering)**:48 小時內分 12 筆匯至 3 個境外帳戶 (香港 2、新加坡 1)\n• **快速轉出**:平均停留 31 小時\n\n**關聯發現**:\n• 47 個匯入帳戶中 31 個開戶於近 6 個月,18 個登記地址為同一縣市\n• 帳戶 X 負責人與 2028 年詐欺案被告共同擔任另一公司董事\n\n**類型學比對**:符合「詐欺收款 → 人頭帳戶 → 境外洗出」模式 (信心度 87%)\n\n**建議**:提交 STR 並考慮暫停帳戶",approve:"要我生成 STR 報告草稿,並發起帳戶凍結評估流程嗎?"},
+  {label:"警示規則效能回顧",prompt:"我們的警示誤報率太高了,幫我看哪些規則該調。",steps:["載入近 6 個月 38,400 件警示與處置結果","計算各規則誤報率與命中率","分析誤報共同特徵","模擬規則調整效果"],reply:"**警示規則效能分析 (近 6 個月)**\n\n| 規則 | 警示數 | 誤報率 | 真陽性 |\n|---|---|---|---|\n| R01 大額現金 | 12,400 | **94%** | 744 |\n| R04 高頻小額 | 8,200 | 71% | 2,378 |\n| R07 跨境快速轉出 | 3,100 | 38% | 1,922 |\n| R12 休眠帳戶復活 | 2,800 | **96%** | 112 |\n\n**調整建議**:\n1. **R01**:加入「職業 = 零售/餐飲」與「歷史現金模式」變數 → 模擬誤報率 94% → 70%,真陽性保留 98%\n2. **R12**:提高門檻至 30 萬且加「復活後 7 日內轉出」→ 誤報 96% → 82%\n3. **R07**:效能佳,建議權重提高\n\n**預估效果**:整體警示量 -34%,調查員每日案件 214 → 141",approve:"要我生成規則變更提案並送至 AML 委員會嗎?"}],
+ cmp:{now:["200 件警示逐件看,80% 是誤報","資金流畫 Excel","STR 報告 4 小時"],future:["75% 誤報自動排除,附理由","資金流向圖 + 關聯網絡 1 分鐘","你只寫『可疑理由』"]},
+ shifts:[["警示處理員","網絡分析師","追真正的洗錢網絡,不是排除誤報。"],["資料整理者","類型學專家","AI 比對模式,你判斷新型態。"],["報告撰寫者","申報決策者","通報是你的判斷與責任。"]]
+},
+{id:"risk",cat:5,icon:"🛡️",name:"風險管理經理",en:"Risk Manager",desc:"信用風險、市場風險、壓力測試、資本管理。你想要的是:別再等月報,即時看見風險在哪裡集中。",
+ title2030:"風險情境設計師",quote:"AI 算出所有風險數字,我設計那些沒人想到的情境。",agents:["風險監控 Agent","壓力測試 Agent","模型驗證 Agent","資本規劃 Agent"],
+ day:[
+  ["08:30","風險儀表板","打開 6 個系統看限額。","Agent 整合信用、市場、流動性、作業風險指標,標出今日異常與趨勢變化。","不動產放款集中度升至 28.4% (限額 30%);市場風險 VaR 使用率 84%;3 個信用評等下調的大型客戶已標記。","ai",50],
+  ["10:00","壓力測試情境","每年做一次監理情境。","Agent 每週執行多情境壓力測試,你設計新情境 (地緣、氣候、科技衝擊)。","「台海緊張 + 匪率貶 10%」情境下,資本適足率由 14.2% 降至 11.8%,仍高於最低要求,但緩衝縮小。","co",120],
+  ["11:30","風險委員會","報告一堆數字,討論流於形式。","Agent 預先整理「需要決策的 3 個風險議題」與選項,會議聚焦在決策。","議題 1:不動產集中度接近限額,選項為降低額度、提高限額、或轉分散;各選項對 RWA 與獲利影響已試算。","you",30],
+  ["14:00","模型驗證","翻模型文件,自己重跑。","Agent 執行模型回測、穩定性與敏感度分析,標出退化模型。","信用評分模型 PD 回測 Gini 由 0.68 降至 0.61,超過退化門檻,建議重新校準。","ai",90],
+  ["16:00","新業務風險評估","業務送新產品,你從頭評估。","Agent 依產品結構識別風險類型、比對政策與限額、模擬損失分配,你判斷風險偏好。","新產品「綠色供應鏈融資」主要風險為集中度 (單一核心企業) 與 ESG 認證風險,建議設定單一核心企業限額。","co",60],
+  ["17:30","資本規劃","季度才做,Excel 版本混亂。","Agent 依業務計畫、監理變動與情境滾動預測資本需求。","依 2031 業務計畫,RWA 成長 9%,資本適足率預估降至 13.5%;若 ICS 2.0 過渡辦法實施,再降 0.8pp。","ai",60]],
+ tasks:[["風險指標監控與報告",95,"ai","即時、多維度整合。"],["壓力測試執行",85,"ai","運算與情境套用。"],["模型驗證與回測",85,"ai","統計檢定與穩定性分析。"],["資本規劃與預測",80,"ai","依 driver 滾動預測。"],["風險偏好與限額決策",20,"you","接受多少風險,是管理判斷。"],["情境設計與未知風險",25,"you","沒人想到的情境,需要人的想像。"]],
+ calc:[12,12,10,6],
+ agent:[
+  {label:"客製壓力情境",prompt:"幫我設計並執行一個「台海緊張升溫 + 全球供應鏈中斷」的壓力情境。",steps:["定義情境參數 (匪率/利率/股市/違約率)","比對歷史類似事件校準參數","對信用、市場、流動性組合施加衝擊","計算資本與流動性影響","識別最脆弱的曝險"],reply:"**壓力情境:台海緊張 + 供應鏈中斷**\n\n**情境參數** (參考 2022 烯烷危機 + 2020 供應鏈校準):\n• 台幣貶值 10%、台股 -25%、利差擴大 150bp\n• 出口導向產業違約率 ×2.5、不動產價格 -15%\n\n**影響**:\n| 指標 | 基準 | 壓力後 |\n|---|---|---|\n| 資本適足率 | 14.2% | **11.8%** |\n| 預期損失 | 42 億 | 128 億 |\n| LCR | 132% | 108% |\n| 不動產 LTV > 80% 部位 | 8% | **31%** |\n\n**最脆弱曝險**:\n1. 電子零組件出口商放款 (280 億) — 違約率上升最劇\n2. 高 LTV 不動產放款 — 擔保品覆蓋惡化\n3. 美元流動性 — 若外幣拆借市場收縮\n\n**建議**:針對曝險 1 提前檢視 20 家最大客戶",approve:"要我生成情境報告並排入下週風險委員會嗎?"},
+  {label:"模型退化診斷",prompt:"信用評分模型好像不準了,幫我診斷。",steps:["執行近 12 個月 PD 回測","計算 Gini、KS、PSI 指標","分析退化來源 (族群/變數)","評估重新校準 vs 重建"],reply:"**信用評分模型診斷 (零售)**\n\n**效能指標**:\n• Gini:0.68 → **0.61** (退化門檻 0.62) 🔴\n• KS:42 → 36\n• PSI:0.18 (>0.10,母體顯著變動) ⚠️\n\n**退化來源**:\n• **族群變動**:自由工作者申請比例 12% → 28%,模型「薪資穩定性」變數對此族群鑑別力低\n• **變數失效**:「信用卡張數」變數在數位支付普及後預測力下降 40%\n• 其他變數穩定\n\n**建議**:\n• 短期 (1 個月):重新校準,加入「數位收入流」變數\n• 中期 (6 個月):重建模型,納入開放銀行資料\n\n**監理提醒**:模型變更需依內部模型治理流程送模型委員會",approve:"要我生成模型驗證報告並啟動重新校準專案嗎?"}],
+ cmp:{now:["打開 6 個系統看限額","壓力測試一年一次","風險委員會報一堆數字"],future:["風險儀表板即時,異常自動標記","每週多情境,你設計新情境","會議聚焦在 3 個需要決策的議題"]},
+ shifts:[["數字報告者","情境設計師","AI 算數字,你想像沒人想到的情境。"],["限額監控者","風險偏好決策者","接受多少風險,由你建議。"],["模型使用者","模型治理者","AI 驗證,你決定何時重建。"]]
+},
+{id:"audit",cat:5,icon:"🔎",name:"內部稽核",en:"Internal Auditor",desc:"年度計畫、實地查核、抽樣測試、缺失追蹤。你想要的是:從抽樣變全面,把時間花在真正的風險判斷與改善建議。",
+ title2030:"持續保證顧問",quote:"以前抽 30 筆,現在 AI 看 3 萬筆,我看那 3 筆真的有問題的。",agents:["持續稽核 Agent","文件審閱 Agent","缺失追蹤 Agent","報告生成 Agent"],
+ day:[
+  ["08:30","風險評估與計畫","年初做一次年度計畫。","Agent 依風險指標、事件、監理關注動態調整稽核優先序,你決定資源配置。","本季風險熱點:數位通路開戶 (客訴 +40%)、衍生性商品 (法規異動),建議調整 Q4 稽核優先序。","co",60],
+  ["10:00","全母體測試","抽 30 筆傳票人工核對。","Agent 對全母體 (數萬筆) 執行控制測試,標出例外,你分析根因。","授信案件全母體 3,240 件測試,發現 14 件核准權限不符,集中在 2 家分行、同一期間。","ai",180],
+  ["11:30","受查單位訪談","照 checklist 問。","Agent 提供受查單位風險輪廓與前次缺失狀態,你專注問「為什麼」與觀察文化。","該分行前次 3 項缺失中 1 項「重複發生」,建議訪談時聚焦流程設計而非人員操作。","you",30],
+  ["14:00","文件與證據審閱","翻 200 份文件找不合規。","Agent 審閱全部文件,標出缺漏、矛盾與異常,附證據索引。","200 份授信文件中 8 份缺對保錄影、3 份保證人簽名日期早於契約日期,已標記。","ai",150],
+  ["16:00","稽核報告撰寫","寫 30 頁,發現、建議來回改。","Agent 生成報告草稿與證據附件,你撰寫「根因判斷與改善建議」。","報告草稿完成。14 件權限不符我依證據描述為「事實」,「根因」段落請你判斷是流程設計還是人員問題。","co",120],
+  ["17:30","缺失追蹤","Excel 追蹤,常逾期才發現。","Agent 自動追蹤改善進度、驗證改善證據,逾期即時提醒。","32 項未結缺失中 5 項將於 7 日內到期,2 項受查單位已上傳證據待你驗證。","ai",40]],
+ tasks:[["全母體控制測試",95,"ai","從抽樣到全面。"],["文件與證據審閱",90,"ai","AI 不會漏看。"],["缺失追蹤與驗證",85,"ai","自動追蹤與提醒。"],["稽核報告撰寫",65,"co","AI 寫事實,你寫判斷。"],["根因分析與改善建議",25,"you","為什麼會發生,需要人的判斷。"],["受查單位溝通與文化觀察",15,"you","控制環境與文化,需要人來感受。"]],
+ calc:[14,14,8,4],
+ agent:[
+  {label:"全母體控制測試",prompt:"對 Q3 所有授信案件執行核准權限測試。",steps:["載入 Q3 授信案件 3,240 件","比對核准者權限矩陣","檢核核准金額、時間與權限有效性","識別例外模式","生成測試底稿"],reply:"**核准權限測試 (全母體 3,240 件)**\n\n✅ **3,226 件符合**\n\n🔴 **14 件例外**:\n• 分行 A:9 件,7/12–7/25 期間,核准者為副理 (權限 2,000 萬) 但案件金額 2,100–2,800 萬\n• 分行 B:5 件,核准者於核准當日已調職,系統權限未及時移除\n\n**模式判讀** (供你判斷根因):\n• 分行 A 集中於經理休假期間 → 疑為**代理權限設計缺陷**\n• 分行 B → 疑為**權限管理流程缺失** (HR 與系統未同步)\n\n**證據**:14 件案件清單、權限矩陣、HR 異動紀錄已附\n\n**風險評估**:14 件目前皆正常繳款,無實際損失,但為控制設計缺失",approve:"要我生成測試底稿並草擬給分行 A、B 的事實確認函嗎?"},
+  {label:"稽核報告草稿",prompt:"幫我寫這次分行稽核報告草稿,我的根因判斷是「代理權限設計缺陷」,不是人員疏失。",steps:["彙整測試結果與證據","依你的根因判斷撰寫發現","生成改善建議草稿","評估發現嚴重度等級","比對前次稽核缺失"],reply:"**稽核報告草稿 · 分行 A 授信作業**\n\n**發現 1 (中度)**:核准權限逾越\n事實:7/12–7/25 經理休假期間,9 件授信案 (2,100–2,800 萬) 由副理核准,超過其 2,000 萬權限\n**根因 (依你的判斷)**:代理權限制度未明確規範主管休假期間的代理層級與金額上限,致副理誤認可代行全部權限\n**建議**:\n1. 修訂《授信核准權限辦法》,明定代理規則 (責任單位:授信管理部,3 個月)\n2. 系統設定代理權限自動生效/失效 (資訊部,6 個月)\n3. 9 件案件補送有權主管追認\n\n**與前次比對**:前次無類似缺失,非重複發生\n\n**受查單位回應欄**:待填",approve:"要我送出草稿給受查單位確認事實,並排入稽核委員會議程嗎?"}],
+ cmp:{now:["抽 30 筆傳票人工核對","翻 200 份文件找不合規","缺失 Excel 追蹤,逾期才發現"],future:["全母體 3,240 件測試,標出 14 件","AI 審全部文件,附證據索引","改善進度自動追蹤驗證"]},
+ shifts:[["抽樣測試者","全面保證者","看全部,判斷那幾件真的有問題的。"],["文件審閱者","根因分析師","為什麼會發生,只有人能判斷。"],["缺失追蹤者","改善顧問","從『找問題』到『幫忙解決』。"]]
+},
+{id:"fraud",cat:5,icon:"🚨",name:"詐欺防制專員",en:"Fraud Analyst",desc:"即時攔阻、模式分析、規則調校、客戶關懷。你想要的是:比詐騙集團快一步,而不是事後補救。",
+ title2030:"詐欺情報獵人",quote:"詐騙集團用 AI,我們的 AI 要比他們的更快。",agents:["即時偵測 Agent","情報整合 Agent","規則進化 Agent","受害關懷 Agent"],
+ day:[
+  ["08:30","隔夜詐欺事件","看警示清單、翻案件。","Agent 彙整隔夜攔阻、漏網與新型態手法,生成「今日詐欺情報簡報」。","隔夜攔阻 42 筆疑似詐欺交易 (預估保護客戶 1,800 萬),2 筆漏網已啟動追回,偵測到新型「假投資 App」手法 7 例。","ai",50],
+  ["10:00","新手法分析","逐案讀客訴與通報,找共同點。","Agent 整合 165、同業、社群與本行案例,自動聚類新手法並生成特徵。","新手法特徵:客戶先小額獲利 3 次 → 大額投入 → App 無法提領;平均受害 85 萬,年齡 45–60 歲。","ai",90],
+  ["11:30","高風險客戶關懷","事後致電受害者。","Agent 識別「正在被騙中」的客戶行為訊號,你即時介入關懷。","客戶 E 近 3 日行為符合「假投資」前期特徵 (連續小額匯至新收款人 + 搜尋「保證獲利」),建議今日致電關懷。","you",30],
+  ["14:00","規則與模型調校","規則改一次要一個月。","Agent 依新手法即時生成規則建議、模擬誤報與攔截率,你決定上線。","新規則「小額試探後大額」模擬:攔截率 78%、誤報率 3.2%,影響 0.4% 正常客戶,建議上線並搭配簡訊確認。","co",120],
+  ["16:00","跨機構情資協作","Email、電話、等回覆。","Agent 即時交換去識別化情資,整合詐騙帳戶名單。","同業共享名單新增 340 個詐騙人頭帳戶,本行 12 位客戶近 7 日曾匯款至其中 5 個,已列關懷清單。","ai",40],
+  ["17:30","受害者協助與追回","流程繁瑣,追回率低。","Agent 自動啟動圈存與跨行追回流程、生成報案文件,你負責陪伴與說明。","今日 2 件漏網案已完成跨行圈存,追回 68 萬 (74%),報案文件已備妥供客戶簽署。","ai",60]],
+ tasks:[["即時交易偵測與攔阻",95,"ai","毫秒級,AI 的主場。"],["新手法聚類與特徵擷取",85,"ai","多源整合與模式識別。"],["規則調校與模擬",80,"ai","生成、模擬、驗證。"],["追回流程與文件",85,"ai","自動化流程。"],["被騙中客戶的即時關懷",15,"you","說服一個正在被騙的人,需要人。"],["情報判斷與策略決策",30,"you","哪些手法會爆發,規則怎麼取捨。"]],
+ calc:[10,10,6,10],
+ agent:[
+  {label:"新型詐騙手法分析",prompt:"最近好像有一種新的假投資詐騙,幫我分析特徵並建議規則。",steps:["聚類近 14 日客訴與 165 通報","擷取共同交易與行為特徵","比對同業共享情資","生成偵測規則並模擬效果"],reply:"**新型手法:假投資 App 「先甜後殺」**\n\n**案例**:本行 7 例 + 同業 23 例,近 14 日\n\n**行為特徵**:\n1. 客戶先匯 3–5 萬至新收款人 (1–3 次)\n2. 收到「獲利」回款 (金額 +10–20%) — **關鍵訊號**\n3. 7–14 日後大額匯出 (50–200 萬),常伴隨定存解約\n4. App 名稱多含「量化」「智投」;受害者 45–60 歲,68% 女性\n\n**建議規則 R-NEW-07**:\n「30 日內曾收到新收款人回款 + 本次匯款金額為前次 10 倍以上 + 24 小時內有定存解約」\n\n**模擬效果**:\n• 攔截率 78%(可回溯攔截 7 例中 5 例)\n• 誤報率 3.2%,影響 0.4% 正常客戶\n• 建議動作:暫緩 + 簡訊 + 人工致電\n\n**當前風險客戶**:3 位符合前期特徵,建議今日關懷",approve:"要我把規則送至詐防委員會審核,並把 3 位客戶排入你今日關懷清單嗎?"},
+  {label:"被騙中客戶關懷腳本",prompt:"客戶 E 好像正在被假投資詐騙,我要打電話,幫我準備。",steps:["彙整客戶 E 近 14 日交易與行為","比對手法特徵與進度階段","檢索成功說服案例話術","生成關懷腳本與應對"],reply:"**客戶 E 關懷準備**\n\n**狀態判讀**:處於「先甜後殺」**第 2 → 3 階段**\n• 9/1、9/3 各匯 3 萬至新收款人「○○科技」\n• 9/4 收到回款 3.6 萬 (+20%)\n• 今日 09:12 網銀查詢定存解約頁面 3 次 ⚠️ **關鍵時刻**\n\n**腳本 (避免直接說「你被騙了」)**:\n開場:「E 小姐,我是 XX 銀行的 ○○,今天看到您帳戶有些變動,想關心一下。」\n探詢:「最近有在用新的投資 App 嗎?聽起來報酬不錯,是朋友介紹的嗎?」\n關鍵:「這類 App 我們最近接到很多客戶反映,一開始都能提領,後來就...方便的話,您現在試著把獲利全部提領看看?」\n\n**成功率參考**:在「試著提領」這一步,73% 客戶會發現異常\n\n**若客戶抗拒**:不爭辯,提供 165 與「先等 24 小時」建議",approve:"要我在你通話期間暫緩客戶 E 的大額匯出功能 (24 小時) 嗎?"}],
+ cmp:{now:["事後看警示、打電話給已受害者","新手法靠客訴慢慢發現","規則改一次一個月"],future:["即時攔阻,漏網自動追回","新手法自動聚類,特徵當天出來","規則當天模擬、當天上線"]},
+ shifts:[["事後補救者","情報獵人","比詐騙集團快一步。"],["規則維護者","策略決策者","攔截率 vs 誤報率的取捨,由你定。"],["受害者聯繫者","即時守護者","在客戶按下匯款前出現。"]]
+},
+{id:"digipm",cat:6,icon:"📱",name:"數位金融產品經理",en:"Digital Banking Product Manager",desc:"用戶研究、需求規格、跨部門協調、數據追蹤。你想要的是:別再花時間寫規格與追進度,把心力放在真正理解用戶。",
+ title2030:"金融體驗設計總監",quote:"AI 寫規格、看數據,我決定我們要為誰解決什麼問題。",agents:["用戶洞察 Agent","規格生成 Agent","數據分析 Agent","專案協調 Agent"],
+ day:[
+  ["08:30","產品數據晨報","開 Dashboard、拉數據、找異常。","Agent 生成產品健康報告,標出異常與可能原因。","昨日 App 轉帳成功率由 99.2% 降至 97.8%,異常集中在 Android 14 + 特定銀行卡,疑為第三方 SDK 更新。","ai",40],
+  ["10:00","用戶研究","安排訪談、寫腳本、整理逐字稿,一輪 3 週。","Agent 分析客服、App 評論、行為數據找痛點,並整理訪談摘要,你設計問題與解讀。","近 30 日用戶最大痛點:「定存到期不知道」(提及 +180%),對應行為數據:到期後 7 日內轉出率 34%。","co",90],
+  ["11:30","跨部門需求會議","各部門意見不同,你做筆記回去整理。","Agent 即時轉錄、整理各方需求與衝突、生成決議與待辦。","法遵要求新增風險揭露步驤,設計團隊擔心流程增長;已找出 2 個折衷方案供決策。","you",30],
+  ["14:00","需求規格撰寫","寫 PRD 20 頁,反覆改。","口述產品邏輯,Agent 生成 PRD、用戶故事、驗收條件與法遵檢核項,你精修體驗細節。","PRD 草稿完成,已依法遵意見加入風險揭露步驟,並附 3 個 UI 流程建議。","ai",150],
+  ["16:00","A/B 測試與數據分析","等數據團隊跑報表。","Agent 即時分析實驗結果、統計顯著性與分群差異,你決定是否全量。","實驗 B 版本 (簡化開戶) 完成率 +12%,統計顯著;但 60 歲以上族群 -3%,建議分群上線。","ai",60],
+  ["17:30","專案進度追蹤","追 5 個團隊進度,填 Jira。","Agent 自動追蹤進度、風險與依賴,標出需要你介入的阻礙。","開發進度 82%,2 個阻礙:資安測試排程延後 1 週、核心系統 API 變更未同步;建議明日與資訊部主管溝通。","ai",50]],
+ tasks:[["產品數據監控與分析",90,"ai","即時異常偵測與歸因。"],["需求規格與文件撰寫",85,"ai","PRD、用戶故事自動生成。"],["A/B 測試分析",90,"ai","統計與分群分析。"],["專案進度與風險追蹤",85,"ai","自動追蹤與阻礙識別。"],["用戶同理與問題定義",20,"you","為誰解決什麼問題,是 PM 的靈魂。"],["跨部門協調與取捨決策",20,"you","法遵 vs 體驗的取捨,需要人談。"]],
+ calc:[10,14,12,4],
+ agent:[
+  {label:"用戶痛點洞察",prompt:"幫我從最近的客服、評論和行為數據找出最值得解決的用戶問題。",steps:["分析近 30 日客服紀錄 12,400 則","分析 App 商店評論 2,100 則","比對行為數據 (流失/轉出/放棄)","計算問題影響範圍與商業價值","排序機會"],reply:"**用戶痛點排序 (Top 3)**\n\n**1. 定存到期無感知** 🔥\n• 訊號:客服提及 +180%、評論負評 24%\n• 行為:到期後 7 日內轉出他行 **34%** (約 8.2 億/月)\n• 商業價值:若續存率提升 10pp,年 AUM 留存 +98 億\n• 建議:到期前 7/3/1 日智慧提醒 + 一鍵續存/轉投資\n\n**2. 轉帳收款人管理混亂**\n• 訊號:「找不到收款人」客服提及 +65%\n• 行為:轉帳流程放棄率 18% 發生在選收款人步驟\n\n**3. 帳單分期入口難找**\n• 訊號:評論提及 +40%;行為:分期使用率僅 4% (同業 9%)\n\n**建議優先**:痛點 1,開發成本低、商業價值高、法遵風險低",approve:"要我生成痛點 1 的 PRD 草稿與用戶旅程圖嗎?"},
+  {label:"A/B 測試決策",prompt:"簡化開戶流程的 A/B 測試跑了兩週,我該全量上線嗎?",steps:["載入實驗數據 (A 12,400 / B 12,800 用戶)","計算主指標與護欄指標","分群分析 (年齡/裝置/來源)","評估統計顯著性與風險"],reply:"**A/B 測試結果 · 簡化開戶流程**\n\n**主指標:開戶完成率**\n• A (現行):61.2%|B (簡化):**68.5%** (+7.3pp, +12%)\n• p < 0.001 ✅ 統計顯著\n\n**護欄指標**:\n• KYC 退件率:A 4.1%|B 4.3% (無顯著差異 ✅)\n• 客服聯繫率:A 2.8%|B 2.1% ✅\n\n**分群差異** ⚠️:\n| 族群 | B vs A |\n|---|---|\n| 20–39 歲 | **+15%** |\n| 40–59 歲 | +8% |\n| 60 歲以上 | **-3%** (簡化後少了輔助說明) |\n\n**建議**:\n• 分群上線:60 歲以下採 B 版\n• 60 歲以上維持 A 版,或針對長者設計 B+ 版 (加回說明)\n• 法遵提醒:公平待客原則,需確保長者體驗不劣化",approve:"要我生成分群上線計畫並送法遵與設計團隊審閱嗎?"}],
+ cmp:{now:["用戶研究一輪 3 週","PRD 20 頁反覆改","追 5 個團隊進度填 Jira"],future:["痛點從多源數據即時浮現","口述邏輯,AI 寫 PRD,你精修體驗","進度自動追蹤,只看需要你介入的"]},
+ shifts:[["規格撰寫者","體驗設計總監","AI 寫規格,你決定為誰解決什麼。"],["數據等待者","洞察決策者","數據即時,你判斷取捨。"],["進度追蹤者","阻礰移除者","只處理需要你出面的阻礙。"]]
+},
+{id:"engineer",cat:6,icon:"💻",name:"金融科技工程師",en:"FinTech / IT Engineer",desc:"核心系統維護、API 開發、事件處理、變更管理。你想要的是:別再半夜被叫起來,把時間花在架構與真正困難的問題。",
+ title2030:"金融系統架構師",quote:"AI 寫程式碼、修 bug、值夜班,我設計讓它不會壞的系統。",agents:["程式碼 Agent","事件應變 Agent","變更檢核 Agent","文件生成 Agent"],
+ day:[
+  ["08:30","系統健康與隔夜事件","看監控、翻 log、找根因。","Agent 已在夜間自動診斷並修復 3 個事件,早上給你根因報告與 1 個需決策的問題。","隔夜 3 事件已自動修復 (連線池耗盡、憑證更新、批次重試);1 事件需決策:核心系統 CPU 持續 85%,建議擴容或優化查詢。","ai",60],
+  ["10:00","功能開發","從零寫程式碼、查文件、除錯。","描述需求與架構決策,Agent 生成程式碼、測試與文件,你審查設計與安全性。","轉帳 API v3 已生成,含 42 個單元測試 (覆蓋率 94%)、OpenAPI 文件與資安檢核。2 個設計選項需你決定:冪等性用 Redis 或 DB。","co",180],
+  ["11:30","架構討論","畫白板、憑經驗爭論。","Agent 提供架構選項的成本、效能、風險模擬,討論聚焦在取捨。","事件驅動架構 vs 同步 API:前者延遽 +30ms 但可用性 99.99%;後者較簡單但核心系統耦合高。","you",30],
+  ["14:00","程式碼審查與安全","人工 review,常漏掉安全問題。","Agent 完成 80% 審查 (風格、安全、效能),你只審架構與業務邏輯。","PR #4821 審查:發現 1 個潛在 SQL 注入 (已修)、2 處 N+1 查詢 (已優化),業務邏輯待你確認。","ai",90],
+  ["16:00","變更上線","填變更單、排會議、祈禱。","Agent 生成變更影響分析、回滾計畫與上線檢核清單,金融級變更管理自動化。","變更 CR-3312 影響分析:涉及 3 個下游系統,已通知;回滾計畫已驗證;建議上線窗口 9/10 02:00。","ai",60],
+  ["17:30","技術債與文件","永遠沒時間寫文件。","Agent 自動生成系統文件、識別技術債並估算成本,你排優先序。","技術債報告:5 個高風險項目,其中「舊版加密演算法」涉及法遵,建議 Q4 優先處理。","ai",60]],
+ tasks:[["事件監控與自動修復",90,"ai","AI 值夜班。"],["程式碼生成與測試",80,"ai","生成 + 測試 + 文件。"],["程式碼審查 (風格/安全/效能)",85,"ai","AI 不會漏看。"],["變更管理與文件",90,"ai","影響分析、回滾、清單。"],["架構設計與技術決策",25,"you","取捨是工程師的核心價值。"],["跨團隊協作與業務理解",25,"you","理解業務為什麼要這樣做。"]],
+ calc:[8,10,10,12],
+ agent:[
+  {label:"事件根因分析",prompt:"核心系統 CPU 持續 85%,幫我找原因並給選項。",steps:["分析近 72 小時效能指標與 log","關聯部署、變更與流量變化","識別高耗用查詢與服務","模擬擴容 vs 優化效果","評估金融級變更風險"],reply:"**核心系統 CPU 根因分析**\n\n**時間線**:CPU 由 60% 升至 85%,始於 9/4 14:00,與「客戶 360 視圖」v2.3 部署吻合\n\n**根因**:v2.3 新增「即時信用額度計算」,每次查詢觸發 **7 次跨表 JOIN**,未使用快取,尖峰 QPS 1,200\n\n**選項**:\n| 方案 | 效果 | 成本 | 風險 |\n|---|---|---|---|\n| A 垂直擴容 | CPU → 65% | +18 萬/月 | 低,治標 |\n| **B 加入快取 (TTL 60s)** | CPU → **58%** | 2 人日 | 中,需驗證額度即時性 |\n| C 查詯重寫 | CPU → 52% | 5 人日 | 中 |\n\n**建議**:B,但需與業務確認「信用額度 60 秒延遽」可接受\n\n**變更管理**:方案 B 屬「一般變更」,可於下個上線窗口部署",approve:"要我生成方案 B 的程式碼、測試與變更單草稿嗎?"},
+  {label:"API 開發與安全審查",prompt:"幫我開發轉帳 API v3,要支援冪等性和金融級安全。",steps:["讀取現有 API 規格與業務規則","生成 API 程式碼與冪等性機制","生成單元測試與整合測試","執行資安掃描 (OWASP)","生成 OpenAPI 文件"],reply:"**轉帳 API v3 已生成**\n\n**架構**:\n• 冪等性:Idempotency-Key header + Redis (TTL 24h),重複請求回傳原結果\n• 驗證:mTLS + JWT + 交易簽章\n• 限流:每帳戶 10 TPS,防重放攻擊\n\n**測試**:42 個單元測試 (覆蓋率 94%)、8 個整合測試,全部通過 ✅\n\n**資安掃描**:OWASP Top 10 無高風險;1 個中風險 (錯誤訊息過於詳細) 已修\n\n**需你決定** (2 項):\n1. 冪等性儲存:Redis (快,但需處理故障轉移) vs DB (慢 15ms,但一致性強) — 金融場景建議 **DB + Redis 快取**\n2. 大額轉帳 (>50 萬) 是否加入人工審核 hook?\n\n📄 OpenAPI 文件與架構決策紀錄 (ADR) 已生成",approve:"確認設計後,要我建立 PR 並排入審查嗎?"}],
+ cmp:{now:["半夜被叫起來修 bug","從零寫程式碼、查文件","變更單填半天,上線靠祈禱"],future:["AI 值夜班,早上看根因報告","描述需求,AI 生成程式碼 + 測試","影響分析與回滾計畫自動生成"]},
+ shifts:[["程式碼撰寫者","架構師","AI 寫碼,你設計讓它不會壞的系統。"],["值班工程師","事件決策者","只處理 AI 修不了的那一件。"],["文件欠債者","技術債管理者","文件自動生成,你排優先序。"]]
+},
+{id:"security",cat:6,icon:"🔐",name:"資安專員",en:"Security Analyst (SOC)",desc:"威脅監控、事件應變、弱點管理、資安治理。你想要的是:別再淹在告警裡,把專注力留給真正的攻擊者。",
+ title2030:"威脅獵人與韌性設計師",quote:"攻擊者用 AI,防守者的 AI 要更快 — 但判斷『這是不是攻擊』還是我的事。",agents:["告警分級 Agent","威脅情資 Agent","應變自動化 Agent","弱點管理 Agent"],
+ day:[
+  ["08:30","隔夜告警與威脅情資","看 SIEM 上千條告警,大多誤報。","Agent 分級並自動處置 92% 告警,給你 8 條真正需要看的,附情資脈絡。","隔夜 4,200 條告警,3,860 條自動關閉,8 條需審查,其中 1 條符合近期針對金融業的 APT 手法 (釣魚 → 憑證竊取)。","ai",120],
+  ["10:00","事件調查","翻 log、查 IP、拼時間線,一天。","Agent 自動關聯 log、建構攻擊時間線與影響範圖,你判斷是否為真實攻擊與應變層級。","攻擊時間線:9/6 23:14 釣魚郵件 → 23:31 使用者點擊 → 23:33 憑證外洩 → 23:47 異地登入 (已阻擋)。影響範圍:1 帳戶,無橫向移動。","co",180],
+  ["11:30","應變決策","開會、打電話、手動隔離。","Agent 提供應變選項與影響評估,一鍵執行隔離、重設、通報,你按下決定。","建議:隔離該帳戶、強制重設、檢查同批釣魚收件者 (另 14 人),並依《金融機構資安事件通報辦法》評估是否需 1 小時內通報。","you",60],
+  ["14:00","弱點管理","掃描報告 500 項,不知從哪開始。","Agent 依可利用性、資產重要性與威脅情資排序,生成修補計畫。","500 項弱點中 12 項為「高風險 + 對外曝露 + 已有攻擊程式」,建議 72 小時內修補,修補計畫已依變更窗口排定。","ai",90],
+  ["16:00","釣魚演練與意識","手動設計演練、統計結果。","Agent 依最新攻擊手法生成演練情境、分析結果、產生個人化教育。","本月演練點擊率 8.2% (上月 11%),財務部門仍偏高 (15%),已生成針對性教材。","ai",60],
+  ["17:30","資安治理與報告","寫月報給董事會,數據東拼西湊。","Agent 生成資安風險儀表板與董事會報告草稿,你寫風險判斷與建議。","董事會報告草稿:本月事件 3 件 (皆已控制)、弱點修補率 94%、演練點擊率下降;請你撰寫「APT 威脅趨勢判斷」段落。","ai",60]],
+ tasks:[["告警分級與自動處置",95,"ai","92% 告警不需要人看。"],["Log 關聯與攻擊時間線",90,"ai","關聯分析是 AI 主場。"],["弱點排序與修補計畫",90,"ai","風險排序與排程。"],["演練與教育訓練",85,"ai","情境生成與個人化。"],["攻擊真偽判斷與應變層級",25,"you","這是不是攻擊?要不要通報?你決定。"],["資安策略與董事會溝通",20,"you","風險判斷與資源爭取。"]],
+ calc:[12,10,6,10],
+ agent:[
+  {label:"疑似 APT 事件調查",prompt:"這條告警看起來像針對金融業的 APT,幫我調查。",steps:["關聯 SIEM、EDR、郵件、身分系統 log","建構攻擊時間線與 MITRE ATT&CK 對應","評估影響範圍與橫向移動","比對威脅情資 (TTPs)","生成應變選項"],reply:"**事件調查 #SEC-30-0907-01**\n\n🔴 **判定:高信心度真實攻擊 (非誤報)**\n\n**攻擊時間線**:\n| 時間 | 事件 | ATT&CK |\n|---|---|---|\n| 23:14 | 釣魚郵件 (偽裝金管會公文) 寄至 15 人 | T1566.001 |\n| 23:31 | 使用者 A 點擊並輸入憑證 | T1078 |\n| 23:33 | 憑證外洩至攻擊者 C2 | T1041 |\n| 23:47 | 境外 IP 嘗試登入 VPN → **MFA 阻擋** ✅ | T1133 |\n\n**影響範圖**:1 帳戶憑證外洩,無成功登入,無橫向移動\n\n**情資比對**:TTPs 與近期針對亞太金融業的 APT 組織 87% 吻合\n\n**應變選項**:\nA. 隔離帳戶 + 強制重設 (建議立即)\nB. 通知另 14 位收件者並掃描 (建議)\nC. 依通報辦法:目前無資料外洩,屬「第 3 級」,**不需 1 小時通報**,但建議記錄\nD. 提交情資至金融資安資訊分享中心 (F-ISAC)",approve:"要我執行 A + B,並生成 F-ISAC 情資分享草稿嗎?"},
+  {label:"弱點修補優先序",prompt:"這次掃描出 500 項弱點,幫我排優先序。",steps:["載入 500 項弱點與 CVSS 分數","比對資產重要性與對外曝露","比對威脅情資 (是否已有攻擊程式/正被利用)","對應變更窗口生成修補計畫"],reply:"**弱點修補優先序 (500 項)**\n\n🔴 **P0 · 72 小時內 (12 項)**\n高風險 + 對外曝露 + 已有攻擊程式\n• 網銀 WAF 繞過漏洞 (CVE-2030-xxxx) — 已被利用於同業\n• VPN 閘道認證繞過 — 影響全行遠端存取\n• ... (另 10 項)\n\n🟡 **P1 · 2 週內 (48 項)**:高風險但內網或無公開攻擊程式\n\n🟢 **P2 · 下季 (340 項)**:中低風險\n\n⚪ **接受風險 (100 項)**:低風險 + 補償控制存在,建議正式記錄\n\n**修補計畫**:P0 已對應 9/8 02:00 與 9/10 02:00 變更窗口,並通知系統負責人\n\n**業務影響**:VPN 修補需 30 分鐘停機,建議週日凌晨",approve:"要我建立 12 張 P0 變更單並通知負責人嗎?"}],
+ cmp:{now:["淹在 4,200 條告警裡","事件調查拼 log 一天","500 項弱點不知從哪開始"],future:["92% 自動處置,只看 8 條","攻擊時間線 + ATT&CK 對應自動生成","依威脅情資排序,72 小時修 P0"]},
+ shifts:[["告警處理者","威脅獵人","不是等告警,而是主動找攻擊者。"],["Log 分析者","應變決策者","AI 拼時間線,你判斷真偽與層級。"],["修補執行者","韌性設計師","設計讓攻擊進來也不會擴散的架構。"]]
+},
+{id:"data",cat:6,icon:"📊",name:"資料分析師",en:"Data Analyst",desc:"報表、SQL、儀表板、業務問題分析。你想要的是:別再當人肉 SQL 機,把時間花在問對問題。",
+ title2030:"決策科學夥伴",quote:"人人都能問數據問題了,我的價值是幫他們問對問題。",agents:["自然語言查詢 Agent","報表生成 Agent","異常偵測 Agent","實驗分析 Agent"],
+ day:[
+  ["08:30","例行報表","跑 SQL、貼 Excel、寄出。","Agent 自動生成並派送 30 份例行報表,附異常說明。","30 份報表已派送。異常:信用卡新戶數 WoW -18%,主因某通路活動結束,已附說明。","ai",90],
+  ["10:00","業務臨時需求","業務問「上月哪個分行成長最快」,你寫 SQL 半小時。","業務直接用自然語言問 Agent,80% 問題自助解決;轉到你手上的是需要定義與判斷的問題。","業務詢問「客戶流失率」,但流失定義不一致 (3 個部門 3 種),建議你召集定義。","co",120],
+  ["11:30","問題定義與分析設計","業務說要「分析客戶」,你猜他要什麼。","你與業務對話釐清真正的決策問題,Agent 提供資料可行性與方法建議。","業務的真正問題是「該投資哪個客群的留存」,建議以 LTV 與流失風險分群,資料可行。","you",30],
+  ["14:00","深度分析與建模","清資料、跑模型、調參數,三天。","描述分析目標,Agent 執行資料處理、特徵工程與建模,你解讀結果與商業意涵。","流失預測模型 AUC 0.84,最強預測因子為「近 60 日 App 登入下降」與「薪轉停止」,分群結果已視覺化。","co",180],
+  ["16:00","儀表板與視覺化","拉 Tableau、調顏色、對齊。","Agent 依受眾生成儀表板與敘事,你決定「要讓誰看見什麼」。","高階主管版儀表板已生成 (3 個 KPI + 1 個洞察);分行主管版含分行排名。你要調整敘事重點嗎?","ai",90],
+  ["17:30","資料品質與治理","發現數據錯了,追源頭一天。","Agent 持續監控資料品質、追溯血緣、標出斷點。","資料品質警示:客戶年齡欄位 2% 為空值,源自昨日 CRM 介面變更,已通知資訊部並標記受影響報表。","ai",60]],
+ tasks:[["例行報表生成與派送",95,"ai","完全自動化。"],["臨時查詢 (自然語言 → SQL)",85,"ai","業務自助 80%。"],["資料處理與建模",80,"ai","清理、特徵、訓練。"],["儀表板與視覺化",85,"ai","依受眾生成。"],["問題定義與分析設計",20,"you","問對問題,是分析師的價值。"],["結果解讀與決策建議",30,"you","數字說什麼,對業務意味什麼,你來翻譤。"]],
+ calc:[14,12,8,6],
+ agent:[
+  {label:"業務問題轉分析設計",prompt:"業務主管說「幫我分析一下客戶」,我該怎麼設計這個分析?",steps:["檢索該主管近期會議與 Email 脈絡","識別可能的決策問題","評估資料可行性","生成分析設計選項與釐清問題"],reply:"**分析設計建議**\n\n**脈絡線索**:該主管近 2 週會議提及「留存預算」3 次、「Q4 目標」2 次 → 真正問題可能是**「Q4 留存預算該投在哪個客群」**\n\n**建議釐清問題 (面談用)**:\n1. 「這個分析會影響什麼決定?」\n2. 「預算大約多少?時程?」\n3. 「成功長什麼樣?」\n\n**分析設計 (假設為留存預算配置)**:\n• 分群:依 LTV × 流失風險 四象限\n• 目標客群:高 LTV + 高流失風險 (預估 8–12% 客戶)\n• 產出:各客群規模、流失原因、建議介入方式與預估 ROI\n\n**資料可行性** ✅:CRM、交易、App 行為資料齊全;流失定義需統一 (目前 3 個部門定義不同)\n\n**時程**:定義對齊 2 天 + 分析 3 天",approve:"要我先生成「流失定義對齊」會議議程與資料現況摘要嗎?"},
+  {label:"流失預測建模",prompt:"用 LTV 和流失風險把客戶分群,找出最該留的那群。",steps:["載入 240 萬客戶資料","計算 LTV (3 年預估)","訓練流失預測模型","四象限分群","分析各群特徵與流失原因"],reply:"**客戶分群結果**\n\n**模型**:流失預測 AUC 0.84,Top 預測因子:近 60 日 App 登入 -50%、薪轉停止、他行 ACH 轉出增加\n\n**四象限**:\n| 客群 | 人數 | 平均 LTV | 流失率 |\n|---|---|---|---|\n| 🔥 高 LTV × 高風險 | **24 萬 (10%)** | 18 萬 | 22% |\n| 高 LTV × 低風險 | 48 萬 | 21 萬 | 4% |\n| 低 LTV × 高風險 | 72 萬 | 2 萬 | 31% |\n| 低 LTV × 低風險 | 96 萬 | 3 萬 | 6% |\n\n**目標客群 (🔥) 特徵**:\n• 35–50 歲、雙薪、房貸戶 (68%)\n• 流失主因:薪轉轉他行 (41%)、理財服務不滿 (27%)\n• 若留存率提升 5pp → 保護 LTV **約 21 億**\n\n**建議介入**:薪轉綁定優惠 + 專屬理專關懷,預估 ROI 4.2x\n\n📊 分群圖與特徵圖已生成",approve:"要我生成高階主管版簡報 (3 頁) 並排入 Q4 預算會議嗎?"}],
+ cmp:{now:["人肉 SQL 機,一天 10 個臨時需求","業務說『分析客戶』,你猜他要什麼","儀表板調顏色對齊半天"],future:["業務自助 80%,你處理需要定義的","你幫業務問對問題","儀表板依受眾自動生成"]},
+ shifts:[["SQL 撰寫者","問題定義者","問對問題,比答對問題更重要。"],["報表製作者","決策科學夥伴","坐在業務旁邊,幫他們做決定。"],["資料搬運者","洞察翻譤者","數字對業務意味什麼,你來說。"]]
+},
+{id:"ops",cat:6,icon:"⚙️",name:"作業 / 清算人員",en:"Operations & Settlement",desc:"交易確認、清算交割、對帳、例外處理。你想要的是:別再手動處理 STP 失敗,把時間花在真正的例外與流程改善。",
+ title2030:"流程韌性工程師",quote:"99% 的交易 AI 直通處理,我負責讓那 1% 不會變成明天的頭條。",agents:["STP 監控 Agent","例外處理 Agent","對帳 Agent","流程優化 Agent"],
+ day:[
+  ["08:30","隔夜清算狀態","看多個系統,確認昨日交割。","Agent 彙整所有市場清算狀態,標出失敗與延遲,附原因與建議處置。","昨日 8,420 筆交易,STP 率 98.6%,118 筆例外:74 筆已自動修復 (SSI 錯誤),44 筆待處理,其中 3 筆涉及外幣交割逾期。","ai",60],
+  ["10:00","例外處理","逐筆查原因、打電話給對手方。","Agent 診斷原因、草擬對手方訊息 (SWIFT/Email)、追蹤回覆,你只處理需要協商的。","44 筆例外中 38 筆為對手方 SSI 錯誤,已發送修正請求;6 筆為交易條件爭議,需你與交易員與對手確認。","co",120],
+  ["11:30","跨部門協調","電話、Email 追交易員與對手方。","Agent 協調各方、整理爭議點與證據,你做決定與談判。","對手方主張交易金額為 500 萬,本行紀錄 520 萬;錄音與 Bloomberg chat 顯示 520 萬,證據已備。","you",30],
+  ["14:00","對帳與差異調節","逐筆對 Nostro、保管、內部帳。","Agent 自動三方對帳 99.8%,差異自動分類與建議調節。","Nostro 對帳差異 3 筆,2 筆為手續費入帳時間差 (明日自動消除),1 筆為對手方重複付款,已草擬退款請求。","ai",90],
+  ["16:00","監理申報與截止管理","手動彙整、確認截止時間。","Agent 依各市場截止時間自動排程、生成申報並檢核。","今日 5 項申報 (央行、集保、金管會) 已生成並檢核通過,最晚截止 17:30,建議 16:30 前簽核。","ai",60],
+  ["17:30","流程改善","出問題才改,沒時間優化。","Agent 分析例外根因趨勢,建議流程與系統優化。","近 30 日 SSI 錯誤佔例外 63%,集中在 5 家對手方,建議建立 SSI 自動驗證機制,預估 STP 率 98.6% → 99.3%。","ai",40]],
+ tasks:[["清算狀態監控",95,"ai","多市場即時整合。"],["STP 失敗診斷與自動修復",85,"ai","規則明確的例外自動處理。"],["三方對帳與調節",95,"ai","99.8% 自動配對。"],["監理申報與截止管理",90,"ai","排程、生成、檢核。"],["爭議協商與決策",20,"you","跟對手方談的,是人。"],["流程設計與韌性建構",30,"you","讓 1% 不變成頭條。"]],
+ calc:[14,12,8,6],
+ agent:[
+  {label:"清算例外處理",prompt:"今天有 44 筆清算例外,幫我處理。",steps:["載入 44 筆例外與失敗原因","分類 (SSI/金額/日期/對手方)","自動草擬修正請求 (SWIFT MT/Email)","識別需人工協商的案件","評估交割逾期風險與成本"],reply:"**清算例外處理 (44 筆)**\n\n✅ **38 筆可自動處理**\n• 31 筆 SSI 錯誤 → 已生成 MT 修正請求,預估今日修復\n• 7 筆日期錯誤 (假日誤植) → 已生成修正並通知對手方\n\n⚠️ **6 筆需你介入**:\n| # | 對手方 | 爭議 | 金額 | 逾期風險 |\n|---|---|---|---|---|\n| 1 | 銀行 P | 金額 500 vs 520 萬 | 20 萬 | 今日 |\n| 2 | 銀行 Q | 交割日 T+1 vs T+2 | 300 萬美元 | 明日 |\n| 3–6 | ... | 匯率/費用歸屬 | 合計 45 萬 | 3 日內 |\n\n**#1 證據**:交易錄音 (14:32) 與 Bloomberg chat 皆顯示 520 萬,對手方可能誤登。建議話術與證據包已備。\n\n**逾期成本**:#1 若今日未解決,預估罰息 + 補償約 8,000 元",approve:"要我發送 38 筆自動修正請求,並把 6 筆爭議案的證據包送到你的待辦嗎?"},
+  {label:"STP 率提升分析",prompt:"我們的 STP 率卡在 98.6%,幫我找出怎麼提升。",steps:["分析近 90 日 12,800 筆例外","根因分類與對手方集中度","模擬各改善方案效果","評估實作成本"],reply:"**STP 提升分析 (近 90 日,12,800 筆例外)**\n\n**根因分布**:\n• SSI 錯誤 **63%** — 集中在 5 家對手方 (佈 78%)\n• 日期/假日錯誤 14%\n• 金額/匯率不符 11%\n• 其他 12%\n\n**改善方案**:\n| 方案 | STP 提升 | 成本 | 時程 |\n|---|---|---|---|\n| A SSI 自動驗證 (交易前) | +0.5pp | 3 週開發 | 短 |\n| B 與 5 家對手方 SSI 同步協議 | +0.3pp | 談判 | 中 |\n| C 全球假日日曆自動化 | +0.15pp | 1 週 | 短 |\n\n**預估**:A + C → STP 98.6% → **99.25%**,每月減少 830 筆人工處理 (約 280 小時)\n\n**建議**:先做 A + C,同步啟動 B",approve:"要我生成改善提案並排入下週作業委員會嗎?"}],
+ cmp:{now:["逐筆查例外、打電話給對手方","Nostro 對帳逐筆核對","出問題才改流程"],future:["AI 診斷 + 草擬修正,你只談爭議","99.8% 自動對帳","根因趨勢自動分析,你設計改善"]},
+ shifts:[["例外處理員","爭議談判者","跟對手方談的是人。"],["對帳者","韌性工程師","設計讓例外不再發生的流程。"],["截止追趕者","流程優化者","AI 管截止,你優化流程。"]]
+}
+];
+
+// ===== 應用程式邏輯 =====
+(function(){
+"use strict";
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const MODE={ai:"AI 全接手",co:"人機協作",you:"你主導"};
+const CATS={1:"零售銀行",2:"企金與投行",3:"保險",4:"證券與投資",5:"風控與法遵",6:"科技與營運"};
+const CALC_CATS=[["資料查找與整理","查系統、對資料、整理清單",0.75],["文件與報表製作","簽呈、報告、簡報、申報表",0.6],["溝通協調與會議","跨部門協調、進度追蹤、例行會議",0.35],["專業判斷與客戶互動","面談、決策、談判、關懷",0.15]];
+let current=null;
+const state={scrub:0,calc:[0,0,0,0]};
+
+/* ---------- 工具 ---------- */
+function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove("show"),2200);}
+function toMin(t){const [h,m]=t.split(":").map(Number);return h*60+m;}
+function fmt(min){min=Math.round(min/5)*5;const h=Math.floor(min/60),m=min%60;return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0");}
+function overall(role){return Math.round(role.tasks.reduce((a,t)=>a+t[1],0)/role.tasks.length);}
+function animateNum(el,to,suffix="",dur=700){if(reduced){el.textContent=Math.round(to)+suffix;return;}const from=parseFloat(el.dataset.v||"0")||0;const t0=performance.now();el.dataset.v=to;function step(now){const p=Math.min(1,(now-t0)/dur);const e=1-Math.pow(1-p,3);el.textContent=Math.round(from+(to-from)*e)+suffix;if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);}
+function md(text){ // 極簡 markdown:**粗體**、| 表格 |、換行
+  const lines=text.split("\n");let out="",tbl=[];
+  const flush=()=>{if(!tbl.length)return;const rows=tbl.filter(r=>!/^\|\s*-+/.test(r));out+="<table style='border-collapse:collapse;margin:8px 0;font-size:13px;width:100%'>";rows.forEach((r,i)=>{const cells=r.split("|").slice(1,-1);out+="<tr>"+cells.map(c=>`<${i?"td":"th"} style='border:1px solid rgba(255,255,255,.12);padding:5px 8px;text-align:start'>${inline(c.trim())}</${i?"td":"th"}>`).join("")+"</tr>";});out+="</table>";tbl=[];};
+  const inline=s=>esc(s).replace(/\*\*(.+?)\*\*/g,"<strong style='color:var(--amber2)'>$1</strong>");
+  lines.forEach(l=>{if(/^\|/.test(l)){tbl.push(l);}else{flush();out+=inline(l)+"\n";}});flush();return out.replace(/\n$/,"");
+}
+
+/* ---------- 星空背景 ---------- */
+(function stars(){
+  const c=$("#stars"),ctx=c.getContext("2d");let w,h,pts=[],mx=0,my=0;
+  function resize(){w=c.width=c.offsetWidth*devicePixelRatio;h=c.height=c.offsetHeight*devicePixelRatio;pts=Array.from({length:Math.min(170,Math.floor(c.offsetWidth*c.offsetHeight/9000))},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.15,vy:(Math.random()-.5)*.15,r:Math.random()*1.6+.4,a:Math.random()}));}
+  resize();window.addEventListener("resize",resize);
+  window.addEventListener("pointermove",e=>{mx=(e.clientX/window.innerWidth-.5);my=(e.clientY/window.innerHeight-.5);});
+  function draw(){ctx.clearRect(0,0,w,h);const dpr=devicePixelRatio;
+    for(const p of pts){p.x+=p.vx*dpr+mx*.2;p.y+=p.vy*dpr+my*.2;if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;}
+    ctx.lineWidth=.6*dpr;
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const a=pts[i],b=pts[j],d=Math.hypot(a.x-b.x,a.y-b.y);if(d<120*dpr){ctx.strokeStyle=`rgba(245,185,66,${(1-d/(120*dpr))*.35})`;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}}
+    for(const p of pts){p.a+=.01;ctx.fillStyle=`rgba(255,209,102,${.4+Math.sin(p.a)*.3})`;ctx.beginPath();ctx.arc(p.x,p.y,p.r*dpr,0,Math.PI*2);ctx.fill();}
+    if(!reduced)requestAnimationFrame(draw);}
+  draw();
+})();
+
+/* ---------- 時鐘與導覽 ---------- */
+(function clock(){const el=$("#clockNow");function tick(){const d=new Date();el.textContent=[d.getHours(),d.getMinutes(),d.getSeconds()].map(n=>String(n).padStart(2,"0")).join(":");}tick();setInterval(tick,1000);
+  $("#simDate").textContent="2030."+String(new Date().getMonth()+1).padStart(2,"0")+"."+String(new Date().getDate()).padStart(2,"0");
+  const ao=$("#agentsOnline");setInterval(()=>{ao.textContent=7+Math.floor(Math.random()*4);},4000);
+})();
+(function nav(){const links=$$(".nav-links a"),secs=links.map(a=>$(a.getAttribute("href")));const prog=$("#progress");
+  const toggle=$("#navToggle"),list=$("#navLinks");toggle.addEventListener("click",()=>{const o=list.classList.toggle("open");toggle.setAttribute("aria-expanded",o);});links.forEach(a=>a.addEventListener("click",()=>list.classList.remove("open")));
+  function onScroll(){const y=scrollY,max=document.documentElement.scrollHeight-innerHeight;prog.style.inlineSize=(y/max*100)+"%";let idx=-1;secs.forEach((s,i)=>{if(s&&s.getBoundingClientRect().top<=innerHeight*.4)idx=i;});links.forEach((a,i)=>a.classList.toggle("active",i===idx));}
+  addEventListener("scroll",onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}}),{threshold:.12});$$(".reveal").forEach(el=>io.observe(el));
+})();
+
+/* ---------- 角色選擇 ---------- */
+const grid=$("#roleGrid");
+function renderRoles(){grid.innerHTML=ROLES.map(r=>`<button class="role cat-${r.cat}" data-id="${r.id}" role="listitem" aria-pressed="false"><span class="check" aria-hidden="true">✓</span><div class="icon">${r.icon}</div><div class="name">${esc(r.name)}</div><div class="en">${esc(r.en)}</div><div class="desc">${esc(r.desc)}</div></button>`).join("");
+  grid.addEventListener("click",e=>{const b=e.target.closest(".role");if(b)selectRole(b.dataset.id,true);});}
+function filterRoles(){const cat=$("#filters .chip.active").dataset.cat,q=$("#roleSearch").value.trim().toLowerCase();let n=0;
+  $$(".role",grid).forEach(el=>{const r=ROLES.find(x=>x.id===el.dataset.id);const ok=(cat==="all"||String(r.cat)===cat)&&(!q||(r.name+r.en+r.desc+CATS[r.cat]).toLowerCase().includes(q));el.classList.toggle("hidden",!ok);if(ok)n++;});
+  $("#rolesEmpty").style.display=n?"none":"block";}
+$("#filters").addEventListener("click",e=>{const c=e.target.closest(".chip");if(!c)return;$$("#filters .chip").forEach(x=>x.classList.remove("active"));c.classList.add("active");filterRoles();});
+$("#roleSearch").addEventListener("input",filterRoles);
+
+function selectRole(id,user){const r=ROLES.find(x=>x.id===id)||ROLES[0];current=r;document.body.dataset.role=r.id;
+  $$(".role",grid).forEach(el=>{const on=el.dataset.id===r.id;el.classList.toggle("active",on);el.setAttribute("aria-pressed",on);});
+  $("#selIcon").textContent=r.icon;$("#selName").textContent=r.name+" · "+r.en;$("#selDesc").textContent=CATS[r.cat]+" · 2030 新職稱:"+r.title2030;
+  $("#dayRoleName").textContent=r.name;
+  renderDay();renderTakeover();renderCalc();renderAgent();renderCompare();renderCard();
+  try{localStorage.setItem("fsi2030-role",r.id);}catch(e){}
+  if(user)toast(`已切換為「${r.name}」,整個網站都跟著你改變了`);}
+
+/* ---------- 你的一天 ---------- */
+const sky=$("#sky"),sctx=sky.getContext("2d");const SKY=[[6,[20,28,70],[240,140,90]],[8,[110,170,230],[255,220,170]],[12,[90,160,235],[200,225,255]],[17,[120,120,200],[255,170,110]],[19,[30,30,80],[150,80,110]],[23,[8,10,30],[30,30,70]]];
+function lerp(a,b,t){return a+(b-a)*t;}function mix(c1,c2,t){return c1.map((v,i)=>Math.round(lerp(v,c2[i],t)));}
+function skyColors(h){for(let i=0;i<SKY.length-1;i++){const [h1,a1,b1]=SKY[i],[h2,a2,b2]=SKY[i+1];if(h>=h1&&h<=h2){const t=(h-h1)/(h2-h1);return[mix(a1,a2,t),mix(b1,b2,t)];}}return[SKY[0][1],SKY[0][2]];}
+const bld=Array.from({length:26},(_,i)=>({w:8+((i*7)%9),h:30+((i*13)%70)}));
+function drawSky(min){const h=min/60,W=sky.width,H=sky.height;const [top,bot]=skyColors(h);const g=sctx.createLinearGradient(0,0,0,H);g.addColorStop(0,`rgb(${top})`);g.addColorStop(1,`rgb(${bot})`);sctx.fillStyle=g;sctx.fillRect(0,0,W,H);
+  const night=h<6.5||h>18.5;if(night){sctx.fillStyle="rgba(255,255,255,.7)";for(let i=0;i<40;i++){sctx.fillRect((i*53)%W,(i*37)%(H*.6),1.2,1.2);}}
+  const p=(h-6)/16;const sx=40+p*(W-80),sy=H*.75-Math.sin(p*Math.PI)*H*.55;
+  const isSun=h>=6&&h<=18.5;sctx.save();sctx.shadowBlur=40;sctx.shadowColor=isSun?"rgba(255,220,120,.9)":"rgba(200,210,255,.8)";sctx.fillStyle=isSun?"#ffe08a":"#e8ecff";sctx.beginPath();sctx.arc(isSun?sx:W-sx,isSun?sy:H*.28,isSun?16:12,0,Math.PI*2);sctx.fill();sctx.restore();
+  let x=0;sctx.fillStyle=night?"#0a0d1c":"rgba(20,24,45,.85)";bld.forEach(b=>{sctx.fillRect(x,H-b.h,b.w+3,b.h);if(night){sctx.fillStyle="rgba(255,209,102,.7)";for(let yy=H-b.h+6;yy<H-6;yy+=9)for(let xx=x+2;xx<x+b.w;xx+=5)if((xx*yy)%7<3)sctx.fillRect(xx,yy,2,2);sctx.fillStyle="#0a0d1c";}x+=b.w+6;});
+  sctx.fillStyle=night?"#06080f":"rgba(15,18,35,1)";sctx.fillRect(0,H-14,W,14);}
+const tl=$("#timeline");let slotEls=[];
+function renderDay(){const r=current;tl.innerHTML=r.day.map((s,i)=>`<article class="slot" data-i="${i}" tabindex="0"><div class="t">${s[0]}</div><h3>${esc(s[1])}</h3><div class="cmp"><div class="now"><small>2026 · 今天</small>${esc(s[2])}</div><div class="future"><small>2030 · 未來</small>${esc(s[3])}</div></div><div class="ai-bubble"><div class="avatar">AI</div><p>${esc(s[4])}</p></div><div class="slot-foot"><span class="badge ${s[5]}">${MODE[s[5]]}</span><span>本段回收約 <b>${s[6]} 分鐘</b></span></div></article>`).join("");
+  slotEls=$$(".slot",tl);slotEls.forEach(el=>{const go=()=>{const s=r.day[+el.dataset.i];setScrub((toMin(s[0])-360)/960*1000,true);};el.addEventListener("click",go);el.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();go();}});});
+  if(slotIO)slotIO.disconnect();slotIO=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&!scrubbing){const s=r.day[+e.target.dataset.i];setScrub((toMin(s[0])-360)/960*1000,false);}});},{rootMargin:"-45% 0px -45% 0px"});slotEls.forEach(el=>slotIO.observe(el));
+  setScrub(0,false);}
+let slotIO=null,scrubbing=false,scrubT=null;
+const scrub=$("#scrubber");
+function setScrub(v,fromClick){v=Math.max(0,Math.min(1000,v));state.scrub=v;scrub.value=v;const min=360+v/1000*960;drawSky(min);$("#dayClock").textContent=fmt(min);
+  const r=current;let idx=0;r.day.forEach((s,i)=>{if(toMin(s[0])<=min+1)idx=i;});
+  const s=r.day[idx];$("#dayTitle").textContent=s[1];const b=$("#dayBadge");b.className="badge "+s[5];b.textContent=MODE[s[5]];$("#dayIndex").textContent=(idx+1)+" / "+r.day.length;
+  const wts={ai:1,co:.55,you:.15};const tot=r.day.reduce((a,x)=>a+wts[x[5]],0),done=r.day.slice(0,idx+1).reduce((a,x)=>a+wts[x[5]],0);const pct=Math.round(overall(r)*done/tot);
+  $("#dayPct").textContent=pct+"%";$("#dayBar").style.inlineSize=pct+"%";const saved=r.day.slice(0,idx+1).reduce((a,x)=>a+x[6],0);$("#daySaved").textContent=saved>=60?`${Math.floor(saved/60)} 小時 ${saved%60} 分`:saved+" 分";
+  slotEls.forEach((el,i)=>el.classList.toggle("active",i===idx));
+  if(fromClick){scrubbing=true;slotEls[idx].scrollIntoView({behavior:reduced?"auto":"smooth",block:"center"});clearTimeout(scrubT);scrubT=setTimeout(()=>scrubbing=false,900);}}
+scrub.addEventListener("input",()=>{scrubbing=true;setScrub(+scrub.value,false);clearTimeout(scrubT);scrubT=setTimeout(()=>scrubbing=false,600);const r=current;const min=360+scrub.value/1000*960;let idx=0;r.day.forEach((s,i)=>{if(toMin(s[0])<=min+1)idx=i;});if(slotEls[idx]&&window.innerWidth>900){const rect=slotEls[idx].getBoundingClientRect();if(rect.top<80||rect.bottom>innerHeight)slotEls[idx].scrollIntoView({behavior:"auto",block:"center"});}});
+
+/* ---------- 接手比例 ---------- */
+const donut=$("#donut"),dctx=donut.getContext("2d");let donutAnim=null;
+function renderTakeover(){const r=current;const groups={ai:0,co:0,you:0};r.tasks.forEach(t=>groups[t[2]]+=t[1]);const total=r.tasks.reduce((a,t)=>a+t[1],0);
+  // 圓餅:三種模式的「工作量佔比」= 各模式任務數 × 加權
+  const share={ai:r.tasks.filter(t=>t[2]==="ai").length,co:r.tasks.filter(t=>t[2]==="co").length,you:r.tasks.filter(t=>t[2]==="you").length};const n=r.tasks.length;
+  const segs=[["ai",share.ai/n,"#8b5cf6"],["co",share.co/n,"#f5b942"],["you",share.you/n,"#4ade80"]];
+  const ov=overall(r);animateNum($("#donutPct"),ov,"%");
+  if(donutAnim)cancelAnimationFrame(donutAnim);const t0=performance.now();
+  function draw(now){const p=reduced?1:Math.min(1,(now-t0)/900);const e=1-Math.pow(1-p,3);const W=donut.width,cx=W/2,cy=W/2,R=W*.42,r0=W*.30;dctx.clearRect(0,0,W,W);let a=-Math.PI/2;
+    dctx.lineCap="butt";segs.forEach(([k,v,col])=>{const end=a+v*Math.PI*2*e;dctx.beginPath();dctx.arc(cx,cy,(R+r0)/2,a+.02,end-.02);dctx.lineWidth=R-r0;dctx.strokeStyle=col;dctx.stroke();a=end;});
+    dctx.beginPath();dctx.arc(cx,cy,R+6,0,Math.PI*2);dctx.lineWidth=1;dctx.strokeStyle="rgba(255,255,255,.08)";dctx.stroke();
+    if(p<1)donutAnim=requestAnimationFrame(draw);}
+  donutAnim=requestAnimationFrame(draw);
+  drawTaskBars();}
+function drawTaskBars(){const r=current;const mode=$("#modeTabs .chip.active").dataset.mode;const list=r.tasks.filter(t=>mode==="all"||t[2]===mode);
+  $("#taskBars").innerHTML=list.map((t,i)=>`<div class="tb ${t[2]}" tabindex="0"><div class="row"><span>${esc(t[0])} <span class="badge ${t[2]}" style="font-size:10px;padding:2px 8px;margin-inline-start:6px">${MODE[t[2]]}</span></span><b>${t[1]}%</b></div><div class="bar"><i data-w="${t[1]}"></i></div><div class="hint">${esc(t[3])}</div></div>`).join("")||`<div class="roles-empty" style="display:block">這個角色沒有這類任務。</div>`;
+  requestAnimationFrame(()=>$$("#taskBars .bar i").forEach((el,i)=>setTimeout(()=>el.style.inlineSize=el.dataset.w+"%",i*80)));}
+$("#modeTabs").addEventListener("click",e=>{const c=e.target.closest(".chip");if(!c)return;$$("#modeTabs .chip").forEach(x=>x.classList.remove("active"));c.classList.add("active");drawTaskBars();});
+
+/* ---------- 時間計算器 ---------- */
+function renderCalc(){const r=current;state.calc=r.calc.slice();$("#sliders").innerHTML=`<div style="display:flex;justify-content:space-between;align-items:baseline;margin-block-end:18px"><b>你一週的時間怎麼花?</b><span style="font-size:12px;color:var(--dim)">預設值:${esc(r.name)}的典型一週</span></div>`+CALC_CATS.map((c,i)=>`<div class="sl"><div class="lbl"><span>${c[0]}<br><small>${c[1]}</small></span><b><span id="calcV${i}">${r.calc[i]}</span> 小時</b></div><input type="range" min="0" max="30" step="0.5" value="${r.calc[i]}" data-i="${i}" aria-label="${c[0]} 每週小時"></div>`).join("")+`<div style="font-size:12px;color:var(--dim);border-block-start:1px solid var(--line);padding-block-start:12px">AI 接手係數 (2030 情境假設):資料整理 75% · 文件報表 60% · 溝通會議 35% · 專業判斷 15%</div>`;
+  $$("#sliders input").forEach(inp=>inp.addEventListener("input",()=>{state.calc[+inp.dataset.i]=+inp.value;$("#calcV"+inp.dataset.i).textContent=inp.value;calcUpdate();}));calcUpdate();}
+function calcUpdate(){const hrs=state.calc;const total=hrs.reduce((a,b)=>a+b,0)||1;const saved=hrs.reduce((a,h,i)=>a+h*CALC_CATS[i][2],0);const human=total-saved;
+  $("#calcWeek").textContent=(Math.round(saved*10)/10).toFixed(1);
+  animateNum($("#calcYear"),Math.round(saved*48));animateNum($("#calcDays"),Math.round(saved*48/8));animateNum($("#calcPct"),Math.round(saved/total*100),"%");$("#calcHuman").textContent=(Math.round(human*10)/10).toFixed(1);
+  const y=saved*48;$("#calcConvert").innerHTML=`一年 <b>${Math.round(y)} 小時</b>,相當於:<b>${Math.round(y/1.5)}</b> 場 90 分鐘的客戶深度會談,或 <b>${Math.round(y/40)}</b> 週的專業進修,或 <b>${Math.round(y/8/5)}</b> 週完整的休假。<br><span style="color:var(--dim);font-size:12px">— 但真正的問題是:你會把這些時間用在哪裡?</span>`;
+  const el=$("#cardHours");if(el)el.textContent=(Math.round(saved*10)/10)+"h";}
+
+/* ---------- Agent 體驗 ---------- */
+let chatBusy=false;
+function renderAgent(){const r=current;$("#consoleTitle").textContent=`agent://workbench/2030/${r.id}`;
+  $("#agentTasks").innerHTML=r.agent.map((a,i)=>`<button class="task-btn" data-i="${i}"><small>SCENARIO 0${i+1} · ${esc(r.name)}</small>${esc(a.label)}</button>`).join("")+`<div class="custom-task"><input id="customPrompt" type="text" maxlength="120" placeholder="或輸入你自己的任務…" aria-label="自訂任務"><button id="customGo">送出</button></div><div style="font-size:12px;color:var(--dim);line-height:1.6">這是模擬體驗,Agent 回應為預先設計的情境。自訂任務會示範 Agent 的規劃與交付流程。</div>`;
+  $$("#agentTasks .task-btn").forEach(b=>b.addEventListener("click",()=>runScenario(r.agent[+b.dataset.i],b)));
+  $("#customGo").addEventListener("click",customRun);$("#customPrompt").addEventListener("keydown",e=>{if(e.key==="Enter")customRun();});
+  $("#chat").innerHTML=`<div class="msg ai"><div class="who">AI</div><div class="body">嗨,${esc(r.name)}。我是你 2030 年的工作台 Agent,已連線 ${r.agents.length} 個專屬 Agent:${r.agents.map(esc).join("、")}。\n\n選一個左側情境,或直接告訴我你想做什麼。</div></div>`;}
+function customRun(){const v=$("#customPrompt").value.trim();if(!v)return;const r=current;$("#customPrompt").value="";
+  runScenario({label:v,prompt:v,steps:["理解任務目標與範圍","檢索相關系統與內部資料","比對法遵與內規限制","生成初稿與選項","準備交付與留痕紀錄"],reply:`任務理解 ✅\n\n**你的任務**:${v}\n\n**我的規劃**:\n1. 先確認這件事涉及哪些系統與資料 (${r.agents[0]}、${r.agents[1]})\n2. 比對法遵與內規,標出需要你決定的例外\n3. 生成初稿與 2–3 個選項,附理由與風險\n\n**需要你決定的**:這件事的最終產出要給誰看?這會影響我用的語氣與細節程度。\n\n⚠️ 提醒:涉及客戶個資或對外承諾的部分,我會停下來等你確認。`,approve:"我可以先從第 1 步開始,把找到的資料整理給你。要開始嗎?"},null);}
+function sleep(ms){return new Promise(r=>setTimeout(r,reduced?0:ms));}
+async function runScenario(sc,btn){if(chatBusy)return;chatBusy=true;$$("#agentTasks .task-btn").forEach(b=>b.classList.toggle("active",b===btn));const chat=$("#chat");
+  chat.insertAdjacentHTML("beforeend",`<div class="msg user"><div class="who">你</div><div class="body">${esc(sc.prompt)}</div></div>`);chat.scrollTop=chat.scrollHeight;await sleep(500);
+  const stepsEl=document.createElement("div");stepsEl.className="msg ai";stepsEl.innerHTML=`<div class="who">AI</div><div class="body" style="padding:0;background:none"><div class="steps">${sc.steps.map(s=>`<div><span class="ico">›</span>${esc(s)}</div>`).join("")}</div></div>`;chat.appendChild(stepsEl);chat.scrollTop=chat.scrollHeight;
+  const rows=$$(".steps div",stepsEl);for(const row of rows){row.classList.add("on");await sleep(550+Math.random()*450);row.classList.remove("on");row.classList.add("done");row.querySelector(".ico").textContent="✓";}
+  await sleep(300);const reply=document.createElement("div");reply.className="msg ai";reply.innerHTML=`<div class="who">AI</div><div class="body"></div>`;chat.appendChild(reply);const body=$(".body",reply);
+  const plain=sc.reply;let i=0;const chunk=reduced?plain.length:3;while(i<plain.length){i+=chunk;body.textContent=plain.slice(0,i);body.insertAdjacentHTML("beforeend",'<span class="cursor"></span>');chat.scrollTop=chat.scrollHeight;await sleep(12);}
+  body.innerHTML=md(plain);
+  const ap=document.createElement("div");ap.className="approve";ap.innerHTML=`<span>🧑‍⚖️ <b>需要你的決定</b> — ${esc(sc.approve)}</span><button class="ok">核准並執行</button><button class="edit">先修改</button><span class="lock">audit#${Date.now().toString(36).slice(-6)}</span>`;chat.appendChild(ap);chat.scrollTop=chat.scrollHeight;
+  $(".ok",ap).addEventListener("click",()=>{ap.innerHTML=`<span>✅ 已核准 · 由 <b>${esc(current.name)}</b> 於 ${new Date().toLocaleTimeString("zh-TW",{hour12:false})} 確認,決策與依據已寫入稽核軌跡。</span><span class="lock">logged</span>`;toast("已執行,並留下稽核紀錄");});
+  $(".edit",ap).addEventListener("click",()=>{ap.innerHTML=`<span>✏️ 已退回修改 · Agent 等待你的指示。這正是 2030 的工作方式:<b>AI 建議,你決定。</b></span>`;toast("Agent 等待你的修改指示");});
+  chatBusy=false;}
+
+/* ---------- 今昔對照 ---------- */
+function renderCompare(){const r=current;$("#cmpNowTitle").textContent=r.name+"的 2026";$("#cmpFutureTitle").textContent=r.title2030+"的 2030";$("#cmpNowList").innerHTML=r.cmp.now.map(x=>`<li>${esc(x)}</li>`).join("");$("#cmpFutureList").innerHTML=r.cmp.future.map(x=>`<li>${esc(x)}</li>`).join("");
+  $("#shiftGrid").innerHTML=r.shifts.map(s=>`<div class="shift"><div class="from">${esc(s[0])}</div><div class="to">${esc(s[1])}</div><p>${esc(s[2])}</p></div>`).join("");setCut(50);}
+const box=$("#compareBox"),handle=$("#handle");let cut=50;
+function setCut(v){cut=Math.max(2,Math.min(98,v));box.style.setProperty("--cut",cut+"%");handle.setAttribute("aria-valuenow",Math.round(cut));}
+(function dragInit(){let down=false;const pos=e=>{const rct=box.getBoundingClientRect();return (e.clientX-rct.left)/rct.width*100;};
+  handle.addEventListener("pointerdown",e=>{down=true;handle.setPointerCapture(e.pointerId);});addEventListener("pointerup",()=>down=false);addEventListener("pointermove",e=>{if(down)setCut(pos(e));});
+  box.addEventListener("pointerdown",e=>{if(e.target===handle)return;setCut(pos(e));});
+  handle.addEventListener("keydown",e=>{if(e.key==="ArrowLeft"){setCut(cut-5);e.preventDefault();}if(e.key==="ArrowRight"){setCut(cut+5);e.preventDefault();}});
+  // 進場時自動示範一次
+  const io=new IntersectionObserver(es=>{if(es[0].isIntersecting&&!reduced){io.disconnect();let t=0;const id=setInterval(()=>{t+=.05;setCut(50+Math.sin(t)*35);if(t>Math.PI*1){clearInterval(id);setCut(50);}},16);}},{threshold:.5});io.observe(box);
+})();
+
+/* ---------- 人的價值 + 工作卡 ---------- */
+const PILLARS=[["🤝","信任與責任","客戶把錢交給你,監理把責任交給你。AI 可以建議,但簽名的是人。"],["🧭","判斷灰色地帶","法規沒寫清楚的、數據互相矛盾的、沒有前例的 — 這些是 2030 年最有價值的工作。"],["💬","翻譤與同理","把 AI 的試算翻成客戶聽得懂的選擇;在市場下跌、理賠、被詐騙的那天,成為那個出現的人。"],["🎯","定義問題與取捨","AI 很會回答問題,但『我們該問什麼』、『要多賺還是多穩』永遠是人的決定。"]];
+$("#pillars").innerHTML=PILLARS.map(p=>`<div class="pillar"><div class="ic">${p[0]}</div><div><b>${p[1]}</b><p>${p[2]}</p></div></div>`).join("");
+function renderCard(){const r=current;const idx=ROLES.indexOf(r)+1;$("#cardId").textContent="#FSI-"+String(idx).padStart(2,"0")+"30";$("#cardIcon").textContent=r.icon;$("#cardTitle").textContent=r.title2030;$("#cardSub").textContent=`${r.name} · ${r.en} → 2030`;animateNum($("#cardPct"),overall(r),"%");$("#cardAgents").textContent=r.agents.length;$("#cardQuote").textContent="「"+r.quote+"」";$("#cardAgentList").innerHTML=r.agents.map(a=>`<span>${esc(a)}</span>`).join("");}
+function wrapText(ctx,text,x,y,maxW,lh){const chars=Array.from(text);let line="",yy=y;for(const ch of chars){const test=line+ch;if(ctx.measureText(test).width>maxW&&line){ctx.fillText(line,x,yy);line=ch;yy+=lh;}else line=test;}ctx.fillText(line,x,yy);return yy+lh;}
+$("#downloadCard").addEventListener("click",()=>{const r=current;const c=$("#cardCanvas"),x=c.getContext("2d");const W=c.width,H=c.height;
+  const g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,"#f5b942");g.addColorStop(.5,"#ff6fae");g.addColorStop(1,"#8b5cf6");x.fillStyle=g;x.fillRect(0,0,W,H);
+  x.fillStyle="#0a0e1f";x.beginPath();x.roundRect(6,6,W-12,H-12,28);x.fill();
+  const gl=x.createRadialGradient(W*.85,H*.1,10,W*.85,H*.1,500);gl.addColorStop(0,"rgba(139,92,246,.35)");gl.addColorStop(1,"rgba(0,0,0,0)");x.fillStyle=gl;x.fillRect(0,0,W,H);
+  const font=(w,s)=>`${w} ${s}px "Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif`;const mono=s=>`700 ${s}px "Cascadia Code",Consolas,monospace`;
+  x.fillStyle="#6b739a";x.font=mono(18);x.fillText("2030 WORK CARD · FSI EDITION",60,70);x.textAlign="end";x.fillText($("#cardId").textContent,W-60,70);x.textAlign="start";
+  x.font=font(400,90);x.fillText(r.icon,60,190);
+  x.fillStyle="#eef1ff";x.font=font(800,54);x.fillText(r.title2030,180,160);x.fillStyle="#f5b942";x.font=font(600,24);x.fillText(`${r.name} · ${r.en} → 2030`,180,200);
+  const saved=state.calc.reduce((a,h,i)=>a+h*CALC_CATS[i][2],0);const kp=[[overall(r)+"%","任務接手度"],[(Math.round(saved*10)/10)+"h","每週回收時間"],[String(r.agents.length),"協作 Agents"]];
+  kp.forEach((k,i)=>{const bx=60+i*370;x.fillStyle="rgba(255,255,255,.05)";x.beginPath();x.roundRect(bx,250,340,120,18);x.fill();x.strokeStyle="rgba(255,255,255,.1)";x.stroke();x.fillStyle="#eef1ff";x.font=mono(46);x.fillText(k[0],bx+24,320);x.fillStyle="#9aa3c7";x.font=font(400,18);x.fillText(k[1],bx+24,352);});
+  x.fillStyle="#f5b942";x.fillRect(60,410,4,90);x.fillStyle="#c9cfe8";x.font=font(400,26);wrapText(x,"「"+r.quote+"」",84,445,W-160,38);
+  let ax=60;x.font=font(500,18);r.agents.forEach(a=>{const w=x.measureText(a).width+36;x.fillStyle="rgba(139,92,246,.22)";x.beginPath();x.roundRect(ax,560,w,40,20);x.fill();x.strokeStyle="rgba(139,92,246,.5)";x.stroke();x.fillStyle="#d8ccff";x.fillText(a,ax+18,587);ax+=w+12;});
+  x.fillStyle="#6b739a";x.font=font(400,16);x.fillText("AI 建議 · 人決策 · 系統留痕 — 2030 AI 工作台 · 金融業版 (情境設計,非實際數據)",60,665);
+  const a=document.createElement("a");a.download=`2030-workcard-${r.id}.png`;a.href=c.toDataURL("image/png");document.body.appendChild(a);a.click();a.remove();toast("工作卡已下載");});
+$("#copySummary").addEventListener("click",async()=>{const r=current;const saved=state.calc.reduce((a,h,i)=>a+h*CALC_CATS[i][2],0);
+  const txt=`【2030 AI 工作台 · 金融業版】\n角色:${r.name} (${r.en})\n2030 新職稱:${r.title2030}\n任務接手度:${overall(r)}%|每週回收:${(Math.round(saved*10)/10)} 小時|協作 Agents:${r.agents.join("、")}\n\nAI 接手:${r.tasks.filter(t=>t[2]==="ai").map(t=>t[0]).join("、")}\n人機協作:${r.tasks.filter(t=>t[2]==="co").map(t=>t[0]).join("、")}\n仍由你主導:${r.tasks.filter(t=>t[2]==="you").map(t=>t[0]).join("、")}\n\n「${r.quote}」\n\n原則:AI 建議 · 人決策 · 系統留痕`;
+  try{await navigator.clipboard.writeText(txt);toast("摘要已複製到剪貼簿");}catch(e){toast("無法存取剪貼簿,請手動複製");}});
+
+/* ---------- 啟動 ---------- */
+$("#scenarioCount").textContent=ROLES.reduce((a,r)=>a+r.day.length,0);
+renderRoles();let saved=null;try{saved=localStorage.getItem("fsi2030-role");}catch(e){}
+selectRole(saved&&ROLES.some(r=>r.id===saved)?saved:"wealth",false);
+})();
+</script>
+</body></html>
