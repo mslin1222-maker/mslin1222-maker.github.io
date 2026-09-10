@@ -342,7 +342,9 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .cw-foot{text-align:center;font-size:10px;color:var(--cwdim);padding:4px 0 8px}
 .cw-date{text-align:center;font-size:10.5px;color:var(--cwdim);display:flex;align-items:center;gap:10px}
 .cw-date::before,.cw-date::after{content:"";flex:1;height:1px;background:var(--cwline)}
-.cw-msg{opacity:0;transform:translateY(8px);animation:pop .45s cubic-bezier(.2,.8,.2,1) forwards}
+.cw-msg{animation:pop .45s cubic-bezier(.2,.8,.2,1) both}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
 .cw-user-msg{align-self:flex-end;max-width:86%;background:var(--cwbubble);border-radius:14px;padding:10px 14px;font-size:12.5px;line-height:1.6}
 .cw-status{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--cwmuted)}
 .cw-status i{width:14px;height:14px;border-radius:50%;border:2px solid #d0d0d8;border-top-color:var(--cwacc);animation:spin 1s linear infinite;flex:0 0 14px}
@@ -518,7 +520,7 @@ footer .fine{margin-top:28px;padding-top:18px;border-top:1px solid var(--border)
 }
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
-  .reveal{opacity:1;transform:none}
+  .reveal,.cw-msg{opacity:1;transform:none}
 }
 </style>
 </head>
@@ -1667,8 +1669,9 @@ $('#simSend').addEventListener('click',()=>sendCustom());$('#simInput').addEvent
 $('#cwInput').addEventListener('keydown',e=>{if(e.key==='Enter'){const v=e.target.value.trim();e.target.value='';runGeneric(v)}});
 $('#realchips').addEventListener('click',e=>{const b=e.target.closest('[data-p]');if(b)runGeneric(b.dataset.p)});
 $('#cwNewTask').addEventListener('click',()=>{if(!state.simBusy)cwHome()});
+$('#cwTaskList').addEventListener('click',e=>{const t=e.target.closest('.task');if(!t||t.classList.contains('empty')||state.simBusy)return;const title=t.textContent;const s=state.role.day.find(x=>x.title===title)||ROLES.flatMap(r=>r.day).find(x=>x.title===title);if(s){runSim(s)}else{runGeneric(title)}});
 function add(html,cls){const feed=$('#cwFeed');const d=document.createElement('div');d.className='cw-msg '+(cls||'');d.innerHTML=html;feed.appendChild(d);feed.scrollTop=feed.scrollHeight;return d}
-function addTask(title){const list=$('#cwTaskList');const e=$('.empty',list);if(e)e.remove();$$('.task',list).forEach(t=>t.classList.remove('on'));const t=document.createElement('div');t.className='task on';t.textContent=title;list.prepend(t);while(list.children.length>6)list.lastChild.remove();$('#cwNewTask').classList.remove('on')}
+function addTask(title){const list=$('#cwTaskList');const e=$('.empty',list);if(e)e.remove();$$('.task',list).forEach(t=>t.classList.remove('on'));let t=$$('.task',list).find(x=>x.textContent===title);if(!t){t=document.createElement('div');t.className='task';t.textContent=title;t.title=title}t.classList.add('on');list.prepend(t);while(list.children.length>7)list.lastChild.remove();$('#cwNewTask').classList.remove('on')}
 async function runSim(step){state.simBusy=true;const feed=$('#cwFeed');feed.innerHTML='';$('#cwComposer').style.display='';addTask(step.title||'新工作');
   const planItems=step.generic?GENERIC_SIM.plan:step.ai.map(a=>a.replace(/<[^>]+>/g,''));
   // workspace panel
