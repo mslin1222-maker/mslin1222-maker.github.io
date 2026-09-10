@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>7-ELEVEN 統一超商 · AI 數位群 × 情報系統部 一日實戰｜M365 Copilot × Agent × Cowork</title>
+<meta name="description" content="從統一超商 AI 數位群與情報系統部的 5 大痛點出發，選一個角色、拉動時間軸，看 Microsoft 365 Copilot、內建 Agent 與 Cowork 今天怎麼幫你做事。">
+<style>
+:root{
+  color-scheme: dark;
+  --bg:#07070f; --bg2:#0c0c18; --bg3:#11111f;
+  --card:rgba(255,255,255,.035); --card2:rgba(255,255,255,.06); --border:rgba(255,255,255,.09); --border2:rgba(255,255,255,.16);
+  --text:#ecebf3; --muted:#9a99b3; --dim:#6b6a85;
+  --gold:#f5b942; --coral:#f0678a; --purple:#8b5cf6; --blue:#60a5fa; --green:#34d399; --red:#f87171;
+  --grad:linear-gradient(90deg,var(--gold) 0%,var(--coral) 50%,var(--purple) 100%);
+  --font:"Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,-apple-system,sans-serif;
+  --mono:ui-monospace,"Cascadia Code","SF Mono",Menlo,Consolas,"Noto Sans Mono CJK TC",monospace;
+  --r:16px; --r2:12px; --max:1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+b,strong{color:#fff}
+h1,h2,h3,h4{margin:0;line-height:1.2;letter-spacing:-.01em}
+p{margin:0}
+ul{margin:0;padding-inline-start:1.2em}
+button{font:inherit;color:inherit;cursor:pointer}
+.mono{font-family:var(--mono);letter-spacing:.04em}
+.muted{color:var(--muted)}
+.small{font-size:.85rem}
+.grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+section{padding:96px 0 72px;position:relative}
+.lbl{font-size:.72rem;color:var(--gold);text-transform:uppercase;letter-spacing:.14em}
+.step-lbl{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:.74rem;color:var(--gold);letter-spacing:.16em;margin-bottom:18px}
+.step-lbl::before{content:"";width:28px;height:1px;background:var(--gold)}
+h2.h{font-size:clamp(1.9rem,4.2vw,3rem);font-weight:800;margin-bottom:16px}
+.lead{color:var(--muted);max-width:760px;font-size:1.05rem;margin-bottom:36px}
+.lead b{color:#fff}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+#progress{position:fixed;top:0;left:0;height:2px;background:var(--grad);width:0;z-index:60}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:50;background:rgba(7,7,15,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.nav .in{max-width:1380px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:10px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;white-space:nowrap}
+.brand .dot{width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 14px var(--gold)}
+.brand small{font-weight:500;color:var(--muted);font-size:.78rem}
+.nav .links{display:flex;gap:2px;flex:1;overflow:auto;scrollbar-width:none;margin-inline-start:12px}
+.nav .links::-webkit-scrollbar{display:none}
+.nav .links a{padding:8px 12px;border-radius:999px;font-size:.84rem;color:var(--muted);white-space:nowrap;transition:.2s}
+.nav .links a:hover{color:#fff;background:var(--card2)}
+.nav .links a.on{color:#fff;background:rgba(255,255,255,.1)}
+.nav .cta{border:1px solid var(--gold);color:var(--gold);padding:8px 16px;border-radius:999px;font-size:.84rem;white-space:nowrap;font-weight:600}
+.nav .cta:hover{background:rgba(245,185,66,.12)}
+#navToggle{display:none;background:none;border:1px solid var(--border);border-radius:8px;padding:6px 10px}
+@media (max-width:900px){#navToggle{display:block}.nav .links{display:none;position:absolute;top:100%;left:0;right:0;background:var(--bg2);flex-direction:column;padding:10px;border-bottom:1px solid var(--border)}.nav.open .links{display:flex}.nav .cta{display:none}}
+
+/* hero */
+.hero{position:relative;min-height:88vh;display:flex;align-items:center;text-align:center;overflow:hidden;padding:80px 0 60px}
+#particles{position:absolute;inset:0;width:100%;height:100%}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(139,92,246,.18),transparent 60%),radial-gradient(ellipse at 20% 80%,rgba(245,185,66,.1),transparent 50%),radial-gradient(ellipse at 85% 70%,rgba(240,103,138,.12),transparent 50%)}
+.hero .wrap{position:relative;z-index:2}
+.badge{display:inline-flex;align-items:center;gap:10px;background:var(--card2);border:1px solid var(--border);border-radius:999px;padding:6px 14px 6px 6px;font-size:.82rem;color:var(--muted);margin-bottom:26px}
+.badge .b{background:var(--gold);color:#111;font-family:var(--mono);font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:999px;letter-spacing:.08em}
+.hero h1{font-size:clamp(2.4rem,6.4vw,4.6rem);font-weight:900;letter-spacing:-.02em;line-height:1.08}
+.hero .sub{color:var(--muted);font-size:1.12rem;max-width:820px;margin:26px auto 0}
+.hero .sub b{color:#fff}
+.pill-note{display:inline-block;margin-top:22px;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);color:#b9f3dc;border-radius:999px;padding:8px 18px;font-size:.9rem}
+.btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:14px 26px;font-weight:700;border:1px solid var(--border2);background:var(--card2);transition:.2s}
+.btn:hover{transform:translateY(-1px);background:rgba(255,255,255,.1)}
+.btn.primary{background:var(--grad);border:none;color:#fff;box-shadow:0 10px 30px rgba(240,103,138,.25)}
+.btn.gold{background:var(--gold);border:none;color:#111}
+.btn.small{padding:8px 16px;font-size:.85rem}
+.btn.ok{background:var(--green);border:none;color:#06281c}
+.btn.ghost{background:transparent}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:960px;margin:52px auto 0}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px 16px;text-align:start}
+.stat .v{font-family:var(--mono);font-size:1.6rem;font-weight:800;color:#fff}
+.stat .v span{font-size:.9rem;color:var(--gold)}
+.stat .k{font-size:.82rem;color:var(--muted);margin-top:4px}
+@media (max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
+
+/* pain */
+.pain-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:22px}
+@media (max-width:900px){.pain-grid{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:22px}
+.panel h3{font-size:1.05rem;margin-bottom:6px}
+.panel .ph{color:var(--muted);font-size:.86rem;margin-bottom:16px}
+.bar{display:block;width:100%;text-align:start;background:none;border:1px solid transparent;border-radius:var(--r2);padding:12px 12px 10px;transition:.2s;margin-bottom:6px}
+.bar:hover,.bar.on{background:var(--card2);border-color:var(--border2)}
+.bar-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.bar-name{font-weight:700}
+.bar-en{font-size:.68rem;color:var(--dim)}
+.bar-n{margin-inline-start:auto;font-size:.8rem;color:var(--muted)}
+.bar-n b{color:#fff;font-size:1rem}
+.bar-track{height:8px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden}
+.bar-fill{height:100%;width:0;border-radius:999px;transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.bar-fill.go{width:var(--w)}
+.bar-fill.k-pain{background:linear-gradient(90deg,var(--gold),var(--coral))}
+.bar-fill.k-want{background:linear-gradient(90deg,var(--purple),var(--blue))}
+.pain-detail{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);padding:24px;opacity:0;transform:translateY(8px);transition:.35s}
+.pain-detail.show{opacity:1;transform:none}
+.pain-detail h4{font-size:1.25rem;margin:6px 0}
+.pd-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:16px}
+@media (max-width:760px){.pd-grid{grid-template-columns:1fr}}
+.pd-foot{margin-top:14px;font-size:.85rem;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:999px;padding:4px 10px;font-size:.78rem;color:var(--muted)}
+.chip.need{border-color:rgba(139,92,246,.4);color:#cbb6ff;background:rgba(139,92,246,.1)}
+.chip.ghost{opacity:.5}
+.chips.small .chip{font-size:.72rem;padding:3px 9px}
+.role-chip{cursor:pointer;color:#fff;background:rgba(245,185,66,.1);border-color:rgba(245,185,66,.35)}
+.role-chip:hover{background:rgba(245,185,66,.22)}
+.cap-chip{color:#fff}
+
+/* roles */
+.role-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+@media (max-width:1100px){.role-grid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:720px){.role-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:480px){.role-grid{grid-template-columns:1fr}}
+.role-card{text-align:start;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px;transition:.25s;position:relative;display:flex;flex-direction:column;gap:6px}
+.role-card:hover{transform:translateY(-3px);border-color:var(--border2);background:var(--card2)}
+.role-card.on{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 14px 40px rgba(245,185,66,.12)}
+.rc-top{display:flex;justify-content:space-between;align-items:flex-start}
+.rc-icon{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:1.3rem;background:rgba(255,255,255,.06)}
+.c-gold .rc-icon{background:rgba(245,185,66,.14)} .c-coral .rc-icon{background:rgba(240,103,138,.14)} .c-purple .rc-icon{background:rgba(139,92,246,.16)} .c-blue .rc-icon{background:rgba(96,165,250,.14)} .c-green .rc-icon{background:rgba(52,211,153,.14)}
+.rc-radio{width:18px;height:18px;border-radius:50%;border:2px solid var(--border2)}
+.role-card.on .rc-radio{border-color:var(--gold);background:radial-gradient(circle,var(--gold) 45%,transparent 50%)}
+.role-card h3{font-size:1.08rem;margin-top:8px}
+.rc-en{font-size:.68rem;letter-spacing:.12em}
+.c-gold .rc-en{color:var(--gold)} .c-coral .rc-en{color:var(--coral)} .c-purple .rc-en{color:#c4b5fd} .c-blue .rc-en{color:var(--blue)} .c-green .rc-en{color:var(--green)}
+.role-card p{font-size:.86rem;color:var(--muted);flex:1}
+.rc-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:.7rem;color:var(--dim);margin-top:6px}
+.rc-tag{background:rgba(255,255,255,.06);border-radius:6px;padding:2px 8px;color:var(--muted)}
+.role-status{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-top:22px;color:var(--muted)}
+
+/* day */
+.mode{display:inline-flex;align-items:center;border-radius:999px;padding:3px 10px;font-size:.74rem;font-weight:700;white-space:nowrap}
+.m-auto{background:rgba(139,92,246,.18);color:#d6c8ff;border:1px solid rgba(139,92,246,.45)}
+.m-co{background:rgba(245,185,66,.14);color:#ffd98a;border:1px solid rgba(245,185,66,.45)}
+.m-you{background:rgba(52,211,153,.12);color:#a7f3d0;border:1px solid rgba(52,211,153,.4)}
+.lock{color:var(--coral);font-weight:700}
+.day-grid{display:grid;grid-template-columns:300px 1fr;gap:28px;align-items:start}
+@media (max-width:900px){.day-grid{grid-template-columns:1fr}}
+.sky-card{position:sticky;top:84px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.sky{height:150px;position:relative;overflow:hidden;transition:background 1s}
+.sky-morning{background:linear-gradient(180deg,#fbd38d 0%,#f6a5c0 40%,#7aa7e8 100%)}
+.sky-noon{background:linear-gradient(180deg,#5ea0ee 0%,#8cc0f5 60%,#cfe7ff 100%)}
+.sky-afternoon{background:linear-gradient(180deg,#5b7fd6 0%,#f5a26b 70%,#ffd08a 100%)}
+.sky-evening{background:linear-gradient(180deg,#141433 0%,#3a2a6b 60%,#8b4a6b 100%)}
+#sun{position:absolute;width:38px;height:38px;border-radius:50%;background:#ffe27a;box-shadow:0 0 30px 8px rgba(255,226,122,.7);transform:translate(-50%,-50%);transition:left 1s,top 1s}
+.sky-evening #sun{background:#f1f1ff;box-shadow:0 0 22px 6px rgba(200,200,255,.5)}
+.city{position:absolute;bottom:0;left:0;right:0;height:64px;display:flex;align-items:flex-end;gap:4px;padding:0 10px}
+.city i{display:block;background:#12122a;flex:1;border-radius:3px 3px 0 0;position:relative}
+.city i.shop{background:#1b1b3a;flex:1.6;border-top:6px solid var(--gold);box-shadow:inset 0 -14px 0 rgba(245,185,66,.25)}
+.city i.shop::after{content:"7";position:absolute;top:8px;left:50%;transform:translateX(-50%);font:900 12px var(--mono);color:var(--gold)}
+.sky-body{padding:18px}
+.sky-time{font-family:var(--mono);font-size:2.4rem;font-weight:800;line-height:1}
+.sky-title{font-weight:700;margin:8px 0 10px;min-height:1.6em}
+.sky-row{display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:var(--muted)}
+.meter{margin-top:16px}
+.meter .k{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted)}
+.meter .k b{color:#fff}
+.meter .t{height:6px;background:rgba(255,255,255,.08);border-radius:999px;margin-top:6px;overflow:hidden}
+.meter .t i{display:block;height:100%;background:var(--grad);width:0;transition:width .6s}
+.saved{display:flex;justify-content:space-between;font-size:.82rem;color:var(--muted);margin-top:12px}
+.saved b{color:var(--green);font-family:var(--mono)}
+.scrub{margin-top:18px}
+.scrub .lbl{display:block;margin-bottom:8px;color:var(--muted)}
+input[type=range]{width:100%;accent-color:var(--gold);cursor:pointer}
+.ticks{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.62rem;color:var(--dim);margin-top:2px}
+.sky-btns{display:flex;gap:8px;margin-top:14px}
+.sky-btns .btn{flex:1;justify-content:center;padding:10px;font-size:.85rem}
+.timeline{position:relative;padding-inline-start:28px}
+.timeline::before{content:"";position:absolute;left:8px;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--gold),var(--purple),transparent)}
+.moment{position:relative;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin-bottom:18px;cursor:pointer;transition:border-color .25s,box-shadow .25s}
+.moment:hover{border-color:var(--border2)}
+.moment.on{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 20px 50px rgba(0,0,0,.35)}
+.mo-dot{position:absolute;left:-25px;top:26px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--dim)}
+.moment.on .mo-dot{background:var(--gold);border-color:var(--gold);box-shadow:0 0 14px var(--gold)}
+.mo-time{color:var(--gold);font-size:.78rem}
+.mo-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:4px 0 8px}
+.mo-head h3{font-size:1.2rem}
+.bubble{display:flex;gap:10px;margin-top:12px}
+.av{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:.72rem;font-weight:700;background:rgba(255,255,255,.1)}
+.av.cp{background:var(--grad);color:#fff}
+.bt{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:12px;padding:12px 14px;font-size:.92rem;flex:1}
+.bubble.you .bt{border-top-left-radius:4px}
+.bt-lbl{font-size:.8rem;color:var(--muted);margin-bottom:6px}
+.bt ul{padding-inline-start:1.1em;color:#d9d8e6}
+.bt li{margin:3px 0}
+.arts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.art{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:.78rem;font-family:var(--mono)}
+.art i{font-style:normal;width:18px;height:18px;border-radius:4px;display:grid;place-items:center;font-size:.7rem;font-weight:900;color:#fff}
+.a-docx i{background:#2b5fd9} .a-xlsx i{background:#1f8a4c} .a-pptx i{background:#d35b2b} .a-cal i,.a-mail i,.a-plan i,.a-md i,.a-agent i{background:rgba(255,255,255,.15)}
+.confirm{margin-top:12px;background:rgba(245,185,66,.1);border:1px solid rgba(245,185,66,.35);border-radius:10px;padding:10px 14px;font-size:.88rem;color:#ffd98a}
+.confirm b{color:#fff}
+.note{margin-top:10px;border-inline-start:3px solid var(--green);background:rgba(52,211,153,.07);border-radius:0 10px 10px 0;padding:8px 14px;font-size:.85rem;color:#c9f5e3}
+.mo-foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px dashed var(--border);font-size:.82rem}
+.save{color:var(--green)} .save b{color:var(--green);font-size:1rem}
+.mo-cap{font-size:.68rem;color:var(--dim);margin-top:10px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:26px;color:var(--muted);font-size:.9rem}
+
+/* cap map */
+.cap-grid{display:grid;grid-template-columns:400px 1fr;gap:22px;align-items:start}
+@media (max-width:1000px){.cap-grid{grid-template-columns:1fr}}
+.cap-list{display:flex;flex-direction:column;gap:8px;max-height:640px;overflow:auto;padding-inline-end:4px}
+.cap-card{display:flex;gap:12px;text-align:start;background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:14px;transition:.2s}
+.cap-card:hover{border-color:var(--border2)} .cap-card.on{border-color:var(--gold);background:rgba(245,185,66,.06)}
+.cc-icon{flex:none;width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.06);display:grid;place-items:center;font-size:1.1rem}
+.cc-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.cc-tag{font-size:.62rem;color:var(--dim);letter-spacing:.1em}
+.status{font-family:var(--mono);font-size:.62rem;border-radius:999px;padding:2px 8px;font-weight:700}
+.s-ga{background:rgba(52,211,153,.15);color:var(--green);border:1px solid rgba(52,211,153,.4)}
+.s-pre{background:rgba(245,185,66,.12);color:var(--gold);border:1px solid rgba(245,185,66,.4)}
+.cap-card p{font-size:.82rem;color:var(--muted);margin-top:4px}
+.heat-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px;overflow:auto}
+.heat{display:grid;gap:6px;align-items:center;min-width:640px}
+.heat-colh{font-size:.62rem;color:var(--muted);text-align:center;line-height:1.2;padding:4px 2px}
+.heat-rowh{font-size:.82rem;font-weight:700;padding-inline-end:6px;border-radius:8px}
+.heat-rowh.on{color:var(--gold)}
+.heat-cell{height:34px;border-radius:8px;border:1px solid transparent;background:rgba(255,255,255,.04);transition:.2s}
+.heat-cell.lv1.c-gold{background:rgba(245,185,66,.32)} .heat-cell.lv2.c-gold{background:rgba(245,185,66,.62)} .heat-cell.lv3.c-gold{background:var(--gold)}
+.heat-cell.lv1.c-coral{background:rgba(240,103,138,.32)} .heat-cell.lv2.c-coral{background:rgba(240,103,138,.62)} .heat-cell.lv3.c-coral{background:var(--coral)}
+.heat-cell.lv1.c-purple{background:rgba(139,92,246,.35)} .heat-cell.lv2.c-purple{background:rgba(139,92,246,.65)} .heat-cell.lv3.c-purple{background:var(--purple)}
+.heat-cell.lv1.c-blue{background:rgba(96,165,250,.32)} .heat-cell.lv2.c-blue{background:rgba(96,165,250,.62)} .heat-cell.lv3.c-blue{background:var(--blue)}
+.heat-cell.lv1.c-green{background:rgba(52,211,153,.3)} .heat-cell.lv2.c-green{background:rgba(52,211,153,.6)} .heat-cell.lv3.c-green{background:var(--green)}
+.heat-cell:hover{transform:scale(1.06);border-color:#fff}
+.heat-cell.on{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.35)}
+.heat-cell.col-on{outline:1px dashed rgba(255,255,255,.35)}
+.heat-detail{margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}
+.hd-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+.hd-item{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:var(--r2);padding:12px 14px;margin-top:8px}
+.hd-t{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-weight:700;margin-bottom:6px}
+.hd-t .mono{color:var(--gold);font-size:.78rem}
+.hd-p{font-size:.88rem;color:#d9d8e6}
+.copy{margin-top:8px;background:rgba(255,255,255,.08);border:1px solid var(--border2);border-radius:8px;padding:5px 12px;font-size:.78rem}
+.copy:hover{background:rgba(255,255,255,.14)}
+
+/* simulator */
+.sim-grid{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+@media (max-width:1000px){.sim-grid{grid-template-columns:1fr}}
+.sim-task{display:block;width:100%;text-align:start;background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:14px;margin-bottom:8px;transition:.2s}
+.sim-task:hover{border-color:var(--gold);background:rgba(245,185,66,.05)}
+.st-head{font-size:.7rem;color:var(--gold);margin-bottom:6px}
+.st-head .m-co{color:#ffd98a;background:none;border:none;padding:0} .st-head .m-auto{color:#d6c8ff;background:none;border:none;padding:0} .st-head .m-you{color:#a7f3d0;background:none;border:none;padding:0}
+.st-text{font-size:.86rem;color:#d9d8e6;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.browser{background:#15152a;border:1px solid var(--border2);border-radius:14px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.br-bar{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#1b1b33;border-bottom:1px solid var(--border)}
+.br-bar .dots i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-inline-end:6px}
+.br-bar .dots i:nth-child(1){background:#ff5f57}.br-bar .dots i:nth-child(2){background:#febc2e}.br-bar .dots i:nth-child(3){background:#28c840}
+.br-url{flex:1;background:rgba(0,0,0,.35);border-radius:8px;padding:5px 12px;font-family:var(--mono);font-size:.74rem;color:var(--muted)}
+.br-title{font-size:.74rem;color:var(--dim)}
+.br-body{display:grid;grid-template-columns:190px 1fr 220px;min-height:520px;background:#f5f5fa;color:#1d1d2b}
+@media (max-width:1000px){.br-body{grid-template-columns:1fr}.br-side,.br-work{display:none}}
+.br-side{background:#ececf4;border-inline-end:1px solid #dcdce6;padding:14px;font-size:.84rem}
+.br-side .brand2{font-weight:800;margin-bottom:12px;display:flex;justify-content:space-between}
+.tabs{display:flex;background:#dedeea;border-radius:8px;padding:3px;margin-bottom:12px}
+.tabs span{flex:1;text-align:center;padding:4px;border-radius:6px;font-size:.78rem;color:#66667a}
+.tabs span.on{background:#fff;color:#1d1d2b;font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.side-item{padding:7px 8px;border-radius:8px;color:#3c3c50}
+.side-item.on{background:#fff;font-weight:700}
+.side-h{font-size:.7rem;color:#8a8a9e;margin:12px 0 4px}
+.br-main{display:flex;flex-direction:column;position:relative}
+.br-top{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;font-size:.78rem;color:#66667a;border-bottom:1px solid #e6e6ee}
+.edp{color:#1a7f4b;font-weight:700}
+.sim-state{font-size:.72rem;padding:2px 10px;border-radius:999px;background:#e8e8f2;color:#66667a}
+.sim-state.run{background:#efe6ff;color:#6d3fd6}.sim-state.wait{background:#fff3d6;color:#a86a00}.sim-state.ok{background:#dcf7e9;color:#1a7f4b}
+.sim-chat{flex:1;padding:16px;overflow:auto;max-height:440px;display:flex;flex-direction:column;gap:10px}
+.sim-empty{margin:auto;text-align:center}
+.sim-h{font-size:1.4rem;font-weight:800;margin-bottom:6px}
+.sim-msg{max-width:92%;border-radius:12px;padding:10px 14px;font-size:.86rem;line-height:1.55}
+.sim-msg.u{align-self:flex-end;background:#e9e3ff;color:#1d1d2b;border-bottom-right-radius:4px}
+.sim-msg.a{align-self:flex-start;background:#fff;border:1px solid #e3e3ec;color:#1d1d2b}
+.sim-msg.conf{border-color:#f2c86b;background:#fff8e8}
+.sim-msg ol,.sim-msg ul{padding-inline-start:1.2em;margin:4px 0}
+.sim-msg b{color:#1d1d2b}
+.sim-lbl{font-size:.72rem;color:#7a7a90;font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:.08em}
+.sim-msg .btns{justify-content:flex-start;margin-top:8px}
+.sim-msg .btn.ghost{color:#1d1d2b;border-color:#cfcfdc}
+.ok-t{color:#1a7f4b;font-size:.78rem} .no-t{color:#8a8a9e;font-size:.78rem}
+.sim-msg .art{background:#f0f0f7;border-color:#dcdce6;color:#1d1d2b}
+.sim-checks{font-size:.7rem;color:#7a7a90;margin-top:8px;border-top:1px dashed #e3e3ec;padding-top:6px}
+.sim-save{font-size:.8rem;color:#1a7f4b;margin-top:6px}
+.tbl-wrap{overflow:auto;margin-top:6px}
+.sim-msg table{border-collapse:collapse;font-size:.76rem;min-width:520px}
+.sim-msg th,.sim-msg td{border:1px solid #e3e3ec;padding:5px 8px;text-align:start;vertical-align:top}
+.sim-msg th{background:#f3f3f9}
+.sim-form{display:flex;gap:8px;padding:12px 16px;border-top:1px solid #e6e6ee;background:#fff}
+.sim-form input{flex:1;border:1px solid #d5d5e2;border-radius:10px;padding:10px 12px;font:inherit;font-size:.88rem;background:#fff;color:#1d1d2b}
+.sim-form .btn{background:#6d3fd6;color:#fff;border:none;padding:8px 16px}
+.sim-form .btn.ghost{background:transparent;color:#66667a;border:1px solid #d5d5e2}
+.br-work{background:#fbfbfe;border-inline-start:1px solid #e6e6ee;padding:14px;font-size:.8rem}
+.br-work h5{margin:0 0 8px;font-size:.8rem;color:#1d1d2b}
+.br-work .side-h{margin-top:14px}
+.step{display:flex;gap:8px;align-items:flex-start;padding:5px 0;color:#3c3c50;font-size:.78rem}
+.step .dot{flex:none;width:10px;height:10px;border-radius:50%;border:2px solid #cfcfdc;margin-top:4px}
+.step.doing .dot{border-color:#6d3fd6;background:#efe6ff;animation:pulse 1s infinite}
+.step.done .dot{border-color:#1a7f4b;background:#1a7f4b}
+.step.wait .dot{border-color:#e0a300;background:#fff3d6}
+.step.skip{opacity:.6}
+@keyframes pulse{50%{box-shadow:0 0 0 4px rgba(109,63,214,.2)}}
+.br-work .chip.tool{background:#fff;border-color:#dcdce6;color:#3c3c50;font-size:.7rem}
+
+/* compare */
+.cmp-ctl{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap;color:var(--muted)}
+.cmp-ctl .left{display:flex;align-items:center;gap:10px}
+.seg{display:inline-flex;background:var(--card);border:1px solid var(--border);border-radius:999px;padding:3px}
+.seg button{background:none;border:none;border-radius:999px;padding:6px 14px;font-size:.82rem;color:var(--muted);transition:.2s}
+.seg button.on{background:var(--gold);color:#111;font-weight:700}
+@property --split{syntax:'<percentage>';inherits:true;initial-value:50%}
+.cmp{position:relative;--split:50%;display:grid;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:var(--bg2);user-select:none;-webkit-user-select:none;cursor:ew-resize;touch-action:pan-y}
+.cmp.anim{transition:--split .55s cubic-bezier(.2,.8,.2,1)}
+.cmp>.pane{grid-area:1/1;min-width:0;position:relative;display:flex}
+.pane.then{background:var(--bg2)}
+.pane.now{background:linear-gradient(135deg,rgba(139,92,246,.28),rgba(240,103,138,.16) 60%,rgba(245,185,66,.1)),var(--bg2);clip-path:inset(0 0 0 var(--split))}
+.pane .half{width:50%;padding:26px 30px 22px;display:flex;flex-direction:column;transition:opacity .15s}
+.pane.then .half{opacity:var(--then-op,1)}
+.pane.now .half{opacity:var(--now-op,1)}
+.pane.now .half{margin-inline-start:50%}
+.pane .lbl{display:block;margin-bottom:6px}
+.pane.now .lbl{color:#d6c8ff}
+.pane h3{font-size:1.35rem;margin-bottom:14px}
+.pane ul{list-style:none;padding:0;margin:0;flex:1}
+.pane li{display:flex;gap:10px;align-items:flex-start;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:8px;font-size:.92rem;min-height:66px}
+.pane.now li{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.14)}
+.pfoot{margin-top:10px;padding-top:12px;border-top:1px dashed var(--border);font-size:.8rem;color:var(--muted)}
+.pane.now .pfoot{color:#e6dcff}
+.pfoot b{color:var(--green)}
+.cmp-line{position:absolute;top:0;bottom:0;left:var(--split);width:2px;background:var(--gold);transform:translateX(-50%);box-shadow:0 0 18px rgba(245,185,66,.55);pointer-events:none;z-index:2}
+.cmp-edge{position:absolute;top:0;bottom:0;width:70px;pointer-events:none;z-index:1}
+.cmp-edge.l{right:calc(100% - var(--split));background:linear-gradient(90deg,transparent,rgba(7,7,15,.55))}
+.cmp-edge.r{left:var(--split);background:linear-gradient(270deg,transparent,rgba(7,7,15,.45))}
+.cmp-handle{position:absolute;top:50%;left:var(--split);transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;background:var(--gold);color:#111;display:grid;place-items:center;font-weight:900;font-size:.95rem;cursor:ew-resize;box-shadow:0 8px 24px rgba(245,185,66,.45);z-index:3;touch-action:none;outline:none;transition:box-shadow .2s}
+.cmp-handle:hover,.cmp-handle.drag,.cmp-handle:focus-visible{box-shadow:0 0 0 7px rgba(245,185,66,.22),0 8px 24px rgba(245,185,66,.55)}
+.cmp-handle .tip{position:absolute;top:-30px;left:50%;transform:translateX(-50%);white-space:nowrap;background:#fff;color:#111;font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:999px;font-family:var(--mono);opacity:0;transition:.2s;pointer-events:none}
+.cmp-handle.drag .tip,.cmp-handle:hover .tip{opacity:1}
+.cmp-range{display:flex;align-items:center;gap:12px;margin-top:14px;font-size:.78rem;color:var(--muted)}
+.cmp-range input{flex:1}
+.cmp-range .mono{white-space:nowrap}
+.cmp-caption{margin-top:8px;font-size:.88rem;color:#fff;min-height:1.6em}
+.cmp-caption span{color:var(--gold)}
+@media (max-width:720px){.cmp{cursor:default;display:block}.cmp>.pane{position:static}.pane.now{clip-path:none}.pane .half,.pane.now .half{width:100%;margin:0}.cmp-line,.cmp-edge,.cmp-handle,.seg,.cmp-range,.cmp-caption{display:none}}
+.cmp-hint{margin-top:10px;font-size:.82rem;color:var(--muted)}
+
+/* trust */
+.trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:900px){.trust-grid{grid-template-columns:1fr}}
+.tcard{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:22px;border-top:3px solid var(--gold)}
+.tcard.c2{border-top-color:var(--coral)} .tcard.c3{border-top-color:var(--purple)} .tcard.c4{border-top-color:var(--blue)} .tcard.c5{border-top-color:var(--green)} .tcard.c6{border-top-color:#fff}
+.tcard .ic{font-size:1.5rem;margin-bottom:8px}
+.tcard h3{font-size:1.05rem;margin-bottom:8px}
+.tcard p,.tcard li{font-size:.88rem;color:var(--muted)}
+.tcard ul{margin-top:8px;padding-inline-start:1.1em}
+.boundary{margin-top:22px;background:linear-gradient(135deg,rgba(245,185,66,.08),rgba(240,103,138,.06));border:1px solid rgba(245,185,66,.3);border-radius:var(--r);padding:24px}
+.boundary h3{font-size:1.15rem;margin-bottom:10px}
+.bgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:12px}
+@media (max-width:760px){.bgrid{grid-template-columns:1fr}}
+.bgrid ul{font-size:.9rem;color:#d9d8e6}
+.acc{border:1px solid var(--border);border-radius:var(--r2);margin-top:10px;background:var(--card)}
+.acc-h{width:100%;text-align:start;background:none;border:none;padding:14px 18px;font-weight:700;display:flex;justify-content:space-between}
+.acc-h::after{content:"+";color:var(--gold)}
+.acc.open .acc-h::after{content:"−"}
+.acc-b{display:none;padding:0 18px 16px;color:var(--muted);font-size:.9rem}
+.acc.open .acc-b{display:block}
+.quote{margin-top:22px;border-inline-start:3px solid var(--purple);padding:12px 18px;color:#d9d8e6;font-size:.95rem;background:rgba(139,92,246,.06);border-radius:0 12px 12px 0}
+.quote small{display:block;color:var(--dim);margin-top:4px}
+
+/* calc */
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}
+@media (max-width:900px){.calc-grid{grid-template-columns:1fr}}
+.ctl{margin-bottom:18px}
+.ctl .k{display:flex;justify-content:space-between;font-size:.88rem;color:var(--muted);margin-bottom:6px}
+.ctl .k b{color:#fff;font-family:var(--mono)}
+.out{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.out.hi{background:linear-gradient(135deg,rgba(245,185,66,.12),rgba(139,92,246,.14));border-color:rgba(245,185,66,.35)}
+.out .k{font-size:.88rem}
+.out .k small{display:block;color:var(--dim);font-size:.74rem}
+.out .v{font-family:var(--mono);font-size:1.9rem;font-weight:800;color:var(--green)}
+.out .v small{font-size:.8rem;color:var(--muted)}
+.out.hi .v{color:#fff}
+.ob{display:grid;grid-template-columns:52px 1fr 120px 52px;gap:10px;align-items:center;font-size:.82rem;padding:6px 0;border-bottom:1px dashed var(--border)}
+.ob .mono{color:var(--gold);font-size:.74rem}
+.ob-bar{height:6px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden}
+.ob-bar i{display:block;height:100%;background:var(--grad)}
+.ob-n{text-align:end;color:var(--muted)}
+.disc{font-size:.8rem;color:var(--dim);margin-top:12px}
+
+/* workshop */
+.ws-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+@media (max-width:1100px){.ws-grid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:760px){.ws-grid{grid-template-columns:1fr}}
+.ws-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:8px}
+.ws-n{font-size:.68rem;color:var(--gold);letter-spacing:.12em}
+.ws-card h3{font-size:1.05rem}
+.ws-want{font-size:.8rem;color:#cbb6ff}
+.ws-card p{font-size:.86rem;color:var(--muted);flex:1}
+.ws-kv{display:grid;grid-template-columns:44px 1fr;gap:8px;font-size:.82rem;color:#d9d8e6}
+.ws-foot{display:flex;justify-content:space-between;align-items:flex-end;gap:8px;margin-top:6px;font-size:.72rem;color:var(--muted)}
+.ws-foot .chips{margin:0}
+.agenda{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
+@media (max-width:760px){.agenda{grid-template-columns:1fr 1fr}}
+.ag{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:16px;font-size:.88rem}
+.ag .mono{color:var(--gold);font-size:.7rem;display:block;margin-bottom:4px}
+.ag b{display:block;margin-bottom:4px}
+.ag span{color:var(--muted);font-size:.82rem}
+
+/* prompts */
+.pctl{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:1000px){.pgrid{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.pgrid{grid-template-columns:1fr}}
+.pcard{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:8px}
+.pc-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.pcard p{font-size:.84rem;color:#d9d8e6;flex:1}
+.pc-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:.72rem}
+.pc-foot .copy{margin:0}
+
+/* footer */
+footer{padding:60px 0 40px;border-top:1px solid var(--border);color:var(--muted);font-size:.85rem}
+footer .cols{display:grid;grid-template-columns:2fr 1fr 1fr;gap:28px}
+@media (max-width:800px){footer .cols{grid-template-columns:1fr}}
+footer h4{color:#fff;font-size:.9rem;margin-bottom:8px}
+footer li{margin:4px 0}
+footer a{color:var(--muted);border-bottom:1px dotted var(--border2)}
+footer a:hover{color:#fff}
+.fin{margin-top:30px;padding-top:18px;border-top:1px solid var(--border);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.78rem;color:var(--dim)}
+#toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,20px);background:#fff;color:#111;padding:10px 18px;border-radius:999px;font-size:.85rem;font-weight:700;opacity:0;transition:.3s;z-index:70;pointer-events:none}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+@media print{.nav,#progress,#toast,.sky-btns,.sim-form{display:none}section{padding:30px 0;break-inside:avoid}}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<nav class="nav">
+  <div class="in">
+    <a class="brand" href="#top"><span class="dot"></span>M365 Copilot <small>/ 統一超商 一日實戰 · PCSC Day-in-the-Life</small></a>
+    <div class="links">
+      <a href="#pain">痛點</a><a href="#roles">選角色</a><a href="#day">你的一天</a><a href="#capmap">能力地圖</a><a href="#sim">模擬器</a><a href="#compare">今昔對照</a><a href="#trust">治理與信任</a><a href="#calc">效益試算</a><a href="#workshop">分組活動</a><a href="#prompts">Prompt 庫</a>
+    </div>
+    <a class="cta" href="https://m365.cloud.microsoft/chat" target="_blank" rel="noopener">開啟 Copilot ↗</a>
+    <button id="navToggle" type="button" aria-label="選單">☰</button>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <canvas id="particles"></canvas>
+  <div class="wrap">
+    <div class="badge"><span class="b">教育訓練 · 2026.09.11</span>Interactive Experience · 統一超商 AI 數位群 × 情報系統部</div>
+    <h1>不是功能清單，是 Copilot<br><span class="grad">今天就能幫你做的事</span></h1>
+    <p class="sub">這個網站從<b>你們填的痛點調查</b>出發：約 22 人被跨文件整理拖住、22 人被報告撰寫拖住、14 人想要能編輯的分析結果。選一個最像你的角色、拉動時間軸，看 <b>Microsoft 365 Copilot</b>（Work IQ）、<b>內建 Agent</b>（Researcher / Analyst / Facilitator / Agent Builder）與 <b>Cowork</b> 用今天就能用的功能，處理一天當中的哪些工作、哪些動作要先問你——以及哪些判斷只有你能做。</p>
+    <div class="pill-note">談的不是取代 SA、PM 或分析師，而是把重複的整理、比對、撰寫交出去；每一個敏感動作都由你確認，最終決策永遠是人。</div>
+    <div class="btns"><a class="btn primary" href="#roles">開始你的一天 →</a><a class="btn" href="#sim">先試試模擬器</a></div>
+    <div class="stats">
+      <div class="stat"><div class="v">7,334</div><div class="k">全台 7-ELEVEN 門市數（2026/6，統一超商 IR）</div></div>
+      <div class="stat"><div class="v">1,850<span> 萬</span></div><div class="k">uniopen 會員數（2025，104 職場力報導）</div></div>
+      <div class="stat"><div class="v">365<span> hr</span></div><div class="k">AI 訂貨系統平均每店每年減少工時（工商時報 2026/5）</div></div>
+      <div class="stat"><div class="v">5<span> 大</span></div><div class="k">你們希望 AI Agent 協助的工作類型（本次調查）</div></div>
+    </div>
+  </div>
+</header>
+
+<section id="pain">
+  <div class="wrap">
+    <div class="step-lbl">STEP 01 · PAIN POINTS FROM YOUR SURVEY</div>
+    <h2 class="h">先看你們自己說的：<span class="grad">卡在哪、想要什麼？</span></h2>
+    <p class="lead">左邊是目前工作痛點前三名，右邊是希望 AI Agent 協助的五類工作（人數為本次調查約略值）。點任一項，看它對應到哪一層 Copilot 能力、出現在哪些角色的一天。</p>
+    <div class="pain-grid">
+      <div class="panel"><h3>一、目前工作痛點 Top 3</h3><div class="ph">核心問題：資訊分散、格式不一致、重複性高、工具不足、AI 產出不可編輯</div><div id="painBars"></div></div>
+      <div class="panel"><h3>二、希望 AI Agent 協助的工作</h3><div class="ph">此項目也是後續課程安排與分組活動的方向</div><div id="wantBars"></div></div>
+    </div>
+    <div class="pain-detail" id="painDetail"></div>
+  </div>
+</section>
+
+<section id="roles">
+  <div class="wrap">
+    <div class="step-lbl">STEP 02 · PICK YOUR ROLE</div>
+    <h2 class="h">你最像哪一個？<span class="grad">選一個角色</span></h2>
+    <p class="lead">五個角色取自情報系統部與 AI 數位群的常見職務：系統分析、專案 / 架構、數位產品、數據分析與部門主管。選了之後，下方的一天、能力地圖、模擬器、對照與試算都會跟著換。</p>
+    <div class="role-grid" id="roleGrid"></div>
+    <div class="role-status"><span id="roleStatus"></span><button class="btn gold" id="gotoDay" type="button">看這個角色的一天 ↓</button></div>
+  </div>
+</section>
+
+<section id="day">
+  <div class="wrap">
+    <div class="step-lbl">STEP 03 · YOUR DAY WITH COPILOT</div>
+    <h2 class="h" id="dayTitle"></h2>
+    <div class="legend">拉動左側時間軸，或按「自動播放」。每一段都分三層呈現：<b>你交辦的一句話（prompt）→ Copilot 幫你做了什麼 → <span class="lock">🔒 需要你確認的動作</span></b>。三種模式：<span class="mode m-auto">指揮 Copilot 辦理</span> 你下指令、Copilot 執行、你確認；<span class="mode m-co">人機協作</span> Copilot 準備、你修改與判斷；<span class="mode m-you">由你判斷</span> Copilot 只整理資料，決定權完全在你。</div>
+    <div class="day-grid">
+      <aside class="sky-card">
+        <div class="sky sky-morning" id="sky"><div id="sun"></div><div class="city"><i style="height:30px"></i><i style="height:52px"></i><i class="shop" style="height:40px"></i><i style="height:60px"></i><i style="height:36px"></i><i style="height:48px"></i><i style="height:26px"></i></div></div>
+        <div class="sky-body">
+          <div class="sky-time" id="skyTime">08:30</div>
+          <div class="sky-title" id="skyTitle"></div>
+          <div class="sky-row"><span class="mode m-auto" id="skyMode"></span><span class="mono" id="skyCount"></span></div>
+          <div class="meter"><div class="k"><span>目前指揮 Copilot 辦理的工作比例</span><b id="shareVal">0%</b></div><div class="t"><i id="shareBar"></i></div></div>
+          <div class="saved"><span>今天已經省下</span><b id="savedVal">0 分</b></div>
+          <div class="scrub"><span class="lbl mono">拉動時間軸 · SCRUB THE DAY</span><input type="range" id="scrub" min="0" max="5" step="1" value="0" aria-label="時間軸"><div class="ticks" id="scrubTicks"></div></div>
+          <div class="sky-btns"><button class="btn" id="autoBtn" type="button">▶ 自動播放一天</button><button class="btn" id="resetBtn" type="button">↺ 重來</button></div>
+        </div>
+      </aside>
+      <div class="timeline" id="momentList"></div>
+    </div>
+  </div>
+</section>
+
+<section id="capmap">
+  <div class="wrap">
+    <div class="step-lbl">STEP 04 · CAPABILITY MAP</div>
+    <h2 class="h">9 層能力 × 5 個角色，<span class="grad">誰用到什麼？</span></h2>
+    <p class="lead">左邊是 Microsoft 365 Copilot 的能力層（Copilot Chat、Office、內建 Agent、Agent Builder、排程提示、Cowork），右邊是熱圖：越亮代表該角色一天中用得越多。點任一格，看該角色實際使用的中文 prompt。</p>
+    <div class="cap-grid">
+      <div class="cap-list" id="capList"></div>
+      <div class="heat-wrap"><div class="heat" id="heat"></div><div class="heat-detail" id="heatDetail"></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="sim">
+  <div class="wrap">
+    <div class="step-lbl">STEP 05 · COPILOT / COWORK SIMULATOR</div>
+    <h2 class="h">看 Copilot 怎麼<span class="grad">規劃 → 執行 → 確認 → 交付</span></h2>
+    <p class="lead">這是 Cowork「協作執行」的核心運作方式（Plan → Execute → Approve → Deliver）：把你交辦的一句話變成計畫、用你的權限搜尋來源、在敏感動作前停下來問你、最後產出檔案並留下核對紀錄。右側畫面為示意重繪：左側工作清單、中間對話、右側「工作區」的步驟與工具。選一個範例任務，或直接輸入。</p>
+    <div class="sim-grid">
+      <div>
+        <div class="lbl mono" id="simTaskLbl" style="margin-bottom:10px"></div>
+        <div id="simTasks"></div>
+        <button class="btn small ghost" id="simReset" type="button" style="margin-top:6px">清除畫面</button>
+      </div>
+      <div class="browser">
+        <div class="br-bar"><span class="dots"><i></i><i></i><i></i></span><span class="br-url">🔒 copilot.cloud.microsoft/cowork</span><span class="br-title">Cowork | Microsoft Copilot（示意）</span></div>
+        <div class="br-body">
+          <div class="br-side"><div class="brand2">Copilot <span>⊞</span></div><div class="tabs"><span>聊天</span><span class="on">協作執行</span></div><div class="side-item on">⊕ 新工作</div><div class="side-item">☰ 我的工作</div><div class="side-item">⚡ 自動化</div><div class="side-item">⚙ 自訂</div><div class="side-h">工作</div><div class="side-item muted">（示範）</div></div>
+          <div class="br-main">
+            <div class="br-top"><span class="edp">✓ 企業資料保護</span><span class="mono sim-state" id="simState">待命</span></div>
+            <div class="sim-chat" id="simChat"></div>
+            <form class="sim-form" id="simForm"><input id="simInput" type="text" placeholder="開始工作…（例：整理本週三個專案的風險，做成一頁摘要）" autocomplete="off"><button class="btn small" type="submit">開始工作</button></form>
+          </div>
+          <div class="br-work"><h5>工作區</h5><div class="side-h">步驟</div><div id="simSteps"></div><div class="side-h">工具 / 來源</div><div class="chips" id="simTools"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="compare">
+  <div class="wrap">
+    <div class="step-lbl">STEP 06 · THEN VS NOW</div>
+    <h2 class="h">同一個職位，<span class="grad">有沒有 Copilot 的兩種日常</span></h2>
+    <p class="lead">左右拉動中間的把手。左邊是現在多數人的做法，右邊是同一份工作交給 Copilot 之後的樣子——注意右邊沒有消失的東西：需求判斷、簽核、跨部門溝通。</p>
+    <div class="cmp-ctl"><div class="left"><span>角色：</span><select data-role-sel aria-label="選擇角色"></select></div><div class="seg" id="cmpSeg"><button type="button" data-split="96">只看現在</button><button type="button" data-split="50" class="on">並排</button><button type="button" data-split="4">只看有 Copilot</button></div></div>
+    <div class="cmp" id="cmp">
+      <div class="pane then"><div class="half"><span class="lbl mono">沒有 COPILOT · 現在的做法</span><h3 id="cmpThenTitle"></h3><ul id="cmpThen"></ul><div class="pfoot" id="cmpThenFoot"></div></div></div>
+      <div class="pane now"><div class="half"><span class="lbl mono">有 COPILOT · 同一天</span><h3 id="cmpNowTitle"></h3><ul id="cmpNow"></ul><div class="pfoot" id="cmpNowFoot"></div></div></div>
+      <div class="cmp-edge l"></div><div class="cmp-edge r"></div>
+      <div class="cmp-line"></div>
+      <div class="cmp-handle" id="cmpHandle" role="slider" tabindex="0" aria-label="左右拉動比較" aria-valuemin="4" aria-valuemax="96" aria-valuenow="50">◂ ▸<span class="tip" id="cmpTip">50%</span></div>
+    </div>
+    <div class="cmp-range"><span class="mono">← 抹掉舊做法</span><input type="range" id="cmpRange" min="4" max="96" value="50" aria-label="左右比例"><span class="mono">蓋住 Copilot →</span></div>
+    <div class="cmp-caption" id="cmpCaption"></div>
+    <div class="cmp-hint">在畫面上任何位置按住左右拖曳（或拉 slider、按左右鍵）。往左拉，舊做法一件件被抹掉；往右拉，Copilot 版被蓋回去。兩邊各五件事一一對應——注意右邊沒有消失的東西：需求判斷、簽核、跨部門溝通。</div>
+  </div>
+</section>
+
+<section id="trust">
+  <div class="wrap">
+    <div class="step-lbl">STEP 07 · GOVERNANCE &amp; TRUST</div>
+    <h2 class="h">先講清楚邊界，<span class="grad">信任才建得起來</span></h2>
+    <p class="lead">對做系統、做數據的人來說，「它能讀到什麼、不能讀到什麼」比功能清單更重要。這一段把 Copilot 的資料邊界、權限模型、模型選擇與需要確認的動作一次講清楚。</p>
+    <div class="trust-grid">
+      <div class="tcard"><div class="ic">🛡️</div><h3>你的資料就是你的</h3><p>提示與回應不會用於訓練基礎模型；資料在靜態與傳輸中皆加密；你可以控制資料位置。受 Microsoft 客戶版權承諾保護。</p></div>
+      <div class="tcard c2"><div class="ic">🔑</div><h3>沿用既有權限</h3><p>Copilot 只看得到你本人在 Microsoft 365 裡本來就看得到的東西（Email、會議、Teams、SharePoint / OneDrive）。沒有權限的 SRS、合約，它也看不到。</p></div>
+      <div class="tcard c3"><div class="ic">🧠</div><h3>Multi-model：適合工作的模型</h3><p>Copilot 依任務自動選用 OpenAI 與 Anthropic 模型（快速回應 / 深度思考）；租戶管理員可套用控制措施。Researcher 的 Critique / Council 模式就是多模型互審。</p></div>
+      <div class="tcard c4"><div class="ic">🔒</div><h3>敏感動作先問你</h3><ul><li>寄出郵件、發 Teams 訊息</li><li>建立 / 修改行事曆</li><li>把待辦指派給他人（Planner）</li><li>寫入 SharePoint 共用資料夾</li><li>分享 Agent 給群組</li></ul></div>
+      <div class="tcard c5"><div class="ic">📊</div><h3>每次回覆附「信心評估」</h3><p>在 Copilot 個人化設定加入：信心分數 / 判斷依據 / 主要來源 / 建議動作；低於 60 分必須建議驗證步驟。讓「AI 說的」變成「可核對的」。</p></div>
+      <div class="tcard c6"><div class="ic">🧪</div><h3>第三方外掛需經評估</h3><p>Agent 商店與 Copilot Studio 可接第三方 SaaS 連接器；涉及外部資料傳輸者，建議先經資安與委外評估，再開放給團隊。</p></div>
+    </div>
+    <div class="boundary">
+      <h3>誠實的邊界：Copilot 讀得到什麼？讀不到什麼？</h3>
+      <p class="muted">這通常是情報系統部第一個問題。答案分兩邊：</p>
+      <div class="bgrid">
+        <div><span class="lbl mono">✅ 直接可用（Microsoft Graph 內）</span><ul><li>Outlook 郵件、行事曆</li><li>Teams 聊天、頻道、會議 transcript 與 Recap</li><li>SharePoint / OneDrive 的 Word、Excel、PPT、PDF</li><li>Planner、Loop、Copilot Pages</li><li>你上傳到對話中的檔案</li></ul></div>
+        <div><span class="lbl mono">⚠ 需要一段路（POS / CDP / 資料倉）</span><ul><li>POS、AI 訂貨、CDP（Databricks）等系統資料：先匯出成 Excel / CSV 到 SharePoint，Analyst 就能分析</li><li>要即時查詢：透過 Graph Connector 或 Copilot Studio 接 API，成為 Agent 的知識來源</li><li>要把 Copilot 嵌進門市或內部系統：Copilot Studio / Agent SDK</li><li>本站所有示範情境都以「已匯出到 M365 的檔案」為前提</li></ul></div>
+      </div>
+      <div class="acc"><button class="acc-h" type="button">Copilot 的架構如何運作？（簡報 S9）</button><div class="acc-b">使用者在 M365 應用程式輸入提示 → Copilot 以「接地（grounding）」前置處理，透過 Microsoft Graph 取得使用者有權限的資料 → 送到 LLM 產生回應 → 回傳給應用程式。資料在傳輸中加密，全程在 Microsoft 365 服務邊界內。</div></div>
+      <div class="acc"><button class="acc-h" type="button">為什麼「AI 產出不可編輯」在這裡不成立？</button><div class="acc-b">Word / Excel / PowerPoint Copilot 與 Office Agents、Cowork 的產出就是原生 Office 檔：Excel 圖表是可改範圍與樣式的物件，PPT 是可拖曳的文字框與圖表，Word 是可追蹤修訂的文件。本站每個時刻卡右下角的檔案 chip，就是這個意思。</div></div>
+      <div class="acc"><button class="acc-h" type="button">同仁擔心「過度依賴 AI」怎麼辦？</button><div class="acc-b">這不是假設：uniopen 團隊的內部問卷就有七成以上同仁提到這個風險。本站的設計回應是三個習慣——(1) 每個結論附來源，(2) 推測與資料支持分開列，(3) 信心分數低於 60 就去驗證。善用工具、理解原理，不讓工具取代思考。</div></div>
+      <div class="quote">「數據不像掃地機器人一樣，放著就能幫你做事，在企業內取得更多即時數據，反而要做更多事。」<small>— 統一超商 AI 數位群協理 張家華，《經理人》2021。Copilot 的價值不在取代這些「更多事」，而是讓做這些事的人，把時間留給判斷。</small></div>
+    </div>
+  </div>
+</section>
+
+<section id="calc">
+  <div class="wrap">
+    <div class="step-lbl">STEP 08 · BENEFIT CALCULATOR</div>
+    <h2 class="h">算一算，<span class="grad">你的團隊能省下多少時間？</span></h2>
+    <p class="lead">以本站該角色一天的 6 個時刻為基準（每個時刻的節省分鐘數為示範假設值），調整人數與使用頻率。這只是相對指數，不預設任何授權價格——請以貴公司 tenant 的實測為準。</p>
+    <div class="calc-grid">
+      <div class="panel">
+        <div class="ctl"><div class="k"><span>角色</span><b id="cRoleName"></b></div><select data-role-sel aria-label="選擇角色" style="width:100%"></select></div>
+        <div class="ctl"><div class="k"><span>團隊人數</span><b id="cPeopleV"></b></div><input type="range" id="cPeople" min="1" max="200" value="45" aria-label="團隊人數"></div>
+        <div class="ctl"><div class="k"><span>每週使用 Copilot 的天數</span><b id="cDaysV"></b></div><input type="range" id="cDays" min="1" max="5" value="4" aria-label="每週天數"></div>
+        <div class="ctl"><div class="k"><span>每天實際用到的場景比例</span><b id="cRatioV"></b></div><input type="range" id="cRatio" min="10" max="100" step="5" value="60" aria-label="場景比例"></div>
+        <div class="lbl mono" style="margin-top:8px">該角色一天的節省分佈</div>
+        <div id="oBreak"></div>
+        <div class="disc">45 人為預設估計值，請改成實際團隊人數；1 位全職人力以 1,800 小時 / 年估算。</div>
+      </div>
+      <div>
+        <div class="out hi"><div class="k">全團隊每週省下的時間<small>本站場景估算 × 人數 × 天數 × 使用比例</small></div><div class="v" id="oWeek"></div></div>
+        <div class="out"><div class="k">每人每天省下<small>該角色一日場景加總 × 使用比例</small></div><div class="v" id="oPerson"></div></div>
+        <div class="out"><div class="k">一年省下（以 48 週計）<small id="oFte"></small></div><div class="v" id="oYear"></div></div>
+        <div class="disc">省下的時間如果沒有事先規劃，很快會被更多會議填滿。建議在分組活動中，每組也回答：省下的時間要拿去做什麼？（需求訪談品質、資料治理、跨部門溝通、帶人。）</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="workshop">
+  <div class="wrap">
+    <div class="step-lbl">STEP 09 · WORKSHOP GROUPS</div>
+    <h2 class="h">分組活動：<span class="grad">五類期待，五個題目</span></h2>
+    <p class="lead">依調查中「希望 AI Agent 協助的工作」分五組，每組 25 分鐘。評分只看四件事：任務講得清楚（目標 / 情境 / 期望 / 來源）、每個數字附來源、有信心評估、產出可編輯。</p>
+    <div class="ws-grid" id="wsGrid"></div>
+    <div class="agenda">
+      <div class="ag"><span class="mono">PART 1</span><b>前言與重要觀念</b><span>痛點回顧、Work IQ、Multi-model、資料邊界（本站 STEP 01、07）</span></div>
+      <div class="ag"><span class="mono">PART 2</span><b>應用場景與展示</b><span>選角色 → 一天 → 模擬器 → 今昔對照（本站 STEP 02–06）</span></div>
+      <div class="ag"><span class="mono">PART 3</span><b>Agent Builder 與其他方式</b><span>Agent 商店、知識庫 Agent、排程提示、Researcher 三模式</span></div>
+      <div class="ag"><span class="mono">PART 4</span><b>小結與分組</b><span>效益試算、五組題目、Prompt 庫帶回去用（本站 STEP 08–10）</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="prompts">
+  <div class="wrap">
+    <div class="step-lbl">STEP 10 · PROMPT LIBRARY</div>
+    <h2 class="h">帶回去就能用的<span class="grad"> 繁中 Prompt 庫</span></h2>
+    <p class="lead">本站所有時刻的 prompt，加上簡報中的範例。原則只有一個：<b>學會「講清楚任務」，而不是輸入關鍵字</b>——目標、情境、期望格式、來源，四個要素都在。</p>
+    <div class="pctl"><select id="pFilter" aria-label="篩選"></select><span class="mono muted" id="pCount"></span></div>
+    <div class="pgrid" id="promptGrid"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div><h4>關於這個網站</h4><p>為 2026/09/11 統一超商（UNI-PCSC）AI 數位群與情報系統部的 Microsoft 365 Copilot 教育訓練製作。角色、時刻、對話、數字皆為<b>教育訓練示範情境</b>（假設值），不代表統一超商實際專案或系統資料。功能可用性以各租戶啟用狀態與 Microsoft Learn 官方文件為準。</p></div>
+      <div><h4>公開資料來源</h4><ul style="list-style:none;padding:0"><li><a href="https://ir.7-11.com.tw/" target="_blank" rel="noopener">統一超商投資人關係（門市數）</a></li><li><a href="https://www.ctee.com.tw/news/20260502700226-430503" target="_blank" rel="noopener">工商時報 2026/5：超商 AI 戰</a></li><li><a href="https://blog.104.com.tw/7-11-uses-technology-to-change-the-lives-of-millions-of-people/" target="_blank" rel="noopener">104 職場力：AI 數位群 / 數位創新部</a></li><li><a href="https://blog.104.com.tw/the-innovative-integration-of-the-uniopen-team/" target="_blank" rel="noopener">104 職場力：uniopen 研究發展部</a></li><li><a href="https://www.managertoday.com.tw/topic/view/91/post/63091" target="_blank" rel="noopener">經理人：AI 數位群成立與 OPEN POINT</a></li><li><a href="https://www.yourator.co/" target="_blank" rel="noopener">Yourator：情報系統部經理專訪</a></li></ul></div>
+      <div><h4>Microsoft 參考</h4><ul style="list-style:none;padding:0"><li><a href="https://m365.cloud.microsoft/chat" target="_blank" rel="noopener">Microsoft 365 Copilot</a></li><li><a href="https://adoption.microsoft.com/en-us/ai-agents/agents-in-microsoft-365/" target="_blank" rel="noopener">Agents in Microsoft 365</a></li><li><a href="https://learn.microsoft.com/en-us/copilot/microsoft-365/" target="_blank" rel="noopener">Microsoft Learn：Copilot 文件</a></li><li><a href="https://learn.microsoft.com/en-us/copilot/microsoft-365/connect-to-ai-subprocessor" target="_blank" rel="noopener">模型選擇與資料邊界說明</a></li></ul></div>
+    </div>
+    <div class="fin"><span>Jason Lin, Ph.D. · Sr. Copilot Solution Engineer · Microsoft Taiwan</span><span>© <span id="year"></span> 單檔自含 HTML · 無外部資源 · 可離線開啟</span></div>
+  </div>
+</footer>
+<div id="toast"></div>
+<script>
+/* ===== DATA ===== */
+const PAINS = [
+  {id:'p1', n:22, name:'資料整理與跨文件處理', en:'CROSS-DOC CONSOLIDATION', desc:'跨來源資料（Word / PPT / PDF / Email / Excel）需要彙整、比對、摘要；資訊分散、格式不一、人工整理耗時且易漏。', caps:['workiq','docs','cowork'], color:'gold'},
+  {id:'p2', n:22, name:'文件與報告撰寫耗時', en:'REPORT WRITING', desc:'專案報告、簡報、週報重複性高；整理 → 撰寫流程冗長。', caps:['docs','cowork','sched'], color:'coral'},
+  {id:'p3', n:14, name:'資料分析與歸納能力不足', en:'ANALYSIS GAP', desc:'Excel / BI 工具能力不夠、不易做決策支援分析、AI 產出內容不可編輯。', caps:['analyst','research'], color:'purple'}
+];
+const WANTS = [
+  {id:'w1', n:25, name:'多任務 AI 助理（工作支援型）', en:'MULTI-TASK ASSISTANT', desc:'處理多系統、多任務，提升工作切換效率。', caps:['workiq','sched','meet','comm']},
+  {id:'w2', n:21, name:'跨文件理解與整合', en:'CROSS-DOC UNDERSTANDING', desc:'多格式資料整合、自動摘要 / 關聯比對、彙整成結論。', caps:['workiq','docs','cowork']},
+  {id:'w3', n:20, name:'內容生成與改寫', en:'GENERATE & REWRITE', desc:'報告 / 簡報自動產出、多文件整理成一份、改寫優化語句。', caps:['docs','cowork','comm']},
+  {id:'w4', n:19, name:'建立「資料型知識庫」', en:'KNOWLEDGE BASE', desc:'公司資料結構化、組織知識資產化、可搜尋、可問答。', caps:['agent']},
+  {id:'w5', n:15, name:'對話式分析與決策輔助', en:'CONVERSATIONAL ANALYTICS', desc:'問問題就能得到分析結果，協助判斷與決策建議。', caps:['analyst','research']}
+];
+const CAPS = [
+  {id:'workiq', short:'Work IQ', icon:'🧠', name:'Work IQ 情境理解', tag:'COPILOT CHAT · GROUNDING', status:'GA', desc:'以你的 Email、會議、Teams、OneDrive / SharePoint 檔案為依據來執行任務；知道誰是你的主管、哪些會議你缺席，權限完全沿用你本人的存取範圍。'},
+  {id:'comm', short:'溝通', icon:'✉️', name:'溝通 Outlook / Teams', tag:'EMAIL · TEAMS CHAT', status:'GA', desc:'摘要長信與聊天串、草擬回覆與追蹤信、調整語氣長度；Teams 頻道「我錯過了什麼」、「有哪些未解決事項」。'},
+  {id:'docs', short:'文件', icon:'📄', name:'文件 Word / Excel / PPT', tag:'OFFICE COPILOT · OFFICE AGENTS', status:'GA', desc:'從零產出或改寫 Word / Excel / PowerPoint；產出就是原生 Office 檔，可直接編輯，不再複製貼上。'},
+  {id:'meet', short:'會議', icon:'🎙️', name:'會議 Facilitator / Recap', tag:'TEAMS MEETINGS', status:'GA', desc:'會中置頂議程、即時筆記、擷取待辦並指派到 Planner；會後 Recap 問「誰說了什麼、哪裡有分歧、行動事項」。'},
+  {id:'research', short:'Researcher', icon:'🔬', name:'Researcher 深度研究', tag:'單模型 · CRITIQUE · COUNCIL', status:'GA', desc:'整合內部檔案、會議、Email 與 Web 的多步驟研究；Critique 模式讓第二個模型審查，Council 模式多模型獨立分析後綜合。'},
+  {id:'analyst', short:'Analyst', icon:'📈', name:'Analyst 資料分析', tag:'EXCEL · PYTHON · CHARTS', status:'GA', desc:'對 Excel / CSV 做樞紐、趨勢、差異分析並產出圖表；輸出為可編輯的 Excel，直接回應「AI 產出不可編輯」的痛點。'},
+  {id:'agent', short:'Agent Builder', icon:'🤖', name:'Agent Builder 知識庫 Agent', tag:'SHAREPOINT · COPILOT STUDIO', status:'GA', desc:'用自然語言描述需求，指定 SharePoint 資料夾（規格、SOP、維運手冊）建立可問答的部門知識庫 Agent，並分享給團隊。'},
+  {id:'sched', short:'排程', icon:'⏰', name:'排程提示 Scheduled Prompts', tag:'DAILY · WEEKLY · AUTOMATION', status:'GA', desc:'把寫好的 prompt 設成每日 08:00 / 每週五 17:00 自動執行：每日簡報、週報草稿、待辦追蹤。'},
+  {id:'cowork', short:'Cowork', icon:'⚙️', name:'Cowork 協作執行', tag:'PLAN → EXECUTE → APPROVE → DELIVER', status:'依租戶啟用', desc:'把一句話變成計畫、載入 skills、多步驟執行、敏感動作停下來問你，最後產出 Word / Excel / PPT 檔並留下紀錄。'}
+];
+const MODES = {auto:{label:'指揮 Copilot 辦理', cls:'m-auto'}, co:{label:'人機協作', cls:'m-co'}, you:{label:'由你判斷', cls:'m-you'}};
+const ART = {docx:{ic:'W', cls:'a-docx'}, xlsx:{ic:'X', cls:'a-xlsx'}, pptx:{ic:'P', cls:'a-pptx'}, cal:{ic:'📅', cls:'a-cal'}, mail:{ic:'✉', cls:'a-mail'}, plan:{ic:'✓', cls:'a-plan'}, md:{ic:'≡', cls:'a-md'}, agent:{ic:'🤖', cls:'a-agent'}, page:{ic:'▤', cls:'a-md'}};
+
+const ROLES = [
+{ id:'sa', emoji:'🧩', name:'系統分析師 SA', en:'SYSTEM ANALYST', dept:'情報系統部', tag:'情報系統部', color:'gold',
+  desc:'需求訪談、SRS 規格書、UAT、業務單位與工程師／廠商之間的溝通橋樑。你想要的是：把訪談紀錄與舊規格變成可用的規格，而不是重新打字。',
+  then:['開 Outlook、Teams、Planner 三個視窗自己拼今天的重點','重聽 60 分鐘訪談錄音，逐條手打需求清單','四份文件並排比對上線日、試點門市數，靠肉眼找矛盾','邊開會邊記筆記，會後再花 30 分鐘整理決議','從空白 Word 開始寫 SRS，格式對半天'],
+  now:['08:30 一句話拿到會議、未讀、待回覆問題的一頁簡報','Teams Recap + Copilot 把 transcript 變成 14 條需求並標出與 SRS 不一致處','跨文件矛盾表列出「各來源說法、是否一致、要問誰」——決定採信哪個仍是你','Facilitator 置頂議程、即時筆記、待辦進 Planner','Cowork 依 SharePoint 範本產出 SRS 初稿，每條需求附來源、未確認標「待確認」'],
+  moments:[
+   {t:'08:30', title:'今日工作簡報 Daily briefing', mode:'auto', cap:'workiq', need:'w1', pain:'p1', layer:['Copilot Chat','Work IQ'],
+    prompt:'幫我整理今天的會議、主管與廠商的未讀訊息，以及 UAT 群組裡還沒回覆我的問題，重點放最上面，用繁體中文條列。',
+    src:['Outlook 行事曆','Teams 聊天（UAT 群組）','Outlook 未讀信'],
+    did:['掃描行事曆：<b>3 場會議</b>，其中 14:00「行動隨時取 v2 需求確認」需要先準備','彙整主管 <b>2 則</b>、廠商 PM <b>1 則</b> 未讀，標出今天必須回的 1 則','列出 UAT 群組 <b>4 個</b>待回覆問題並附原始訊息連結'],
+    arts:[], confirm:'', note:'哪一則先回、要不要改會議時間，由你決定。', without:'開 Outlook、Teams、Planner 三個視窗自己拼，約 25 分鐘。', saved:20},
+   {t:'09:30', title:'訪談 transcript → 需求清單', mode:'co', cap:'meet', need:'w2', pain:'p1', layer:['Teams 會議 Recap','Copilot Chat'],
+    prompt:'根據昨天「行動隨時取 v2 需求訪談」的會議紀錄與 transcript，整理成需求清單：編號、需求描述、提出者、優先級建議、待釐清問題；並標出與 SharePoint 上《SRS v1.3》不一致的地方，附段落出處。',
+    src:['Teams 會議 transcript','SRS_v1.3.docx（SharePoint）'],
+    did:['從 transcript 擷取 <b>14 條</b>需求，每條附發言者與時間戳','比對 SRS v1.3：<b>3 條</b>不一致（例：兌換期限 30 天 vs 45 天）','整理 <b>5 個</b>待釐清問題，建議提問對象'],
+    arts:[{t:'xlsx', n:'行動隨時取v2_需求清單.xlsx'}], confirm:'', note:'優先級只是建議；最終排序由你與業務單位共同決定。', without:'重聽 60 分鐘錄音再手動整理，約 90 分鐘。', saved:60},
+   {t:'11:00', title:'跨文件矛盾偵測 Conflict check', mode:'you', cap:'workiq', need:'w2', pain:'p1', layer:['Copilot Chat','跨文件比對'],
+    prompt:'比較《需求訪談紀錄》《SRS v1.3》《行銷企劃 Email》《廠商時程 PDF》對「上線日、試點門市數、兌換期限、促銷期間」的描述。用表格列出：主題、各來源說法、是否一致、建議採信來源、需要向誰確認。不要自行消除矛盾。',
+    src:['需求訪談紀錄.docx','SRS_v1.3.docx','行銷企劃 Email（3 封）','廠商時程.pdf'],
+    did:['產出 <b>4 個主題</b>的比對表，保留各來源原始說法','上線日出現 <b>3 種</b>說法（9/14、9/21、未定）；試點門市數 50 vs 30','標出需向<b>行銷企劃</b>與<b>廠商 PM</b> 確認的 2 個問題'],
+    table:{cols:['主題','各來源說法','是否一致','建議採信起點','向誰確認'], rows:[['上線日','SRS：9/14｜Email：9/21｜PDF：待定','❌ 不一致','Email E02（最新、有變更背景）','廠商 PM、行銷'],['試點門市數','訪談：50 家｜Email：30 家','❌ 不一致','訪談紀錄（提出者為營運）','營運企劃'],['兌換期限','SRS：30 天｜訪談：45 天','❌ 不一致','—（兩者皆未核准）','商品部'],['促銷期間','Email：9/14–10/13｜其餘未載明','⚠ 資訊不完整','Email E02（暫定）','行銷']]},
+    arts:[], confirm:'', note:'「建議採信起點」只是最適合開始確認的文件，不代表已核准；決定採用哪一版，在你。', without:'四份文件並排逐段對照，約 45 分鐘。', saved:30},
+   {t:'14:00', title:'需求確認會議 with Facilitator', mode:'co', cap:'meet', need:'w1', pain:'p2', layer:['Teams 會議','Facilitator'],
+    prompt:'@Facilitator 依據會前在聊天中貼的議程追蹤進度；會中把決議與待辦記下來，待辦請標註負責人；結束前 5 分鐘提醒我們收斂。',
+    src:['Teams 會議聊天（議程）','會議即時語音'],
+    did:['議程置頂並顯示時間進度，半場與結束前 5 分鐘提醒','即時共筆：<b>3 個決議</b>（試點門市數採 30 家…）','擷取 <b>3 個待辦</b>並建議負責人，待你確認後指派到 Planner'],
+    arts:[{t:'plan', n:'Planner：3 個待辦'}, {t:'md', n:'會議即時筆記（Loop）'}], confirm:'把待辦指派給他人', note:'決議由與會者確認；Facilitator 只是記錄與提醒。', without:'邊開會邊記，會後再花 30 分鐘整理寄出。', saved:25},
+   {t:'15:30', title:'SRS 初稿 with Cowork', mode:'auto', cap:'cowork', need:'w3', pain:'p2', layer:['Cowork 協作執行','Word'],
+    prompt:'用 SharePoint《SRS 範本 v2》，把今天確認的需求清單、矛盾表結論與會議決議，產出《行動隨時取 v2 SRS 初稿》Word：每條需求附來源（會議 / Email / 檔名），未確認項目標「待確認」，最後附一頁「與 v1.3 的變更摘要」。完成後存到專案資料夾前先問我。',
+    src:['SRS 範本 v2.docx','行動隨時取v2_需求清單.xlsx','矛盾比對表','會議即時筆記'],
+    did:['依範本產出 <b>12 頁</b> SRS 初稿，章節與編號沿用範本','<b>14 條</b>需求逐條附來源；<b>4 項</b>標「待確認」','產出「與 v1.3 變更摘要」一頁，列出新增 / 修改 / 刪除'],
+    arts:[{t:'docx', n:'行動隨時取v2_SRS_v2.0草稿.docx'}, {t:'md', n:'變更摘要.md'}], confirm:'存入 SharePoint 專案資料夾', note:'規格內容仍由你審閱、與 PM 簽核；Cowork 不會替你決定需求範圍。', without:'從空白頁開始寫、對格式，約 3 小時。', saved:120},
+   {t:'17:30', title:'UAT 追蹤郵件 Follow-up', mode:'auto', cap:'comm', need:'w3', pain:'p2', layer:['Copilot in Outlook'],
+    prompt:'根據 UAT 群組今天的討論與《UAT測試結果.xlsx》，草擬一封給廠商 PM 的追蹤郵件：列出 3 個未通過案例、期望修復日、需要對方回覆的問題；語氣正式、簡短，附上檔案連結。',
+    src:['Teams UAT 群組','UAT測試結果.xlsx'],
+    did:['草擬郵件：<b>3 個</b>未通過案例各附案例編號與截圖連結','列出 <b>2 個</b>需廠商回覆的問題與期望修復日','語氣「正式・簡短」，可一鍵調整長度'],
+    arts:[{t:'mail', n:'郵件草稿：UAT 第 2 輪未通過案例追蹤'}], confirm:'送出郵件', note:'送出前你會再看一次；Copilot 只負責草稿。', without:'翻聊天串、對 Excel、打字，約 20 分鐘。', saved:12}
+  ]},
+{ id:'pm', emoji:'🗂️', name:'專案經理 / 架構師', en:'PROJECT MANAGER · ARCHITECT', dept:'情報系統部', tag:'情報系統部', color:'coral',
+  desc:'多專案並行、廠商協調、上線日與風險追蹤、架構評估。你想要的是：一眼看到哪個專案要出事，而不是翻 20 個聊天串。',
+  then:['三個專案的訊息散在 Teams、Email、廠商 LINE 截圖，逐一翻找','SOW、合約、會議紀錄各說各話，等到驗收才發現不一致','架構評估要自己爬文、比較、寫報告，花半天','主管交辦的事散在信件與會議，兩週後才想起有一件沒做','週五晚上從各專案抄數字做週報 PPT'],
+  now:['Work IQ 依專案分類主管與跨級主管的未讀，標出今天要回的','跨文件比對表：交付範圍、驗收條件、罰則、上線日的不一致與確認對象','Researcher Critique 模式：GPT 研究 → Claude 審查，標出過度樂觀假設','一句話彙整本週被指派的行動事項成檢查清單（含期限、來源）','排程提示每週五 17:00 產出三專案週報 PPT + Word 摘要草稿'],
+  moments:[
+   {t:'08:30', title:'專案儀表 Project pulse', mode:'auto', cap:'workiq', need:'w1', pain:'p1', layer:['Copilot Chat','Work IQ'],
+    prompt:'彙總我來自直屬主管與跨級主管（skip manager）的未讀訊息，依專案（自助結帳 2.0、微型倉整合、POS 版更）分類，並標出今天必須回覆的與新出現的風險。',
+    src:['Outlook','Teams 聊天','Teams 頻道'],
+    did:['Work IQ 自動辨識<b>主管與跨級主管</b>，不需你提供名字','<b>7 則</b>訊息依 3 個專案分類；<b>2 則</b>需今天回','偵測到 1 個新風險：廠商回覆「微型倉介面延期一週」'],
+    arts:[], confirm:'', note:'哪個風險要升級、要不要改上線日，由你判斷。', without:'翻 Outlook 與 Teams 三個專案群組，約 25 分鐘。', saved:18},
+   {t:'10:00', title:'SOW × 合約 × 會議 比對', mode:'you', cap:'workiq', need:'w2', pain:'p1', layer:['Copilot Chat','跨文件比對'],
+    prompt:'比對《廠商 SOW v3》《採購合約》《上週專案會議紀錄》對「交付範圍、驗收條件、罰則、上線日」的描述。表格列出：主題、各來源說法、是否一致、需向誰確認。不要下結論，也不要幫我合併版本。',
+    src:['廠商SOW_v3.pdf','採購合約.docx','專案會議紀錄（Teams Recap）'],
+    did:['<b>4 個主題</b>比對表，保留原文段落出處','驗收條件出現 <b>2 種</b>版本；上線日 SOW 9/21 vs 會議 9/14','標出需向<b>採購</b>與<b>法務</b>確認的條款'],
+    table:{cols:['主題','各來源說法','是否一致','向誰確認'], rows:[['交付範圍','SOW：含教育訓練｜合約：未載明','⚠ 資訊不完整','採購'],['驗收條件','SOW：功能測試通過｜合約：UAT 全數通過','❌ 不一致','法務、QA'],['罰則','合約：每日 0.1%｜SOW：未載明','⚠ 資訊不完整','法務'],['上線日','SOW：9/21｜會議紀錄：9/14','❌ 不一致','廠商 PM']]},
+    arts:[], confirm:'', note:'合約條款的解釋請法務確認；Copilot 只把差異攤開。', without:'三份文件逐條對照，約 60 分鐘。', saved:40},
+   {t:'11:30', title:'架構評估研究 Researcher · Critique', mode:'co', cap:'research', need:'w5', pain:'p3', layer:['Researcher','Critique 模式'],
+    prompt:'以 Researcher 研究「POS 混合雲架構下的離線交易同步設計」：整合內部《架構評估 v1》、上兩次架構會議紀錄與外部公開技術文件，用 Critique 模式審查後產出：選項比較、風險、建議、需驗證的假設，每個外部主張附來源。',
+    src:['架構評估_v1.docx','架構會議 Recap ×2','Web 公開技術文件'],
+    did:['<b>3 個</b>架構選項比較（一致性、延遲、成本、維運）','GPT 研究 → Claude 審查：標出 <b>2 個</b>過度樂觀假設','列出 <b>6 個</b>風險與需 PoC 驗證的項目'],
+    arts:[{t:'page', n:'研究報告（Copilot Pages）'}], confirm:'', note:'架構決策仍交由架構評審會議；報告是討論起點。', without:'自己爬文、比較、寫報告，約半天。', saved:150},
+   {t:'14:00', title:'跨部門專案會議', mode:'co', cap:'meet', need:'w1', pain:'p2', layer:['Teams 會議','Facilitator'],
+    prompt:'@Facilitator 追蹤三個議題的時間；有人提到「延期」「風險」「需要決定」時記下來；結束時整理決議、待辦與負責人。',
+    src:['Teams 會議'],
+    did:['議程置頂、每題時間提醒','擷取 <b>2 個決議</b>、<b>5 個待辦</b>並建議負責人','會後 Recap 可直接問：「誰對上線日有不同意見？」'],
+    arts:[{t:'plan', n:'Planner：5 個待辦'}], confirm:'把待辦指派給他人', note:'', without:'會後補紀錄、寄會議摘要，約 40 分鐘。', saved:30},
+   {t:'16:00', title:'被指派事項檢查清單', mode:'auto', cap:'workiq', need:'w1', pain:'p1', layer:['Copilot Chat','Work IQ','Planner'],
+    prompt:'從本週的電子郵件、Teams 聊天與會議記錄中，找出主管指派給我的任務或行動事項，彙整成一份檢查清單：事項、來源（信件 / 會議名稱）、期限、目前狀態；逾期的排最前面。',
+    src:['Outlook','Teams','會議 transcript'],
+    did:['找出 <b>9 項</b>被指派事項，<b>3 項</b>已逾期','每項附來源連結與原始語句','建議同步到 Planner，待你確認'],
+    arts:[{t:'plan', n:'Planner：9 項待辦'}], confirm:'寫入 Planner', note:'', without:'翻一週的信與會議，約 35 分鐘。', saved:25},
+   {t:'17:30', title:'三專案週報 with 排程提示 + Cowork', mode:'auto', cap:'sched', need:'w3', pain:'p2', layer:['排程提示','Cowork','PowerPoint'],
+    prompt:'（排程：每週五 17:00）依《專案週報範本》整理本週三個專案的進度、風險、決議與下週計畫；來源為本週會議 Recap、Planner 與專案頻道。產出：每專案一頁 PPT + 一頁 Word 摘要，所有數字標註來源。',
+    src:['專案週報範本.pptx','Planner','Teams 專案頻道','會議 Recap'],
+    did:['PPT <b>3 頁</b>（每專案：進度 / 風險 / 下週）','Word <b>1 頁</b>主管摘要，語言可直接用於回報','每個數字附來源；資料不足處寫「資料不足」'],
+    arts:[{t:'pptx', n:'專案週報_W37.pptx'}, {t:'docx', n:'專案週報摘要_W37.docx'}], confirm:'寄給主管', note:'寄出前你調整重點；排程只是把草稿準時放到你面前。', without:'週五晚上抄數字做 PPT，約 90 分鐘。', saved:75}
+  ]},
+{ id:'dpm', emoji:'🚀', name:'數位創新 PM', en:'DIGITAL PRODUCT MANAGER', dept:'AI 數位群 · OPENPOINT / uniopen', tag:'AI 數位群', color:'purple',
+  desc:'OPENPOINT / uniopen 功能企劃、活動提案、跨品牌整合、會員數據解讀。你想要的是：提案簡報不用從空白頁開始，競品研究不用自己爬。',
+  then:['活動群組、行銷信、客服回饋三邊看，重點靠記憶','競品與國外案例自己 Google 半天，來源零散','提案 PPT 從空白開始，排版比內容花的時間多','同一份企劃書要改成主管版與門市版，手動改兩次','門市問活動細節，PM 群組被 @ 到手軟'],
+  now:['Work IQ 依「功能 / 活動 / 客服」分類昨日訊息，標出今天要決定的','Researcher 整合內部檢討檔 + 外部案例，附來源、標假設','PowerPoint Agent 依提案範本 8 頁一次成稿，你只改結論','Copilot in Word 一鍵改寫成主管一頁摘要與門市步驟版','Agent Builder「活動萬事通」讀 SharePoint SOP 自助回答門市問題'],
+  moments:[
+   {t:'08:30', title:'會員活動晨報', mode:'auto', cap:'workiq', need:'w1', pain:'p1', layer:['Copilot Chat','Work IQ'],
+    prompt:'整理昨天 OPENPOINT 活動群組、行銷 Email 與客服回饋摘要中提到的問題，依「功能 / 活動 / 客服」分類，標出需要我今天決定的事項與提出者。',
+    src:['Teams 活動群組','Outlook','客服回饋摘要.xlsx'],
+    did:['<b>11 則</b>訊息分成三類，<b>2 件</b>需今天決定','客服回饋中「點數補登」出現 <b>6 次</b>，建議列為優先','附原始訊息連結，可直接回覆'],
+    arts:[], confirm:'', note:'', without:'三邊來回看，約 30 分鐘。', saved:22},
+   {t:'10:00', title:'競品與趨勢研究 Researcher', mode:'co', cap:'research', need:'w5', pain:'p3', layer:['Researcher','Web + 內部檔案'],
+    prompt:'研究「零售會員訂閱制（含日本、韓國便利商店公開案例）」的做法，結合 SharePoint《uniopen PRIMA 檢討》與《會員問卷 2026Q2.xlsx》，產出 5 頁評估報告：機會、風險、可借鏡做法、需驗證假設；外部主張附來源，內部數字附檔名。',
+    src:['uniopen PRIMA 檢討.docx','會員問卷_2026Q2.xlsx','Web 公開資料'],
+    did:['外部案例 <b>4 個</b>，每個附來源與日期','內部問卷交叉：<b>3 個</b>機會、<b>2 個</b>風險','列出 <b>5 個</b>需 A/B 驗證的假設'],
+    arts:[{t:'page', n:'評估報告（Copilot Pages）'}], confirm:'', note:'外部資料請確認來源與使用權；報告是提案起點，不是結論。', without:'自己搜、讀、整理，約半天。', saved:150},
+   {t:'11:30', title:'提案簡報 PowerPoint Agent', mode:'auto', cap:'docs', need:'w3', pain:'p2', layer:['PowerPoint Agent','Cowork'],
+    prompt:'依 SharePoint《行銷提案範本》把評估報告做成 8 頁提案 PPT：背景、洞察、方案 A / B、預期指標、時程、資源、風險、下一步；圖表用範本色系，每頁附講者備忘稿。',
+    src:['行銷提案範本.pptx','評估報告（Pages）'],
+    did:['<b>8 頁</b>成稿，沿用範本版面與色系','方案 A / B 對照表自動排版','每頁講者備忘稿 3–5 句'],
+    arts:[{t:'pptx', n:'會員訂閱制_提案_v0.9.pptx'}], confirm:'', note:'指標與預算數字請你補上實際值；Copilot 標「[待補]」而不是猜。', without:'從空白頁排 8 頁，約 2.5 小時。', saved:100},
+   {t:'14:00', title:'跨品牌整合會議', mode:'co', cap:'meet', need:'w1', pain:'p2', layer:['Teams 會議','Facilitator'],
+    prompt:'@Facilitator 追蹤議程：權益整合、點數規則、上線時程；把各品牌提出的疑慮記下來並標註提出者；結束時整理待辦。',
+    src:['Teams 會議'],
+    did:['議程置頂與時間提醒','記錄 <b>4 個</b>品牌疑慮與提出者','<b>6 個</b>待辦建議負責人，待你確認'],
+    arts:[{t:'plan', n:'Planner：6 個待辦'}], confirm:'把待辦指派給他人', note:'', without:'會後補紀錄，約 40 分鐘。', saved:30},
+   {t:'15:30', title:'企劃書一稿兩用 Rewrite', mode:'co', cap:'docs', need:'w3', pain:'p2', layer:['Copilot in Word'],
+    prompt:'把這份活動企劃書改寫成兩個版本：(1) 給高階主管的一頁摘要，結論先講、數字加粗；(2) 給門市的操作說明，語氣親切、步驟化、附常見問題 5 則。',
+    src:['活動企劃書_v3.docx'],
+    did:['主管版 <b>1 頁</b>：結論、指標、需要決定的事','門市版：<b>7 個</b>步驟 + <b>5 則</b> FAQ','兩版皆為可編輯 Word，直接微調'],
+    arts:[{t:'docx', n:'企劃摘要_主管版.docx'}, {t:'docx', n:'門市操作說明.docx'}], confirm:'', note:'', without:'手動改寫兩版，約 60 分鐘。', saved:40},
+   {t:'17:00', title:'「活動萬事通」知識庫 Agent', mode:'auto', cap:'agent', need:'w4', pain:'p1', layer:['Agent Builder','SharePoint'],
+    prompt:'（Agent Builder）建立「OPENPOINT 活動萬事通」：只讀 SharePoint《活動 SOP》《門市 FAQ》《點數規則 v5》三個資料夾，用繁體中文回答門市與客服的問題，回答附出處檔名與段落；資料裡沒有的請回「查無資料，請聯繫 PM」。',
+    src:['活動 SOP（SharePoint）','門市 FAQ','點數規則_v5.docx'],
+    did:['自然語言描述即建立 Agent，指定 3 個知識來源','測試 <b>5 個</b>門市常見問題，回答附出處','分享給活動群組，減少被 @ 的次數'],
+    arts:[{t:'agent', n:'OPENPOINT 活動萬事通 Agent'}], confirm:'分享 Agent 給群組', note:'Agent 只回答資料裡有的內容；規則變更仍由你更新來源檔。', without:'每天回答同樣的問題，約 30 分鐘。', saved:30}
+  ]},
+{ id:'da', emoji:'📊', name:'資料分析師', en:'DATA ANALYST', dept:'AI 數位群 · 數據 / CDP', tag:'AI 數位群', color:'blue',
+  desc:'活動成效、會員分群、門市績效報表、跨部門數據需求。你想要的是：AI 分析完的東西可以直接編輯、放進報告，而不是截圖貼圖。',
+  then:['各部門在 Email、Teams 各自丟報表需求，優先級靠回憶','Excel 樞紐、圖表、結論手動做，改一個條件全部重來','週報草稿的數字與報表對不上，找半天才發現版本不同','會後主管追問「為什麼北區最高」，回去再跑一次','分析報告從 Word 到 PPT 重排一次，圖表貼成圖片'],
+  now:['Work IQ 彙整本週被指派的報表需求，依期限與提出者排序','Analyst 對 Excel 做樞紐、差異分析、圖表，輸出可編輯 Excel','跨檔比對表把週報草稿與報表的數字差異攤開，標版本','對話式追問：哪些原因有資料支持、哪些是推測，分開列','Cowork 依報告範本產 Word + 6 頁 PPT，圖表為原生物件'],
+  moments:[
+   {t:'08:30', title:'報表需求待辦', mode:'auto', cap:'workiq', need:'w1', pain:'p1', layer:['Copilot Chat','Work IQ'],
+    prompt:'從本週 Email 與 Teams 找出各部門對我提出的報表或分析需求，列出：需求、提出者、期限、需要的資料來源、目前狀態；依期限排序。',
+    src:['Outlook','Teams'],
+    did:['找出 <b>6 個</b>需求，<b>2 個</b>本週五到期','標出需要 CDP 匯出資料的 <b>3 個</b>','附原始訊息連結'],
+    arts:[], confirm:'', note:'', without:'翻信與聊天，約 25 分鐘。', saved:18},
+   {t:'09:30', title:'促銷門市績效分析 Analyst', mode:'co', cap:'analyst', need:'w5', pain:'p3', layer:['Analyst Agent','Excel'],
+    prompt:'用附上的《9月促銷_門市績效.xlsx》分析：各區域銷售增幅、參與門市 vs 未參與門市差異、報廢率變化；產出可編輯的 Excel（樞紐 + 3 張圖表）與 5 句結論，每個數字標註工作表名稱；資料不足請寫「資料不足」。',
+    src:['9月促銷_門市績效.xlsx（由 CDP / Databricks 匯出）'],
+    did:['樞紐：區域 × 參與 / 未參與 × 週','<b>3 張</b>圖表為 Excel 原生物件，可改色、改範圍','<b>5 句</b>結論，每句附工作表與欄位'],
+    arts:[{t:'xlsx', n:'9月促銷_分析_v1.xlsx'}], confirm:'', note:'資料需先由 CDP / Databricks 匯出到 Excel 或 SharePoint；Copilot 不直接連 POS 或資料倉。', without:'手做樞紐與圖表，約 90 分鐘。', saved:60},
+   {t:'11:00', title:'數字對不上？跨檔核對', mode:'you', cap:'workiq', need:'w2', pain:'p1', layer:['Copilot Chat','跨文件比對'],
+    prompt:'比較《區域營運週報草稿》《9月促銷_分析_v1.xlsx》《行銷結案 Email》對「參與門市數、銷售增幅、報廢率」的數字。表格列出：指標、各來源數字、是否一致、可能原因（版本 / 定義 / 期間），需要向誰確認。不要幫我改數字。',
+    src:['區域營運週報草稿.docx','9月促銷_分析_v1.xlsx','行銷結案 Email'],
+    did:['<b>3 個指標</b>比對，<b>2 個</b>不一致','推測原因：週報用「累計」、分析用「週」；門市數版本不同','標出需向<b>行銷</b>確認的定義'],
+    table:{cols:['指標','各來源數字','是否一致','可能原因','向誰確認'], rows:[['參與門市數','週報：52｜Excel：50｜Email：50','❌','週報含 2 家提前結束門市？','營運企劃'],['銷售增幅','週報：+8.2%｜Excel：+6.9%','❌','期間定義：累計 vs 週','行銷'],['報廢率','週報：-0.4pt｜Excel：-0.4pt','✅','—','—']]},
+    arts:[], confirm:'', note:'哪個定義才是對的，由你與行銷確認；Copilot 只負責把差異攤開。', without:'來回對數字，約 40 分鐘。', saved:28},
+   {t:'14:00', title:'分析結果說明會 Recap', mode:'co', cap:'meet', need:'w1', pain:'p2', layer:['Teams 會議 Copilot'],
+    prompt:'（會後）摘要今天說明會：各部門對分析結果的質疑、已同意的結論、待補的分析；標出誰提出了什麼。',
+    src:['Teams 會議 transcript'],
+    did:['<b>3 個</b>質疑與提出者','<b>2 個</b>已同意結論、<b>2 個</b>待補分析','可直接問：「商品部對報廢率的看法是什麼？」'],
+    arts:[], confirm:'', note:'', without:'會後整理紀錄，約 30 分鐘。', saved:22},
+   {t:'15:30', title:'分析報告 Word + PPT with Cowork', mode:'auto', cap:'cowork', need:'w3', pain:'p2', layer:['Cowork','Word','PowerPoint'],
+    prompt:'依《分析報告範本》把《9月促銷_分析_v1.xlsx》的結論產出：Word 報告（摘要、方法、發現、限制、建議）與 6 頁 PPT；圖表沿用 Excel 圖表為可編輯物件；「資料不足」處明確寫出。存到分析共用資料夾前先問我。',
+    src:['分析報告範本.docx','9月促銷_分析_v1.xlsx','說明會 Recap'],
+    did:['Word <b>6 節</b>，限制與假設單獨一節','PPT <b>6 頁</b>，圖表為原生物件','資料不足處寫明，不補推測'],
+    arts:[{t:'docx', n:'9月促銷_分析報告.docx'}, {t:'pptx', n:'9月促銷_分析簡報.pptx'}], confirm:'存入共用資料夾', note:'', without:'Word 寫完再重排 PPT，約 2 小時。', saved:80},
+   {t:'17:00', title:'主管追問：為什麼北區最高？', mode:'you', cap:'analyst', need:'w5', pain:'p3', layer:['Analyst Agent','對話式分析'],
+    prompt:'為什麼北區增幅最高？用《9月促銷_分析_v1.xlsx》列出可能原因，分成「資料支持」與「推測」兩欄；資料支持的附欄位與數字，推測的說明需要什麼資料才能驗證。',
+    src:['9月促銷_分析_v1.xlsx'],
+    did:['資料支持：北區參與門市比例 <b>最高</b>、活動前基期 <b>最低</b>','推測：商圈型態、天氣 → 標出需要的外部資料','附「信心評估」區塊與建議的下一步'],
+    arts:[], confirm:'', note:'推測不會被寫成結論；要不要向主管這樣說，由你決定。', without:'回去重跑分析，約 45 分鐘。', saved:30}
+  ]},
+{ id:'mgr', emoji:'🧭', name:'部門主管', en:'DEPT MANAGER · 經理 / 協理', dept:'AI 數位群 · 情報系統部', tag:'主管', color:'green',
+  desc:'週報、跨部門會議、決策、帶人。你想要的是：把 300 頁的閱讀換成 3 個決定，把時間留給判斷與團隊。',
+  then:['早上打開 Outlook 與 Teams，從 60 則訊息裡找需要決定的','缺席的會議只能問同事「後來怎麼了」','決策前的評估只有一份報告、一種觀點','部門週報靠同仁各自交、自己合併','回覆與交辦一封一封手打'],
+  now:['排程提示每日 08:00 送來：會議、待決事項、主管與跨部門主管未讀、缺席會議重點','一句話取得缺席會議的「未結案 / 已解決」分類','Researcher Council：多模型獨立分析，三種觀點 + 封面信','Cowork 彙整 5 份週報 + Planner，產出部門週報 Word + 一頁 PPT','Outlook Copilot 草擬回覆，你只改語氣與決定'],
+  moments:[
+   {t:'08:00', title:'每日簡報（排程提示）', mode:'auto', cap:'sched', need:'w1', pain:'p1', layer:['排程提示','Work IQ'],
+    prompt:'（排程：每日 08:00）整理我今天的會議與需要我決定的事項、直屬主管與跨部門主管的未讀訊息、昨天我缺席會議的重點與行動事項；輸出用清楚標題與條列，繁體中文。',
+    src:['Outlook','Teams','會議 transcript'],
+    did:['今天 <b>5 場</b>會議，<b>2 件</b>需要你決定','跨部門主管 <b>3 則</b>未讀，1 則與上線日相關','昨天缺席的架構評審：<b>2 個</b>行動事項指派給你的團隊'],
+    arts:[], confirm:'', note:'', without:'從 60 則訊息裡自己找，約 30 分鐘。', saved:25},
+   {t:'09:30', title:'缺席會議補課', mode:'auto', cap:'meet', need:'w1', pain:'p1', layer:['Copilot Chat','Teams Recap'],
+    prompt:'說明我缺席的「系統架構評審」會議內容，依「未結案」與「已解決」議題分類，標出誰負責、期限，以及有沒有需要我裁決的。',
+    src:['Teams 會議 transcript','會議聊天'],
+    did:['未結案 <b>3</b> / 已解決 <b>4</b>','<b>1 項</b>需要你裁決：離線同步方案 A 或 B','附發言片段，可追溯'],
+    arts:[], confirm:'', note:'', without:'問同事、看錄影，約 40 分鐘。', saved:30},
+   {t:'11:00', title:'決策研究 Researcher · Council', mode:'you', cap:'research', need:'w5', pain:'p3', layer:['Researcher','Council 模式'],
+    prompt:'針對「是否在 Q4 將自助結帳試點擴大到 300 家門市」，用 Council 模式讓多個模型獨立分析：整合《試點成效評估》《營運會議紀錄》與外部公開案例，各自給出建議與依據，最後附一封封面信整理三種觀點的分歧點與需要補的資料。',
+    src:['試點成效評估.xlsx','營運會議 Recap ×3','Web 公開案例'],
+    did:['<b>3 份</b>獨立分析 + 封面信','分歧點：人力訓練成本估算、離峰時段效益','列出 <b>4 項</b>決策前需補的資料'],
+    arts:[{t:'page', n:'Council 研究報告（Pages）'}], confirm:'', note:'最終決定永遠是你；Council 只是確保你看過不同觀點。', without:'一份報告、一種觀點，或請團隊再花兩天。', saved:120},
+   {t:'14:00', title:'部門會議 with Facilitator', mode:'co', cap:'meet', need:'w1', pain:'p2', layer:['Teams 會議','Facilitator'],
+    prompt:'@Facilitator 追蹤議程與時間；把「我交辦的事」和「我要回去問的事」分開記；結束時把待辦指派建議列出來。',
+    src:['Teams 會議'],
+    did:['交辦 <b>6 項</b>、你要回去問的 <b>2 項</b>','每項待辦附負責人建議與期限','會後 Recap 可搜「誰承諾了什麼」'],
+    arts:[{t:'plan', n:'Planner：6 個待辦'}], confirm:'把待辦指派給團隊', note:'', without:'會後整理與交辦，約 30 分鐘。', saved:25},
+   {t:'16:00', title:'部門週報彙整 with Cowork', mode:'auto', cap:'cowork', need:'w3', pain:'p2', layer:['Cowork','Word','PowerPoint'],
+    prompt:'彙整 5 位同仁本週的週報（SharePoint 週報資料夾）與 Planner 進度，依《部門週報範本》產出 Word 與一頁 PPT：完成、進行中、風險、需要我協助的事項；標出各同仁原文出處。寄出前先給我看。',
+    src:['週報資料夾（SharePoint）','Planner','部門週報範本.docx'],
+    did:['<b>5 份</b>週報合併去重，風險統一列出','「需要主管協助」<b>3 項</b>單獨一節','一頁 PPT 供跨部門會議使用'],
+    arts:[{t:'docx', n:'部門週報_W37.docx'}, {t:'pptx', n:'部門週報_一頁.pptx'}], confirm:'寄給上級主管', note:'', without:'自己合併 5 份，約 60 分鐘。', saved:45},
+   {t:'17:30', title:'回覆與交辦', mode:'co', cap:'comm', need:'w3', pain:'p2', layer:['Copilot in Outlook','Teams'],
+    prompt:'針對這封跨部門主管關於上線日的來信，草擬回覆：說明目前 9/21 為暫定、原因與風險、我們需要對方協助的一件事；語氣正式、三段以內。',
+    src:['Outlook 來信','專案週報摘要'],
+    did:['草稿 <b>3 段</b>，引用週報數字並附連結','可一鍵切換語氣：正式 / 直接','建議副本對象'],
+    arts:[{t:'mail', n:'郵件草稿：上線日說明'}], confirm:'送出郵件', note:'', without:'手打並確認數字，約 20 分鐘。', saved:12}
+  ]}
+];
+
+const WORKSHOP = [
+ {n:'01', want:'w1', title:'設計你的 08:30 排程提示', goal:'每組寫一段可排程的 prompt，涵蓋會議、主管訊息、待辦；實際執行一次並比較輸出。', input:'自己的行事曆、Email、Teams', output:'一段 prompt（含目標 / 情境 / 期望 / 來源）+ 一次執行結果截圖', roles:['sa','pm','mgr'], mins:25},
+ {n:'02', want:'w2', title:'四份檔案的矛盾偵測表', goal:'用示範檔（需求紀錄、SRS、Email、廠商 PDF）產出矛盾比對表，並列出「要問誰」。', input:'講師提供的 4 份示範檔', output:'比對表 + 3 個確認問題', roles:['sa','pm','da'], mins:25},
+ {n:'03', want:'w3', title:'從會議 Recap 到專案週報', goal:'用一場錄製會議的 Recap，產出週報 Word 一頁與 PPT 一頁，每個數字附來源。', input:'錄製會議 transcript、週報範本', output:'Word + PPT（可編輯）', roles:['pm','dpm','mgr'], mins:25},
+ {n:'04', want:'w4', title:'用 Agent Builder 建「門市系統萬事通」', goal:'指定 SharePoint 資料夾（SOP / 規格 / FAQ），建立問答 Agent，寫 5 個測試問題並檢查是否附出處。', input:'示範 SOP 資料夾', output:'Agent + 5 組問答測試紀錄', roles:['sa','dpm'], mins:25},
+ {n:'05', want:'w5', title:'Analyst 分析促銷門市績效', goal:'用示範 Excel 產出樞紐、3 張圖、5 句結論與信心評估；重點：輸出必須是可編輯 Excel。', input:'示範 Excel（門市 × 週 × 銷售 / 報廢）', output:'Excel + 結論 + 信心評估區塊', roles:['da','mgr'], mins:25}
+];
+
+const EXTRA_PROMPTS = [
+ {role:'all', need:'w2', title:'跨文件一頁式營運 Brief', text:'你是零售營運分析師。請只根據我附上的《區域營運週報草稿》、綜合資料包 PDF、3 封 Email 與 Excel 活頁簿，整理一份給營運主管的一頁式 brief。輸出：1) 5 句執行摘要；2) 依「已確認 / 待確認 / 來源矛盾」分類的表格；3) 影響最大的 3 個區域或品類洞察；4) 未來 7 天 3 個行動，每項含 owner、期限、成功指標。所有數字標註來源檔名與工作表 / 段落；若來源不足請寫「資料不足」，不要推測。最後列出你做過的 5 項核對。'},
+ {role:'all', need:'w1', title:'上週工作摘要（主管回報版）', text:'請協助我整理「上週（週一至週五）」的重要工作摘要。範圍：重要信件（主旨、寄件人 / 對象、重點結論、是否需後續行動）、會議摘要（名稱、日期、討論重點、我的角色與負責事項）、重要檔案（名稱、位置、用途與狀態）、整體進度（完成 / 進行中 / 卡關或風險 / 下週預計）。輸出用清楚標題與條列，繁體中文，可直接用於向主管回報。'},
+ {role:'all', need:'w3', title:'專案事後檢討 Lessons learned', text:'回顧我們的 [專案]，哪些做得好、哪些沒有？請撰寫一份專業的「經驗教訓」摘要，就像我們要為這個專案做事後檢討文件一樣，並提出五個實質性的改進建議；每個結論附來源（會議 / Email / 檔名）。'},
+ {role:'all', need:'w1', title:'Copilot 個人化：四要素 + 信心評估', text:'每次回答前先評估是否需要優化問題（目標 Goal / 情境 Context / 期望 Expectations / 來源 Source）；若需要，先呈現優化後的完整 Prompt 給我確認再執行。每次回覆最後附「資訊正確性信心評估」：信心分數 X/100、判斷依據、主要來源、建議動作；低於 60 分必須建議驗證步驟。'}
+];
+
+/* ===== APP ===== */
+(function(){
+'use strict';
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; return e; };
+const fmtMin = m => { m = Math.round(m); const h = Math.floor(m/60), r = m%60; return h ? `${h} 小時 ${r} 分` : `${r} 分`; };
+const toMin = t => { const [h,m] = t.split(':').map(Number); return h*60+m; };
+const roleById = id => ROLES.find(r => r.id === id);
+const capById = id => CAPS.find(c => c.id === id);
+const state = { role: 'sa', idx: 0, timer: null, simRunning: false };
+
+/* ---- particles ---- */
+(function particles(){
+  const c = $('#particles'); if (!c) return;
+  const ctx = c.getContext('2d');
+  let w, h, pts = [], raf;
+  const colors = ['245,185,66','240,103,138','139,92,246','96,165,250'];
+  function resize(){ w = c.width = c.offsetWidth; h = c.height = c.offsetHeight; pts = Array.from({length: Math.min(90, Math.floor(w/14))}, () => ({x: Math.random()*w, y: Math.random()*h, vx: (Math.random()-.5)*.25, vy: (Math.random()-.5)*.25, r: Math.random()*1.6+.6, col: colors[Math.floor(Math.random()*colors.length)]})); }
+  function step(){
+    ctx.clearRect(0,0,w,h);
+    for (let i=0;i<pts.length;i++){ const p = pts[i]; p.x += p.vx; p.y += p.vy; if (p.x<0||p.x>w) p.vx*=-1; if (p.y<0||p.y>h) p.vy*=-1;
+      for (let j=i+1;j<pts.length;j++){ const q = pts[j]; const dx = p.x-q.x, dy = p.y-q.y, d = dx*dx+dy*dy; if (d < 120*120){ ctx.strokeStyle = `rgba(${p.col},${(1-d/14400)*.28})`; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke(); } }
+      ctx.fillStyle = `rgba(${p.col},.9)`; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); }
+    raf = requestAnimationFrame(step);
+  }
+  resize(); step(); window.addEventListener('resize', resize);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) cancelAnimationFrame(raf); else step(); });
+})();
+
+/* ---- nav ---- */
+(function nav(){
+  const links = $$('.nav a[href^="#"]');
+  const secs = links.map(a => $(a.getAttribute('href'))).filter(Boolean);
+  const io = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting){ links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#'+e.target.id)); } }); }, {rootMargin: '-40% 0px -55% 0px'});
+  secs.forEach(s => io.observe(s));
+  const bar = $('#progress');
+  window.addEventListener('scroll', () => { const d = document.documentElement; bar.style.width = (d.scrollTop/(d.scrollHeight-d.clientHeight)*100) + '%'; }, {passive:true});
+  $('#navToggle').addEventListener('click', () => $('.nav').classList.toggle('open'));
+  links.forEach(a => a.addEventListener('click', () => $('.nav').classList.remove('open')));
+})();
+
+/* ---- reveal on scroll ---- */
+const revealIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); revealIO.unobserve(e.target); } }), {threshold: .12});
+$$('.reveal').forEach(x => revealIO.observe(x));
+
+/* ---- pain bars ---- */
+(function pain(){
+  const wrapP = $('#painBars'), wrapW = $('#wantBars'), detail = $('#painDetail');
+  const maxN = 25;
+  function bar(item, kind){
+    const b = el('button', 'bar'); b.type = 'button'; b.dataset.id = item.id;
+    b.innerHTML = `<div class="bar-head"><span class="bar-name">${item.name}</span><span class="bar-en mono">${item.en}</span><span class="bar-n mono">約 <b>${item.n}</b> 人</span></div><div class="bar-track"><div class="bar-fill ${kind}" style="--w:${item.n/maxN*100}%"></div></div>`;
+    b.addEventListener('click', () => show(item, kind));
+    return b;
+  }
+  PAINS.forEach(p => wrapP.appendChild(bar(p, 'k-pain')));
+  WANTS.forEach(w => wrapW.appendChild(bar(w, 'k-want')));
+  function show(item, kind){
+    $$('.bar').forEach(b => b.classList.toggle('on', b.dataset.id === item.id));
+    const caps = item.caps.map(capById);
+    const roles = ROLES.filter(r => r.moments.some(m => m.pain === item.id || m.need === item.id));
+    detail.innerHTML = `<div class="pd-head"><span class="mono lbl">${kind==='k-pain' ? '痛點' : 'AGENT 期待'} · ${item.en}</span><h4>${item.name} <span class="mono muted">約 ${item.n} 人</span></h4><p>${item.desc}</p></div>
+      <div class="pd-grid"><div><div class="mono lbl">對應的 Copilot 能力層</div><div class="chips">${caps.map(c => `<span class="chip cap-chip" data-cap="${c.id}">${c.icon} ${c.name}</span>`).join('')}</div></div>
+      <div><div class="mono lbl">在哪些角色的一天出現</div><div class="chips">${roles.map(r => `<button type="button" class="chip role-chip" data-role="${r.id}">${r.emoji} ${r.name}</button>`).join('')}</div></div></div>
+      <div class="pd-foot">↓ 點角色可直接跳到他的一天，看實際的中文 prompt。</div>`;
+    $$('.role-chip', detail).forEach(b => b.addEventListener('click', () => { selectRole(b.dataset.role); $('#roles').scrollIntoView({behavior:'smooth'}); }));
+    detail.classList.add('show');
+  }
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ $$('.bar-fill', e.target).forEach(f => f.classList.add('go')); io.unobserve(e.target); } }), {threshold:.3});
+  io.observe($('#pain'));
+  show(PAINS[0], 'k-pain');
+})();
+
+/* ---- roles ---- */
+function renderRoles(){
+  const grid = $('#roleGrid');
+  ROLES.forEach(r => {
+    const total = r.moments.reduce((s,m) => s+m.saved, 0);
+    const card = el('button', `role-card c-${r.color}`); card.type = 'button'; card.dataset.role = r.id;
+    card.innerHTML = `<div class="rc-top"><div class="rc-icon">${r.emoji}</div><div class="rc-radio"></div></div><h3>${r.name}</h3><div class="rc-en mono">${r.en}</div><p>${r.desc}</p><div class="rc-foot"><span class="mono">${r.moments.length} 個時刻 · 省約 ${fmtMin(total)}</span><span class="rc-tag">${r.tag}</span></div>`;
+    card.addEventListener('click', () => selectRole(r.id));
+    grid.appendChild(card);
+  });
+  $('#gotoDay').addEventListener('click', () => $('#day').scrollIntoView({behavior:'smooth'}));
+}
+function selectRole(id){
+  state.role = id; state.idx = 0; stopAuto();
+  const r = roleById(id);
+  $$('.role-card').forEach(c => c.classList.toggle('on', c.dataset.role === id));
+  $('#roleStatus').innerHTML = `目前選擇：<b>${r.name}</b>（${r.en} · ${r.dept}）。點任一張卡切換角色，下方所有區塊會同步更新。`;
+  $$('[data-role-sel]').forEach(s => s.value = id);
+  renderDay(); renderCompare(); renderSimTasks(); renderCalc(); highlightHeatRow(id); renderPrompts();
+}
+
+/* ---- day timeline ---- */
+function skyClass(min){ if (min < 10*60) return 'sky-morning'; if (min < 15*60) return 'sky-noon'; if (min < 18*60) return 'sky-afternoon'; return 'sky-evening'; }
+function renderDay(){
+  const r = roleById(state.role);
+  $('#dayTitle').innerHTML = `${r.name}的一天，<span class="grad">哪些事可以交給 Copilot？</span>`;
+  const list = $('#momentList'); list.innerHTML = '';
+  r.moments.forEach((m, i) => {
+    const card = el('article', 'moment reveal'); card.dataset.idx = i;
+    const cap = capById(m.cap);
+    const arts = m.arts.map(a => `<span class="art ${ART[a.t].cls}"><i>${ART[a.t].ic}</i>${a.n}</span>`).join('');
+    card.innerHTML = `<div class="mo-dot"></div>
+      <div class="mo-time mono">${m.t}</div>
+      <div class="mo-head"><h3>${m.title}</h3><span class="mode ${MODES[m.mode].cls}">${MODES[m.mode].label}</span></div>
+      <div class="chips small">${m.layer.map(l => `<span class="chip">${l}</span>`).join('')}<span class="chip need">${WANTS.find(w=>w.id===m.need).name}</span></div>
+      <div class="bubble you"><span class="av">你</span><div class="bt">${m.prompt}</div></div>
+      <div class="bubble cp"><span class="av cp">Cp</span><div class="bt"><div class="bt-lbl">Copilot 幫你做了：</div><ul>${m.did.map(d => `<li>${d}</li>`).join('')}</ul>${arts ? `<div class="arts">${arts}</div>` : ''}</div></div>
+      ${m.confirm ? `<div class="confirm">🔒 需要你確認：<b>${m.confirm}</b></div>` : ''}
+      ${m.note ? `<div class="note">${m.note}</div>` : ''}
+      <div class="mo-foot"><span class="muted">沒有 Copilot 時：${m.without}</span><span class="save mono">這一段省下約 <b>${m.saved}</b> 分鐘</span></div>
+      <div class="mo-cap mono">${cap.icon} ${cap.name} · ${cap.tag}</div>`;
+    card.addEventListener('click', () => { state.idx = i; stopAuto(); updateDay(false); });
+    list.appendChild(card); revealIO.observe(card);
+  });
+  const sl = $('#scrub'); sl.max = r.moments.length - 1; sl.value = 0;
+  updateDay(false);
+}
+function updateDay(scroll){
+  const r = roleById(state.role), m = r.moments[state.idx], n = r.moments.length;
+  $$('.moment').forEach(c => c.classList.toggle('on', +c.dataset.idx === state.idx));
+  $('#scrub').value = state.idx;
+  const min = toMin(m.t);
+  const sky = $('#sky'); sky.className = 'sky ' + skyClass(min);
+  const pct = Math.max(0, Math.min(1, (min - 6*60) / (16*60)));
+  const sun = $('#sun'); sun.style.left = (8 + pct*84) + '%'; sun.style.top = (62 - Math.sin(pct*Math.PI)*50) + '%';
+  $('#skyTime').textContent = m.t; $('#skyTitle').textContent = m.title;
+  const md = $('#skyMode'); md.textContent = MODES[m.mode].label; md.className = 'mode ' + MODES[m.mode].cls;
+  $('#skyCount').textContent = `${state.idx+1} / ${n}`;
+  const auto = r.moments.slice(0, state.idx+1).filter(x => x.mode === 'auto').length;
+  const share = Math.round(auto / (state.idx+1) * 100);
+  $('#shareVal').textContent = share + '%'; $('#shareBar').style.width = share + '%';
+  const saved = r.moments.slice(0, state.idx+1).reduce((s,x) => s + x.saved, 0);
+  $('#savedVal').textContent = fmtMin(saved);
+  const tl = $('#scrubTicks'); tl.innerHTML = r.moments.map(x => `<span>${x.t}</span>`).join('');
+  if (scroll){ const c = $(`.moment[data-idx="${state.idx}"]`); if (c) c.scrollIntoView({behavior:'smooth', block:'center'}); }
+}
+function stopAuto(){ if (state.timer){ clearInterval(state.timer); state.timer = null; } const b = $('#autoBtn'); if (b) b.textContent = '▶ 自動播放一天'; }
+(function dayCtl(){
+  $('#scrub').addEventListener('input', e => { state.idx = +e.target.value; stopAuto(); updateDay(true); });
+  $('#autoBtn').addEventListener('click', () => {
+    if (state.timer){ stopAuto(); return; }
+    $('#autoBtn').textContent = '⏸ 暫停';
+    state.timer = setInterval(() => { const n = roleById(state.role).moments.length; if (state.idx >= n-1){ stopAuto(); return; } state.idx++; updateDay(true); }, 2600);
+  });
+  $('#resetBtn').addEventListener('click', () => { state.idx = 0; stopAuto(); updateDay(true); });
+})();
+
+/* ---- capability map / heatmap ---- */
+function renderCapMap(){
+  const list = $('#capList'), heat = $('#heat');
+  CAPS.forEach(c => {
+    const card = el('button', 'cap-card'); card.type = 'button'; card.dataset.cap = c.id;
+    card.innerHTML = `<div class="cc-icon">${c.icon}</div><div class="cc-body"><div class="cc-head"><b>${c.name}</b><span class="mono cc-tag">${c.tag}</span><span class="status ${c.status==='GA' ? 's-ga' : 's-pre'}">${c.status}</span></div><p>${c.desc}</p></div>`;
+    card.addEventListener('click', () => { $$('.cap-card').forEach(x => x.classList.toggle('on', x === card)); $$('.heat-cell').forEach(x => x.classList.toggle('col-on', x.dataset.cap === c.id)); });
+    list.appendChild(card);
+  });
+  // header
+  heat.style.gridTemplateColumns = `150px repeat(${CAPS.length}, 1fr)`;
+  heat.appendChild(el('div', 'heat-corner'));
+  CAPS.forEach(c => heat.appendChild(el('div', 'heat-colh', `<span title="${c.name}">${c.icon}<br><span class="mono">${c.short}</span></span>`)));
+  ROLES.forEach(r => {
+    heat.appendChild(el('div', 'heat-rowh', `${r.emoji} ${r.name}`)).dataset.role = r.id;
+    CAPS.forEach(c => {
+      const ms = r.moments.filter(m => m.cap === c.id || m.layer.some(l => l.toLowerCase().includes(c.id === 'docs' ? 'word' : c.id === 'cowork' ? 'cowork' : c.id === 'sched' ? '排程' : c.id === 'meet' ? 'facilitator' : c.id === 'comm' ? 'outlook' : c.id === 'research' ? 'researcher' : c.id === 'analyst' ? 'analyst' : c.id === 'agent' ? 'agent builder' : 'work iq')));
+      const lvl = Math.min(3, ms.length);
+      const cell = el('button', `heat-cell lv${lvl} c-${r.color}`); cell.type = 'button'; cell.dataset.role = r.id; cell.dataset.cap = c.id;
+      cell.title = `${r.name} × ${c.name}：${ms.length} 個時刻`;
+      cell.addEventListener('click', () => showHeat(r, c, ms));
+      heat.appendChild(cell);
+    });
+  });
+  $('#heatDetail').innerHTML = `<div class="muted">點任一格，看該角色實際使用的中文 prompt。顏色越亮，代表這個角色一天裡用得越多。</div>`;
+}
+function showHeat(r, c, ms){
+  $$('.heat-cell').forEach(x => x.classList.toggle('on', x.dataset.role === r.id && x.dataset.cap === c.id));
+  const d = $('#heatDetail');
+  if (!ms.length){ d.innerHTML = `<div class="hd-head"><span class="mono lbl">${r.emoji} ${r.name} × ${c.icon} ${c.name}</span></div><p class="muted">這個角色的示範日沒有用到這項能力——不代表不能用。試試在模擬器裡輸入自己的任務。</p>`; return; }
+  d.innerHTML = `<div class="hd-head"><span class="mono lbl">${r.emoji} ${r.name} × ${c.icon} ${c.name}</span><span class="status ${c.status==='GA'?'s-ga':'s-pre'}">${c.status}</span></div>` + ms.map(m => `<div class="hd-item"><div class="hd-t"><span class="mono">${m.t}</span> ${m.title} <span class="mode ${MODES[m.mode].cls}">${MODES[m.mode].label}</span></div><div class="hd-p">${m.prompt}</div><button type="button" class="copy" data-text="${encodeURIComponent(m.prompt)}">複製 prompt</button></div>`).join('');
+  bindCopy(d);
+}
+function highlightHeatRow(id){ $$('.heat-rowh').forEach(x => x.classList.toggle('on', x.dataset.role === id)); }
+
+/* ---- simulator ---- */
+function renderSimTasks(){
+  const r = roleById(state.role), box = $('#simTasks'); box.innerHTML = '';
+  r.moments.filter(m => m.mode !== 'you' || m.table).slice(0, 4).forEach(m => {
+    const b = el('button', 'sim-task'); b.type = 'button';
+    b.innerHTML = `<div class="st-head mono"><span>${m.t}</span> · <span class="${MODES[m.mode].cls}">${MODES[m.mode].label}</span>${m.confirm ? ' · 🔒 需確認' : ''}</div><div class="st-text">${m.prompt}</div>`;
+    b.addEventListener('click', () => runSim(m));
+    box.appendChild(b);
+  });
+  $('#simTaskLbl').textContent = `範例任務 · ${r.emoji} ${r.name}`;
+  resetSim();
+}
+function resetSim(){
+  $('#simChat').innerHTML = `<div class="sim-empty"><div class="sim-h">今天要完成什麼？</div><div class="muted">選左側一個範例任務，或直接在下方輸入。</div></div>`;
+  $('#simSteps').innerHTML = '<div class="muted small">開始工作後，步驟會顯示在這裡</div>';
+  $('#simTools').innerHTML = '<span class="chip ghost">—</span>';
+  $('#simState').textContent = '待命'; $('#simState').className = 'mono sim-state';
+}
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+async function runSim(m){
+  if (state.simRunning) return; state.simRunning = true;
+  const chat = $('#simChat'), steps = $('#simSteps'), tools = $('#simTools'), st = $('#simState');
+  chat.innerHTML = ''; steps.innerHTML = ''; tools.innerHTML = '';
+  const setState = (t, cls) => { st.textContent = t; st.className = 'mono sim-state ' + (cls||''); };
+  const addStep = (t, cls) => { const s = el('div', 'step ' + (cls||''), `<span class="dot"></span>${t}`); steps.appendChild(s); return s; };
+  const addTool = t => tools.appendChild(el('span', 'chip tool', t));
+  const msg = (who, html) => { const b = el('div', 'sim-msg ' + who, html); chat.appendChild(b); chat.scrollTop = chat.scrollHeight; return b; };
+  msg('u', m.prompt);
+  setState('規劃中 Plan', 'run');
+  await sleep(500);
+  const plan = msg('a', `<div class="sim-lbl">📋 計畫</div><ol>${['理解任務、判斷需要的 skills', '搜尋來源：' + (m.src||[]).join('、'), '執行分析與整理', m.confirm ? '敏感動作前停下來問你：' + m.confirm : '整理結果與來源', '交付' + (m.arts.length ? '：' + m.arts.map(a=>a.n).join('、') : '結果與核對紀錄')].map(x=>`<li>${x}</li>`).join('')}</ol>`);
+  const s1 = addStep('理解任務、載入 skills', 'doing'); await sleep(700); s1.className = 'step done';
+  ['Work IQ 情境檢索'].concat(m.src||[]).forEach(addTool);
+  setState('執行中 Execute', 'run');
+  const s2 = addStep('搜尋來源（沿用你的權限）', 'doing'); await sleep(900); s2.className = 'step done';
+  const s3 = addStep('執行：' + capById(m.cap).name, 'doing');
+  const work = msg('a', `<div class="sim-lbl">⚙️ 執行中</div><ul class="typing"></ul>`);
+  const ul = $('ul', work);
+  for (const d of m.did){ await sleep(650); ul.appendChild(el('li', '', d)); chat.scrollTop = chat.scrollHeight; }
+  s3.className = 'step done';
+  if (m.table){
+    await sleep(400);
+    const t = m.table;
+    msg('a', `<div class="sim-lbl">🧾 比對表（保留各來源原始說法）</div><div class="tbl-wrap"><table><thead><tr>${t.cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>${t.rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`);
+  }
+  if (m.confirm){
+    setState('等待你確認 Approve', 'wait');
+    const s4 = addStep('🔒 需要你確認：' + m.confirm, 'wait');
+    const ask = msg('a conf', `<div class="sim-lbl">🔒 需要你確認</div><p>接下來要「<b>${m.confirm}</b>」。這是會影響其他人或系統的動作，我先停下來。</p><div class="btns"><button type="button" class="btn small ok">核准，繼續</button><button type="button" class="btn small ghost">先不要</button></div>`);
+    const ok = await new Promise(res => { $('.ok', ask).addEventListener('click', () => res(true)); $('.ghost', ask).addEventListener('click', () => res(false)); });
+    $('.btns', ask).innerHTML = ok ? '<span class="mono ok-t">✓ 已核准 ' + new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'}) + '</span>' : '<span class="mono no-t">— 已略過，結果只留在工作區</span>';
+    s4.className = 'step ' + (ok ? 'done' : 'skip');
+  }
+  setState('交付 Deliver', 'ok');
+  const s5 = addStep('交付與核對紀錄', 'doing'); await sleep(600); s5.className = 'step done';
+  const arts = m.arts.map(a => `<span class="art ${ART[a.t].cls}"><i>${ART[a.t].ic}</i>${a.n}</span>`).join('');
+  msg('a', `<div class="sim-lbl">✅ 完成</div>${arts ? `<div class="arts">${arts}</div>` : '<p>結果已整理在上方，每個數字都附來源。</p>'}<div class="sim-checks mono">核對紀錄：來源 ${(m.src||[]).length} 份 · 權限沿用本人 · 未做推測 · ${m.note ? '備註：' + m.note : '無敏感動作'}</div><div class="sim-save">沒有 Copilot 時：${m.without} → 這一段省下約 <b>${m.saved} 分鐘</b></div>`);
+  state.simRunning = false;
+}
+(function simCtl(){
+  $('#simForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const v = $('#simInput').value.trim(); if (!v) return;
+    const r = roleById(state.role);
+    runSim({t:'now', title:'自訂任務', mode:'auto', cap:'workiq', prompt:v, src:['Outlook','Teams','SharePoint / OneDrive'], did:['理解你的任務並拆成步驟','用你的權限搜尋相關 Email、會議、檔案','整理結果並標註來源；資料不足處寫「資料不足」'], arts:[{t:'page', n:'結果（Copilot Pages）'}], confirm:'', note:'示範用：實際輸出取決於你租戶內的資料。', without:'自己開多個系統找，時間依任務而異。', saved:15});
+    $('#simInput').value = '';
+  });
+  $('#simReset').addEventListener('click', () => { if (!state.simRunning) resetSim(); });
+})();
+
+/* ---- compare ---- */
+function renderCompare(){
+  const r = roleById(state.role);
+  $('#cmpThenTitle').textContent = `${r.name}的一天`; $('#cmpNowTitle').textContent = `${r.name}的一天`;
+  $('#cmpThen').innerHTML = r.then.map(x => `<li><span class="x">✕</span><span>${x}</span></li>`).join('');
+  $('#cmpNow').innerHTML = r.now.map(x => `<li><span class="v">✓</span><span>${x}</span></li>`).join('');
+  const total = r.moments.reduce((s,m) => s + m.saved, 0);
+  $('#cmpThenFoot').textContent = `${r.then.length} 件事靜靜吃掉時間，還沒算上被打斷的成本。`;
+  $('#cmpNowFoot').innerHTML = `同一天省下約 <b>${fmtMin(total)}</b>；沒有消失的：需求判斷、簽核、跨部門溝通。`;
+}
+(function compareCtl(){
+  const box = $('#cmp'), handle = $('#cmpHandle'), range = $('#cmpRange'), seg = $('#cmpSeg'), cap = $('#cmpCaption'), tip = $('#cmpTip');
+  const MIN = 4, MAX = 96;
+  let drag = false, animT = null;
+  const clamp = p => Math.max(MIN, Math.min(MAX, p));
+  function caption(p){
+    if (p <= 12) return '只剩 <span>有 Copilot 的一天</span>——舊做法被抹掉了。但右邊仍留著：判斷、簽核、溝通。';
+    if (p < 42) return '往左拉：<span>舊做法正在被抹掉</span>，同一件事換成了交給 Copilot 的版本。';
+    if (p <= 58) return '<span>並排看</span>：左右各五件事一一對應，同一個職位、兩種日常。';
+    if (p < 88) return '往右拉：<span>Copilot 版被蓋回去</span>，回到現在多數人的做法。';
+    return '只剩 <span>現在的做法</span>——這就是每天被吃掉的時間。';
+  }
+  function setSplit(p, animate){
+    p = clamp(p);
+    if (animate){ box.classList.add('anim'); clearTimeout(animT); animT = setTimeout(() => box.classList.remove('anim'), 600); } else box.classList.remove('anim');
+    box.style.setProperty('--split', p + '%');
+    box.style.setProperty('--then-op', Math.max(0, Math.min(1, (p - MIN) / (50 - MIN))).toFixed(2));
+    box.style.setProperty('--now-op', Math.max(0, Math.min(1, (MAX - p) / (MAX - 50))).toFixed(2));
+    range.value = Math.round(p); handle.setAttribute('aria-valuenow', Math.round(p)); tip.textContent = Math.round(p) + '%';
+    cap.innerHTML = caption(p);
+    $$('button', seg).forEach(b => b.classList.toggle('on', Math.abs(+b.dataset.split - p) < 10));
+  }
+  const fromX = x => { const rect = box.getBoundingClientRect(); return (x - rect.left) / rect.width * 100; };
+  box.addEventListener('pointerdown', e => { if (e.button !== undefined && e.button !== 0) return; drag = true; handle.classList.add('drag'); try { box.setPointerCapture(e.pointerId); } catch(_){} setSplit(fromX(e.clientX), false); e.preventDefault(); });
+  box.addEventListener('pointermove', e => { if (drag) setSplit(fromX(e.clientX), false); });
+  const end = () => { drag = false; handle.classList.remove('drag'); };
+  ['pointerup','pointercancel','lostpointercapture'].forEach(t => box.addEventListener(t, end));
+  handle.addEventListener('dblclick', e => { e.stopPropagation(); setSplit(50, true); });
+  handle.addEventListener('keydown', e => { if (e.key === 'ArrowLeft'){ setSplit(+range.value - 5, true); e.preventDefault(); } else if (e.key === 'ArrowRight'){ setSplit(+range.value + 5, true); e.preventDefault(); } else if (e.key === 'Home'){ setSplit(MIN, true); } else if (e.key === 'End'){ setSplit(MAX, true); } });
+  range.addEventListener('input', () => setSplit(+range.value, false));
+  $$('button', seg).forEach(b => b.addEventListener('click', () => setSplit(+b.dataset.split, true)));
+  $$('[data-role-sel]').forEach(s => { ROLES.forEach(r => s.appendChild(new Option(`${r.emoji} ${r.name} · ${r.en}`, r.id))); s.addEventListener('change', () => selectRole(s.value)); });
+  setSplit(50, false);
+})();
+
+/* ---- calculator ---- */
+function renderCalc(){
+  const r = roleById(state.role);
+  const perDay = r.moments.reduce((s,m) => s + m.saved, 0);
+  const people = +$('#cPeople').value, days = +$('#cDays').value, ratio = +$('#cRatio').value/100;
+  $('#cPeopleV').textContent = people + ' 人'; $('#cDaysV').textContent = days + ' 天'; $('#cRatioV').textContent = Math.round(ratio*100) + '%';
+  $('#cRoleName').textContent = r.name;
+  const person = perDay * ratio, week = person * days * people, year = week * 48, fte = year / 60 / 1800;
+  $('#oPerson').textContent = fmtMin(person);
+  $('#oWeek').innerHTML = `${Math.round(week/60).toLocaleString()} <small>小時 / 週</small>`;
+  $('#oYear').innerHTML = `${Math.round(year/60).toLocaleString()} <small>小時 / 年</small>`;
+  $('#oFte').textContent = `≈ ${fte.toFixed(1)} 位全職人力（以 1,800 小時 / 年 估）`;
+  $('#oBreak').innerHTML = r.moments.map(m => `<div class="ob"><span class="mono">${m.t}</span><span class="ob-t">${m.title}</span><span class="ob-bar"><i style="width:${m.saved/150*100}%"></i></span><span class="mono ob-n">${m.saved} 分</span></div>`).join('');
+}
+['cPeople','cDays','cRatio'].forEach(id => $('#'+id).addEventListener('input', renderCalc));
+
+/* ---- workshop ---- */
+function renderWorkshop(){
+  const g = $('#wsGrid');
+  WORKSHOP.forEach(w => {
+    const want = WANTS.find(x => x.id === w.want);
+    const c = el('div', 'ws-card reveal');
+    c.innerHTML = `<div class="ws-n mono">組 ${w.n} · ${want.en}</div><h3>${w.title}</h3><div class="ws-want">${want.name} <span class="mono muted">約 ${want.n} 人希望</span></div><p>${w.goal}</p>
+      <div class="ws-kv"><span class="mono lbl">輸入</span><span>${w.input}</span></div><div class="ws-kv"><span class="mono lbl">產出</span><span>${w.output}</span></div>
+      <div class="ws-foot"><span class="chips">${w.roles.map(id => { const r = roleById(id); return `<span class="chip">${r.emoji} ${r.name}</span>`; }).join('')}</span><span class="mono">${w.mins} 分鐘</span></div>`;
+    g.appendChild(c); revealIO.observe(c);
+  });
+}
+
+/* ---- prompt library ---- */
+function renderPrompts(){
+  const box = $('#promptGrid'), f = $('#pFilter').value;
+  const items = [];
+  ROLES.forEach(r => r.moments.forEach(m => items.push({role:r.id, roleName:`${r.emoji} ${r.name}`, need:m.need, title:m.title, text:m.prompt, cap:capById(m.cap)})));
+  EXTRA_PROMPTS.forEach(p => items.push({role:'all', roleName:'📚 簡報範例', need:p.need, title:p.title, text:p.text, cap:null}));
+  const show = items.filter(i => f === 'all' ? true : f.startsWith('w') ? i.need === f : (i.role === f || i.role === 'all'));
+  box.innerHTML = show.map(i => `<div class="pcard"><div class="pc-head"><span class="mono lbl">${i.roleName}</span><span class="chip need small">${WANTS.find(w=>w.id===i.need).name}</span></div><b>${i.title}</b><p>${i.text}</p><div class="pc-foot">${i.cap ? `<span class="mono muted">${i.cap.icon} ${i.cap.name}</span>` : '<span class="mono muted">來自簡報 S14 / S19 / S21 / S31</span>'}<button type="button" class="copy" data-text="${encodeURIComponent(i.text)}">複製</button></div></div>`).join('');
+  $('#pCount').textContent = `${show.length} 則`;
+  bindCopy(box);
+}
+function bindCopy(root){
+  $$('.copy', root).forEach(b => b.addEventListener('click', async () => {
+    const t = decodeURIComponent(b.dataset.text);
+    try { await navigator.clipboard.writeText(t); } catch(e){ const ta = el('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch(_){} ta.remove(); }
+    toast('已複製 prompt，貼到 Copilot 就能用');
+  }));
+}
+let toastT; function toast(t){ const x = $('#toast'); x.textContent = t; x.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => x.classList.remove('show'), 1800); }
+(function pf(){ const s = $('#pFilter'); s.appendChild(new Option('全部', 'all')); ROLES.forEach(r => s.appendChild(new Option(`${r.emoji} ${r.name}`, r.id))); WANTS.forEach(w => s.appendChild(new Option('需求：' + w.name, w.id))); s.addEventListener('change', renderPrompts); })();
+
+/* ---- trust accordion ---- */
+$$('.acc-h').forEach(h => h.addEventListener('click', () => h.parentElement.classList.toggle('open')));
+
+/* ---- init ---- */
+renderRoles(); renderCapMap(); renderWorkshop();
+selectRole('sa');
+$('#year').textContent = new Date().getFullYear();
+})();
+
+</script>
+</body>
+</html>
