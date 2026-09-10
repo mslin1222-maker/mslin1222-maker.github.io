@@ -59,6 +59,8 @@ nav.top .wrap{display:flex;align-items:center;justify-content:space-between;widt
 .navlinks a{padding:7px 13px;border-radius:999px;font-size:13.5px;color:var(--muted);transition:all .25s}
 .navlinks a:hover{color:var(--text);background:rgba(255,255,255,.06)}
 .navlinks a.active{color:var(--text);background:rgba(255,255,255,.1)}
+.navlinks a.nav-cta{border:1px solid rgba(245,185,66,.55);color:var(--gold);margin-inline-start:6px}
+.navlinks a.nav-cta:hover{background:rgba(245,185,66,.14);color:#ffd98a}
 .nav-toggle{display:none;background:none;border:1px solid var(--border2);border-radius:10px;padding:6px 10px;font-size:13px}
 .progress-bar{position:fixed;top:var(--nav-h);inset-inline-start:0;height:2px;background:var(--grad);z-index:49;width:0;transition:width .15s linear}
 
@@ -75,6 +77,7 @@ nav.top .wrap{display:flex;align-items:center;justify-content:space-between;widt
 h1.hero-title{font-size:clamp(40px,7vw,92px);line-height:1.05;margin:28px 0 24px;font-weight:900;letter-spacing:-.02em}
 .hero-sub{font-size:clamp(16px,1.6vw,19px);color:var(--muted);max-width:760px;margin:0 auto 36px}
 .hero-sub b{color:var(--text)}
+.hero-note{display:inline-block;margin:0 auto 26px;padding:8px 16px;border-radius:999px;font-size:13px;color:#9ff5bb;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.3)}
 .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:999px;font-weight:700;font-size:15px;border:1px solid transparent;transition:transform .25s,box-shadow .25s,background .25s}
 .btn.primary{background:linear-gradient(90deg,var(--gold),var(--coral) 55%,var(--purple));color:#fff;box-shadow:0 10px 40px rgba(240,103,138,.35)}
@@ -177,6 +180,74 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .day-summary .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase}
 .day-summary .v{font-family:var(--mono);font-size:30px;font-weight:800;margin-top:4px}
 
+/* REINVEST */
+#reinvest{background:linear-gradient(180deg,var(--bg),var(--bg2) 50%,var(--bg))}
+.day-next{margin-top:14px;display:flex;justify-content:flex-end;align-items:center;gap:14px;font-size:13.5px;color:var(--muted);flex-wrap:wrap}
+.step-foot .save em{font-style:normal;color:var(--muted);font-size:12.5px;margin-inline-start:8px;padding-inline-start:8px;border-inline-start:1px solid var(--border2)}
+.step-foot .save em b{color:var(--gold);font-size:13px}
+.ri-layout{display:grid;grid-template-columns:400px 1fr;gap:28px;align-items:start}
+.ri-hero,.ri-convert{padding:26px 28px}
+.ri-hero .k,.ri-convert .k{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--dim);text-transform:uppercase}
+.ri-hero .k span{color:var(--gold)}
+.ri-hero .v{font-family:var(--mono);font-size:44px;font-weight:800;color:var(--green);line-height:1.1;margin:8px 0 6px}
+.ri-week{font-size:13.5px;color:var(--muted)}
+.ri-week b{color:var(--text);font-family:var(--mono)}
+.ri-slider{margin:10px 0 4px}
+.ri-bar{display:flex;height:22px;border-radius:999px;overflow:hidden;margin:20px 0 12px;background:rgba(255,255,255,.06)}
+.ri-bar i{display:block;height:100%;cursor:pointer;transition:width .6s cubic-bezier(.2,.8,.2,1),opacity .25s,filter .25s}
+.ri-bar i:hover{filter:brightness(1.2)}
+.ri-bar i.dim{opacity:.3}
+.ri-legend{display:grid;gap:6px}
+.ri-legend button{display:flex;align-items:center;gap:10px;background:none;border:1px solid transparent;border-radius:10px;padding:8px 10px;font-size:13.5px;color:var(--muted);text-align:start;transition:all .25s;width:100%}
+.ri-legend button:hover,.ri-legend button.on{background:rgba(255,255,255,.05);border-color:var(--border2);color:var(--text)}
+.ri-legend button i{width:12px;height:12px;border-radius:3px;flex:0 0 12px}
+.ri-legend button b{margin-inline-start:auto;font-family:var(--mono);font-weight:600;font-size:12.5px}
+.ri-convert{margin-top:14px}
+.ri-convert p{font-size:12px;color:var(--dim);margin:12px 0 0}
+.ri-units{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;align-items:center}
+.ri-units span{padding:8px 14px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--border2);font-size:13.5px}
+.ri-units span b{font-family:var(--mono);color:var(--green);font-size:20px;margin-inline-end:4px}
+.ri-units span.or{color:var(--dim);font-size:12px;border:0;background:none;padding:0 2px}
+.ri-units.small span{padding:6px 12px;font-size:13px}
+.ri-units.small span b{font-size:17px}
+.ri-cards{display:grid;gap:14px}
+.ricard{padding:24px 26px;border-inline-start:4px solid var(--c);cursor:pointer}
+.ricard:hover{transform:translateY(-3px);border-color:var(--c)}
+.ricard.on{border-color:var(--c);box-shadow:0 0 0 1px var(--c),0 20px 60px rgba(var(--rgb),.16)}
+.ricard .top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.ricard .bk{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--c);text-transform:uppercase}
+.ricard .pct{margin-inline-start:auto;font-family:var(--mono);font-size:22px;font-weight:800;color:var(--c)}
+.ricard .pct small{font-size:12px;color:var(--muted);font-weight:600;margin-inline-start:8px}
+.ricard h4{margin:0 0 10px;font-size:19px;font-weight:800}
+.ricard ul{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.ricard li{font-size:13.5px;color:var(--muted);display:flex;gap:8px;line-height:1.6}
+.ricard li::before{content:"▸";color:var(--c);flex:0 0 10px}
+.ricard .kpi-row{margin-top:14px;padding-top:12px;border-top:1px dashed var(--border2);font-size:12.5px;color:var(--muted)}
+.ricard .kpi-row b{color:var(--text)}
+.ricard .kpi-row span{display:inline-block;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,.05);border:1px solid var(--border);margin:6px 4px 0 0;font-size:12px;color:var(--text)}
+.bucket-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+.bcard{padding:20px 22px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);border-top:3px solid rgb(var(--c));transition:transform .35s}
+.bcard:hover{transform:translateY(-4px)}
+.bcard .bi{font-size:24px;margin-bottom:8px}
+.bcard h4{margin:0 0 6px;font-size:16px;font-weight:800;color:rgb(var(--c))}
+.bcard p{margin:0 0 10px;font-size:13px;color:var(--muted);line-height:1.6}
+.bcard small{display:block;font-size:11.5px;color:var(--dim);line-height:1.6}
+.comms-note{margin-top:16px;padding:22px 26px;border-radius:var(--radius);background:rgba(74,222,128,.05);border:1px solid rgba(74,222,128,.3);display:flex;gap:18px;align-items:flex-start}
+.comms-note .cn-ic{font-size:26px;flex:0 0 auto}
+.comms-note h4{margin:0 0 6px;font-size:16px}
+.comms-note p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.75}
+.comms-note b{color:#9ff5bb}
+.ri-rules{margin-top:30px;padding:26px 30px;border-radius:var(--radius);background:var(--grad-soft);border:1px solid var(--border2);display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:22px}
+.ri-rules .n{font-family:var(--mono);color:var(--gold);font-size:11px;letter-spacing:.2em}
+.ri-rules h4{margin:6px 0 6px;font-size:16px}
+.ri-rules p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.7}
+.alloc-list{display:grid;gap:4px;margin-top:8px}
+.alloc{display:grid;grid-template-columns:12px auto 1fr;gap:4px 10px;align-items:center;font-size:13px;color:var(--text);padding:8px 0;border-bottom:1px solid var(--border)}
+.alloc:last-child{border-bottom:0}
+.alloc i{width:12px;height:12px;border-radius:3px}
+.alloc b{font-family:var(--mono);color:var(--green);text-align:end;font-weight:600}
+.alloc small{grid-column:2/4;font-size:12px;color:var(--dim)}
+
 /* CAP MAP */
 .cap-layout{display:grid;grid-template-columns:1fr 1.4fr;gap:34px;align-items:start}
 .cap-list{display:grid;gap:10px}
@@ -205,11 +276,11 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .cap-detail{margin-top:14px;padding:18px 20px;border-radius:var(--radius-s);background:var(--card2);border:1px solid var(--border2)}
 .cap-detail .src{font-size:12px;color:var(--dim);margin-top:8px}
 
-/* SIM */
+/* SIM — Cowork replica (light UI inside dark site) */
 #sim{background:linear-gradient(180deg,var(--bg),var(--bg2) 50%,var(--bg))}
-.sim-layout{display:grid;grid-template-columns:360px 1fr;gap:30px;align-items:start}
+.sim-layout{display:grid;grid-template-columns:340px 1fr;gap:26px;align-items:start}
 .sim-left h4{margin:0 0 10px;font-size:13px;font-family:var(--mono);letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
-.preset{display:block;width:100%;text-align:start;padding:14px 16px;margin-bottom:8px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-s);font-size:13.5px;line-height:1.55;transition:all .25s}
+.preset{display:block;width:100%;text-align:start;padding:13px 15px;margin-bottom:8px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-s);font-size:13px;line-height:1.55;transition:all .25s}
 .preset:hover{border-color:var(--border2);transform:translateX(4px)}
 .preset.on{border-color:var(--gold)}
 .preset small{display:block;font-family:var(--mono);font-size:10.5px;color:var(--gold);letter-spacing:.1em;margin-bottom:4px}
@@ -217,49 +288,118 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .sim-input input{flex:1;background:var(--card);border:1px solid var(--border2);border-radius:12px;padding:12px 14px;color:var(--text);font-size:14px;outline:none}
 .sim-input input:focus{border-color:var(--gold)}
 .sim-hint{font-size:12px;color:var(--dim);margin-top:10px;line-height:1.6}
-.sim-win{background:var(--card);border:1px solid var(--border2);border-radius:20px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.6);min-height:560px;display:flex;flex-direction:column}
-.sim-bar{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--card2);font-size:12.5px;color:var(--muted)}
-.sim-bar .dots i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-inline-end:5px}
-.sim-bar .tabs{margin-inline-start:auto;display:flex;gap:6px}
-.sim-bar .tabs span{padding:3px 10px;border-radius:999px;border:1px solid var(--border2);font-size:11.5px}
-.sim-bar .tabs span.on{background:var(--text);color:#0c0c18;border-color:var(--text)}
-.sim-body{padding:22px;flex:1;display:flex;flex-direction:column;gap:14px;overflow:auto;max-height:680px;scroll-behavior:smooth}
-.appr .acts button:disabled{opacity:.45;cursor:default;transform:none}
-.sim-status{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);font-family:var(--mono)}
-.sim-status i{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
-.sim-status.busy i{background:var(--gold);box-shadow:0 0 10px var(--gold);animation:pulse2 1s infinite}
-@keyframes pulse2{50%{opacity:.3}}
-.sim-msg{opacity:0;transform:translateY(10px);animation:pop .5s cubic-bezier(.2,.8,.2,1) forwards}
-@keyframes pop{to{opacity:1;transform:none}}
-.plan{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:14px 16px}
-.plan .ph{font-size:11.5px;font-family:var(--mono);letter-spacing:.14em;color:var(--dim);text-transform:uppercase;margin-bottom:8px}
-.plan li{list-style:none;display:flex;gap:10px;align-items:center;font-size:13.5px;padding:5px 0;color:var(--muted);transition:color .3s}
-.plan li i{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--dim);display:grid;place-items:center;font-size:9px;transition:all .3s;flex:0 0 16px}
-.plan li.doing{color:var(--text)}.plan li.doing i{border-color:var(--gold);border-style:dashed;animation:spin 1.2s linear infinite}
-.plan li.done{color:var(--text)}.plan li.done i{background:var(--green);border-color:var(--green);color:#052e16}
-.plan ul{margin:0;padding:0}
-@keyframes spin{to{transform:rotate(360deg)}}
-.skillchip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:8px;background:rgba(139,92,246,.14);border:1px solid rgba(139,92,246,.4);font-size:12px;color:#d4c6ff;font-family:var(--mono)}
-.skillrow{display:flex;gap:6px;flex-wrap:wrap}
-.appr{background:rgba(245,185,66,.06);border:1px solid rgba(245,185,66,.45);border-radius:14px;padding:16px 18px}
-.appr .ah{display:flex;align-items:center;gap:8px;font-weight:800;font-size:14px;color:var(--gold);margin-bottom:8px}
-.appr .body{font-size:13.5px;color:var(--muted);line-height:1.65;background:rgba(0,0,0,.25);border-radius:10px;padding:10px 12px;margin-bottom:12px;white-space:pre-line}
-.appr .acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.appr .acts small{color:var(--dim);font-size:11.5px;margin-inline-start:auto}
-.appr.approved{border-color:var(--green);background:rgba(74,222,128,.06)}
-.appr.approved .ah{color:var(--green)}
-.appr.skipped{border-color:var(--border2);background:rgba(255,255,255,.03)}
-.appr.skipped .ah{color:var(--muted)}
-.deliver{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:14px 16px}
-.deliver .dh{font-size:11.5px;font-family:var(--mono);letter-spacing:.14em;color:var(--green);text-transform:uppercase;margin-bottom:10px}
-.typing{display:inline-flex;gap:4px;align-items:center;padding:8px 12px}
-.typing i{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
-.typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
-@keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
-.trust-row{display:flex;gap:18px;flex-wrap:wrap;padding:12px 22px;border-top:1px solid var(--border);font-size:12px;color:var(--muted);font-family:var(--mono)}
+.realchips{display:flex;flex-wrap:wrap;gap:6px}
+.realchips button{padding:6px 11px;border-radius:999px;border:1px solid var(--border2);background:rgba(255,255,255,.04);font-size:12px;color:var(--muted);transition:all .25s}
+.realchips button:hover{color:var(--text);border-color:var(--gold)}
+.browser-frame{border-radius:16px;overflow:hidden;border:1px solid var(--border2);box-shadow:0 40px 100px rgba(0,0,0,.6);background:#e9e9ee}
+.bf-bar{display:flex;align-items:center;gap:12px;padding:9px 14px;background:#1f1f2b;border-bottom:1px solid var(--border)}
+.bf-bar .dots i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-inline-end:5px}
+.bf-bar .addr{flex:1;max-width:380px;padding:5px 12px;border-radius:8px;background:rgba(0,0,0,.35);border:1px solid var(--border);font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .2s}
+.bf-bar .addr:hover{color:var(--gold)}
+.bf-title{margin-inline-start:auto;font-size:12px;color:var(--dim)}
+/* Cowork app shell */
+.cw{--cwbg:#ffffff;--cwside:#f7f7f9;--cwline:#e4e4e8;--cwtext:#1f1f24;--cwmuted:#6b6b76;--cwdim:#9a9aa6;--cwacc:#5b5fc7;--cwbubble:#f1f1f4;
+  display:grid;grid-template-columns:168px 1fr 210px;height:640px;background:var(--cwbg);color:var(--cwtext);font-size:12.5px;line-height:1.55;text-align:start}
+.cw *{box-sizing:border-box}
+.cw-nav{background:var(--cwside);border-inline-end:1px solid var(--cwline);padding:12px 10px;display:flex;flex-direction:column;gap:2px;overflow:hidden}
+.cw-logo{font-weight:800;font-size:15px;color:#2b2b33;display:flex;justify-content:space-between;align-items:center;padding:0 4px 8px;letter-spacing:-.01em}
+.cw-logo span{font-size:10px;color:var(--cwdim);letter-spacing:2px}
+.cw-toggle{display:flex;background:#e6e6ec;border-radius:999px;padding:3px;margin:0 2px 10px}
+.cw-toggle span{flex:1;text-align:center;font-size:11.5px;padding:4px 0;border-radius:999px;color:var(--cwmuted)}
+.cw-toggle span.on{background:#fff;color:var(--cwtext);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.cw-nav .it{padding:6px 8px;border-radius:8px;font-size:12px;color:var(--cwtext);border:0;background:none;text-align:start;font-family:inherit}
+.cw-nav .it.on{background:#e6e6ec;font-weight:700}
+.cw-nav .grp{margin:12px 8px 4px;font-size:10.5px;color:var(--cwdim)}
+.cw-nav .task{padding:5px 8px;border-radius:8px;font-size:11.5px;color:var(--cwtext);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cw-nav .task.on{background:#e6e6ec;font-weight:700}
+.cw-nav .task.empty{color:var(--cwdim);font-style:normal}
+.cw-user{margin-top:auto;display:flex;gap:8px;align-items:center;font-size:11.5px;padding:6px 4px 0}
+.cw-user .av{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#f0678a);flex:0 0 24px}
+.cw-user .tag{font-size:9px;background:#3b3b48;color:#fff;border-radius:3px;padding:0 4px;margin-inline-end:4px}
+.cw-user small{display:block;font-size:9.5px;color:var(--cwdim)}
+.cw-main{display:flex;flex-direction:column;min-width:0;position:relative}
+.cw-top{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:10px 16px 0;font-size:11px;color:var(--cwmuted)}
+.cw-top .shield{width:16px;height:16px;border-radius:50%;background:#e6f4ea;color:#1b7f3b;display:grid;place-items:center;font-size:9px;font-weight:800}
+.cw-top .more{color:var(--cwdim);font-size:14px;margin-inline-start:6px}
+.cw-feed{flex:1;overflow:auto;padding:10px 26px 8px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth}
+.cw-feed::-webkit-scrollbar{width:6px}.cw-feed::-webkit-scrollbar-thumb{background:#d6d6dd;border-radius:3px}
+.cw-home{margin:auto;text-align:center;max-width:460px;width:100%}
+.cw-home h3{font-size:19px;font-weight:700;margin:0 0 16px;color:var(--cwtext)}
+.cw-home .hint{font-size:10.5px;color:var(--cwdim);margin:8px 0 18px}
+.cw-home .grp{font-size:11px;color:var(--cwmuted);text-align:start;display:flex;justify-content:space-between;margin-bottom:8px}
+.cw-home .grp span{color:var(--cwdim)}
+.cw-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.cw-cards button{background:#fff;border:1px solid var(--cwline);border-radius:10px;padding:14px 10px 12px;text-align:start;font-size:12px;color:var(--cwtext);font-family:inherit;line-height:1.4;transition:all .2s}
+.cw-cards button:hover{border-color:var(--cwacc);box-shadow:0 4px 14px rgba(91,95,199,.15)}
+.cw-cards button i{display:block;font-size:20px;margin-bottom:8px;font-style:normal}
+.cw-composer{background:#fff;border:1px solid var(--cwline);border-radius:14px;padding:10px 12px 8px;box-shadow:0 2px 10px rgba(0,0,0,.05);text-align:start}
+.cw-composer.bottom{margin:0 26px 4px}
+.cw-composer input{width:100%;border:0;outline:0;font-size:13px;color:var(--cwtext);background:none;font-family:inherit;padding:4px 2px 8px}
+.cw-composer input::placeholder{color:var(--cwdim)}
+.cw-ctl{display:flex;gap:12px;align-items:center;font-size:11.5px;color:var(--cwmuted)}
+.cw-ctl .plus{font-size:15px;color:var(--cwtext)}
+.cw-ctl .r{margin-inline-start:auto;letter-spacing:4px;color:var(--cwdim)}
+.cw-foot{text-align:center;font-size:10px;color:var(--cwdim);padding:4px 0 8px}
+.cw-date{text-align:center;font-size:10.5px;color:var(--cwdim);display:flex;align-items:center;gap:10px}
+.cw-date::before,.cw-date::after{content:"";flex:1;height:1px;background:var(--cwline)}
+.cw-msg{opacity:0;transform:translateY(8px);animation:pop .45s cubic-bezier(.2,.8,.2,1) forwards}
+.cw-user-msg{align-self:flex-end;max-width:86%;background:var(--cwbubble);border-radius:14px;padding:10px 14px;font-size:12.5px;line-height:1.6}
+.cw-status{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--cwmuted)}
+.cw-status i{width:14px;height:14px;border-radius:50%;border:2px solid #d0d0d8;border-top-color:var(--cwacc);animation:spin 1s linear infinite;flex:0 0 14px}
+.cw-status.done i{animation:none;border:0;background:#e6f4ea;color:#1b7f3b;display:grid;place-items:center;font-size:9px;font-weight:800}
+.cw-plan{border:1px solid var(--cwline);border-radius:12px;padding:12px 14px;background:#fafafc}
+.cw-plan .ph{font-size:11px;color:var(--cwmuted);margin-bottom:6px;display:flex;justify-content:space-between}
+.cw-plan ol{margin:0;padding-inline-start:18px;display:grid;gap:4px}
+.cw-plan li{font-size:12.5px;color:var(--cwtext)}
+.cw-plan li b{font-weight:600}
+.cw-steps-inline{font-size:11.5px;color:var(--cwmuted);display:flex;align-items:center;gap:6px}
+.cw-steps-inline span{color:var(--cwacc)}
+.cw-skill{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:var(--cwmuted);padding:4px 10px;border:1px solid var(--cwline);border-radius:999px;background:#fff}
+.cw-skill i{width:7px;height:7px;border-radius:50%;background:var(--cwacc);display:inline-block}
+.cw-skillrow{display:flex;flex-wrap:wrap;gap:6px}
+.cw-appr{border:1px solid #f0c36d;background:#fff9ec;border-radius:12px;padding:12px 14px}
+.cw-appr .ah{display:flex;align-items:center;gap:8px;font-weight:700;font-size:12.5px;color:#7a4b00;margin-bottom:6px}
+.cw-appr .ah i{width:18px;height:18px;border-radius:50%;background:#f5b942;color:#1a1200;display:grid;place-items:center;font-size:10px;font-style:normal}
+.cw-appr .body{font-size:12px;color:var(--cwtext);line-height:1.6;background:#fff;border:1px solid #f3dfb4;border-radius:8px;padding:8px 10px;margin-bottom:10px;white-space:pre-line}
+.cw-appr .acts{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.cw-appr .acts button{font-family:inherit;font-size:12px;border-radius:8px;padding:6px 12px;border:1px solid var(--cwline);background:#fff;color:var(--cwtext);cursor:pointer;transition:all .2s}
+.cw-appr .acts button.pri{background:var(--cwacc);border-color:var(--cwacc);color:#fff;font-weight:700}
+.cw-appr .acts button.pri:hover{background:#4a4eb5}
+.cw-appr .acts button.dd{padding:6px 8px}
+.cw-appr .acts button:disabled{opacity:.45;cursor:default}
+.cw-appr .acts small{margin-inline-start:auto;font-size:10.5px;color:var(--cwdim)}
+.cw-appr.ok{border-color:#9ad4a8;background:#f0faf3}.cw-appr.ok .ah{color:#1b7f3b}.cw-appr.ok .ah i{background:#1b7f3b;color:#fff}
+.cw-appr.skip{border-color:var(--cwline);background:#fafafc}.cw-appr.skip .ah{color:var(--cwmuted)}.cw-appr.skip .ah i{background:#c9c9d2}
+.cw-resp{font-size:12.5px;line-height:1.7;color:var(--cwtext)}
+.cw-resp h4{font-size:13.5px;margin:0 0 6px}
+.cw-resp ul{margin:4px 0 0;padding-inline-start:18px}
+.cw-resp li{margin:2px 0}
+.cw-resp .files{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.cw-file{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:8px;border:1px solid var(--cwline);background:#fff;font-size:11.5px;color:var(--cwtext)}
+.cw-file i{width:9px;height:9px;border-radius:2px;display:inline-block}
+.cw-fb{display:flex;gap:10px;align-items:center;font-size:11px;color:var(--cwdim);margin-top:6px}
+.cw-fb .src{margin-inline-start:6px;padding:2px 8px;border-radius:999px;border:1px solid var(--cwline);background:#fff;color:var(--cwmuted)}
+.cw-ws{background:var(--cwside);border-inline-start:1px solid var(--cwline);padding:12px 14px;overflow:auto;font-size:12px}
+.cw-ws-h{display:flex;justify-content:space-between;font-weight:700;font-size:12.5px;margin-bottom:12px}
+.cw-ws-h span{color:var(--cwdim);font-weight:400}
+.cw-ws-sec{margin-bottom:16px}
+.cw-ws-sec .h{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:12px;margin-bottom:8px}
+.cw-ws-sec .h b{font-size:10px;font-weight:600;color:var(--cwmuted);background:#e6e6ec;border-radius:999px;padding:1px 7px}
+.cw-ws ul{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.cw-ws li{display:flex;gap:8px;align-items:flex-start;font-size:11.5px;color:var(--cwtext);line-height:1.45}
+.cw-ws li::before{content:"";flex:0 0 14px;width:14px;height:14px;border-radius:50%;border:1.5px solid #c9c9d2;margin-top:2px;font-size:8px;display:grid;place-items:center}
+.cw-ws li.doing::before{border-color:var(--cwacc);border-style:dashed;animation:spin 1.2s linear infinite}
+.cw-ws li.done::before{content:"✓";background:#fff;border-color:#1b7f3b;color:#1b7f3b;font-weight:800}
+.cw-ws li.empty{color:var(--cwdim)}
+.cw-ws li.empty::before{display:none}
+.cw-ws .chips{display:flex;flex-wrap:wrap;gap:6px}
+.cw-ws .chips span{padding:3px 9px;border-radius:999px;border:1px solid var(--cwline);background:#fff;font-size:11px;color:var(--cwtext)}
+.cw-ws .chips span.empty{color:var(--cwdim);border-style:dashed}
+.cw-ws .chips.files span{display:inline-flex;gap:6px;align-items:center}
+.trust-row{display:flex;gap:18px;flex-wrap:wrap;padding:12px 4px 0;font-size:12px;color:var(--muted);font-family:var(--mono)}
 .trust-row span::before{content:"◆ ";color:var(--gold)}
-.audit{background:rgba(0,0,0,.35);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-family:var(--mono);font-size:11.5px;color:var(--muted);line-height:1.7;max-height:120px;overflow:auto}
-.audit div span{color:var(--gold)}
+@media (max-width:1100px){.cw{grid-template-columns:150px 1fr 190px}}
+@media (max-width:900px){.sim-layout{grid-template-columns:1fr}.cw{grid-template-columns:1fr;height:auto}.cw-nav,.cw-ws{display:none}.cw-feed{min-height:420px;max-height:520px}}
 
 /* COMPARE */
 .cmp-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:22px}
@@ -356,7 +496,8 @@ footer .fine{margin-top:28px;padding-top:18px;border-top:1px solid var(--border)
   .navlinks{display:none;position:absolute;top:var(--nav-h);inset-inline:0;background:rgba(7,7,15,.96);flex-direction:column;padding:12px 20px 18px;border-bottom:1px solid var(--border)}
   .navlinks.open{display:flex}
   .nav-toggle{display:block}
-  .day-layout,.cap-layout,.sim-layout,.calc-layout,.callout{grid-template-columns:1fr}
+  .day-layout,.cap-layout,.sim-layout,.calc-layout,.callout,.ri-layout{grid-template-columns:1fr}
+  .ri-rules,.bucket-strip{grid-template-columns:1fr 1fr}
   .day-panel{position:relative;top:0}
   .stat-strip{grid-template-columns:repeat(2,1fr)}
   .stat:nth-child(2){border-inline-end:0}
@@ -370,7 +511,7 @@ footer .fine{margin-top:28px;padding-top:18px;border-top:1px solid var(--border)
   section{padding:80px 0}
 }
 @media (max-width:560px){
-  .roles-grid,.human-grid,.trust-grid{grid-template-columns:1fr}
+  .roles-grid,.human-grid,.trust-grid,.ri-rules,.bucket-strip{grid-template-columns:1fr}
   .wrap{padding:0 18px}
   .heat-grid{grid-template-columns:70px repeat(9,1fr);gap:3px}
   .heat .hh{font-size:8px}
@@ -390,12 +531,14 @@ footer .fine{margin-top:28px;padding-top:18px;border-top:1px solid var(--border)
     <div class="navlinks" id="navlinks">
       <a href="#roles">選角色</a>
       <a href="#day">你的一天</a>
+      <a href="#reinvest">時間怎麼用</a>
       <a href="#capmap">能力地圖</a>
       <a href="#sim">Cowork 模擬器</a>
       <a href="#compare">今昔對照</a>
       <a href="#trust">治理與信任</a>
       <a href="#calc">效益試算</a>
       <a href="#human">人的價值</a>
+      <a class="nav-cta" href="https://copilot.cloud.microsoft/cowork" target="_blank" rel="noopener">開啟 Cowork ↗</a>
     </div>
   </div>
 </nav>
@@ -409,6 +552,7 @@ footer .fine{margin-top:28px;padding-top:18px;border-top:1px solid var(--border)
     <div class="hero-badge reveal"><b>GA · 2026.06</b> Interactive Experience · 今天就能跑的金融業工作流</div>
     <h1 class="hero-title reveal" data-delay="1">不是預言，是 Cowork<br><span class="grad-text">今天就能幫你做的事</span></h1>
     <p class="hero-sub reveal" data-delay="2">這不是功能清單，而是一個<b>可以實際操作的體驗網站</b>：從 16 個金融業角色（含 6 位高階主管）裡選一個最像你的，拉動時間軸，看 Copilot Cowork 用<b>已正式上線（GA）</b>的功能幫你處理一天當中的哪些工作、哪些動作需要先經過你確認——以及，哪些判斷還是只有你能做。</p>
+    <div class="hero-note reveal" data-delay="3">這裡談的不是減少人力，而是把同樣的人力投到更高價值的工作；每一個敏感動作都由你確認，最終決策永遠是人。</div>
     <div class="cta-row reveal" data-delay="3">
       <a class="btn primary" href="#roles">開始你的一天 →</a>
       <a class="btn ghost" href="#sim">先試試 Cowork 模擬器</a>
@@ -449,8 +593,8 @@ footer .fine{margin-top:28px;padding-top:18px;border-top:1px solid var(--border)
 <section id="day">
   <div class="wrap">
     <div class="sec-label reveal">STEP 02 · YOUR DAY WITH COWORK</div>
-    <h2 class="sec-title reveal" data-delay="1"><span id="dayRoleName">分行理專</span>的一天，<span class="grad-text">哪些事交給了 Cowork？</span></h2>
-    <p class="sec-sub reveal" data-delay="2">拉動左側時間軸，或按「自動播放」。每一段都分三層呈現：<b style="color:var(--text)">你的一句話（prompt）</b> → <b style="color:var(--text)">Cowork 幫你做了什麼</b> → <b style="color:var(--gold)">🔒 需要你確認的動作</b>。</p>
+    <h2 class="sec-title reveal" data-delay="1"><span id="dayRoleName">分行理專</span>的一天，<span class="grad-text">哪些事可以指揮 Cowork 辦理？</span></h2>
+    <p class="sec-sub reveal" data-delay="2">拉動左側時間軸，或按「自動播放」。每一段都分三層呈現：<b style="color:var(--text)">你交辦的一句話（prompt）</b> → <b style="color:var(--text)">Cowork 幫你辦了什麼</b> → <b style="color:var(--gold)">🔒 需要你確認的動作</b>。三種模式：<span class="pill auto" style="font-size:11.5px">指揮 Cowork 辦理</span> 你下指令、Cowork 執行、你確認；<span class="pill co" style="font-size:11.5px">人機協作</span> Cowork 準備、你修改與判斷；<span class="pill human" style="font-size:11.5px">由你判斷</span> Cowork 只整理資料，決定權完全在你。</p>
     <div class="day-layout">
       <aside class="day-panel reveal">
         <div class="sky" id="sky">
@@ -468,9 +612,9 @@ footer .fine{margin-top:28px;padding-top:18px;border-top:1px solid var(--border)
         <div class="day-body">
           <div class="day-clock" id="dayClock">08:30</div>
           <div class="day-title" id="dayTitle">—</div>
-          <div class="day-meta"><span class="pill auto" id="dayMode">全自動處理</span><span class="mono" id="dayStep">1 / 5</span></div>
+          <div class="day-meta"><span class="pill auto" id="dayMode">指揮 Cowork 辦理</span><span class="mono" id="dayStep">1 / 5</span></div>
           <div class="meter">
-            <div class="row"><span>目前已交給 Cowork 處理的比例</span><b id="dayPct">0%</b></div>
+            <div class="row"><span>目前指揮 Cowork 辦理的工作比例</span><b id="dayPct">0%</b></div>
             <div class="bar"><i id="dayBar"></i></div>
           </div>
           <div class="meter">
@@ -494,7 +638,52 @@ footer .fine{margin-top:28px;padding-top:18px;border-top:1px solid var(--border)
           <div><div class="k">需要你確認的動作</div><div class="v" style="color:var(--gold)" id="sumApprovals">—</div></div>
           <div><div class="k">仍由你來做的關鍵判斷</div><div class="v" id="sumHuman">—</div></div>
         </div>
+        <div class="day-next reveal"><span>省下的時間不會自動變成價值——</span><a class="btn gold small" href="#reinvest">看這些時間可以做什麼 →</a></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- REINVEST -->
+<section id="reinvest">
+  <div class="wrap">
+    <div class="sec-label reveal">STEP 03 · TIME REINVESTMENT</div>
+    <h2 class="sec-title reveal" data-delay="1">省下的時間，<span class="grad-text">拿去做什麼？</span></h2>
+    <p class="sec-sub reveal" data-delay="2">效率提升本身不是目的。省下的時間如果沒有事先規劃，很快就會被更多的會議和 email 填滿。這裡談的<b style="color:var(--text)">不是減少人力</b>，而是把同樣的人力投到只有人能創造價值的地方：依角色建議「時間再投資」的配置、具體做法與建議追蹤的指標。</p>
+    <div class="bucket-strip reveal" data-delay="2">
+      <div class="bcard" style="--c:245,185,66"><div class="bi">🤝</div><h4>客戶與市場</h4><p>多見客戶、多聽產業、走出辦公室。</p><small>理專 · 企金 RM · 數位金融 PM · 總經理 · 區域總經理</small></div>
+      <div class="bcard" style="--c:240,103,138"><div class="bi">🎯</div><h4>風險與品質</h4><p>把複雜、高風險的案件看得更仔細；從事後檢查變成事前預防。</p><small>法遵 · AML · 核保理賠 · 風控 · 稽核 · 法遵長</small></div>
+      <div class="bcard" style="--c:96,165,250"><div class="bi">👥</div><h4>團隊與人才</h4><p>帶人、coaching、跨部門溝通，建立法遵與風險文化。</p><small>客服主管 · 區域總經理 · CFO · CRO · CIO</small></div>
+      <div class="bcard" style="--c:139,92,246"><div class="bi">🧠</div><h4>策略與專業成長</h4><p>判讀而不是拼簿子、想清楚為什麼做、追新法規與新知。</p><small>研究分析師 · 總經理 · CFO · CRO</small></div>
+    </div>
+    <div class="ri-layout">
+      <div class="reveal">
+        <div class="ri-hero card">
+          <div class="k"><span id="riRole">分行理專</span> · 每天省下</div>
+          <div class="v" id="riDay">—</div>
+          <div class="ri-week">每週使用 <b id="riDaysV">4 天</b>，一週約省下 <b id="riWeek">—</b></div>
+          <div class="ri-slider"><input type="range" id="riDays" min="1" max="5" value="4"><div class="ticks"><span>1 天</span><span>2</span><span>3</span><span>4</span><span>5 天</span></div></div>
+          <div class="ri-bar" id="riBar"></div>
+          <div class="ri-legend" id="riLegend"></div>
+        </div>
+        <div class="ri-convert card">
+          <div class="k">換算一下，這一週省下的時間等於</div>
+          <div class="ri-units" id="riUnits"></div>
+          <p>換算單位依角色設定，供溝通與規劃參考。</p>
+        </div>
+      </div>
+      <div class="ri-cards reveal" data-delay="1" id="riCards"></div>
+    </div>
+    <div class="ri-rules reveal">
+      <div><div class="n">MANAGEMENT NOTE</div><h4>效率不會自動變成價值</h4><p>導入 Cowork 的組織常見的落差：省下的時間確實存在，但沒有人規劃它要去哪裡，最後被更多會議吸收。建議用下面四個做法，把「省下的時間」變成「看得見的成果」。</p></div>
+      <div><div class="n">01</div><h4>先問人，再配置</h4><p>上面的配置比例與指標是依職能推導的建議值，不是標準答案。試行（pilot）前先讓各角色自己填「我想把時間投到哪裡」，再用這個框架對齊，認同度會高很多。</p></div>
+      <div><div class="n">02</div><h4>先卡行事曆</h4><p>把再投資的活動變成固定時段，例如每週二下午的「客戶時間」、週五早上的「策略時間」。先占住位子，會議才排不進來。</p></div>
+      <div><div class="n">03</div><h4>寫進目標與 1:1</h4><p>把再投資的活動放進 OKR 或年度目標，用建議指標追蹤成果，而不是只追蹤「省了多少小時」。主管在 1:1 問的是「多見了幾位客戶」，不是「Cowork 用了幾次」。</p></div>
+      <div><div class="n">04</div><h4>每月回頭看</h4><p>試行期間每月檢視「省下的時間去了哪裡」：比較活動量（客戶會議數、深度審查件數）與指標的變化，再調整配置比例。</p></div>
+    </div>
+    <div class="comms-note reveal">
+      <div class="cn-ic">💬</div>
+      <div><h4>對內溝通的順序：先講「時間投到哪裡」，再講「省了多少」</h4><p>金融業一線同仁對 AI 最直接的疑慮是「工作會不會不保」。如果簡報只強調省下多少小時，工會、HR 與一線主管會先反彈。建議先談這一頁——同樣的人，投到客戶、品質、人才與專業上——再談效率數字；並把「每個敏感動作都由你確認、最終決策永遠是人」說清楚。Cowork 是<b>加速器</b>，不是決策者。</p></div>
     </div>
   </div>
 </section>
@@ -502,7 +691,7 @@ footer .fine{margin-top:28px;padding-top:18px;border-top:1px solid var(--border)
 <!-- CAP MAP -->
 <section id="capmap">
   <div class="wrap">
-    <div class="sec-label reveal">STEP 03 · CAPABILITY MAP</div>
+    <div class="sec-label reveal">STEP 04 · CAPABILITY MAP</div>
     <h2 class="sec-title reveal" data-delay="1">9 大能力 × 16 個角色，<span class="grad-text">誰用到什麼？</span></h2>
     <p class="sec-sub reveal" data-delay="2">左邊是 Cowork 目前的功能分類（依 Microsoft Learn 官方文件整理），右邊是熱圖：越亮代表該角色一天中用得越多。點任一格，就能看到該角色實際使用的中文 prompt。</p>
     <div class="cap-layout">
@@ -524,9 +713,9 @@ footer .fine{margin-top:28px;padding-top:18px;border-top:1px solid var(--border)
 <!-- SIM -->
 <section id="sim">
   <div class="wrap">
-    <div class="sec-label reveal">STEP 04 · COWORK SIMULATOR</div>
+    <div class="sec-label reveal">STEP 05 · COWORK SIMULATOR</div>
     <h2 class="sec-title reveal" data-delay="1">看 Cowork 怎麼<span class="grad-text">規劃 → 執行 → 確認 → 交付</span></h2>
-    <p class="sec-sub reveal" data-delay="2">這是 Cowork 的核心運作方式（Plan → Execute → Approve → Deliver）：把你的一句話變成計畫、載入需要的 skills、在敏感動作前先停下來問你、最後產出檔案並留下操作紀錄。選一個範例任務，或輸入你自己的。</p>
+    <p class="sec-sub reveal" data-delay="2">這是 Cowork 的核心運作方式（Plan → Execute → Approve → Deliver）：把你交辦的一句話變成計畫、載入需要的 skills、在敏感動作前先停下來問你、最後產出檔案並留下紀錄。右側畫面依真實 Cowork（<a href="https://copilot.cloud.microsoft/cowork" target="_blank" rel="noopener" style="color:var(--gold);border-bottom:1px dotted var(--gold)">copilot.cloud.microsoft/cowork</a>，繁中介面稱為「<b style="color:var(--text)">協作執行</b>」）的版面重繪：左側工作清單、中間對話、右側「工作區」的步驟與工具。選一個範例任務，或直接在畫面裡輸入。</p>
     <div class="sim-layout">
       <div class="sim-left reveal">
         <h4>範例任務 · 依目前選的角色</h4>
@@ -535,17 +724,52 @@ footer .fine{margin-top:28px;padding-top:18px;border-top:1px solid var(--border)
           <input id="simInput" type="text" placeholder="或輸入你自己的任務…" maxlength="120">
           <button class="btn gold small" id="simSend">送出</button>
         </div>
-        <p class="sim-hint">這是模擬體驗：Cowork 的回應是預先設計的情境，用來示範「規劃、確認、交付」的流程；自訂任務會套用通用流程。實際的 Cowork 會依你的 M365 資料與權限執行。</p>
+        <p class="sim-hint">這是模擬體驗：Cowork 的回應是預先設計的情境，用來示範「規劃、確認、交付」的流程；自訂任務會套用通用流程。版面依真實介面重繪，核准卡片依官方文件說明設計；實際的 Cowork 會依你的 M365 資料與權限執行。</p>
+        <h4 style="margin-top:22px">真實 Cowork 首頁的建議提示</h4>
+        <div class="realchips" id="realchips">
+          <button data-p="幫我補進度：整理我錯過的 email、Teams 訊息與會議重點。">Catch me up · 幫我補進度</button>
+          <button data-p="整理我的收件匣：把 email 分類到資料夾，標出需要我回覆的。">整理我的收件匣</button>
+          <button data-p="安排我的一週：檢視行事曆衝突與低優先會議，保留專注時段。">安排我的一週</button>
+          <button data-p="為會議進行準備：整理下一場客戶會議的背景、上次結論與待辦。">為會議進行準備</button>
+          <button data-p="準備我和主管的 1:1：整理本週進度、阻礙與需要決定的事。">準備 1:1</button>
+          <button data-p="研究一家公司：整理財報重點、近期新聞與風險，附來源。">研究一家公司</button>
+          <button data-p="建一個小 app：讓團隊每週填 KPI 並看趨勢圖。">建一個 app</button>
+        </div>
+        <a class="btn gold small" style="margin-top:14px" href="https://copilot.cloud.microsoft/cowork" target="_blank" rel="noopener">看完模擬，到真實 Cowork 試第一個任務 ↗</a>
       </div>
       <div class="reveal" data-delay="1">
-        <div class="sim-win">
-          <div class="sim-bar"><span class="dots"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></span><span>Microsoft 365 Copilot · <b style="color:var(--text)">Cowork</b></span><span class="tabs"><span>Chat</span><span class="on">Cowork</span></span></div>
-          <div class="sim-body" id="simBody">
-            <div class="sim-status" id="simStatus"><i></i>已連線 · 等待任務</div>
-            <div class="sim-msg" style="color:var(--dim);font-size:13.5px;line-height:1.7">👋 選左側任一任務開始。你會看到 Cowork：<br>① 把任務拆成步驟　② 載入需要的 skills 逐步執行　③ 在寄信、貼文、建立行事曆前先停下來請你確認　④ 產出檔案並留下操作紀錄。</div>
+        <div class="browser-frame">
+          <div class="bf-bar"><span class="dots"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></span><a class="addr mono" href="https://copilot.cloud.microsoft/cowork" target="_blank" rel="noopener" title="開啟真實 Cowork">🔒 copilot.cloud.microsoft/cowork</a><span class="bf-title">Cowork | Microsoft Copilot</span></div>
+          <div class="cw" id="cw">
+            <nav class="cw-nav">
+              <div class="cw-logo">Copilot <span>⊞ ⧉ ▭</span></div>
+              <div class="cw-toggle"><span>聊天</span><span class="on">協作執行</span></div>
+              <button class="it on" id="cwNewTask">⊕ 新工作</button>
+              <div class="it">☰ 我的工作</div>
+              <div class="it">⚡ 自動化</div>
+              <div class="it">⚙ 自訂</div>
+              <div class="grp">工作</div>
+              <div id="cwTaskList"><div class="task empty">（尚無工作）</div></div>
+              <div class="cw-user"><span class="av"></span><div><span class="tag">工作</span> 你<small>M365 Copilot（團隊）</small></div></div>
+            </nav>
+            <main class="cw-main">
+              <div class="cw-top"><span class="shield">✓</span><span>企業資料保護</span><span class="more">⋯</span></div>
+              <div class="cw-feed" id="cwFeed"></div>
+              <div class="cw-composer bottom" id="cwComposer">
+                <input id="cwInput" type="text" placeholder="訊息協作執行" maxlength="120">
+                <div class="cw-ctl"><span class="plus">＋</span><span>自動 ▾</span><span>特別高 ▾</span><span class="r">✎ 🎙</span></div>
+              </div>
+              <div class="cw-foot">AI 產生的內容可能不正確</div>
+            </main>
+            <aside class="cw-ws">
+              <div class="cw-ws-h">工作區<span>✕</span></div>
+              <div class="cw-ws-sec"><div class="h">步驟<b id="cwStepCount"></b></div><ul id="cwSteps"><li class="empty">開始工作後，步驟會顯示在這裡</li></ul></div>
+              <div class="cw-ws-sec"><div class="h">工具</div><div class="chips" id="cwTools"><span class="empty">—</span></div></div>
+              <div class="cw-ws-sec" id="cwFilesSec" style="display:none"><div class="h">檔案</div><div class="chips files" id="cwFiles"></div></div>
+            </aside>
           </div>
-          <div class="trust-row"><span>人在迴路 Human-in-the-loop</span><span>敏感動作都要你確認</span><span>操作紀錄可稽核</span><span>資料不離開 M365</span><span>最終決策由人做</span></div>
         </div>
+        <div class="trust-row"><span>人在迴路 Human-in-the-loop</span><span>敏感動作都要你確認</span><span>操作紀錄可稽核</span><span>資料不離開 M365</span><span>最終決策由人做</span></div>
       </div>
     </div>
   </div>
@@ -554,9 +778,9 @@ footer .fine{margin-top:28px;padding-top:18px;border-top:1px solid var(--border)
 <!-- COMPARE -->
 <section id="compare">
   <div class="wrap">
-    <div class="sec-label reveal">STEP 05 · THEN VS NOW</div>
+    <div class="sec-label reveal">STEP 06 · THEN VS NOW</div>
     <h2 class="sec-title reveal" data-delay="1">同一個職位，<span class="grad-text">有沒有 Cowork 的兩種日常</span></h2>
-    <p class="sec-sub reveal" data-delay="2">左右拉動中間的把手。左邊是現在多數金融從業人員的日常，右邊是同一份工作交給 Cowork 之後的樣子——注意右邊沒有消失的東西：判斷、簽核、客戶關係。</p>
+    <p class="sec-sub reveal" data-delay="2">左右拉動中間的把手。左邊是現在多數金融從業人員的日常，右邊是同一份工作指揮 Cowork 辦理之後的樣子——注意右邊沒有消失的東西：判斷、簽核、客戶關係。</p>
     <div class="cmp-controls reveal" data-delay="2"><span style="color:var(--muted);font-size:13.5px">角色：</span><select id="cmpRole" class="mono" style="background:var(--card);border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:8px 12px"></select></div>
     <div class="cmp reveal" data-delay="3" id="cmp">
       <div class="side left"><div class="tag">沒有 Cowork · 現在的做法</div><h3 id="cmpLeftTitle">分行理專的一天</h3><ul id="cmpLeft"></ul><div class="tot">每天花在找資料、做文件的時間<b id="cmpLeftTot">—</b></div></div>
@@ -569,7 +793,7 @@ footer .fine{margin-top:28px;padding-top:18px;border-top:1px solid var(--border)
 <!-- TRUST -->
 <section id="trust">
   <div class="wrap">
-    <div class="sec-label reveal">STEP 06 · GOVERNANCE &amp; TRUST</div>
+    <div class="sec-label reveal">STEP 07 · GOVERNANCE &amp; TRUST</div>
     <h2 class="sec-title reveal" data-delay="1">金管會 AI 指引六大原則，<span class="grad-text">Cowork 怎麼對應？</span></h2>
     <p class="sec-sub reveal" data-delay="2">金融業導入 agentic AI 的第一個問題不是「能做什麼」，而是「怎麼管」。以下把《金融業運用人工智慧（AI）指引》六大核心原則，逐一對應到 Cowork 的產品設計與 M365 既有的控管機制。</p>
     <div class="trust-grid" id="trustGrid"></div>
@@ -591,7 +815,7 @@ footer .fine{margin-top:28px;padding-top:18px;border-top:1px solid var(--border)
 <!-- CALC -->
 <section id="calc">
   <div class="wrap">
-    <div class="sec-label reveal">STEP 07 · BENEFIT CALCULATOR</div>
+    <div class="sec-label reveal">STEP 08 · BENEFIT CALCULATOR</div>
     <h2 class="sec-title reveal" data-delay="1">算一算，<span class="grad-text">你的團隊能省下多少時間？</span></h2>
     <p class="sec-sub reveal" data-delay="2">以本站的一日場景為基準，調整人數與使用頻率。Cowork 依 Copilot Credits 用量計費（計費因子：模型、情境檢索、工具呼叫、執行時間），這個工具只顯示<b style="color:var(--text)">相對用量指數</b>，不預設任何價格——請以官方報價與貴公司 tenant 的實測為準。</p>
     <div class="calc-layout">
@@ -624,6 +848,13 @@ footer .fine{margin-top:28px;padding-top:18px;border-top:1px solid var(--border)
           <div class="bar"><i class="l" id="barL"></i><i class="m" id="barM"></i><i class="h" id="barH"></i></div>
           <p>指數 = 任務類型權重 × 運算模式權重 × 每週任務數；基準 100 = 20 人・Medium 任務・Medium 模式・每週 4 天・使用比例 60%。<br>官方定義：Light 任務使用少量資料來源、推理有限、產出不超過 1 個；Medium 為多來源、結構化推理、產出 2 個以上；Heavy 為大量彙整、深度推理、多項產出。實際 credits 用量請在 Cowork 中輸入 <span class="mono">/cost</span> 查詢。</p>
         </div>
+        <div class="credits">
+          <div class="row"><span>全團隊每週省下的時間，相當於</span><b class="mono" id="calcWeekEq" style="color:var(--green)">—</b></div>
+          <div class="ri-units small" id="calcUnits"></div>
+          <div class="row" style="margin-top:18px"><span>依該角色的「時間再投資」建議配置</span><a href="#reinvest" style="color:var(--gold);font-size:12.5px">看配置說明 ↑</a></div>
+          <div class="alloc-list" id="calcAlloc"></div>
+          <p>換算單位與配置比例為本站建議值，供規劃討論；請依貴公司實際情況調整。</p>
+        </div>
         <p class="disclaimer">＊本試算僅供內部溝通與規劃參考；省下的時間為本站場景的假設值，並非 Microsoft 官方承諾，請以貴公司 pilot 的實測數據校正。</p>
       </div>
     </div>
@@ -633,9 +864,9 @@ footer .fine{margin-top:28px;padding-top:18px;border-top:1px solid var(--border)
 <!-- HUMAN -->
 <section id="human">
   <div class="wrap">
-    <div class="sec-label reveal">STEP 08 · WHAT STAYS HUMAN</div>
-    <h2 class="sec-title reveal" data-delay="1">流程交給 Cowork，<span class="grad-text">判斷留在你手上</span></h2>
-    <p class="sec-sub reveal" data-delay="2">在全部 80 個場景裡，這四件事從頭到尾都由人負責——這不是限制，而是金融業信任的基礎。</p>
+    <div class="sec-label reveal">STEP 09 · WHAT STAYS HUMAN</div>
+    <h2 class="sec-title reveal" data-delay="1">例行流程交辦 Cowork，<span class="grad-text">判斷留在你手上</span></h2>
+    <p class="sec-sub reveal" data-delay="2">在全部 80 個場景裡，這四件事從頭到尾都由人負責——這不是限制，而是金融業信任的基礎，也正是省下的時間最該投入的地方。<b style="color:var(--text)">Cowork 是加速器，不是決策者。</b></p>
     <div class="human-grid">
       <div class="hcard reveal"><div class="ic">⚖️</div><h4>最終判斷與簽核</h4><p>授信核准、理賠決定、可疑交易申報、投資評等——Cowork 把資料備齊、結論欄留白，簽名的永遠是你。</p></div>
       <div class="hcard reveal" data-delay="1"><div class="ic">🤝</div><h4>客戶關係與信任</h4><p>會前資料讓你更了解客戶，但坐在客戶對面、聽出言外之意、做出承諾並負責的人是你。</p></div>
@@ -643,9 +874,9 @@ footer .fine{margin-top:28px;padding-top:18px;border-top:1px solid var(--border)
       <div class="hcard reveal" data-delay="3"><div class="ic">🛡️</div><h4>風險承擔與例外處理</h4><p>灰色地帶、第一次出現的狀況、需要跨部門協調的例外——這些需要的是經驗與責任，不是更多文件。</p></div>
     </div>
     <div class="closing reveal">
-      <h3>從「問 AI」到「<span class="grad-text">把工作交給 AI</span>」</h3>
-      <p>Copilot Cowork 已於 2026 年 6 月正式上線。這裡的每一個場景，都是今天就能在貴公司的 Microsoft 365 環境中開始試行（pilot）的工作流程。</p>
-      <div class="cta-row"><a class="btn primary" href="#roles">再選一個角色試試 →</a><a class="btn ghost" href="#trust">回到治理對照</a></div>
+      <h3>從「問 Copilot」到「<span class="grad-text">指揮 Cowork 辦理</span>」</h3>
+      <p>Copilot Cowork 已於 2026 年 6 月正式上線。這裡的每一個場景，都是今天就能在貴公司的 Microsoft 365 環境中開始試行（pilot）的工作流程。建議的導入順序：先選 2–3 個角色、講清楚「時間投到哪裡」、再用 pilot 數據校正效益。</p>
+      <div class="cta-row"><a class="btn primary" href="https://copilot.cloud.microsoft/cowork" target="_blank" rel="noopener">開啟 Cowork，試第一個任務 ↗</a><a class="btn ghost" href="#roles">再選一個角色試試</a><a class="btn ghost" href="#trust">回到治理對照</a></div>
     </div>
   </div>
 </section>
@@ -702,7 +933,7 @@ const CAPS = [
   src:'What\'s new 2026/08：「Cowork can complete web tasks for you in Microsoft Edge on your device, using your existing sign-ins.」'}
 ];
 const CAPNAME = Object.fromEntries(CAPS.map(c=>[c.id,c.name]));
-const MODE = {auto:{cls:'auto',label:'全自動處理'},co:{cls:'co',label:'人機協作'},human:{cls:'human',label:'由你判斷'}};
+const MODE = {auto:{cls:'auto',label:'指揮 Cowork 辦理'},co:{cls:'co',label:'人機協作'},human:{cls:'human',label:'由你判斷'}};
 const SECTOR = {bank:{name:'銀行',cls:'c-bank'},ins:{name:'保險',cls:'c-ins'},sec:{name:'證券投信',cls:'c-sec'},cross:{name:'跨業',cls:'c-cross'}};
 const FT = {docx:'f-docx',xlsx:'f-xlsx',pptx:'f-pptx',pdf:'f-pdf',mail:'f-mail',teams:'f-teams',cal:'f-cal',app:'f-app',card:'f-card'};
 const F=(t,n)=>({t,n});
@@ -1207,6 +1438,84 @@ ROLES.push(
  ]}
 );
 
+/* ===================== TIME REINVESTMENT ===================== */
+const BUCKETS={
+ client:{name:'客戶與市場',en:'CLIENTS & MARKET',ic:'🤝',rgb:'245,185,66'},
+ quality:{name:'風險與品質',en:'RISK & QUALITY',ic:'🎯',rgb:'240,103,138'},
+ people:{name:'團隊與人才',en:'PEOPLE & TEAM',ic:'👥',rgb:'96,165,250'},
+ self:{name:'策略與專業成長',en:'STRATEGY & GROWTH',ic:'🧠',rgb:'139,92,246'}
+};
+const U=(l,m,w)=>({l,m,w});
+const GENERIC_UNITS=[U('客戶面談',45,'場'),U('深度案件審查',60,'件'),U('教育訓練或學習',60,'小時')];
+const GENERIC_PLAN=[{b:'client',pct:40,title:'多花時間在客戶身上'},{b:'quality',pct:35,title:'把複雜、高風險的案件看得更仔細'},{b:'people',pct:25,title:'帶人、分享、跨部門協作'}];
+const REINVEST={
+ rm:{units:[U('客戶面談',45,'場'),U('主動關懷電話',15,'通'),U('商品與法規研讀',30,'次')],plan:[
+  {b:'client',pct:55,title:'多見客戶、把對話做深',items:['每天多 1–2 場面談，或 4 通主動關懷電話','用 Cowork 產出的客戶快照做「有準備的對話」，而不是寒暄','針對到期商品與資產配置缺口主動約訪'],kpi:['每週客戶接觸數','AUM 淨流入','客戶留存率']},
+  {b:'quality',pct:25,title:'把推介做對、做完整',items:['逐案確認 KYC 與適合度，不趕件','讀懂合規修訂建議背後的理由，下次一開始就寫對','記錄客戶風險屬性與人生階段的變化'],kpi:['法遵退件率','客訴件數','適合度檢核完成率']},
+  {b:'self',pct:20,title:'專業升級',items:['每週 1.5 小時研讀市場、新商品與稅務','準備證照與進階課程','練習高資產客戶的對話與提案'],kpi:['證照與課程完成數','新商品首月成交']}]},
+ crm:{units:[U('企業客戶拜訪',90,'場'),U('授信案深度分析',60,'件'),U('跨部門協調會',30,'場')],plan:[
+  {b:'client',pct:50,title:'多跑客戶、多聽產業',items:['每週多 2 場企業拜訪，走進工廠與現場','參加產業公會與展會，建立產業人脈','針對既有客戶做交叉銷售（外匯、財管、聯貸）'],kpi:['新案件數','每戶往來產品數','放款餘額與利差']},
+  {b:'quality',pct:30,title:'把授信意見寫得更深',items:['把時間花在現金流敏感度與產業風險判讀，而不是抄財報數字','針對 Cowork 標出的異常比率追問經營層','主動跟風控討論案件結構，而不是等退件'],kpi:['審查退件率','逾放率','案件審查天數']},
+  {b:'people',pct:20,title:'帶新人、傳承產業知識',items:['帶新進 RM 一起拜訪、一起看案','把產業判讀的心法整理成團隊筆記','每月一次產業分享會'],kpi:['新人獨立接案時間','團隊案件品質']}]},
+ cmp:{units:[U('法規深度研讀',60,'小時'),U('業務單位法遵諮詢',45,'場'),U('教育訓練',60,'場')],plan:[
+  {b:'quality',pct:45,title:'從事後檢查變成事前預防',items:['主動走進業務單位做法遵健檢','參與新商品、新通路的設計會議，在源頭把關','針對同業裁罰案，回頭檢視自家控制點'],kpi:['事前發現 vs 事後缺失比例','內部主動通報件數','監理檢查缺失數']},
+  {b:'people',pct:30,title:'把法遵變成大家的事',items:['每週固定業務單位諮詢時段','用真實案例做教育訓練，而不是只念條文','建立部門法遵種子人員網絡'],kpi:['諮詢件數','訓練完成率與測驗分數','法遵文化調查']},
+  {b:'self',pct:25,title:'追新法規與國際趨勢',items:['AI 治理、個資、ESG 揭露等新領域','參與公會工作小組與監理座談','研讀國際監理趨勢（BIS、FSB）'],kpi:['新法規影響評估前置天數','政策更新時效']}]},
+ aml:{units:[U('複雜案件深度調查',90,'件'),U('偵測規則或情境優化',60,'次'),U('跨單位情資交流',45,'場')],plan:[
+  {b:'quality',pct:50,title:'把時間花在真正可疑的案件',items:['對高風險案件做更深的交易網絡分析與加強審查（EDD）','追蹤關聯帳戶與資金最終流向','把調查判斷寫清楚，讓主管與監理看得懂'],kpi:['可疑交易申報品質','平均調查天數','誤報率']},
+  {b:'self',pct:25,title:'研究新型態洗錢手法',items:['虛擬資產、人頭帳戶、跨境電商等新樣態','把新樣態轉成偵測規則提案','參加 AML 專業認證與研討'],kpi:['新樣態偵測規則提案數','新樣態命中率']},
+  {b:'people',pct:25,title:'回饋前線、對外交流',items:['把調查發現回饋給分行，提升 KYC 品質','參加同業 AML 工作小組','與監理機關保持溝通'],kpi:['前線通報品質','分行 KYC 缺失數']}]},
+ ins:{units:[U('複雜理賠案深度審查',60,'件'),U('保戶或業務員溝通',20,'通'),U('核保規則檢討',45,'次')],plan:[
+  {b:'quality',pct:45,title:'把複雜案件看得更仔細',items:['高額、爭議、疑似詐欺案投入更多審查時間','針對條款灰色地帶請醫務顧問與法務會診','檢討核保規則，減少後端理賠爭議'],kpi:['理賠爭議率','詐欺攔阻金額','複雜案平均處理天數']},
+  {b:'client',pct:35,title:'主動溝通、加快結案',items:['缺件與爭議案主動聯絡保戶與業務員，把話說清楚','對高齡或重症保戶多一點耐心與解釋','結案後主動回覆業務員，建立信任'],kpi:['理賠 NPS','結案天數','申訴件數']},
+  {b:'self',pct:20,title:'核保與醫學新知',items:['新藥、新療法、新職業風險','同業承保條件與市場變化','資料分析能力'],kpi:['核保準則更新次數','課程完成數']}]},
+ era:{units:[U('公司拜訪或專家訪談',90,'場'),U('深度產業研究',120,'小時'),U('法人客戶互動',45,'場')],plan:[
+  {b:'self',pct:45,title:'把腦力留給觀點',items:['拆解產業鏈、訪談供應鏈上下游','建立有差異的投資論點，而不是重述財報','回顧過去預測，修正自己的判斷框架'],kpi:['報告閱讀與引用數','預測準確度','獨家觀點數']},
+  {b:'client',pct:35,title:'多與買方客戶互動',items:['路演、法人客戶會議、即時回答提問','了解客戶真正關心的問題，回頭調整研究方向','經營長期信任關係'],kpi:['客戶互動次數','客戶評比排名']},
+  {b:'quality',pct:20,title:'模型與假設的品質',items:['交叉驗證資料來源','回測模型假設，與同業比對','把假設寫清楚，讓讀者能追溯'],kpi:['模型錯誤率','報告修正次數']}]},
+ risk:{units:[U('風險模型或情境深度分析',90,'件'),U('業務單位風險溝通',45,'場'),U('新興風險研究',60,'小時')],plan:[
+  {b:'quality',pct:50,title:'從做報表變成判讀風險',items:['探究集中度上升的原因，和業務單位一起找對策','驗證模型假設，看數字背後的行為變化','把壓力測試結果變成具體行動'],kpi:['早期預警命中率','風險事件損失','限額超限次數']},
+  {b:'people',pct:30,title:'把風險語言帶進業務單位',items:['定期與分行、事業群談風險胃納','把風險報告翻成業務聽得懂的話','協助業務單位做風險自評'],kpi:['業務單位風險自評完成率','跨部門風險議題回應時效']},
+  {b:'self',pct:20,title:'新興風險',items:['氣候風險、AI 模型風險、第三方風險','國際監理趨勢與同業做法','量化方法與資料能力'],kpi:['新風險政策提案數','新興風險納管比例']}]},
+ audit:{units:[U('實質查核與訪談',60,'場'),U('根因分析',45,'件'),U('顧問式改善討論',45,'場')],plan:[
+  {b:'quality',pct:50,title:'從抽樣到全面、從發現到根因',items:['用省下的時間做 100% 資料比對，而不是抽 40 筆','深挖流程與制度的根因，而不只列缺失','追蹤重複缺失，找出結構性問題'],kpi:['重大缺失發現率','重複缺失比例','資料驅動查核比例']},
+  {b:'people',pct:30,title:'從稽核員變成顧問',items:['與受查單位一起討論可行的改善方案','追蹤改善落地，而不是只發報告','分享其他單位的好做法'],kpi:['缺失改善完成率與時效','受查單位滿意度']},
+  {b:'self',pct:20,title:'資料分析與新技術稽核',items:['持續稽核（continuous auditing）方法','AI 系統與模型的稽核方法','資訊安全與雲端稽核知識'],kpi:['資料分析工具使用率','新領域查核項目數']}]},
+ pm:{units:[U('使用者訪談',60,'場'),U('產品策略思考',90,'小時'),U('跨部門協作會議',45,'場')],plan:[
+  {b:'client',pct:45,title:'多跟使用者說話',items:['每週 3 場使用者訪談，看真實的操作錄影','親自處理幾則負評，了解情緒背後的原因','到分行看櫃員與客戶怎麼用數位服務'],kpi:['功能採用率','NPS','數位開戶轉換率']},
+  {b:'self',pct:30,title:'想清楚為什麼做',items:['策略、商業模式、優先順序','砍掉低價值需求，把資源集中','研究同業與科技趨勢，但以使用者問題為起點'],kpi:['roadmap 命中率','砍掉的低價值需求數']},
+  {b:'people',pct:25,title:'帶工程與設計一起看數據',items:['共同檢視 KPI 追蹤 app，快速決定實驗','跨部門（法遵、資安、客服）早期參與','建立產品團隊的學習文化'],kpi:['實驗次數','上線週期','跨部門阻塞天數']}]},
+ cc:{units:[U('現場 coaching',30,'場'),U('客訴根因改善會議',60,'場'),U('跨部門流程改善',45,'件')],plan:[
+  {b:'people',pct:45,title:'回到現場帶人',items:['聽真實通話，做一對一 coaching','關注情緒勞動，及早發現耗竭訊號','用真實案例做團隊分享'],kpi:['一次解決率','員工留任率','通話品質分數']},
+  {b:'quality',pct:35,title:'從救火變成消除火源',items:['用 VoC 週報找前 3 大根因，推動跨部門改善','把常見問題回饋給產品與作業單位','檢視話術與流程，減少重複來電'],kpi:['重複來電率','客訴件數趨勢','平均處理時間']},
+  {b:'client',pct:20,title:'親自接高風險客戶',items:['重大客訴由主管親自出面','追蹤高風險客戶的後續滿意度','把處理經驗變成標準流程'],kpi:['客訴升級率','監理申訴件數']}]},
+ ceo:{units:[U('策略思考時段',120,'個'),U('客戶或分行走動',90,'場'),U('關鍵人才對話',60,'場')],plan:[
+  {b:'self',pct:40,title:'把讀資料的時間換成想策略',items:['每週固定半天不排會議的策略時段','針對 Cowork 標出的異常與矛盾，追問「為什麼」','思考三年後的業務結構與人才結構'],kpi:['策略議題決策前置時間','董事會策略討論比重']},
+  {b:'client',pct:35,title:'走出辦公室',items:['拜訪重要客戶、分行與合作夥伴','與監理機關、同業保持對話','親自感受客戶與第一線的體驗'],kpi:['每月客戶與分行拜訪數','重要客戶關係深度']},
+  {b:'people',pct:25,title:'把時間花在人上',items:['關鍵人才 1:1 與接班人計畫','高階團隊的坦誠對話','親自參與文化與價值觀的溝通'],kpi:['關鍵人才留任率','接班梯隊覆蓋率','員工敬業度']}]},
+ cfo:{units:[U('事業群財務對話',60,'場'),U('資本與投資策略研議',90,'小時'),U('投資人或董事溝通',60,'場')],plan:[
+  {b:'self',pct:40,title:'從對數字變成解讀數字',items:['資本配置、成本結構、投資回報的判斷','把月結差異變成經營洞察，而不是解釋','情境規劃：利率、匯率、法規變動'],kpi:['預測準確度','資本使用效率（RoRWA）','成本收入比']},
+  {b:'people',pct:35,title:'當事業群的財務夥伴',items:['每週與事業群主管談數字背後的決策','協助事業群建立自己的財務判斷力','推動財務團隊從記帳轉向分析'],kpi:['預算差異縮小幅度','事業群財務決策時效']},
+  {b:'client',pct:25,title:'投資人與董事會',items:['更充分的 IR 溝通與法說會準備','董事會前置討論，讓決議品質更好','與評等機構、往來銀行維持關係'],kpi:['分析師覆蓋與評等','投資人回饋','董事會決議效率']}]},
+ cro:{units:[U('風險議題深度討論',90,'場'),U('業務單位風險對話',60,'場'),U('監理或同業交流',60,'場')],plan:[
+  {b:'self',pct:40,title:'判讀，而不是拼簿子',items:['壓測結果、集中度、新興風險的判讀與決策','把風險報告變成經營層能行動的建議','思考風險胃納與策略的一致性'],kpi:['風險預警前置時間','重大風險事件損失','風險調整後報酬']},
+  {b:'people',pct:35,title:'成為第一道防線的夥伴',items:['與事業群談風險胃納，而不是只發限額通知','協助業務單位把風險思維放進產品設計','培養風控團隊的業務理解'],kpi:['業務單位風險自評品質','限額超限次數','跨部門風險議題回應時效']},
+  {b:'client',pct:25,title:'監理與董事會',items:['主動與監理機關溝通新做法','董事會風險教育與情境演練','參與同業與國際風險論壇'],kpi:['監理檢查缺失數','董事會風險議題討論時間']}]},
+ cio:{units:[U('業務單位需求對話',60,'場'),U('架構與技術策略研議',90,'小時'),U('團隊或人才對話',60,'場')],plan:[
+  {b:'self',pct:35,title:'從救火變成架構',items:['技術債、雲端與 AI 架構、資安策略','評估新技術對業務的真實價值，不追流行','把治理原則落實到架構決策'],kpi:['重大事件數','技術債清償率','系統可用性']},
+  {b:'people',pct:35,title:'帶團隊轉型',items:['AI 技能、工程文化與關鍵人才','讓團隊從維運轉向產品與價值','建立內部 AI 治理與 Copilot 導入社群'],kpi:['團隊 AI 技能覆蓋率','關鍵人才離職率','Copilot 採用率']},
+  {b:'client',pct:30,title:'走進業務單位',items:['了解業務單位的真實痛點','讓 IT 從成本中心變成業務夥伴','親自體驗客戶與員工使用的系統'],kpi:['業務單位滿意度','需求交付週期','數位服務 NPS']}]},
+ cco:{units:[U('業務單位法遵對話',60,'場'),U('法遵文化與訓練',60,'場'),U('監理溝通',60,'場')],plan:[
+  {b:'quality',pct:40,title:'從事後回應變成事前預防',items:['新商品、新通路、AI 應用的事前法遵審視','用同業裁罰案回頭檢視自家控制','把監理期待轉成內部具體標準'],kpi:['事前發現比例','裁罰與檢查缺失數','法遵事件件數']},
+  {b:'people',pct:35,title:'建立法遵文化',items:['與各級主管溝通「法遵是經營的一部分」','用真實案例做教育訓練','強化吹哨保護與內部通報'],kpi:['訓練完成率','內部通報件數','法遵文化調查']},
+  {b:'client',pct:25,title:'與監理機關的信任',items:['主動溝通新做法與 AI 應用','參與公會與監理對話','讓函詢回覆準確、及時、一致'],kpi:['監理檢查結果','函詢回覆時效','監理溝通次數']}]},
+ rgm:{units:[U('分行現場走動',90,'家'),U('分行經理 coaching',45,'場'),U('重要客戶陪訪',60,'場')],plan:[
+  {b:'people',pct:45,title:'回到現場帶分行',items:['每週多走 2 家分行，與經理談人與績效','聽第一線同仁的困難，而不是只看報表','用巡店準備資料做有重點的對話'],kpi:['分行員工敬業度','分行經理留任率','績效落差縮小']},
+  {b:'client',pct:35,title:'陪同拜訪重要客戶',items:['高資產與企業客戶的陪訪','親自處理重大客訴，建立信任','了解區域市場與競爭者動態'],kpi:['區域 AUM 與放款成長','重要客戶流失率']},
+  {b:'quality',pct:20,title:'作業品質與客訴根因',items:['客訴與作業疏失的根因改善','跨分行分享好做法','人力配置與作業風險的平衡'],kpi:['客訴件數','作業疏失件數','人力缺口天數']}]}
+};
+function riOf(id){return REINVEST[id]||{units:GENERIC_UNITS,plan:GENERIC_PLAN}}
+
 /* ===================== APP ===================== */
 (function(){
 'use strict';
@@ -1265,7 +1574,7 @@ $('#rolesGrid').addEventListener('click',e=>{const b=e.target.closest('.role');i
 $('#sectorFilters').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;$$('#sectorFilters .chip').forEach(c=>c.classList.toggle('on',c===b));const s=b.dataset.sector;$$('#rolesGrid .role').forEach(r=>r.classList.toggle('hide',s!=='all'&&r.dataset.sector!==s))});
 function setRole(id){state.role=ROLES.find(r=>r.id===id)||ROLES[0];$$('#rolesGrid .role').forEach(r=>r.classList.toggle('on',r.dataset.role===state.role.id));
   $('#roleHint').innerHTML=`目前選擇：<b>${esc(state.role.name)}</b>（${esc(state.role.en)}）。點任一張卡切換角色，下方所有區塊會同步更新。`;
-  $('#dayRoleName').textContent=state.role.name;renderTimeline();setPct(minToPct(toMin(state.role.day[0].t)));
+  $('#dayRoleName').textContent=state.role.name;renderTimeline();renderReinvest();setPct(minToPct(toMin(state.role.day[0].t)));
   renderPresets();$('#cmpRole').value=state.role.id;renderCompare();$('#calcRole').value=state.role.id;calc();
   $$('#heatGrid .rh').forEach(h=>h.style.color=h.dataset.role===state.role.id?'var(--gold)':'');$$('#heatGrid .cell').forEach(c=>c.classList.toggle('rowon',c.dataset.role===state.role.id))}
 
@@ -1279,7 +1588,7 @@ function renderTimeline(){const r=state.role;$('#timeline').innerHTML=r.day.map(
   ${s.approval?`<div class="approval">🔒 <span><b>需要你確認：</b>${esc(s.approval)}</span></div>`:`<div class="approval none">👁 只讀取資料，不需確認（不會寄信、貼文或修改任何內容）</div>`}
   ${s.note?`<div class="note">🧭 ${s.note}</div>`:''}
   ${s.plug?`<div class="plug">🔌 ${s.plug}</div>`:''}
-  <div class="step-foot"><span class="before"><b>沒有 Cowork 時：</b>${esc(s.before)}</span><span class="save">這一段省下約 <b>${s.save} 分鐘</b></span></div>
+  <div class="step-foot"><span class="before"><b>沒有 Cowork 時：</b>${esc(s.before)}</span><span class="save">這一段省下約 <b>${s.save} 分鐘</b><em>${conv(s.save,riOf(r.id).units)}</em></span></div>
 </article>`).join('');
   const tot=r.day.reduce((a,s)=>a+s.save,0),ap=r.day.filter(s=>s.approval).length,hu=r.day.filter(s=>s.note||s.mode==='human').length;
   $('#sumSaved').textContent=fmtMin(tot);$('#sumApprovals').textContent=ap+' 個';$('#sumHuman').textContent=hu+' 項'}
@@ -1310,6 +1619,20 @@ function stopPlay(){if(state.playing){clearInterval(state.playing);state.playing
 $('#playBtn').addEventListener('click',()=>{if(state.playing){stopPlay();return}if(state.pct>=99)setPct(0);$('#playBtn').textContent='⏸ 暫停';state.playing=setInterval(()=>{if(state.pct>=100){stopPlay();toast(`${state.role.name}的一天結束 · 總共省下 ${fmtMin(state.role.day.reduce((a,s)=>a+s.save,0))}`);return}setPct(state.pct+.35)},50)});
 $('#resetBtn').addEventListener('click',()=>{stopPlay();setPct(0)});
 
+/* ---- Time reinvestment ---- */
+function conv(min,units){const u=units.slice().sort((a,b)=>b.m-a.m);for(const x of u){if(min>=x.m){return `≈ <b>${Math.floor(min/x.m)} ${x.w}</b>${esc(x.l)}`}}const s=u[u.length-1];return `存 ${Math.ceil(s.m/min)} 段 = <b>1 ${s.w}</b>${esc(s.l)}`}
+function unitsHtml(min,units){return units.map(u=>`<span><b>${Math.floor(min/u.m).toLocaleString()}</b>${u.w}${esc(u.l)}</span>`).join('<span class="or">或</span>')}
+function renderReinvest(){const r=state.role,ri=riOf(r.id);const dayMin=r.day.reduce((a,s)=>a+s.save,0),days=+$('#riDays').value,week=dayMin*days;const sl=$('#riDays');sl.style.setProperty('--p',((days-1)/4*100)+'%');
+  $('#riRole').textContent=r.name;$('#riDay').textContent=fmtMin(dayMin);$('#riDaysV').textContent=days+' 天';$('#riWeek').textContent=fmtMin(week);
+  $('#riBar').innerHTML=ri.plan.map((p,i)=>`<i data-i="${i}" style="width:${p.pct}%;background:rgb(${BUCKETS[p.b].rgb})" title="${esc(BUCKETS[p.b].name)} ${p.pct}%"></i>`).join('');
+  $('#riLegend').innerHTML=ri.plan.map((p,i)=>`<button data-i="${i}"><i style="background:rgb(${BUCKETS[p.b].rgb})"></i>${BUCKETS[p.b].ic} ${esc(BUCKETS[p.b].name)} ${p.pct}%<b>${fmtMin(week*p.pct/100)} / 週</b></button>`).join('');
+  $('#riUnits').innerHTML=unitsHtml(week,ri.units);
+  $('#riCards').innerHTML=ri.plan.map((p,i)=>{const B=BUCKETS[p.b];return `<div class="ricard card" data-i="${i}" style="--c:rgb(${B.rgb});--rgb:${B.rgb}"><div class="top"><span class="bk">${B.ic} ${esc(B.name)} · ${B.en}</span><span class="pct">${p.pct}%<small>約 ${fmtMin(week*p.pct/100)} / 週</small></span></div><h4>${esc(p.title)}</h4><ul>${(p.items||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>${p.kpi?`<div class="kpi-row"><b>建議追蹤指標</b><br>${p.kpi.map(k=>`<span>${esc(k)}</span>`).join('')}</div>`:''}</div>`}).join('');
+  riSelect(0)}
+function riSelect(i){$$('#riCards .ricard').forEach(c=>c.classList.toggle('on',+c.dataset.i===i));$$('#riBar i').forEach(b=>b.classList.toggle('dim',+b.dataset.i!==i));$$('#riLegend button').forEach(b=>b.classList.toggle('on',+b.dataset.i===i))}
+$('#riDays').addEventListener('input',renderReinvest);
+['#riBar','#riLegend','#riCards'].forEach(sel=>$(sel).addEventListener('click',e=>{const el=e.target.closest('[data-i]');if(el)riSelect(+el.dataset.i)}));
+
 /* ---- Cap map ---- */
 function capCount(role,cap){return role.day.reduce((a,s)=>a+(s.caps.includes(cap)?1:0),0)}
 function renderCaps(){$('#capList').innerHTML=CAPS.map(c=>`<div class="capc" data-cap="${c.id}"><div class="ic">${c.ic}</div><div><h4>${esc(c.name)} <small>${esc(c.en)}</small> <span class="pill ${c.status}">${c.status==='ga'?'GA':c.status==='preview'?'Preview':'Frontier'}</span></h4><p>${esc(c.desc)}</p></div></div>`).join('');
@@ -1324,36 +1647,61 @@ $('#heatGrid').addEventListener('click',e=>{const el=e.target.closest('.cell');i
 $('#heatDetail').addEventListener('click',e=>{const b=e.target.closest('[data-goto]');if(!b)return;setRole(b.dataset.goto);document.getElementById('day').scrollIntoView({behavior:'smooth'})});
 renderCaps();
 
-/* ---- Simulator ---- */
-function renderPresets(){$('#presets').innerHTML=state.role.day.map((s,i)=>`<button class="preset" data-i="${i}"><small>${s.t} · ${MODE[s.mode].label}${s.approval?' · 🔒 需確認':''}</small>${esc(s.you)}</button>`).join('')}
-$('#presets').addEventListener('click',e=>{const b=e.target.closest('.preset');if(!b||state.simBusy)return;$$('.preset').forEach(p=>p.classList.toggle('on',p===b));runSim(state.role.day[+b.dataset.i])});
-$('#simSend').addEventListener('click',()=>sendCustom());$('#simInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendCustom()});
-function sendCustom(){const v=$('#simInput').value.trim();if(!v||state.simBusy)return;$('#simInput').value='';$$('.preset').forEach(p=>p.classList.remove('on'));runSim({you:v,title:'自訂任務',ai:GENERIC_SIM.plan,caps:['workiq','doc','comm'],approval:GENERIC_SIM.approval.title,deliver:GENERIC_SIM.deliver,generic:true})}
+/* ---- Simulator (Cowork replica) ---- */
+const TOOL_BY_CAP={workiq:'Work IQ',comm:'Outlook',doc:'OneDrive',cal:'行事曆',research:'網路搜尋',auto:'自動化',ext:'Fabric IQ',app:'App',browser:'本機瀏覽器'};
+const SKILL_LABEL={workiq:'正在準備搜尋企業資料',comm:'正在準備撰寫電子郵件',doc:'正在準備建立 Word / Excel / PowerPoint',cal:'正在準備排程與行事曆',research:'正在準備深度研究',auto:'正在準備自動化',ext:'正在連接 Fabric IQ',app:'正在準備建立 App',browser:'正在準備本機瀏覽器'};
+const FCOL={docx:'#4f8bff',xlsx:'#21a366',pptx:'#d24726',pdf:'#e5484d',mail:'#f5b942',teams:'#7b83eb',cal:'#38bdf8',app:'#f0678a',card:'#a78bfa'};
+const cwFile=f=>`<span class="cw-file"><i style="background:${FCOL[f.t]||'#999'}"></i>${esc(f.n)}</span>`;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-function add(html){const body=$('#simBody');const d=document.createElement('div');d.className='sim-msg';d.innerHTML=html;body.appendChild(d);body.scrollTop=body.scrollHeight;return d}
-function stamp(){const d=new Date();return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`}
-async function runSim(step){state.simBusy=true;const body=$('#simBody');body.innerHTML='';const st=document.createElement('div');st.className='sim-status busy';st.id='simStatus';st.innerHTML='<i></i>已連線 · Cowork 正在規劃…';body.appendChild(st);
-  const audit=[];const logA=t=>audit.push(`<div><span>${stamp()}</span> ${t}</div>`);
-  add(`<div class="bubble you" style="margin:0"><div class="av">你</div><div class="msg">${esc(step.you)}</div></div>`);logA('收到任務');
-  const ty=add(`<div class="typing"><i></i><i></i><i></i></div>`);await sleep(900);ty.remove();
+const nowT=()=>{const d=new Date();return `今天 ${d.getHours()<12?'上午':'下午'}${pad(d.getHours()%12||12)}:${pad(d.getMinutes())}`};
+function cwHome(){const feed=$('#cwFeed');feed.innerHTML=`<div class="cw-home cw-msg"><h3>今天要完成什麼?</h3><div class="cw-composer"><input type="text" placeholder="開始工作..." id="cwHomeInput" maxlength="120"><div class="cw-ctl"><span class="plus">＋</span><span>Fable 5.1 ▾</span><span>特別高 ▾</span><span class="r">✎ 🎙</span></div></div><div class="hint">💡 提示：編輯提示時，按 # 即可從您的 OneDrive 檔案中選擇。</div><div class="grp">接下來試試這些<span>顯示較多</span></div><div class="cw-cards" id="cwHomeCards"><button data-p="整理我的收件匣：把 email 分類到資料夾，標出需要我回覆的。"><i>📥</i>整理我的收件匣</button><button data-p="安排我的一週：檢視行事曆衝突與低優先會議，保留專注時段。"><i>🗓️</i>安排我的一週</button><button data-p="為會議進行準備：整理下一場客戶會議的背景、上次結論與待辦。"><i>📒</i>為會議進行準備</button></div></div>`;
+  $('#cwComposer').style.display='none';$('#cwSteps').innerHTML='<li class="empty">開始工作後，步驟會顯示在這裡</li>';$('#cwStepCount').textContent='';$('#cwTools').innerHTML='<span class="empty">—</span>';$('#cwFilesSec').style.display='none';
+  $('#cwHomeInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendCustom(e.target.value)});$('#cwHomeCards').addEventListener('click',e=>{const b=e.target.closest('[data-p]');if(b)runGeneric(b.dataset.p)});
+  $$('#cwTaskList .task').forEach(t=>t.classList.remove('on'));$('#cwNewTask').classList.add('on')}
+function renderPresets(){$('#presets').innerHTML=state.role.day.map((s,i)=>`<button class="preset" data-i="${i}"><small>${s.t} · ${MODE[s.mode].label}${s.approval?' · 🔒 需確認':''}</small>${esc(s.you)}</button>`).join('')}
+$('#presets').addEventListener('click',e=>{const b=e.target.closest('.preset');if(!b||state.simBusy)return;$$('.preset').forEach(p=>p.classList.toggle('on',p===b));runSim(state.role.day[+b.dataset.i]);scrollToSim()});
+function scrollToSim(){if(window.innerWidth<900)$('#cw').scrollIntoView({behavior:'smooth',block:'start'})}
+function runGeneric(text){if(!text||state.simBusy)return;$$('.preset').forEach(p=>p.classList.remove('on'));runSim({you:text,title:text.split(/[：:，,。]/)[0].slice(0,18),ai:GENERIC_SIM.plan,caps:['workiq','doc','comm'],approval:GENERIC_SIM.approval.title,deliver:GENERIC_SIM.deliver,generic:true});scrollToSim()}
+function sendCustom(v){v=(v!==undefined?v:$('#simInput').value).trim();if(!v)return;$('#simInput').value='';runGeneric(v)}
+$('#simSend').addEventListener('click',()=>sendCustom());$('#simInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendCustom()});
+$('#cwInput').addEventListener('keydown',e=>{if(e.key==='Enter'){const v=e.target.value.trim();e.target.value='';runGeneric(v)}});
+$('#realchips').addEventListener('click',e=>{const b=e.target.closest('[data-p]');if(b)runGeneric(b.dataset.p)});
+$('#cwNewTask').addEventListener('click',()=>{if(!state.simBusy)cwHome()});
+function add(html,cls){const feed=$('#cwFeed');const d=document.createElement('div');d.className='cw-msg '+(cls||'');d.innerHTML=html;feed.appendChild(d);feed.scrollTop=feed.scrollHeight;return d}
+function addTask(title){const list=$('#cwTaskList');const e=$('.empty',list);if(e)e.remove();$$('.task',list).forEach(t=>t.classList.remove('on'));const t=document.createElement('div');t.className='task on';t.textContent=title;list.prepend(t);while(list.children.length>6)list.lastChild.remove();$('#cwNewTask').classList.remove('on')}
+async function runSim(step){state.simBusy=true;const feed=$('#cwFeed');feed.innerHTML='';$('#cwComposer').style.display='';addTask(step.title||'新工作');
   const planItems=step.generic?GENERIC_SIM.plan:step.ai.map(a=>a.replace(/<[^>]+>/g,''));
-  const plan=add(`<div class="plan"><div class="ph">📋 計畫 · ${planItems.length} 個步驟</div><ul>${planItems.map(p=>`<li><i></i><span>${esc(p)}</span></li>`).join('')}</ul></div>`);logA('建立計畫');
-  await sleep(500);
-  const skills=[...new Set((step.caps||[]).map(c=>SKILL_BY_CAP[c]).filter(Boolean))];
-  add(`<div class="skillrow">${skills.map(s=>`<span class="skillchip">⚙ Preparing · ${esc(s)}</span>`).join('')}</div>`);logA('載入 skills：'+skills.join('、'));
-  const lis=$$('li',plan);for(let i=0;i<lis.length;i++){lis[i].classList.add('doing');st.innerHTML=`<i></i>${esc(planItems[i])}…`;await sleep(650+Math.random()*450);lis[i].classList.remove('doing');lis[i].classList.add('done');lis[i].querySelector('i').textContent='✓';logA('完成：'+planItems[i])}
+  // workspace panel
+  $('#cwSteps').innerHTML=planItems.map(p=>`<li>${esc(p)}</li>`).join('');$('#cwStepCount').textContent=`0 / ${planItems.length}`;
+  const tools=[...new Set((step.caps||[]).map(c=>TOOL_BY_CAP[c]).filter(Boolean))];$('#cwTools').innerHTML=tools.map(t=>`<span>${esc(t)}</span>`).join('');$('#cwFilesSec').style.display='none';$('#cwFiles').innerHTML='';
+  const audit=[];const logA=t=>audit.push(`<li><span>${stamp()}</span> ${esc(t)}</li>`);
+  add(`<div class="cw-date">${nowT()}</div>`);add(`<div class="cw-user-msg">${esc(step.you)}</div>`);logA('收到任務');
+  const st=add(`<div class="cw-status"><i></i>正在思考…</div>`);await sleep(900);
+  st.innerHTML=`<div class="cw-status"><i></i>正在建立計畫</div>`;await sleep(500);
+  add(`<div class="cw-plan"><div class="ph"><span>計畫 · ${planItems.length} 個步驟</span><span>顯示較多</span></div><ol>${planItems.map((p,i)=>`<li><b>步驟${'一二三四五六七八九'[i]||i+1}：</b>${esc(p)}</li>`).join('')}</ol></div>`);logA('建立計畫');
+  const skills=[...new Set((step.caps||[]).map(c=>SKILL_LABEL[c]).filter(Boolean))];
+  add(`<div class="cw-skillrow">${skills.map(s=>`<span class="cw-skill"><i></i>${esc(s)}</span>`).join('')}</div>`);logA('載入 skills');
+  const lis=$$('#cwSteps li');
+  for(let i=0;i<lis.length;i++){lis[i].classList.add('doing');st.innerHTML=`<div class="cw-status"><i></i>${esc(planItems[i])}…</div>`;$('#cwStepCount').textContent=`${i} / ${planItems.length}`;await sleep(650+Math.random()*450);lis[i].classList.remove('doing');lis[i].classList.add('done');$('#cwStepCount').textContent=`${i+1} / ${planItems.length}`;logA('完成：'+planItems[i])}
+  add(`<div class="cw-steps-inline">${planItems.length} steps complete <span>›</span></div>`);
   let approved=null;
-  if(step.approval){st.innerHTML='<i></i>等待你確認…';const bodyTxt=step.generic?GENERIC_SIM.approval.body:`動作：${step.approval}\n產出：${step.deliver.map(f=>f.n).join('、')}\n\nCowork 已準備完成，執行這個動作前需要你確認。你也可以選擇「本次對話同類動作不再詢問」。`;
-    const ap=add(`<div class="appr"><div class="ah">🔒 需要你確認 · ${esc(step.approval)}</div><div class="body">${esc(bodyTxt)}</div><div class="acts"><button class="btn gold small" data-act="ok">✓ 確認執行</button><button class="btn ghost small" data-act="always">確認，本次對話不再詢問</button><button class="btn ghost small" data-act="skip">略過</button><small>你隨時可以調整方向、暫停或停止</small></div></div>`);logA('等待確認：'+step.approval);
-    approved=await new Promise(res=>{ap.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)return;res(b.dataset.act)},{once:false})});
-    const box=$('.appr',ap);$$('.acts button',box).forEach(b=>b.disabled=true);
-    if(approved==='skip'){box.classList.add('skipped');box.querySelector('.ah').textContent='⏭ 已略過 · 動作未執行，草稿保留';logA('你選擇略過：'+step.approval)}
-    else{box.classList.add('approved');box.querySelector('.ah').textContent=approved==='always'?'✓ 已確認（本次對話同類動作不再詢問）':'✓ 已確認 · 動作已執行';logA((approved==='always'?'已確認（不再詢問）：':'已確認：')+step.approval)}
+  if(step.approval){st.innerHTML=`<div class="cw-status"><i></i>等待你確認…</div>`;const bodyTxt=step.generic?GENERIC_SIM.approval.body:`動作：${step.approval}\n產出：${step.deliver.map(f=>f.n).join('、')}\n\nCowork 已準備完成，執行這個動作前需要你確認。`;
+    const actLabel=/寄出|email/i.test(step.approval)?'傳送':/貼出|Teams/.test(step.approval)?'張貼':/建立|排程|邀請|行事曆/.test(step.approval)?'建立':/發布|app/i.test(step.approval)?'發布':/更新/.test(step.approval)?'更新':'允許';
+    const ap=add(`<div class="cw-appr"><div class="ah"><i>!</i>需要你的核准 · ${esc(step.approval)}</div><div class="body">${esc(bodyTxt)}</div><div class="acts"><button class="pri" data-act="ok">${actLabel}</button><button class="dd" data-act="always" title="核准並在本次工作中不再詢問同類動作">▾ 不再詢問</button><button data-act="skip">略過</button><small>你隨時可以調整方向、暫停或停止</small></div></div>`);logA('等待核准：'+step.approval);
+    approved=await new Promise(res=>{ap.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(b)res(b.dataset.act)})});
+    const box=$('.cw-appr',ap);$$('.acts button',box).forEach(b=>b.disabled=true);
+    if(approved==='skip'){box.classList.add('skip');$('.ah',box).innerHTML='<i>–</i>已略過 · 動作未執行，草稿保留';logA('你選擇略過：'+step.approval)}
+    else{box.classList.add('ok');$('.ah',box).innerHTML=`<i>✓</i>${approved==='always'?'已核准（本次工作同類動作不再詢問）':'已核准 · 動作已執行'}`;logA((approved==='always'?'已核准（不再詢問）：':'已核准：')+step.approval)}
     await sleep(500)}
-  st.innerHTML='<i></i>正在產出檔案…';await sleep(600);
-  add(`<div class="deliver"><div class="dh">✓ 已完成 · 產出檔案</div><div class="deliv">${step.deliver.map(fileHtml).join('')}</div><div style="font-size:13px;color:var(--muted);margin-top:10px;line-height:1.7">${step.generic?'已依你的描述完成任務。檔案存到你的 OneDrive「Cowork」資料夾；':`已完成「${esc(step.title)}」。檔案存到你的 OneDrive「Cowork」資料夾；`}${step.approval?(approved==='skip'?'寄信／貼文的動作已略過，草稿保留給你稍後處理。':'需要確認的動作已在你確認後執行。'):'這個任務只讀取資料，沒有寄出或修改任何內容。'}</div></div>`);logA('產出完成');
-  add(`<div><div style="font-size:11.5px;font-family:var(--mono);letter-spacing:.14em;color:var(--dim);margin-bottom:6px">操作紀錄 · AUDIT TRAIL</div><div class="audit">${audit.join('')}</div></div>`);
-  st.className='sim-status';st.innerHTML='<i></i>已連線 · 任務完成，可以再選一個';state.simBusy=false;toast('模擬完成 · 所有敏感動作都經過你確認')}
+  st.innerHTML=`<div class="cw-status"><i></i>正在產出檔案…</div>`;await sleep(600);
+  st.innerHTML=`<div class="cw-status done"><i>✓</i>已完成</div>`;
+  $('#cwFilesSec').style.display='';$('#cwFiles').innerHTML=step.deliver.map(cwFile).join('');
+  const summary=step.generic?'已依你的描述完成任務。':`已完成「${esc(step.title)}」。`;
+  const aprTxt=step.approval?(approved==='skip'?'寄信／貼文的動作已略過，草稿保留給你稍後處理。':'需要核准的動作已在你確認後執行。'):'這個任務只讀取資料，沒有寄出或修改任何內容。';
+  add(`<div class="cw-resp"><h4>${summary}</h4>${step.generic?'':`<ul>${step.ai.map(a=>`<li>${a}</li>`).join('')}</ul>`}<p style="margin:8px 0 0">${aprTxt} 檔案已存到你的 OneDrive「Cowork」資料夾。</p><div class="files">${step.deliver.map(cwFile).join('')}</div><details style="margin-top:8px"><summary style="font-size:11px;color:var(--cwmuted);cursor:pointer">操作紀錄 · audit trail（${audit.length} 筆）</summary><ul style="font-size:11px;color:var(--cwmuted);margin-top:6px">${audit.join('')}</ul></details><div class="cw-fb">⧉ &nbsp;👍 &nbsp;👎<span class="src">來源 · Work IQ</span></div></div>`);
+  logA('產出完成');state.simBusy=false;toast('模擬完成 · 所有敏感動作都經過你確認')}
+function stamp(){const d=new Date();return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`}
+cwHome();
 
 /* ---- Compare ---- */
 const cmp=$('#cmp');let dragging=false;
@@ -1382,7 +1730,9 @@ function calc(){const rid=$('#calcRole').value;const roles=rid==='all'?ROLES:[RO
   const perDay=perDayFull*adopt,week=perDay*people*days,year=week*48,fte=year/1920;
   $('#outDay').innerHTML=fmtMin(perDay);$('#outWeek').innerHTML=fmtH(week)+`<small>/ 週</small>`;$('#outYear').innerHTML=fmtH(year).replace(' 小時','')+`<small>小時 ≈ ${fte<10?fte.toFixed(1):Math.round(fte)} 位全職人力</small>`;
   const tasks=people*days*steps*adopt,base=20*4*5*.6;const idx=Math.round(tasks*MIXW[state.mix]*EFFW[state.effort]/base*100);$('#outIdx').textContent=idx;
-  const p=MIXP[state.mix];$('#barL').style.width=p[0]+'%';$('#barM').style.width=p[1]+'%';$('#barH').style.width=p[2]+'%'}
+  const p=MIXP[state.mix];$('#barL').style.width=p[0]+'%';$('#barM').style.width=p[1]+'%';$('#barH').style.width=p[2]+'%';
+  const ri=rid==='all'?{units:GENERIC_UNITS,plan:GENERIC_PLAN}:riOf(rid);$('#calcWeekEq').textContent=fmtH(week)+' / 週';$('#calcUnits').innerHTML=unitsHtml(week,ri.units);
+  $('#calcAlloc').innerHTML=ri.plan.map(q=>{const B=BUCKETS[q.b];return `<div class="alloc"><i style="background:rgb(${B.rgb})"></i><span>${B.ic} ${esc(B.name)} ${q.pct}%</span><b>${fmtH(week*q.pct/100)} / 週</b><small>${esc(q.title)}</small></div>`}).join('')}
 ['calcRole','calcPeople','calcDays','calcAdopt'].forEach(id=>$('#'+id).addEventListener('input',calc));
 $('#mix').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.mix=b.dataset.mix;$$('#mix button').forEach(x=>x.classList.toggle('on',x===b));calc()});
 $('#effort').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.effort=b.dataset.effort;$$('#effort button').forEach(x=>x.classList.toggle('on',x===b));calc()});
