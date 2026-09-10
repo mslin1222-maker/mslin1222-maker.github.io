@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Copilot Cowork · 金融業一日實戰｜看看 Cowork 今天能幫你做哪些事</title>
+<meta name="description" content="Copilot Cowork FSI Day-in-the-Life：從 16 個金融業角色（含高階主管）裡選一個最像你的，看 Cowork 如何用已正式上線的功能，幫你處理一天的工作，並對照金管會 AI 指引六大原則。">
+<style>
+:root{
+  --bg:#07070f;--bg2:#0b0b17;--card:#12121f;--card2:#171728;--card3:#1d1d31;
+  --border:rgba(255,255,255,.08);--border2:rgba(255,255,255,.14);
+  --text:#f3f3f8;--muted:#9c9cb4;--dim:#6b6b85;
+  --gold:#f5b942;--coral:#f0678a;--purple:#8b5cf6;--violet:#a78bfa;--green:#4ade80;--blue:#60a5fa;--cyan:#22d3ee;--orange:#fb923c;
+  --grad:linear-gradient(90deg,var(--gold) 0%,var(--coral) 50%,var(--purple) 100%);
+  --grad-soft:linear-gradient(135deg,rgba(245,185,66,.18),rgba(240,103,138,.16),rgba(139,92,246,.18));
+  --radius:18px;--radius-s:12px;
+  --font:"Noto Sans TC","PingFang TC","Microsoft JhengHei","Segoe UI",system-ui,-apple-system,sans-serif;
+  --mono:"Cascadia Code","SF Mono",Consolas,"Roboto Mono",ui-monospace,monospace;
+  --nav-h:64px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer}
+input,select{font-family:inherit}
+.mono{font-family:var(--mono)}
+.grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.wrap{max-width:1240px;margin:0 auto;padding:0 28px}
+section{position:relative;padding:110px 0}
+.sec-label{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+.sec-label::before{content:"";width:28px;height:1px;background:var(--gold)}
+h2.sec-title{font-size:clamp(34px,4.4vw,56px);line-height:1.12;margin:0 0 16px;font-weight:800;letter-spacing:-.01em}
+p.sec-sub{font-size:17px;color:var(--muted);max-width:760px;margin:0 0 40px}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;font-size:12.5px;font-weight:600;border:1px solid var(--border2);background:rgba(255,255,255,.04);white-space:nowrap}
+.pill.auto{background:rgba(139,92,246,.18);border-color:rgba(139,92,246,.5);color:#d4c6ff}
+.pill.co{background:rgba(245,185,66,.16);border-color:rgba(245,185,66,.5);color:#ffd98a}
+.pill.human{background:rgba(74,222,128,.14);border-color:rgba(74,222,128,.45);color:#9ff5bb}
+.pill.ga{background:rgba(74,222,128,.14);border-color:rgba(74,222,128,.45);color:#9ff5bb}
+.pill.preview{background:rgba(96,165,250,.14);border-color:rgba(96,165,250,.45);color:#b6d4ff}
+.pill.frontier{background:rgba(240,103,138,.14);border-color:rgba(240,103,138,.5);color:#ffb3c6}
+.pill.lock{background:rgba(245,185,66,.1);border-color:rgba(245,185,66,.35);color:var(--gold)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .35s,box-shadow .35s}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal[data-delay="1"]{transition-delay:.1s}.reveal[data-delay="2"]{transition-delay:.2s}.reveal[data-delay="3"]{transition-delay:.3s}.reveal[data-delay="4"]{transition-delay:.4s}
+
+/* NAV */
+nav.top{position:fixed;inset-inline:0;top:0;height:var(--nav-h);z-index:50;display:flex;align-items:center;background:rgba(7,7,15,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+nav.top::after{content:"";position:absolute;inset-inline:0;bottom:0;height:1px;background:var(--grad);opacity:.7}
+nav.top .wrap{display:flex;align-items:center;justify-content:space-between;width:100%}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px}
+.brand .dot{width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 14px var(--gold);animation:pulse 2.4s ease-in-out infinite}
+.brand small{color:var(--muted);font-weight:500;font-size:12.5px}
+@keyframes pulse{0%,100%{box-shadow:0 0 8px var(--gold)}50%{box-shadow:0 0 20px var(--gold),0 0 40px rgba(245,185,66,.4)}}
+.navlinks{display:flex;gap:4px}
+.navlinks a{padding:7px 13px;border-radius:999px;font-size:13.5px;color:var(--muted);transition:all .25s}
+.navlinks a:hover{color:var(--text);background:rgba(255,255,255,.06)}
+.navlinks a.active{color:var(--text);background:rgba(255,255,255,.1)}
+.nav-toggle{display:none;background:none;border:1px solid var(--border2);border-radius:10px;padding:6px 10px;font-size:13px}
+.progress-bar{position:fixed;top:var(--nav-h);inset-inline-start:0;height:2px;background:var(--grad);z-index:49;width:0;transition:width .15s linear}
+
+/* HERO */
+#top{min-height:100vh;display:flex;align-items:center;padding:calc(var(--nav-h) + 60px) 0 80px;overflow:hidden}
+#bgc{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.hero-glow{position:absolute;inset:0;z-index:0;pointer-events:none;background:
+  radial-gradient(700px 500px at 20% 10%,rgba(139,92,246,.22),transparent 60%),
+  radial-gradient(600px 400px at 80% 80%,rgba(245,185,66,.12),transparent 60%),
+  radial-gradient(500px 400px at 60% 30%,rgba(240,103,138,.1),transparent 60%)}
+.hero-inner{position:relative;z-index:1;text-align:center;max-width:980px;margin:0 auto}
+.hero-badge{display:inline-flex;align-items:center;gap:10px;padding:6px 14px 6px 6px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid var(--border2);font-size:13px;color:var(--muted)}
+.hero-badge b{background:var(--gold);color:#1a1200;padding:3px 10px;border-radius:999px;font-family:var(--mono);font-size:12px;letter-spacing:.05em}
+h1.hero-title{font-size:clamp(40px,7vw,92px);line-height:1.05;margin:28px 0 24px;font-weight:900;letter-spacing:-.02em}
+.hero-sub{font-size:clamp(16px,1.6vw,19px);color:var(--muted);max-width:760px;margin:0 auto 36px}
+.hero-sub b{color:var(--text)}
+.cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:999px;font-weight:700;font-size:15px;border:1px solid transparent;transition:transform .25s,box-shadow .25s,background .25s}
+.btn.primary{background:linear-gradient(90deg,var(--gold),var(--coral) 55%,var(--purple));color:#fff;box-shadow:0 10px 40px rgba(240,103,138,.35)}
+.btn.primary:hover{transform:translateY(-2px);box-shadow:0 16px 50px rgba(240,103,138,.5)}
+.btn.ghost{background:rgba(255,255,255,.06);border-color:var(--border2)}
+.btn.ghost:hover{background:rgba(255,255,255,.12);transform:translateY(-2px)}
+.btn.small{padding:9px 16px;font-size:13.5px}
+.btn.gold{background:var(--gold);color:#1a1200}
+.btn.gold:hover{background:#ffcb5c}
+.stat-strip{display:grid;grid-template-columns:repeat(4,1fr);margin:56px auto 0;max-width:900px;background:rgba(18,18,31,.7);border:1px solid var(--border);border-radius:var(--radius);backdrop-filter:blur(10px);overflow:hidden}
+.stat{padding:20px 18px;text-align:center;border-inline-end:1px solid var(--border)}
+.stat:last-child{border-inline-end:0}
+.stat .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;color:var(--dim);text-transform:uppercase}
+.stat .v{font-family:var(--mono);font-size:24px;font-weight:700;margin-top:6px}
+.stat .v.gold{color:var(--gold)}
+.scroll-hint{position:absolute;bottom:26px;inset-inline-start:50%;transform:translateX(-50%);color:var(--dim);font-size:12px;letter-spacing:.2em;font-family:var(--mono);animation:bob 2s ease-in-out infinite;z-index:1}
+@keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
+
+/* ROLES */
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+.chip{padding:8px 16px;border-radius:999px;border:1px solid var(--border2);background:rgba(255,255,255,.04);font-size:13.5px;font-weight:600;color:var(--muted);transition:all .25s}
+.chip:hover{color:var(--text);border-color:rgba(255,255,255,.3)}
+.chip.on{background:var(--text);color:#0c0c18;border-color:var(--text)}
+.roles-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.role{padding:22px 20px 20px;cursor:pointer;position:relative;text-align:start;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .35s,box-shadow .35s,opacity .3s}
+.role:hover{transform:translateY(-6px);border-color:var(--border2);box-shadow:0 20px 50px rgba(0,0,0,.45)}
+.role.on{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 20px 60px rgba(245,185,66,.18)}
+.role.hide{display:none}
+.role .ic{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;background:var(--card3);border:1px solid var(--border);font-size:22px;margin-bottom:16px}
+.role .chk{position:absolute;top:14px;inset-inline-end:14px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border2);display:grid;place-items:center;font-size:12px;color:transparent;transition:all .25s}
+.role.on .chk{background:var(--gold);border-color:var(--gold);color:#1a1200}
+.role h3{margin:0;font-size:17px;font-weight:800}
+.role .en{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;margin:4px 0 10px;font-weight:700}
+.role p{margin:0;font-size:13px;color:var(--muted);line-height:1.6}
+.role .sec{position:absolute;bottom:14px;inset-inline-end:16px;font-size:10.5px;color:var(--dim);font-family:var(--mono);letter-spacing:.1em}
+.c-bank{color:var(--green)}.c-ins{color:var(--coral)}.c-sec{color:var(--gold)}.c-cross{color:var(--violet)}.c-exec{color:var(--blue)}
+.role[data-sector=exec]{background:linear-gradient(160deg,rgba(96,165,250,.09),var(--card) 55%)}
+.role[data-sector=exec] .ic{border-color:rgba(96,165,250,.4)}
+.roles-foot{margin-top:28px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;color:var(--muted);font-size:14px}
+
+/* DAY */
+#day{background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 40%,var(--bg) 100%)}
+.day-layout{display:grid;grid-template-columns:330px 1fr;gap:40px;align-items:start}
+.day-panel{position:sticky;top:calc(var(--nav-h) + 20px);border-radius:22px;overflow:hidden;background:var(--card);border:1px solid var(--border);box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.sky{height:170px;position:relative;overflow:hidden;transition:background 1s}
+.sky .sun{position:absolute;width:38px;height:38px;border-radius:50%;background:#ffd66b;box-shadow:0 0 40px #ffd66b;transition:all 1s}
+.sky .city{position:absolute;bottom:0;inset-inline:0;height:80px}
+.sky .stars{position:absolute;inset:0;opacity:0;transition:opacity 1s;background-image:radial-gradient(1px 1px at 20% 30%,#fff,transparent),radial-gradient(1px 1px at 60% 20%,#fff,transparent),radial-gradient(1.2px 1.2px at 80% 50%,#fff,transparent),radial-gradient(1px 1px at 35% 60%,#fff,transparent),radial-gradient(1px 1px at 90% 15%,#fff,transparent),radial-gradient(1px 1px at 10% 70%,#fff,transparent)}
+.day-body{padding:22px 22px 20px}
+.day-clock{font-family:var(--mono);font-size:44px;font-weight:800;letter-spacing:-.02em;line-height:1}
+.day-title{font-size:17px;font-weight:800;margin:8px 0 14px;min-height:26px}
+.day-meta{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);margin-bottom:16px}
+.meter{margin:14px 0}
+.meter .row{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted)}
+.meter .row b{color:var(--text)}
+.meter .bar{height:6px;border-radius:999px;background:rgba(255,255,255,.08);margin-top:6px;overflow:hidden}
+.meter .bar i{display:block;height:100%;width:0;background:var(--grad);border-radius:999px;transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.meter .v-green{color:var(--green)!important;font-family:var(--mono)}
+.scrub{margin-top:18px}
+.scrub label{font-size:11.5px;letter-spacing:.14em;color:var(--dim);font-family:var(--mono);text-transform:uppercase}
+input[type=range]{width:100%;appearance:none;-webkit-appearance:none;height:6px;border-radius:999px;background:linear-gradient(90deg,var(--gold) var(--p,0%),rgba(255,255,255,.12) var(--p,0%));outline:none;margin:10px 0 4px}
+input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--gold);border:3px solid #1a1200;box-shadow:0 0 0 3px rgba(245,185,66,.3);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--gold);border:3px solid #1a1200;cursor:pointer}
+.ticks{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--dim)}
+.day-actions{display:flex;gap:8px;margin-top:16px}
+.day-actions .btn{flex:1;justify-content:center}
+.timeline{position:relative;padding-inline-start:44px}
+.timeline::before{content:"";position:absolute;inset-inline-start:14px;top:10px;bottom:10px;width:2px;background:linear-gradient(180deg,var(--gold),var(--coral),var(--purple));opacity:.6;border-radius:2px}
+.step{position:relative;margin-bottom:22px;padding:24px 26px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);transition:border-color .4s,box-shadow .4s,transform .4s;cursor:pointer}
+.step::before{content:"";position:absolute;inset-inline-start:-37px;top:30px;width:14px;height:14px;border-radius:50%;background:var(--card3);border:2px solid var(--dim);transition:all .4s}
+.step.on{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 24px 60px rgba(245,185,66,.12)}
+.step.on::before{background:var(--gold);border-color:var(--gold);box-shadow:0 0 18px var(--gold)}
+.step.past{opacity:.72}
+.step .t{font-family:var(--mono);font-size:12.5px;color:var(--gold);letter-spacing:.1em}
+.step h3{margin:6px 0 12px;font-size:21px;font-weight:800;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.step .caps{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.step .caps span{font-size:11.5px;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted)}
+.bubble{display:flex;gap:12px;margin-bottom:12px}
+.bubble .av{flex:0 0 32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:800;font-family:var(--mono)}
+.bubble.you .av{background:rgba(255,255,255,.1);border:1px solid var(--border2)}
+.bubble.ai .av{background:linear-gradient(135deg,var(--coral),var(--purple));color:#fff}
+.bubble .msg{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:12px 16px;font-size:14px;line-height:1.7;flex:1}
+.bubble.you .msg{border-color:rgba(255,255,255,.14)}
+.bubble .msg ul{margin:6px 0 0;padding-inline-start:18px;color:var(--muted)}
+.bubble .msg li{margin:3px 0}
+.bubble .msg li b{color:var(--text)}
+.deliv{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 0}
+.file{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:8px;font-size:12.5px;background:rgba(255,255,255,.05);border:1px solid var(--border2);font-family:var(--mono)}
+.file i{width:8px;height:8px;border-radius:2px;display:inline-block}
+.f-docx i{background:#4f8bff}.f-xlsx i{background:#21a366}.f-pptx i{background:#d24726}.f-pdf i{background:#e5484d}.f-mail i{background:var(--gold)}.f-teams i{background:#7b83eb}.f-cal i{background:#38bdf8}.f-app i{background:var(--coral)}.f-card i{background:#a78bfa}
+.step-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px dashed var(--border2);font-size:13px;color:var(--muted)}
+.step-foot .save b{color:var(--green);font-family:var(--mono);font-size:15px}
+.approval{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:#ffd98a;background:rgba(245,185,66,.07);border:1px dashed rgba(245,185,66,.35);border-radius:10px;padding:8px 12px;margin-top:10px}
+.approval.none{color:var(--muted);background:rgba(255,255,255,.03);border-color:var(--border)}
+.before{font-size:12.5px;color:var(--dim);margin-top:10px}
+.before b{color:var(--muted);font-weight:600}
+.note{font-size:12.5px;color:#9ff5bb;background:rgba(74,222,128,.06);border-inline-start:3px solid var(--green);padding:6px 10px;border-radius:6px;margin-top:10px}
+.plug{font-size:12.5px;color:#b6d4ff;background:rgba(96,165,250,.07);border-inline-start:3px solid var(--blue);padding:6px 10px;border-radius:6px;margin-top:10px}
+.day-summary{margin-top:10px;padding:26px 30px;border-radius:var(--radius);background:var(--grad-soft);border:1px solid var(--border2);display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.day-summary .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase}
+.day-summary .v{font-family:var(--mono);font-size:30px;font-weight:800;margin-top:4px}
+
+/* CAP MAP */
+.cap-layout{display:grid;grid-template-columns:1fr 1.4fr;gap:34px;align-items:start}
+.cap-list{display:grid;gap:10px}
+.capc{display:flex;gap:14px;align-items:flex-start;padding:16px 18px;cursor:pointer;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-s);transition:all .3s}
+.capc:hover{border-color:var(--border2);transform:translateX(4px)}
+.capc.on{border-color:var(--gold);background:var(--card2)}
+.capc .ic{flex:0 0 38px;height:38px;border-radius:10px;display:grid;place-items:center;font-size:18px;background:var(--card3);border:1px solid var(--border)}
+.capc h4{margin:0;font-size:15px;font-weight:800;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.capc h4 small{font-family:var(--mono);font-size:10.5px;color:var(--dim);letter-spacing:.1em;font-weight:600}
+.capc p{margin:4px 0 0;font-size:12.5px;color:var(--muted);line-height:1.55}
+.heat{padding:24px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius)}
+.heat-grid{display:grid;grid-template-columns:120px repeat(9,1fr);gap:6px;align-items:center}
+.heat .hh{font-size:11px;color:var(--dim);text-align:center;font-family:var(--mono);letter-spacing:.05em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.heat .rh{font-size:12.5px;font-weight:700;padding-inline-end:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cell{aspect-ratio:1.6;border-radius:7px;background:rgba(255,255,255,.04);border:1px solid var(--border);cursor:pointer;transition:transform .2s,box-shadow .2s;position:relative}
+.cell:hover{transform:scale(1.08);z-index:2;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.cell.l1{background:rgba(139,92,246,.28)}.cell.l2{background:rgba(240,103,138,.45)}.cell.l3{background:rgba(245,185,66,.7)}
+.cell.on{outline:2px solid #fff;outline-offset:1px}
+.cell.rowon{border-color:rgba(255,255,255,.35)}
+.heat-detail{margin-top:20px;padding:18px 20px;border-radius:var(--radius-s);background:var(--card2);border:1px solid var(--border2);min-height:120px}
+.heat-detail .hd{font-size:12px;color:var(--dim);font-family:var(--mono);letter-spacing:.1em;margin-bottom:8px}
+.heat-detail h4{margin:0 0 8px;font-size:16px}
+.heat-detail .q{font-size:14px;line-height:1.7;color:var(--text);background:rgba(255,255,255,.04);border-inline-start:3px solid var(--gold);padding:8px 12px;border-radius:6px}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--muted);margin-top:14px;align-items:center;flex-wrap:wrap}
+.legend i{width:16px;height:12px;border-radius:3px;display:inline-block;vertical-align:middle;margin-inline-end:4px}
+.cap-detail{margin-top:14px;padding:18px 20px;border-radius:var(--radius-s);background:var(--card2);border:1px solid var(--border2)}
+.cap-detail .src{font-size:12px;color:var(--dim);margin-top:8px}
+
+/* SIM */
+#sim{background:linear-gradient(180deg,var(--bg),var(--bg2) 50%,var(--bg))}
+.sim-layout{display:grid;grid-template-columns:360px 1fr;gap:30px;align-items:start}
+.sim-left h4{margin:0 0 10px;font-size:13px;font-family:var(--mono);letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
+.preset{display:block;width:100%;text-align:start;padding:14px 16px;margin-bottom:8px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-s);font-size:13.5px;line-height:1.55;transition:all .25s}
+.preset:hover{border-color:var(--border2);transform:translateX(4px)}
+.preset.on{border-color:var(--gold)}
+.preset small{display:block;font-family:var(--mono);font-size:10.5px;color:var(--gold);letter-spacing:.1em;margin-bottom:4px}
+.sim-input{display:flex;gap:8px;margin-top:14px}
+.sim-input input{flex:1;background:var(--card);border:1px solid var(--border2);border-radius:12px;padding:12px 14px;color:var(--text);font-size:14px;outline:none}
+.sim-input input:focus{border-color:var(--gold)}
+.sim-hint{font-size:12px;color:var(--dim);margin-top:10px;line-height:1.6}
+.sim-win{background:var(--card);border:1px solid var(--border2);border-radius:20px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.6);min-height:560px;display:flex;flex-direction:column}
+.sim-bar{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--card2);font-size:12.5px;color:var(--muted)}
+.sim-bar .dots i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-inline-end:5px}
+.sim-bar .tabs{margin-inline-start:auto;display:flex;gap:6px}
+.sim-bar .tabs span{padding:3px 10px;border-radius:999px;border:1px solid var(--border2);font-size:11.5px}
+.sim-bar .tabs span.on{background:var(--text);color:#0c0c18;border-color:var(--text)}
+.sim-body{padding:22px;flex:1;display:flex;flex-direction:column;gap:14px;overflow:auto;max-height:680px;scroll-behavior:smooth}
+.appr .acts button:disabled{opacity:.45;cursor:default;transform:none}
+.sim-status{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);font-family:var(--mono)}
+.sim-status i{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+.sim-status.busy i{background:var(--gold);box-shadow:0 0 10px var(--gold);animation:pulse2 1s infinite}
+@keyframes pulse2{50%{opacity:.3}}
+.sim-msg{opacity:0;transform:translateY(10px);animation:pop .5s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes pop{to{opacity:1;transform:none}}
+.plan{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:14px 16px}
+.plan .ph{font-size:11.5px;font-family:var(--mono);letter-spacing:.14em;color:var(--dim);text-transform:uppercase;margin-bottom:8px}
+.plan li{list-style:none;display:flex;gap:10px;align-items:center;font-size:13.5px;padding:5px 0;color:var(--muted);transition:color .3s}
+.plan li i{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--dim);display:grid;place-items:center;font-size:9px;transition:all .3s;flex:0 0 16px}
+.plan li.doing{color:var(--text)}.plan li.doing i{border-color:var(--gold);border-style:dashed;animation:spin 1.2s linear infinite}
+.plan li.done{color:var(--text)}.plan li.done i{background:var(--green);border-color:var(--green);color:#052e16}
+.plan ul{margin:0;padding:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+.skillchip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:8px;background:rgba(139,92,246,.14);border:1px solid rgba(139,92,246,.4);font-size:12px;color:#d4c6ff;font-family:var(--mono)}
+.skillrow{display:flex;gap:6px;flex-wrap:wrap}
+.appr{background:rgba(245,185,66,.06);border:1px solid rgba(245,185,66,.45);border-radius:14px;padding:16px 18px}
+.appr .ah{display:flex;align-items:center;gap:8px;font-weight:800;font-size:14px;color:var(--gold);margin-bottom:8px}
+.appr .body{font-size:13.5px;color:var(--muted);line-height:1.65;background:rgba(0,0,0,.25);border-radius:10px;padding:10px 12px;margin-bottom:12px;white-space:pre-line}
+.appr .acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.appr .acts small{color:var(--dim);font-size:11.5px;margin-inline-start:auto}
+.appr.approved{border-color:var(--green);background:rgba(74,222,128,.06)}
+.appr.approved .ah{color:var(--green)}
+.appr.skipped{border-color:var(--border2);background:rgba(255,255,255,.03)}
+.appr.skipped .ah{color:var(--muted)}
+.deliver{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:14px 16px}
+.deliver .dh{font-size:11.5px;font-family:var(--mono);letter-spacing:.14em;color:var(--green);text-transform:uppercase;margin-bottom:10px}
+.typing{display:inline-flex;gap:4px;align-items:center;padding:8px 12px}
+.typing i{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
+.typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
+.trust-row{display:flex;gap:18px;flex-wrap:wrap;padding:12px 22px;border-top:1px solid var(--border);font-size:12px;color:var(--muted);font-family:var(--mono)}
+.trust-row span::before{content:"◆ ";color:var(--gold)}
+.audit{background:rgba(0,0,0,.35);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-family:var(--mono);font-size:11.5px;color:var(--muted);line-height:1.7;max-height:120px;overflow:auto}
+.audit div span{color:var(--gold)}
+
+/* COMPARE */
+.cmp-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:22px}
+.cmp{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--border2);min-height:520px;user-select:none;-webkit-user-select:none;background:var(--card);display:grid;touch-action:none;cursor:ew-resize;isolation:isolate}
+.cmp .side{grid-area:1/1;padding:34px 38px;min-height:520px;will-change:clip-path;transform:translateZ(0);backface-visibility:hidden;pointer-events:none}
+.cmp .left{background:linear-gradient(135deg,#101020,#0b0b17);clip-path:inset(0 calc(100% - var(--x,50%)) 0 0)}
+.cmp .right{background:linear-gradient(135deg,rgba(139,92,246,.22),rgba(240,103,138,.12) 60%,rgba(245,185,66,.12)),var(--card);clip-path:inset(0 0 0 var(--x,50%))}
+.cmp .side h3{margin:0 0 6px;font-size:26px;font-weight:900}
+.cmp .side .tag{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--dim);text-transform:uppercase}
+.cmp .right .tag{color:#ffd98a}
+.cmp .side ul{margin:22px 0 0;padding:0;list-style:none;display:grid;gap:10px;max-width:560px}
+.cmp .side li{display:flex;gap:12px;align-items:flex-start;font-size:14.5px;line-height:1.6;padding:10px 14px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--border)}
+.cmp .left li::before{content:"✕";color:var(--coral);font-weight:900;flex:0 0 14px}
+.cmp .right li::before{content:"✓";color:var(--green);font-weight:900;flex:0 0 14px}
+.cmp .side .tot{margin-top:22px;font-family:var(--mono);font-size:13px;color:var(--muted)}
+.cmp .side .tot b{font-size:26px;display:block;color:var(--text)}
+.cmp .right .tot b{color:var(--green)}
+.cmp .handle{position:absolute;top:0;bottom:0;inset-inline-start:var(--x,50%);width:2px;background:var(--gold);transform:translateX(-1px);cursor:ew-resize;z-index:3;will-change:left;pointer-events:none}
+.cmp .handle::after{content:"◀ ▶";position:absolute;top:50%;inset-inline-start:50%;transform:translate(-50%,-50%);background:var(--gold);color:#1a1200;font-size:11px;font-weight:800;padding:8px 10px;border-radius:999px;white-space:nowrap;box-shadow:0 8px 30px rgba(245,185,66,.5);font-family:var(--mono)}
+
+/* TRUST */
+.trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tcard{padding:24px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);position:relative;overflow:hidden}
+.tcard::before{content:"";position:absolute;top:0;inset-inline:0;height:3px;background:var(--grad)}
+.tcard .n{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--gold)}
+.tcard h4{margin:8px 0 4px;font-size:18px;font-weight:800}
+.tcard .en{font-size:12px;color:var(--dim);font-family:var(--mono);margin-bottom:14px}
+.tcard ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.tcard li{font-size:13.5px;color:var(--muted);display:flex;gap:8px;line-height:1.55}
+.tcard li::before{content:"→";color:var(--green);flex:0 0 14px}
+.tcard li b{color:var(--text)}
+.callout{margin-top:26px;padding:22px 26px;border-radius:var(--radius);background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.35);display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.callout h4{margin:0 0 8px;font-size:16px;display:flex;align-items:center;gap:8px}
+.callout p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.7}
+.callout .plugs{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.callout .plugs span{font-size:12px;padding:4px 10px;border-radius:8px;background:rgba(255,255,255,.05);border:1px solid var(--border2);font-family:var(--mono)}
+
+/* CALC */
+.calc-layout{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start}
+.calc-in{padding:28px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);display:grid;gap:22px}
+.field label{display:flex;justify-content:space-between;font-size:13.5px;color:var(--muted);margin-bottom:6px}
+.field label b{color:var(--text);font-family:var(--mono)}
+.field select{width:100%;background:var(--card2);border:1px solid var(--border2);border-radius:10px;padding:10px 12px;color:var(--text);font-size:14px}
+.mix{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.mix button{padding:12px 8px;border-radius:12px;border:1px solid var(--border2);background:var(--card2);font-size:12.5px;line-height:1.5;transition:all .25s}
+.mix button b{display:block;font-size:14px}
+.mix button.on{border-color:var(--gold);background:rgba(245,185,66,.1)}
+.calc-out{display:grid;gap:14px}
+.kpi{padding:22px 26px;border-radius:var(--radius);background:var(--card);border:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:20px}
+.kpi.hero-kpi{background:var(--grad-soft);border-color:var(--border2)}
+.kpi .k{font-size:13.5px;color:var(--muted)}
+.kpi .k small{display:block;font-size:11.5px;color:var(--dim);margin-top:2px}
+.kpi .v{font-family:var(--mono);font-size:34px;font-weight:800;white-space:nowrap}
+.kpi .v.g{color:var(--green)}
+.kpi .v small{font-size:14px;color:var(--muted);margin-inline-start:4px;font-weight:600}
+.credits{padding:20px 24px;border-radius:var(--radius);background:var(--card);border:1px solid var(--border)}
+.credits .row{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:8px}
+.credits .bar{height:10px;border-radius:999px;background:rgba(255,255,255,.06);display:flex;overflow:hidden}
+.credits .bar i{display:block;height:100%;transition:width .6s}
+.credits .bar i.l{background:var(--green)}.credits .bar i.m{background:var(--gold)}.credits .bar i.h{background:var(--coral)}
+.credits p{font-size:12px;color:var(--dim);margin:12px 0 0;line-height:1.65}
+.disclaimer{font-size:12px;color:var(--dim);margin-top:16px;line-height:1.7}
+
+/* HUMAN */
+.human-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.hcard{padding:26px 22px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);transition:transform .35s,border-color .35s}
+.hcard:hover{transform:translateY(-6px);border-color:var(--green)}
+.hcard .ic{font-size:28px;margin-bottom:14px}
+.hcard h4{margin:0 0 8px;font-size:17px;font-weight:800}
+.hcard p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.65}
+.closing{margin-top:60px;text-align:center;padding:60px 30px;border-radius:26px;background:var(--grad-soft);border:1px solid var(--border2);position:relative;overflow:hidden}
+.closing h3{font-size:clamp(28px,3.4vw,44px);margin:0 0 14px;font-weight:900}
+.closing p{color:var(--muted);max-width:640px;margin:0 auto 26px;font-size:16px}
+
+footer{padding:50px 0 40px;border-top:1px solid var(--border);color:var(--dim);font-size:12.5px}
+footer .cols{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:30px}
+footer h5{margin:0 0 10px;color:var(--muted);font-size:12px;letter-spacing:.14em;font-family:var(--mono);text-transform:uppercase}
+footer ul{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+footer a{color:var(--muted);border-bottom:1px dotted var(--dim)}
+footer a:hover{color:var(--text)}
+footer .fine{margin-top:28px;padding-top:18px;border-top:1px solid var(--border);line-height:1.7}
+
+/* toast */
+.toast{position:fixed;bottom:26px;inset-inline-start:50%;transform:translate(-50%,20px);background:var(--card2);border:1px solid var(--gold);color:var(--text);padding:12px 18px;border-radius:12px;font-size:13.5px;z-index:60;opacity:0;pointer-events:none;transition:all .35s;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (max-width:1100px){
+  .roles-grid{grid-template-columns:repeat(3,1fr)}
+  .heat-grid{grid-template-columns:96px repeat(9,1fr)}
+  .human-grid{grid-template-columns:repeat(2,1fr)}
+  .trust-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:900px){
+  .navlinks{display:none;position:absolute;top:var(--nav-h);inset-inline:0;background:rgba(7,7,15,.96);flex-direction:column;padding:12px 20px 18px;border-bottom:1px solid var(--border)}
+  .navlinks.open{display:flex}
+  .nav-toggle{display:block}
+  .day-layout,.cap-layout,.sim-layout,.calc-layout,.callout{grid-template-columns:1fr}
+  .day-panel{position:relative;top:0}
+  .stat-strip{grid-template-columns:repeat(2,1fr)}
+  .stat:nth-child(2){border-inline-end:0}
+  .stat:nth-child(-n+2){border-bottom:1px solid var(--border)}
+  .roles-grid{grid-template-columns:repeat(2,1fr)}
+  .day-summary{grid-template-columns:1fr}
+  .cmp .side{padding:22px}
+  .cmp .side h3{font-size:20px}
+  .cmp .side li{font-size:13px}
+  footer .cols{grid-template-columns:1fr}
+  section{padding:80px 0}
+}
+@media (max-width:560px){
+  .roles-grid,.human-grid,.trust-grid{grid-template-columns:1fr}
+  .wrap{padding:0 18px}
+  .heat-grid{grid-template-columns:70px repeat(9,1fr);gap:3px}
+  .heat .hh{font-size:8px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="dot"></span>Copilot Cowork <small>/ 金融業一日實戰 · FSI Day-in-the-Life</small></a>
+    <button class="nav-toggle" id="navToggle" aria-label="選單">☰ 選單</button>
+    <div class="navlinks" id="navlinks">
+      <a href="#roles">選角色</a>
+      <a href="#day">你的一天</a>
+      <a href="#capmap">能力地圖</a>
+      <a href="#sim">Cowork 模擬器</a>
+      <a href="#compare">今昔對照</a>
+      <a href="#trust">治理與信任</a>
+      <a href="#calc">效益試算</a>
+      <a href="#human">人的價值</a>
+    </div>
+  </div>
+</nav>
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- HERO -->
+<section id="top">
+  <canvas id="bgc"></canvas>
+  <div class="hero-glow"></div>
+  <div class="wrap hero-inner">
+    <div class="hero-badge reveal"><b>GA · 2026.06</b> Interactive Experience · 今天就能跑的金融業工作流</div>
+    <h1 class="hero-title reveal" data-delay="1">不是預言，是 Cowork<br><span class="grad-text">今天就能幫你做的事</span></h1>
+    <p class="hero-sub reveal" data-delay="2">這不是功能清單，而是一個<b>可以實際操作的體驗網站</b>：從 16 個金融業角色（含 6 位高階主管）裡選一個最像你的，拉動時間軸，看 Copilot Cowork 用<b>已正式上線（GA）</b>的功能幫你處理一天當中的哪些工作、哪些動作需要先經過你確認——以及，哪些判斷還是只有你能做。</p>
+    <div class="cta-row reveal" data-delay="3">
+      <a class="btn primary" href="#roles">開始你的一天 →</a>
+      <a class="btn ghost" href="#sim">先試試 Cowork 模擬器</a>
+    </div>
+    <div class="stat-strip reveal" data-delay="4">
+      <div class="stat"><div class="k">Simulated date</div><div class="v" id="heroDate">2026.09.10</div></div>
+      <div class="stat"><div class="k">Local time · Taipei</div><div class="v gold" id="heroClock">13:38:10</div></div>
+      <div class="stat"><div class="k">Roles · Scenarios</div><div class="v"><span data-count="16">0</span> · <span data-count="80">0</span></div></div>
+      <div class="stat"><div class="k">Built-in capabilities</div><div class="v"><span data-count="9">0</span> <small style="font-size:12px;color:var(--muted)">大功能 · 已上線</small></div></div>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL ↓</div>
+</section>
+
+<!-- ROLES -->
+<section id="roles">
+  <div class="wrap">
+    <div class="sec-label reveal">STEP 01 · PICK YOUR ROLE</div>
+    <h2 class="sec-title reveal" data-delay="1">先選一個<span class="grad-text">最像你的角色</span></h2>
+    <p class="sec-sub reveal" data-delay="2">橫跨銀行、保險、證券投信、跨業職能，以及總經理、CFO、CRO、CIO、法遵長、區域總經理等高階主管。每個角色都對應一天 5 段真實的工作流程，每一段都標出 Cowork 用到的功能、需要你確認的動作，以及仍然由你來做的判斷。</p>
+    <div class="filter-row reveal" data-delay="2" id="sectorFilters">
+      <button class="chip on" data-sector="all">全部</button>
+      <button class="chip" data-sector="bank">銀行 Banking</button>
+      <button class="chip" data-sector="ins">保險 Insurance</button>
+      <button class="chip" data-sector="sec">證券投信 Capital Markets</button>
+      <button class="chip" data-sector="cross">跨業職能 Cross-functional</button>
+      <button class="chip" data-sector="exec">★ 高階主管 Executive</button>
+    </div>
+    <div class="roles-grid reveal" data-delay="3" id="rolesGrid"></div>
+    <div class="roles-foot reveal">
+      <span id="roleHint">目前選擇：<b>分行理專</b>。點任一張卡切換角色，下方所有區塊會同步更新。</span>
+      <a class="btn gold small" href="#day">看這個角色的一天 ↓</a>
+    </div>
+  </div>
+</section>
+
+<!-- DAY -->
+<section id="day">
+  <div class="wrap">
+    <div class="sec-label reveal">STEP 02 · YOUR DAY WITH COWORK</div>
+    <h2 class="sec-title reveal" data-delay="1"><span id="dayRoleName">分行理專</span>的一天，<span class="grad-text">哪些事交給了 Cowork？</span></h2>
+    <p class="sec-sub reveal" data-delay="2">拉動左側時間軸，或按「自動播放」。每一段都分三層呈現：<b style="color:var(--text)">你的一句話（prompt）</b> → <b style="color:var(--text)">Cowork 幫你做了什麼</b> → <b style="color:var(--gold)">🔒 需要你確認的動作</b>。</p>
+    <div class="day-layout">
+      <aside class="day-panel reveal">
+        <div class="sky" id="sky">
+          <div class="stars"></div>
+          <div class="sun" id="sun"></div>
+          <svg class="city" viewBox="0 0 330 80" preserveAspectRatio="none" aria-hidden="true">
+            <g fill="#1b1b30">
+              <rect x="0" y="40" width="22" height="40"/><rect x="26" y="22" width="18" height="58"/><rect x="48" y="48" width="26" height="32"/><rect x="78" y="10" width="20" height="70"/><rect x="102" y="34" width="16" height="46"/><rect x="122" y="18" width="28" height="62"/><rect x="154" y="44" width="18" height="36"/><rect x="176" y="6" width="22" height="74"/><rect x="202" y="30" width="18" height="50"/><rect x="224" y="50" width="26" height="30"/><rect x="254" y="14" width="20" height="66"/><rect x="278" y="38" width="24" height="42"/><rect x="306" y="24" width="24" height="56"/>
+            </g>
+            <g fill="#f5b942" opacity=".55" id="cityLights">
+              <rect x="30" y="30" width="3" height="3"/><rect x="36" y="38" width="3" height="3"/><rect x="82" y="18" width="3" height="3"/><rect x="90" y="30" width="3" height="3"/><rect x="128" y="26" width="3" height="3"/><rect x="140" y="40" width="3" height="3"/><rect x="180" y="14" width="3" height="3"/><rect x="190" y="28" width="3" height="3"/><rect x="258" y="22" width="3" height="3"/><rect x="266" y="44" width="3" height="3"/><rect x="312" y="32" width="3" height="3"/>
+            </g>
+          </svg>
+        </div>
+        <div class="day-body">
+          <div class="day-clock" id="dayClock">08:30</div>
+          <div class="day-title" id="dayTitle">—</div>
+          <div class="day-meta"><span class="pill auto" id="dayMode">全自動處理</span><span class="mono" id="dayStep">1 / 5</span></div>
+          <div class="meter">
+            <div class="row"><span>目前已交給 Cowork 處理的比例</span><b id="dayPct">0%</b></div>
+            <div class="bar"><i id="dayBar"></i></div>
+          </div>
+          <div class="meter">
+            <div class="row"><span>今天已經省下</span><b class="v-green" id="daySaved">0 分</b></div>
+          </div>
+          <div class="scrub">
+            <label>拉動時間軸 · Scrub the day</label>
+            <input type="range" id="scrub" min="0" max="100" value="0">
+            <div class="ticks"><span>06:00</span><span>10:00</span><span>14:00</span><span>18:00</span><span>22:00</span></div>
+          </div>
+          <div class="day-actions">
+            <button class="btn ghost small" id="playBtn">▶ 自動播放一天</button>
+            <button class="btn ghost small" id="resetBtn">↺ 重來</button>
+          </div>
+        </div>
+      </aside>
+      <div>
+        <div class="timeline" id="timeline"></div>
+        <div class="day-summary reveal" id="daySummary">
+          <div><div class="k">今天總共省下（參考估算）</div><div class="v" style="color:var(--green)" id="sumSaved">—</div></div>
+          <div><div class="k">需要你確認的動作</div><div class="v" style="color:var(--gold)" id="sumApprovals">—</div></div>
+          <div><div class="k">仍由你來做的關鍵判斷</div><div class="v" id="sumHuman">—</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAP MAP -->
+<section id="capmap">
+  <div class="wrap">
+    <div class="sec-label reveal">STEP 03 · CAPABILITY MAP</div>
+    <h2 class="sec-title reveal" data-delay="1">9 大能力 × 16 個角色，<span class="grad-text">誰用到什麼？</span></h2>
+    <p class="sec-sub reveal" data-delay="2">左邊是 Cowork 目前的功能分類（依 Microsoft Learn 官方文件整理），右邊是熱圖：越亮代表該角色一天中用得越多。點任一格，就能看到該角色實際使用的中文 prompt。</p>
+    <div class="cap-layout">
+      <div class="reveal">
+        <div class="cap-list" id="capList"></div>
+        <div class="cap-detail" id="capDetail"></div>
+      </div>
+      <div class="reveal" data-delay="1">
+        <div class="heat">
+          <div class="heat-grid" id="heatGrid"></div>
+          <div class="legend"><span><i style="background:rgba(255,255,255,.06)"></i>未使用</span><span><i style="background:rgba(139,92,246,.4)"></i>輕度</span><span><i style="background:rgba(240,103,138,.55)"></i>中度</span><span><i style="background:rgba(245,185,66,.8)"></i>重度</span><span style="margin-inline-start:auto;color:var(--dim)">依角色一日場景的使用次數計算</span></div>
+          <div class="heat-detail" id="heatDetail"><div class="hd">CLICK A CELL</div><h4>點任一格，看該角色怎麼用這項功能</h4><div class="q">例如：分行理專 × 文件 → 「把過去半年往來 email、上次會議紀錄、持有商品整理成一頁摘要，並做一份 3 頁提案 PPT。」</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIM -->
+<section id="sim">
+  <div class="wrap">
+    <div class="sec-label reveal">STEP 04 · COWORK SIMULATOR</div>
+    <h2 class="sec-title reveal" data-delay="1">看 Cowork 怎麼<span class="grad-text">規劃 → 執行 → 確認 → 交付</span></h2>
+    <p class="sec-sub reveal" data-delay="2">這是 Cowork 的核心運作方式（Plan → Execute → Approve → Deliver）：把你的一句話變成計畫、載入需要的 skills、在敏感動作前先停下來問你、最後產出檔案並留下操作紀錄。選一個範例任務，或輸入你自己的。</p>
+    <div class="sim-layout">
+      <div class="sim-left reveal">
+        <h4>範例任務 · 依目前選的角色</h4>
+        <div id="presets"></div>
+        <div class="sim-input">
+          <input id="simInput" type="text" placeholder="或輸入你自己的任務…" maxlength="120">
+          <button class="btn gold small" id="simSend">送出</button>
+        </div>
+        <p class="sim-hint">這是模擬體驗：Cowork 的回應是預先設計的情境，用來示範「規劃、確認、交付」的流程；自訂任務會套用通用流程。實際的 Cowork 會依你的 M365 資料與權限執行。</p>
+      </div>
+      <div class="reveal" data-delay="1">
+        <div class="sim-win">
+          <div class="sim-bar"><span class="dots"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></span><span>Microsoft 365 Copilot · <b style="color:var(--text)">Cowork</b></span><span class="tabs"><span>Chat</span><span class="on">Cowork</span></span></div>
+          <div class="sim-body" id="simBody">
+            <div class="sim-status" id="simStatus"><i></i>已連線 · 等待任務</div>
+            <div class="sim-msg" style="color:var(--dim);font-size:13.5px;line-height:1.7">👋 選左側任一任務開始。你會看到 Cowork：<br>① 把任務拆成步驟　② 載入需要的 skills 逐步執行　③ 在寄信、貼文、建立行事曆前先停下來請你確認　④ 產出檔案並留下操作紀錄。</div>
+          </div>
+          <div class="trust-row"><span>人在迴路 Human-in-the-loop</span><span>敏感動作都要你確認</span><span>操作紀錄可稽核</span><span>資料不離開 M365</span><span>最終決策由人做</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARE -->
+<section id="compare">
+  <div class="wrap">
+    <div class="sec-label reveal">STEP 05 · THEN VS NOW</div>
+    <h2 class="sec-title reveal" data-delay="1">同一個職位，<span class="grad-text">有沒有 Cowork 的兩種日常</span></h2>
+    <p class="sec-sub reveal" data-delay="2">左右拉動中間的把手。左邊是現在多數金融從業人員的日常，右邊是同一份工作交給 Cowork 之後的樣子——注意右邊沒有消失的東西：判斷、簽核、客戶關係。</p>
+    <div class="cmp-controls reveal" data-delay="2"><span style="color:var(--muted);font-size:13.5px">角色：</span><select id="cmpRole" class="mono" style="background:var(--card);border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:8px 12px"></select></div>
+    <div class="cmp reveal" data-delay="3" id="cmp">
+      <div class="side left"><div class="tag">沒有 Cowork · 現在的做法</div><h3 id="cmpLeftTitle">分行理專的一天</h3><ul id="cmpLeft"></ul><div class="tot">每天花在找資料、做文件的時間<b id="cmpLeftTot">—</b></div></div>
+      <div class="side right"><div class="tag">有 Cowork · 今天就能這樣做</div><h3 id="cmpRightTitle">分行理專的一天</h3><ul id="cmpRight"></ul><div class="tot">省下的時間留給客戶與判斷<b id="cmpRightTot">—</b></div></div>
+      <div class="handle" id="cmpHandle"></div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section id="trust">
+  <div class="wrap">
+    <div class="sec-label reveal">STEP 06 · GOVERNANCE &amp; TRUST</div>
+    <h2 class="sec-title reveal" data-delay="1">金管會 AI 指引六大原則，<span class="grad-text">Cowork 怎麼對應？</span></h2>
+    <p class="sec-sub reveal" data-delay="2">金融業導入 agentic AI 的第一個問題不是「能做什麼」，而是「怎麼管」。以下把《金融業運用人工智慧（AI）指引》六大核心原則，逐一對應到 Cowork 的產品設計與 M365 既有的控管機制。</p>
+    <div class="trust-grid" id="trustGrid"></div>
+    <div class="callout reveal">
+      <div>
+        <h4>🔌 第三方 Plugin：先標「需經委外評估」</h4>
+        <p>Cowork 的 Microsoft 365 App Store 已有金融資料類 partner plugin。對金融業而言，這些屬於<b style="color:var(--text)">委外／第三方服務</b>，導入前需依《金融機構作業委託他人處理內部作業制度及程序辦法》等規範完成評估。本網站所有用到第三方 plugin 的場景都已標註。</p>
+        <div class="plugs"><span>LSEG</span><span>Moody's Credit</span><span>Morningstar</span><span>ClarityAI（ESG / SFDR）</span><span>S&amp;P Global Energy</span></div>
+      </div>
+      <div>
+        <h4>✅ M365 原生替代路徑</h4>
+        <p>在完成委外評估前，同樣的場景可以先用 Microsoft 原生能力跑起來：<b style="color:var(--text)">Fabric IQ</b>（Power BI 報表與語意模型，權限與 RLS 沿用）、<b style="color:var(--text)">Dynamics 365</b>（Sales / Customer Service / ERP）、<b style="color:var(--text)">Deep Research</b>（公開資訊＋企業內研究報告），以及<b style="color:var(--text)">自建 custom plugin</b> 連接行內核心系統。</p>
+        <div class="plugs"><span>Fabric IQ · Preview</span><span>Dynamics 365 · GA</span><span>Deep Research · GA</span><span>Custom plugin</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALC -->
+<section id="calc">
+  <div class="wrap">
+    <div class="sec-label reveal">STEP 07 · BENEFIT CALCULATOR</div>
+    <h2 class="sec-title reveal" data-delay="1">算一算，<span class="grad-text">你的團隊能省下多少時間？</span></h2>
+    <p class="sec-sub reveal" data-delay="2">以本站的一日場景為基準，調整人數與使用頻率。Cowork 依 Copilot Credits 用量計費（計費因子：模型、情境檢索、工具呼叫、執行時間），這個工具只顯示<b style="color:var(--text)">相對用量指數</b>，不預設任何價格——請以官方報價與貴公司 tenant 的實測為準。</p>
+    <div class="calc-layout">
+      <div class="calc-in reveal">
+        <div class="field"><label>角色 <b id="calcRoleName">分行理專</b></label><select id="calcRole"></select></div>
+        <div class="field"><label>團隊人數 <b id="calcPeopleV">20 人</b></label><input type="range" id="calcPeople" min="1" max="500" value="20"></div>
+        <div class="field"><label>每週使用 Cowork 的天數 <b id="calcDaysV">4 天</b></label><input type="range" id="calcDays" min="1" max="5" value="4"></div>
+        <div class="field"><label>每天實際使用的場景比例 <b id="calcAdoptV">60%</b></label><input type="range" id="calcAdopt" min="10" max="100" value="60" step="5"></div>
+        <div class="field"><label>任務類型組合 Task mix（影響 Credits 用量）</label>
+          <div class="mix" id="mix">
+            <button data-mix="light"><b>Light 為主</b>單一來源・一個產出</button>
+            <button data-mix="medium" class="on"><b>Medium 為主</b>多來源・兩個以上產出</button>
+            <button data-mix="heavy"><b>Heavy 為主</b>大量彙整・深度推理</button>
+          </div>
+        </div>
+        <div class="field"><label>運算模式 Effort（Cowork 內的設定）</label>
+          <div class="mix" id="effort">
+            <button data-effort="faster"><b>Faster</b>簡單任務・較省 credits</button>
+            <button data-effort="medium" class="on"><b>Medium</b>預設</button>
+            <button data-effort="smarter"><b>Smarter</b>複雜推理・較耗時</button>
+          </div>
+        </div>
+      </div>
+      <div class="calc-out reveal" data-delay="1">
+        <div class="kpi hero-kpi"><div class="k">全團隊每週省下的時間<small>本站場景參考估算 × 人數 × 天數 × 使用比例</small></div><div class="v g" id="outWeek">—</div></div>
+        <div class="kpi"><div class="k">每人每天省下<small>該角色一日場景加總 × 使用比例</small></div><div class="v" id="outDay">—</div></div>
+        <div class="kpi"><div class="k">一年省下（以 48 週計）<small>換算為相當於幾位全職人力（FTE），供內部溝通參考</small></div><div class="v" id="outYear">—</div></div>
+        <div class="credits">
+          <div class="row"><span>Copilot Credits 用量指數（相對值）</span><b id="outIdx" class="mono" style="color:var(--text)">—</b></div>
+          <div class="bar"><i class="l" id="barL"></i><i class="m" id="barM"></i><i class="h" id="barH"></i></div>
+          <p>指數 = 任務類型權重 × 運算模式權重 × 每週任務數；基準 100 = 20 人・Medium 任務・Medium 模式・每週 4 天・使用比例 60%。<br>官方定義：Light 任務使用少量資料來源、推理有限、產出不超過 1 個；Medium 為多來源、結構化推理、產出 2 個以上；Heavy 為大量彙整、深度推理、多項產出。實際 credits 用量請在 Cowork 中輸入 <span class="mono">/cost</span> 查詢。</p>
+        </div>
+        <p class="disclaimer">＊本試算僅供內部溝通與規劃參考；省下的時間為本站場景的假設值，並非 Microsoft 官方承諾，請以貴公司 pilot 的實測數據校正。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HUMAN -->
+<section id="human">
+  <div class="wrap">
+    <div class="sec-label reveal">STEP 08 · WHAT STAYS HUMAN</div>
+    <h2 class="sec-title reveal" data-delay="1">流程交給 Cowork，<span class="grad-text">判斷留在你手上</span></h2>
+    <p class="sec-sub reveal" data-delay="2">在全部 80 個場景裡，這四件事從頭到尾都由人負責——這不是限制，而是金融業信任的基礎。</p>
+    <div class="human-grid">
+      <div class="hcard reveal"><div class="ic">⚖️</div><h4>最終判斷與簽核</h4><p>授信核准、理賠決定、可疑交易申報、投資評等——Cowork 把資料備齊、結論欄留白，簽名的永遠是你。</p></div>
+      <div class="hcard reveal" data-delay="1"><div class="ic">🤝</div><h4>客戶關係與信任</h4><p>會前資料讓你更了解客戶，但坐在客戶對面、聽出言外之意、做出承諾並負責的人是你。</p></div>
+      <div class="hcard reveal" data-delay="2"><div class="ic">📜</div><h4>法規解釋與適用</h4><p>Cowork 能比對條文、找出差異、草擬修訂；法規如何解釋、適用到哪個業務，是法遵專業的核心。</p></div>
+      <div class="hcard reveal" data-delay="3"><div class="ic">🛡️</div><h4>風險承擔與例外處理</h4><p>灰色地帶、第一次出現的狀況、需要跨部門協調的例外——這些需要的是經驗與責任，不是更多文件。</p></div>
+    </div>
+    <div class="closing reveal">
+      <h3>從「問 AI」到「<span class="grad-text">把工作交給 AI</span>」</h3>
+      <p>Copilot Cowork 已於 2026 年 6 月正式上線。這裡的每一個場景，都是今天就能在貴公司的 Microsoft 365 環境中開始試行（pilot）的工作流程。</p>
+      <div class="cta-row"><a class="btn primary" href="#roles">再選一個角色試試 →</a><a class="btn ghost" href="#trust">回到治理對照</a></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div><h5>關於本站</h5><p style="margin:0;line-height:1.7">互動式展示網站，用於向金融業客戶分享 Copilot Cowork 的功能與導入思路。功能說明依 Microsoft Learn 官方文件（2026 年 9 月）整理；場景、prompt 與時間估算為參考設計，供討論使用。</p></div>
+      <div><h5>官方來源 Sources</h5><ul>
+        <li><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/">Copilot Cowork overview · Microsoft Learn</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/whats-new">What's new in Copilot Cowork · Microsoft Learn</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/cowork-available-plugins">Available plugins for Copilot Cowork · Microsoft Learn</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/fabric/iq/connectors/cowork-overview">Fabric IQ in Copilot Cowork · Microsoft Learn</a></li>
+        <li><a href="https://www.microsoft.com/en-us/microsoft-365/blog/2026/06/16/copilot-cowork-is-now-generally-available/">Copilot Cowork is now generally available · Microsoft 365 Blog</a></li>
+      </ul></div>
+      <div><h5>法規參考 Regulatory</h5><ul>
+        <li>金融監督管理委員會《金融業運用人工智慧（AI）指引》— 六大核心原則</li>
+        <li>Microsoft Adoption · Financial Services Scenario Library</li>
+      </ul></div>
+    </div>
+    <div class="fine">Microsoft、Microsoft 365、Copilot、Dynamics 365、Fabric、Power BI 為 Microsoft Corporation 之商標。本站為示範用途，非官方產品文件；功能可用性依 tenant、授權、地區與 rollout 階段而異。第三方服務名稱屬各自所有者。</div>
+  </div>
+</footer>
+<div class="toast" id="toast"></div>
+<script>
+/* ===================== DATA ===================== */
+const CAPS = [
+ {id:'workiq',name:'Work IQ 情境理解',en:'GROUNDING',ic:'🧠',status:'ga',
+  desc:'以你的 email、會議、Teams、OneDrive / SharePoint 檔案為依據來執行任務，權限完全沿用你本人的存取範圍。',
+  src:'Learn：「Cowork automatically grounds the work in your emails, meetings, messages, files, and data. Powered by Work IQ.」'},
+ {id:'comm',name:'溝通 Communication',en:'EMAIL · TEAMS',ic:'✉️',status:'ga',
+  desc:'草擬、回覆、轉寄、寄送 email；在 Teams 頻道與聊天發文；整理收件匣（分類、移動、刪除）；產出 stakeholder 溝通稿。',
+  src:'Learn：「Sends emails… Posts in Teams… Manage your inbox by sorting emails into folders.」'},
+ {id:'doc',name:'文件 Documents',en:'WORD · EXCEL · PPT · PDF',ic:'📄',status:'ga',
+  desc:'從零產出 Word / Excel / PowerPoint / PDF，編修你提供的既有檔案，建立 SharePoint / OneDrive 資料夾並重新歸檔。',
+  src:'Learn：「Create Word documents, Excel spreadsheets, PowerPoint presentations, and PDFs from scratch. Edit and refine existing documents.」'},
+ {id:'cal',name:'行事曆與會議',en:'CALENDAR · BRIEFING',ic:'📅',status:'ga',
+  desc:'自然語言排會、清理衝突、代為婉拒（可附理由）、會前 meeting intelligence、每日 daily briefing。',
+  src:'Learn：「Schedule meetings using natural language… Get meeting intelligence… Start your day with a daily briefing.」'},
+ {id:'research',name:'研究 Research',en:'SEARCH · DEEP RESEARCH',ic:'🔎',status:'ga',
+  desc:'跨企業內部搜尋文件、訊息與人員；Deep Research 綜合多來源產出附引用的完整分析。',
+  src:'Learn：「Perform deep research that synthesizes information from multiple sources into comprehensive reports.」'},
+ {id:'auto',name:'自動化 Automation',en:'SCHEDULED · EVENT-DRIVEN',ic:'⚡',status:'ga',
+  desc:'Scheduled prompts 定時執行；Event-driven tasks 在收到符合條件的 email 或 Teams 訊息（含 @mention）時自動觸發。統一於 Automations 頁面管理。',
+  src:'What\'s new 2026/08：「Set up tasks that run when something happens, such as when you receive a matching email or a Teams message.」'},
+ {id:'ext',name:'擴充 Skills & Plugins',en:'SKILLS · PLUGINS',ic:'🧩',status:'ga',
+  desc:'內建 skills + 最多 50 個自訂 skills；Plugins 連接 Fabric IQ（Power BI）、Dynamics 365、partner 服務與自建 custom plugin。',
+  src:'Learn：「You can create up to 50 custom skills… Plugins can give Cowork specialized expertise or connect it to external data sources.」'},
+ {id:'app',name:'App skill 建 App',en:'FRONTIER',ic:'🧱',status:'frontier',
+  desc:'用一句話描述就能建立輕量的互動式 app，不必寫程式；可在對話中修改、開啟、發布並分享給公司同事。另含圖片生成（image generation）。',
+  src:'What\'s new 2026/09：「Create lightweight, interactive apps from a description without writing code.」'},
+ {id:'browser',name:'Local browser use',en:'EDGE · ON-DEVICE',ic:'🌐',status:'ga',
+  desc:'在你的電腦上用 Microsoft Edge 完成網頁操作，沿用你現有的登入狀態與公司政策；你可以全程觀看、隨時停止或接手。',
+  src:'What\'s new 2026/08：「Cowork can complete web tasks for you in Microsoft Edge on your device, using your existing sign-ins.」'}
+];
+const CAPNAME = Object.fromEntries(CAPS.map(c=>[c.id,c.name]));
+const MODE = {auto:{cls:'auto',label:'全自動處理'},co:{cls:'co',label:'人機協作'},human:{cls:'human',label:'由你判斷'}};
+const SECTOR = {bank:{name:'銀行',cls:'c-bank'},ins:{name:'保險',cls:'c-ins'},sec:{name:'證券投信',cls:'c-sec'},cross:{name:'跨業',cls:'c-cross'}};
+const FT = {docx:'f-docx',xlsx:'f-xlsx',pptx:'f-pptx',pdf:'f-pdf',mail:'f-mail',teams:'f-teams',cal:'f-cal',app:'f-app',card:'f-card'};
+const F=(t,n)=>({t,n});
+
+const ROLES = [
+{id:'rm',sector:'bank',ic:'💼',name:'分行理專',en:'Wealth Relationship Manager',
+ desc:'客戶會議、商品推介、合規檢查、業績週報。你想要的是：把找資料的時間還給客戶。',
+ before:['開 Outlook、CRM、商品系統三個視窗自己拼今天的重點','翻半年 email 找上次跟客戶聊了什麼，再手做提案 PPT','推介話術送法遵審，等一天才知道哪句不能說','會後憑記憶寫 follow-up，兩週後忘了追','週五晚上從儀表板抄數字做週報'],
+ after:['一句話拿到今天的客戶會議、到期商品與待回 email 簡報','客戶 360 快照 + 提案 PPT 半小時內產出，準備時間自動排進行事曆','用行內檢核表先自檢，法遵只看有爭議的那三句','會議記錄自動變成 follow-up 草稿，經你確認後寄出並排定提醒','Fabric IQ 直接從 Power BI 抓數字產週報，寄給主管前你先看一眼'],
+ day:[
+  {t:'08:30',title:'今日客戶簡報 Daily briefing',mode:'auto',caps:['cal','workiq'],
+   you:'幫我整理今天的客戶會議、本週到期的定存與基金，以及還沒回的客戶 email，重點放最上面。',
+   ai:['掃描行事曆：<b>3 場客戶會議</b>，其中 14:00 王小姐為 VIP','比對持有商品：<b>2 筆</b>本週到期（1 筆定存、1 筆保本型基金）','整理 <b>5 封</b>待回客戶 email，標出 1 封提到「轉戶」的高風險訊號'],
+   approval:null,deliver:[F('card','今日簡報卡')],save:25,before:'開三個系統自己拼，約 30 分鐘。'},
+  {t:'09:30',title:'客戶會前包 Meeting packet',mode:'co',caps:['doc','research','workiq','cal'],
+   you:'下午 2 點要見王小姐，把過去半年往來 email、上次會議紀錄、目前持有商品整理成一頁摘要，再做一份 3 頁提案 PPT，並幫我排 30 分鐘準備時間。',
+   ai:['蒐集 <b>27 封</b> email、<b>2 份</b>會議 transcript、CRM 匯出檔','產出客戶快照：目標、風險屬性變化、上次承諾事項','依行內提案範本產出 3 頁 PPT（資產配置現況 / 建議 / 下一步）','在 13:15 建立「王小姐會前準備」行事曆事件'],
+   approval:'建立行事曆事件',deliver:[F('docx','王小姐_客戶快照.docx'),F('pptx','王小姐_資產配置建議.pptx'),F('cal','13:15 會前準備')],save:60,before:'翻 email 半小時、手做 PPT 一小時。',
+   note:'建議內容由你審閱調整；Cowork 不會替你做投資建議的最終判斷。'},
+  {t:'13:30',title:'推介話術合規自檢 Compliance check',mode:'human',caps:['doc','workiq'],
+   you:'用我們 SharePoint 上的《商品推介話術檢核表》檢查這份提案，把不合規或需修改的用詞標出來並建議替代寫法。',
+   ai:['讀取法遵部《商品推介話術檢核表 v3》','逐頁比對，標出 <b>3 處</b>「保證獲利」「穩賺」類用詞','給出符合檢核表的替代寫法，並附檢核表條號'],
+   approval:null,deliver:[F('docx','提案_合規修訂建議.docx')],save:20,before:'送法遵審核，來回等一天。',
+   note:'最終用詞由你決定；法遵仍保有正式審核權，Cowork 只是先幫你自檢。'},
+  {t:'15:30',title:'會後 follow-up',mode:'auto',caps:['comm','cal','workiq'],
+   you:'根據剛才跟王小姐的會議 transcript，寫一封 follow-up 給她，摘要今天的結論與下一步，附上提案 PDF，並在兩週後幫我排提醒。',
+   ai:['從 transcript 擷取 <b>3 項</b>結論與 <b>2 項</b>待辦','草擬 email（正式、繁中），附 提案.pdf','建立 2 週後「追蹤王小姐」提醒'],
+   approval:'寄出 email · 建立行事曆提醒',deliver:[F('mail','Follow-up email'),F('pdf','提案.pdf'),F('cal','2 週後提醒')],save:20,before:'憑記憶手寫，常常忘了追。'},
+  {t:'17:00',title:'業績週報 Weekly report',mode:'co',caps:['ext','doc','comm'],
+   you:'從 Power BI「理財業績儀表板」抓我這週的 AUM 變化、成交筆數與商品分佈，做成週報 Excel 並草擬一封信給主管。',
+   ai:['透過 <b>Fabric IQ</b> 查詢報表（沿用你的 RLS 權限）','產出週報 xlsx：AUM 變化、成交明細、商品分佈圖','草擬 email 摘要 3 個重點'],
+   approval:'寄出 email',deliver:[F('xlsx','理財週報_W37.xlsx'),F('mail','週報 email')],save:30,before:'從儀表板抄數字，約 40 分鐘。',
+   plug:'Fabric IQ plugin（Preview）· Microsoft 原生，權限與 Row-level security 沿用 Power BI 設定。'}
+ ]},
+{id:'crm',sector:'bank',ic:'🏢',name:'企金 RM',en:'Corporate Banking RM',
+ desc:'授信前研究、財務比率、內部協調、CRM 更新。你想要的是：少花半天在公開資訊觀測站。',
+ before:['半天翻公開資訊觀測站、新聞與舊報告，拼企業概況','把財報 PDF 的數字一格格 key 進 Excel','在 Teams 逐一問風控與法遵哪天有空','拜訪完回辦公室補 CRM，常常隔天才寫','授信案進度散在 email 與聊天裡'],
+ after:['Deep Research 一小時內給你附引用的產業與公司概況章節','財報 PDF 自動擷取成三年比率表與趨勢圖','Cowork 找共同時段、貼案件摘要、寄邀請，一次搞定','會議紀錄自動整理成 CRM 活動摘要，經你確認就更新','每天早上一張卡看完所有授信案進度'],
+ day:[
+  {t:'08:30',title:'授信案進度簡報',mode:'auto',caps:['cal','workiq','comm'],
+   you:'整理我手上 6 個授信案的最新進度（從 email 與「企金-授信審查」頻道），標出卡關超過 3 天的。',
+   ai:['彙整 6 案：<b>2 案</b>待補件、<b>1 案</b>風控已回覆、<b>3 案</b>審查中','標出 <b>1 案</b>卡在法遵回覆已 5 天','列出今日 2 場客戶拜訪的地點與同行者'],
+   approval:null,deliver:[F('card','授信案進度卡')],save:20,before:'翻 email 與頻道，約 25 分鐘。'},
+  {t:'09:00',title:'授信前企業研究 Deep Research',mode:'co',caps:['research','doc'],
+   you:'針對 ○○科技做授信前研究：近三年財報重點、產業景氣與風險、負面新聞，附引用來源，整理成 credit memo 的「產業與公司概況」章節初稿。',
+   ai:['Deep Research：公開財報、產業報告、新聞，<b>18 個來源</b>附引用','交叉比對行內既有的 <b>2 份</b>產業研究報告','產出 docx 章節：公司概況 / 產業 / 風險 / 待釐清問題'],
+   approval:null,deliver:[F('docx','○○科技_產業與公司概況.docx')],save:90,before:'半天翻資料、手打摘要。',
+   plug:'進階信評資料可接 Moody\'s / LSEG plugin（第三方，<b>需經委外評估</b>）；未評估前以公開資訊 + 行內研究報告替代。',
+   note:'授信意見與額度建議由 RM 與審查人員判斷，Cowork 只產出事實整理與待釐清清單。'},
+  {t:'11:00',title:'財務比率分析 Excel',mode:'co',caps:['doc'],
+   you:'把附件三年財報 PDF 的資產負債表與損益表擷取成 Excel，算流動比率、負債比、利息保障倍數、營運現金流／負債，並畫趨勢圖。',
+   ai:['擷取 3 年 <b>42 個</b>科目','建立比率公式（保留可追溯的公式，不是寫死數字）','產出趨勢圖與異常標記（負債比 3 年上升 12 個百分點）'],
+   approval:null,deliver:[F('xlsx','○○科技_財務比率.xlsx')],save:45,before:'手 key 數字 1 小時以上，容易錯。'},
+  {t:'14:00',title:'跨部門協調 Teams',mode:'auto',caps:['comm','cal'],
+   you:'在「企金-授信審查」頻道貼出本案摘要與待決事項，並找風控林經理、法遵陳襄理下週 30 分鐘的共同時段，發會議邀請。',
+   ai:['草擬頻道貼文（摘要 + 3 個待決事項）','查 3 人行事曆，找到下週二 10:30 共同空檔','建立會議邀請並附上 credit memo 初稿連結'],
+   approval:'貼出 Teams 訊息 · 寄出會議邀請',deliver:[F('teams','頻道貼文'),F('cal','週二 10:30 授信討論')],save:20,before:'來回私訊問時間，半天。'},
+  {t:'16:00',title:'拜訪紀錄 → CRM',mode:'co',caps:['ext','comm','workiq'],
+   you:'把今天下午拜訪 ○○科技的會議紀錄整理成 CRM 活動摘要，更新這個機會的階段為「審查中」，並列出我答應客戶的 3 件事。',
+   ai:['從會議紀錄擷取決議、承諾、下一步','透過 <b>Dynamics 365 Sales</b> plugin 建立活動紀錄、更新機會階段','建立 3 個待辦提醒'],
+   approval:'更新 CRM 紀錄 · 建立提醒',deliver:[F('card','CRM 活動摘要'),F('cal','3 個待辦')],save:15,before:'隔天才補 CRM，細節已忘。',
+   plug:'Dynamics 365 Sales plugin（Microsoft 原生，GA）；若行內 CRM 為其他系統，可建 custom plugin。'}
+ ]},
+{id:'cmp',sector:'cross',ic:'⚖️',name:'法遵人員',en:'Compliance Officer',
+ desc:'法規追蹤、內規修訂、教育訓練、稽核回覆追蹤。你想要的是：別再手動盯法規異動。',
+ before:['每天早上逐一開金管會、銀行局網站看新聞稿','收到函令後，人工翻內規總覽找受影響條文','修訂內規靠 Word 追蹤修訂慢慢改','教育訓練簡報與測驗每年重做','稽核缺失回覆逾期靠 Excel 人工追'],
+ after:['Scheduled prompt 每天 8:30 自動掃描並貼到頻道','Event-driven：函令 email 一進來就自動比對內規、產出影響評估','Cowork 依影響評估直接產出追蹤修訂版與修訂理由','簡報 + 測驗 app 一次做好，分享連結給全員','逾期清單自動整理，提醒信經你確認就寄出'],
+ day:[
+  {t:'08:30',title:'法規動態掃描（Scheduled）',mode:'auto',caps:['auto','research','comm'],
+   you:'【排程】每天早上 8:30，搜尋金管會、銀行局、保險局前一日新聞稿與函令，摘要並標出與我們業務相關者，貼到「法遵-法規動態」頻道。',
+   ai:['Scheduled prompt 自動執行','找到 <b>4 則</b>新聞稿、<b>1 則</b>函令；判定 2 則與本行相關','貼出摘要卡到頻道（含原始連結）'],
+   approval:'首次設定排程時確認 · 貼出 Teams 訊息（可設定同頻道免再問）',deliver:[F('teams','法規動態摘要')],save:30,before:'每天手動逐站瀏覽 30 分鐘。'},
+  {t:'10:00',title:'函令影響評估（Event-driven）',mode:'auto',caps:['auto','workiq','doc','comm'],
+   you:'【事件】當我收到主旨含「金管會」或「函令」的 email，自動擷取要點、比對 SharePoint《內規總覽》找出受影響條文，產出影響評估初稿並在 Teams 通知我。',
+   ai:['Event-driven task 被 10:02 收到的函令 email 觸發','讀取附件 PDF，擷取 <b>5 項</b>新要求','比對《內規總覽》<b>142 條</b>，找出 <b>7 條</b>受影響','產出影響評估 docx，Teams 私訊通知'],
+   approval:'發送 Teams 通知',deliver:[F('docx','函令_影響評估初稿.docx'),F('teams','通知')],save:60,before:'人工翻內規半天。',
+   note:'法規如何解釋、是否適用，由法遵人員判斷；Cowork 提供的是「哪些條文可能相關」的初篩。'},
+  {t:'13:00',title:'內規修訂草稿',mode:'co',caps:['doc','workiq'],
+   you:'根據上午的影響評估，修訂《個人資料保護作業辦法》第 5、8、12 條，用追蹤修訂格式，每處附修訂理由與對應函令段落。',
+   ai:['開啟現行辦法 docx','以追蹤修訂產出 3 條修訂','每處附註：修訂理由 + 函令段落引用'],
+   approval:null,deliver:[F('docx','個資保護作業辦法_修訂草稿.docx')],save:45,before:'手動改稿、對照條文，2 小時。'},
+  {t:'15:00',title:'教育訓練材料 + 測驗 app',mode:'co',caps:['doc','app'],
+   you:'做一份 10 頁的全員教育訓練簡報說明這次修訂，並建一個 5 題的小測驗 app 讓同仁作答、看到自己的分數。',
+   ai:['產出 10 頁 pptx（背景 / 修訂重點 / 案例 / Q&A）','用 <b>App skill</b> 建立 5 題測驗 app，含即時計分','產生分享連結'],
+   approval:'發布並分享 app',deliver:[F('pptx','個資修訂_教育訓練.pptx'),F('app','個資測驗 app')],save:60,before:'簡報半天，測驗靠 Forms 另做。',
+   plug:'App skill 目前為 <b>Frontier</b> 功能，需 tenant 啟用 Frontier program。'},
+  {t:'17:00',title:'稽核缺失回覆追蹤',mode:'auto',caps:['comm','workiq'],
+   you:'找出所有「稽核缺失回覆」相關 email 中，超過回覆期限還沒回的單位，列出負責人與逾期天數，各寄一封提醒信。',
+   ai:['掃描 <b>38 封</b>相關 email，比對回覆期限','找出 <b>4 個</b>單位逾期（最長 9 天）','草擬 4 封提醒信（附原始要求與期限）'],
+   approval:'寄出 4 封 email（可設定「同域名收件人本次免再問」）',deliver:[F('mail','4 封提醒信'),F('xlsx','逾期追蹤清單.xlsx')],save:20,before:'人工核對 Excel 追蹤表。'}
+ ]},
+{id:'aml',sector:'bank',ic:'🕵️',name:'AML 調查員',en:'AML Investigator',
+ desc:'警示排序、交易對手研究、交易圖表、調查報告。你想要的是：把時間留給真正的判斷。',
+ before:['早上打開 12 件警示，一件件手動判斷先看哪個','逐一 Google 交易對手的負面新聞，半天','交易明細丟 Excel 手畫圖','報告範本一格格填，複製貼上','存檔、通知主管、排討論分三步做'],
+ after:['警示依金額 × 國家風險 × 歷史次數自動排序','Deep Research 給你附來源與日期的負面新聞整理','交易時序圖與對手方分佈自動產出','範本自動填好事實與圖表，結論欄留白給你','一句話完成歸檔 + 通知 + 排會'],
+ day:[
+  {t:'09:00',title:'警示案件排序',mode:'co',caps:['doc','workiq'],
+   you:'把今天分派給我的 12 件交易監控警示（附件 Excel）依金額、對手國家風險等級、該客戶歷史警示次數排序，做成今日工作清單並標出前 3 件。',
+   ai:['讀取 12 筆警示','依三個維度加權排序（權重可調）','標出前 3 件：跨境 + 高風險國家 + 歷史 2 次'],
+   approval:null,deliver:[F('xlsx','今日警示排序.xlsx')],save:20,before:'一件件手動看，約 30 分鐘。',
+   note:'排序只是工作順序建議；每件是否可疑仍由調查員判斷。'},
+  {t:'09:30',title:'交易對手深度研究',mode:'co',caps:['research'],
+   you:'針對案件 #A-2031 的交易對手「○○貿易公司」做公開資訊研究：負面新聞、公司登記變更、關聯企業，附來源與日期，整理成研究筆記。',
+   ai:['Deep Research：新聞、公司登記公開資料、法院公告','找到 <b>3 則</b>負面新聞（其中 1 則涉及關聯公司）','列出 <b>2 次</b>近一年負責人變更'],
+   approval:null,deliver:[F('docx','A-2031_對手方研究筆記.docx')],save:60,before:'逐一搜尋、存證，半天。',
+   note:'制裁名單與 PEP 正式篩查仍以行內 AML 系統為準；Cowork 補充的是公開資訊脈絡。'},
+  {t:'11:00',title:'交易模式圖表',mode:'auto',caps:['doc'],
+   you:'把附件近 6 個月的交易明細做成 Excel：時序圖、對手方分佈圖、單筆金額分佈，並標出與客戶申報收入不相符的月份。',
+   ai:['清理 <b>412 筆</b>交易','產出 3 張圖 + 月度統計','標出 <b>2 個月</b>入帳總額為申報月收入 5 倍以上'],
+   approval:null,deliver:[F('xlsx','A-2031_交易分析.xlsx')],save:30,before:'手動樞紐分析 + 畫圖 45 分鐘。'},
+  {t:'14:00',title:'調查報告初稿',mode:'co',caps:['doc','workiq'],
+   you:'用我們的《可疑交易調查報告範本》，把上午的研究筆記、交易分析與我在「AML-案件討論」的備註整理成報告初稿；結論與是否申報欄位留白。',
+   ai:['載入 SharePoint 範本','填入客戶基本資料、警示原因、研究發現、圖表','擷取你在 Teams 的 <b>4 則</b>備註放入「調查員觀察」','結論、申報建議欄位<b>留白</b>'],
+   approval:null,deliver:[F('docx','A-2031_調查報告初稿.docx')],save:45,before:'複製貼上填範本 1 小時。',
+   note:'是否申報 STR 由調查員與主管決定，Cowork 不填結論。'},
+  {t:'16:30',title:'歸檔 + 移交主管',mode:'auto',caps:['comm','cal','doc'],
+   you:'把報告與分析檔存到「AML 案件/2026/A-2031」資料夾（沒有就建），在頻道通知張主管審核，並排明天 15 分鐘討論。',
+   ai:['建立 SharePoint 資料夾並歸檔 3 個檔案','草擬頻道訊息 @張主管','找到明天 11:00 共同空檔，建立邀請'],
+   approval:'建立資料夾 · 貼出 Teams 訊息 · 寄出會議邀請',deliver:[F('teams','審核通知'),F('cal','明日 11:00 討論')],save:15,before:'三件事分開做，20 分鐘。'}
+ ]},
+{id:'ins',sector:'ins',ic:'🛡️',name:'保險核保／理賠',en:'Underwriting & Claims',
+ desc:'理賠信箱分類、案件 intake、缺件通知、時效週報。你想要的是：讓簡單案件自己跑，你看複雜的。',
+ before:['每天早上先花半小時分類理賠信箱','打開每封申請書，手動抄申請人、事故日、金額','缺件一封封寄，忘了用最新範本','核保疑問翻手冊、問前輩','週報從理賠系統匯出再做 PPT'],
+ after:['信件自動依險種分類，缺附件的先標出來','Event-driven：申請進來就自動擷取、比對條款、產出案件卡','缺件通知用範本一次草擬 5 封，經你確認才寄出','Cowork 從核保手冊與公開資訊整理參考，你判斷','Fabric IQ 直接產週報 PPT'],
+ day:[
+  {t:'08:30',title:'理賠信箱分類',mode:'auto',caps:['comm','workiq'],
+   you:'把理賠信箱昨晚 18:00 之後收到的 email 依險種（醫療 / 意外 / 車險）分到對應資料夾，附件不齊的標旗標並列給我。',
+   ai:['處理 <b>46 封</b>：醫療 21、意外 14、車險 11','標旗 <b>8 封</b>缺附件（診斷書 / 行照）','產出清單'],
+   approval:'移動 email 到資料夾 · 標記旗標',deliver:[F('card','分類清單')],save:30,before:'手動拖曳分類 30 分鐘。'},
+  {t:'09:30',title:'理賠 intake（Event-driven）',mode:'co',caps:['auto','doc','workiq'],
+   you:'【事件】當理賠信箱收到主旨含「理賠申請」的 email，擷取附件中的申請人、保單號、事故日期、申請金額、診斷內容，比對該保單條款摘要，產出案件摘要卡並列出缺件與需人工確認事項。',
+   ai:['Event-driven 觸發 <b>12 次</b>（今日至今）','擷取欄位、比對條款（等待期、除外責任）','產出案件卡：<b>7 件</b>資料齊全、<b>5 件</b>缺件、<b>2 件</b>條款需人工確認'],
+   approval:null,deliver:[F('card','12 張案件摘要卡'),F('xlsx','今日 intake 清單.xlsx')],save:40,before:'逐案手抄欄位，每件 10 分鐘。',
+   note:'理賠是否成立、金額核定由理賠人員決定；Cowork 只做資料擷取與條款對照初篩。'},
+  {t:'11:00',title:'缺件通知',mode:'auto',caps:['comm','doc'],
+   you:'對上午缺件的 5 個案件，用 SharePoint 上最新版《理賠補件通知範本》各寄一封信給申請人，附上補件清單與回覆期限。',
+   ai:['載入範本 v2026.07','草擬 5 封（各自帶入缺件項目）','設定 7 日回覆期限並建立追蹤提醒'],
+   approval:'寄出 5 封 email（逐封或設定「本次免再問」）',deliver:[F('mail','5 封補件通知'),F('cal','7 日追蹤')],save:25,before:'一封封手寫 30 分鐘。'},
+  {t:'14:00',title:'核保參考研究',mode:'co',caps:['research','workiq'],
+   you:'針對「高空作業人員」投保意外險，整理我們核保手冊的相關規範、近三年類似職業類別的核保紀錄摘要，以及同業公開的承保條件。',
+   ai:['搜尋核保手冊第 4 章、<b>6 筆</b>類似案例紀錄','Deep Research 同業公開資訊 <b>5 個來源</b>','整理成一頁參考表：規範 / 案例 / 同業'],
+   approval:null,deliver:[F('docx','高空作業_核保參考.docx')],save:40,before:'翻手冊、問前輩，1 小時。',
+   note:'核保決定與加費條件由核保人員判斷。'},
+  {t:'16:00',title:'理賠時效週報',mode:'co',caps:['ext','doc','comm'],
+   you:'從 Power BI「理賠時效儀表板」找出本週平均處理天數、逾期案件數與逾期原因分佈，做成 6 頁週報 PPT，草擬信給部門主管。',
+   ai:['<b>Fabric IQ</b> 查詢報表','產出 6 頁 pptx（含 3 張圖）','草擬 email 重點：逾期主因為文件補件等待'],
+   approval:'寄出 email',deliver:[F('pptx','理賠時效週報_W37.pptx'),F('mail','週報 email')],save:40,before:'匯出、做圖、做 PPT，1 小時。',
+   plug:'Fabric IQ plugin（Preview）· Microsoft 原生。'}
+ ]},
+{id:'era',sector:'sec',ic:'📈',name:'研究分析師',en:'Equity Research Analyst',
+ desc:'財報季晨報、數據擷取、市場資料、報告初稿、法說會準備。你想要的是：把腦力留在觀點上。',
+ before:['財報季每天 7 點開始逐一看 8 家公司公告','季報 PDF 的數字手 key 進模型 2 小時','股價與本益比從終端機一個個抓','報告從空白開始寫，格式再調半天','法說會前翻三季逐字稿找管理層說法'],
+ after:['Scheduled prompt 每天 7:30 自動摘要並更新追蹤清單','PDF 擷取進模型對應欄位，差異自動標紅','市場資料經 plugin 或內部匯出，Cowork 做比較表','範本 + 晨報 + 模型更新自動變初稿，評等欄留白','管理層說法時間線與 5 個關注問題自動整理'],
+ day:[
+  {t:'07:30',title:'財報季晨報（Scheduled）',mode:'auto',caps:['auto','research','doc'],
+   you:'【排程】財報季每天 7:30，搜尋我追蹤的 8 家公司前一日重大訊息與法說會資訊，摘要成一頁，並更新 OneDrive「追蹤清單.xlsx」的最新公告欄。',
+   ai:['Scheduled prompt 執行','找到 <b>3 家</b>有新公告（1 家上修財測）','更新 xlsx、產出一頁晨報'],
+   approval:'首次設定排程時確認',deliver:[F('docx','晨報_0910.docx'),F('xlsx','追蹤清單.xlsx（已更新）')],save:45,before:'每天早起逐一看公告 45 分鐘。'},
+  {t:'09:00',title:'財報數據擷取進模型',mode:'auto',caps:['doc'],
+   you:'把附件 ○○公司 Q2 季報 PDF 的營收、毛利率、營業利益率、EPS、現金流擷取到我的「○○_模型.xlsx」對應欄位，並標出與上季及市場預期的差異。',
+   ai:['擷取 <b>14 個</b>欄位，寫入模型 Q2 欄','保留原公式，不覆寫','標紅：毛利率較上季 −1.8 個百分點'],
+   approval:null,deliver:[F('xlsx','○○_模型.xlsx（已更新）')],save:60,before:'手 key 2 小時，偶爾錯欄。'},
+  {t:'11:00',title:'市場資料比較表',mode:'co',caps:['ext','doc'],
+   you:'拉 ○○公司與 4 家同業近一年股價走勢、本益比、股價淨值比，做成比較表與圖。',
+   ai:['取得市場資料（依 tenant 啟用的資料來源）','產出比較表 + 2 張圖','標出 ○○ 目前本益比低於同業中位數'],
+   approval:null,deliver:[F('xlsx','○○_同業比較.xlsx')],save:30,before:'終端機逐檔抓，40 分鐘。',
+   plug:'即時市場資料可接 LSEG / Morningstar plugin（第三方，<b>需經委外評估</b>）；未評估前以公司公開資料 + 內部資料庫匯出檔替代。'},
+  {t:'14:00',title:'研究報告初稿',mode:'co',caps:['doc','workiq'],
+   you:'用我們的研究報告範本，把晨報、模型更新、同業比較與我在「研究部-○○」頻道的備註整理成報告初稿；投資評等與目標價欄留白。',
+   ai:['載入範本','填入：事件 / 財務更新 / 同業比較 / 風險','擷取你 <b>6 則</b> Teams 備註成「分析師觀點（草稿）」','評等、目標價<b>留白</b>'],
+   approval:null,deliver:[F('docx','○○_Q2 更新報告初稿.docx')],save:90,before:'從空白寫起，半天。',
+   note:'評等與目標價由分析師決定並經內部審核；Cowork 不給投資建議。'},
+  {t:'16:30',title:'法說會準備',mode:'co',caps:['cal','research','workiq'],
+   you:'明天 10 點 ○○法說會，整理管理層過去三季法說會的重要說法時間線、市場最關注的 5 個問題，並幫我排今天 17:00 的 30 分鐘準備時間。',
+   ai:['搜尋 3 份法說會紀錄與研究部筆記','整理說法時間線（財測、資本支出、產能）','列 5 個關注問題；建立 17:00 準備事件'],
+   approval:'建立行事曆事件',deliver:[F('docx','○○_法說會準備.docx'),F('cal','17:00 準備')],save:30,before:'翻逐字稿 40 分鐘。'}
+ ]},
+{id:'risk',sector:'cross',ic:'🎯',name:'風控經理',en:'Risk Manager',
+ desc:'儀表板問答、壓力情境、委員會月報、決議追蹤、限額預警。你想要的是：別再等月報，即時看見風險在哪集中。',
+ before:['要看逾放比變化得等資料組跑報表','壓力測試情境從央行、金管會網站逐一找','月報每月從上月 PPT 複製再改數字','委員會決議追蹤靠會議紀錄和記憶','限額超限通知進信箱，人工整理再轉發'],
+ after:['直接問 Power BI 儀表板，馬上得到分行別變化與原因欄','公開壓力情境自動整理成假設表與說明文件','以上月 PPT 為範本，自動帶入本月數據與重點','6 個待辦自動查進度，追蹤信經你確認就寄出','Event-driven：超限通知一進來就整理成卡片 @ 你'],
+ day:[
+  {t:'08:30',title:'風險儀表板問答',mode:'auto',caps:['ext','workiq'],
+   you:'從 Power BI「信用風險儀表板」告訴我昨天逾放比變化最大的 3 個分行、變化幅度，以及主要產品別。',
+   ai:['<b>Fabric IQ</b> 查詢語意模型（沿用你的權限）','列出 3 個分行與幅度','指出 2 個分行主因為信貸產品'],
+   approval:null,deliver:[F('card','逾放變化摘要')],save:20,before:'請資料組跑報表，等半天。',
+   plug:'Fabric IQ plugin（Preview）· Microsoft 原生，Row-level security 沿用。'},
+  {t:'10:00',title:'壓力測試情境文件',mode:'co',caps:['doc','research'],
+   you:'整理近期央行與金管會公開的利率、房市與失業率壓力情境參數，做成情境假設表 Excel 與一份說明 Word（附來源）。',
+   ai:['Deep Research 公開來源 <b>7 個</b>','整理 3 組情境（基準 / 不利 / 嚴重不利）','產出 xlsx 假設表 + docx 說明'],
+   approval:null,deliver:[F('xlsx','壓力情境假設.xlsx'),F('docx','壓力情境說明.docx')],save:60,before:'逐站找參數、手打，2 小時。',
+   note:'情境選用與模型參數的最終設定由風控團隊決定。'},
+  {t:'13:00',title:'風險委員會月報',mode:'co',caps:['doc','ext','workiq'],
+   you:'以上月「風險委員會月報.pptx」為範本，更新本月數據（來自 Power BI 各風險儀表板）與本月重點事件（從「風控-重大事件」頻道），做成 12 頁簡報。',
+   ai:['讀取上月 pptx 結構','<b>Fabric IQ</b> 更新 9 張圖表數據','從頻道擷取 <b>4 件</b>重大事件寫成重點頁'],
+   approval:null,deliver:[F('pptx','風險委員會月報_2026-09.pptx')],save:90,before:'複製上月再改，半天。'},
+  {t:'15:00',title:'委員會決議追蹤',mode:'auto',caps:['comm','workiq','cal'],
+   you:'找出上次風險委員會決議的 6 個待辦，從 Teams 與 email 查目前進度，列出未完成者與負責人，各寄一封追蹤信。',
+   ai:['讀取會議紀錄，擷取 6 個待辦','查 Teams / email：<b>4 完成、2 未完成</b>','草擬 2 封追蹤信'],
+   approval:'寄出 2 封 email',deliver:[F('xlsx','決議追蹤.xlsx'),F('mail','2 封追蹤信')],save:30,before:'憑記憶逐一問，1 小時。'},
+  {t:'16:30',title:'限額預警（Event-driven）',mode:'auto',caps:['auto','comm','workiq'],
+   you:'【事件】當我收到主旨含「限額超限」的系統通知 email，自動整理超限項目、負責單位、上次同類事件的處理方式，並在「風控-預警」頻道貼卡片 @ 我。',
+   ai:['Event-driven 觸發','擷取超限項目與金額','搜尋過去 <b>2 次</b>同類事件處理紀錄','貼卡片 @ 你'],
+   approval:'貼出 Teams 訊息',deliver:[F('teams','預警卡片')],save:20,before:'看到信再手動整理轉發。'}
+ ]},
+{id:'audit',sector:'cross',ic:'🔍',name:'內部稽核',en:'Internal Auditor',
+ desc:'稽核計畫、證據蒐集、訪談排程、抽樣底稿、發現初稿。你想要的是：從抽樣變全面，時間留給判斷。',
+ before:['翻去年缺失與年度計畫，手擬查核程序','在 SharePoint 一個個資料夾找檢核表','跟 3 位分行主管來回喬時間','800 筆紀錄手動抽 40 筆建底稿','發現事項從空白 Word 開始寫'],
+ after:['Cowork 依年度計畫與去年缺失產出查核程序表','企業搜尋一次找出所有檢核表與相關討論','自動找空檔避開例會、寄邀請','隨機抽樣 + 底稿欄位自動建好','範本自動填發現與證據連結，風險等級留白'],
+ day:[
+  {t:'09:00',title:'稽核計畫與查核程序',mode:'co',caps:['doc','workiq'],
+   you:'根據年度稽核計畫與去年「分行作業稽核」的 9 項缺失，擬定本次稽核範圍與查核程序表 Excel，並標出去年缺失對應的加強查核項目。',
+   ai:['讀取年度計畫與去年報告','產出查核程序表 <b>34 項</b>','標出 <b>9 項</b>加強查核（對應去年缺失）'],
+   approval:null,deliver:[F('xlsx','分行作業稽核_查核程序.xlsx')],save:60,before:'翻文件手擬，2 小時。'},
+  {t:'10:30',title:'證據蒐集',mode:'auto',caps:['workiq','research','doc'],
+   you:'在 SharePoint「分行作業」站台找出近半年所有「開戶作業檢核表」與 Teams 上相關討論，整理成清單（檔名、日期、連結、負責人）。',
+   ai:['企業搜尋：<b>126 份</b>檢核表、<b>18 則</b>相關討論','整理清單 xlsx 含連結','標出 <b>3 份</b>缺主管簽核欄'],
+   approval:null,deliver:[F('xlsx','證據清單.xlsx')],save:45,before:'一個個資料夾翻，1 小時。'},
+  {t:'13:00',title:'訪談排程',mode:'auto',caps:['cal','comm'],
+   you:'幫我跟 3 位分行主管各排 45 分鐘訪談，下週二到四，避開他們的例會，會議說明附上訪談大綱。',
+   ai:['查 3 人行事曆與例會','找到週二 14:00、週三 10:00、週四 15:00','建立 3 個邀請並附大綱'],
+   approval:'寄出 3 個會議邀請',deliver:[F('cal','3 場訪談')],save:20,before:'來回私訊喬時間，半天。'},
+  {t:'15:00',title:'抽樣檢核底稿',mode:'co',caps:['doc'],
+   you:'從附件 800 筆開戶紀錄隨機抽 40 筆（依分行分層），依檢核表 12 個欄位建立工作底稿 Excel，並先比對可自動核對的欄位。',
+   ai:['分層隨機抽樣 40 筆（附抽樣參數）','建立 12 欄位底稿','自動核對 <b>5 個</b>可比對欄位，其餘留給你'],
+   approval:null,deliver:[F('xlsx','開戶抽樣底稿.xlsx')],save:30,before:'手動抽樣建表，45 分鐘。',
+   note:'實質檢核與缺失判定由稽核人員完成。'},
+  {t:'17:00',title:'稽核發現初稿',mode:'co',caps:['doc','workiq'],
+   you:'用《稽核報告範本》整理今天的發現事項，每項附證據連結、影響說明；風險等級與改善建議欄留白。',
+   ai:['載入範本','填入 <b>6 項</b>發現 + 證據連結','風險等級、建議<b>留白</b>'],
+   approval:null,deliver:[F('docx','稽核發現初稿.docx')],save:45,before:'從空白寫，1.5 小時。',
+   note:'風險等級判定與建議由稽核員負責。'}
+ ]},
+{id:'pm',sector:'bank',ic:'📱',name:'數位金融 PM',en:'Digital Banking Product Manager',
+ desc:'Sprint 簡報、競品研究、KPI 追蹤 app、PRD、內部系統查詢。你想要的是：不用等 IT 排程就能把想法做出來。',
+ before:['早上開 Jira、Teams、App 商店三處拼今天狀況','競品研究靠自己下載試用、看評論一週','KPI 追蹤想做小工具，要等 IT 排程','PRD 從 Teams 討論串手動整理','sprint 阻塞票要進 Jira 網頁逐一看'],
+ after:['一張卡看 sprint 會議、待決討論、昨晚負評','Deep Research 半天產出比較表與摘要','App skill 一句話建 KPI 追蹤 app 分享團隊','討論串 + 會議紀錄自動變 PRD 初稿','Browser use 幫你進 Jira 網頁整理阻塞票'],
+ day:[
+  {t:'08:30',title:'Sprint 簡報',mode:'auto',caps:['cal','workiq'],
+   you:'整理今天的 sprint 會議、Teams 上等我決定的討論串，以及昨晚 App 商店新增的 1 星評論摘要。',
+   ai:['今日 <b>2 場</b> sprint 相關會議','<b>3 則</b>討論串 @你 待決','App 商店 <b>7 則</b>負評，主因為登入驗證失敗'],
+   approval:null,deliver:[F('card','Sprint 簡報卡')],save:20,before:'三處拼湊 25 分鐘。'},
+  {t:'10:00',title:'競品深度研究',mode:'co',caps:['research','doc'],
+   you:'深度研究 3 家同業 App 近半年新功能、公開評價與媒體報導，做成功能比較表與 5 頁摘要簡報，附來源。',
+   ai:['Deep Research <b>22 個</b>來源','功能比較表（12 項功能 × 3 家）','5 頁 pptx 摘要 + 對我們的啟示'],
+   approval:null,deliver:[F('xlsx','競品功能比較.xlsx'),F('pptx','競品研究摘要.pptx')],save:90,before:'自己試用、看評論一週。'},
+  {t:'13:00',title:'KPI 追蹤 app（App skill）',mode:'co',caps:['app'],
+   you:'建一個小 app 讓團隊每週填數位開戶轉換率、NPS 與新客數，有趨勢圖與本週 vs 上週對比，發布後分享給「數位金融產品團隊」。',
+   ai:['<b>App skill</b> 產出 app：表單 + 趨勢圖 + 對比卡','依你回饋調整欄位與配色','發布並產生分享連結'],
+   approval:'發布並分享 app',deliver:[F('app','數位開戶 KPI 追蹤 app')],save:120,before:'等 IT 排程，數週。',
+   plug:'App skill 目前為 <b>Frontier</b> 功能，需 tenant 啟用 Frontier program。'},
+  {t:'15:00',title:'PRD 初稿',mode:'co',caps:['doc','workiq'],
+   you:'根據「數位開戶優化」的 Teams 討論串與過去 3 次會議紀錄，寫一份 PRD 初稿，含問題陳述、使用者故事、驗收條件與未決問題。',
+   ai:['擷取 <b>48 則</b>討論、3 份紀錄','產出 PRD：問題 / 8 個使用者故事 / 驗收條件','列 <b>5 個</b>未決問題待你決定'],
+   approval:null,deliver:[F('docx','數位開戶優化_PRD 初稿.docx')],save:60,before:'手動整理討論串，2 小時。'},
+  {t:'16:30',title:'內部系統查詢（Browser use）',mode:'auto',caps:['browser','comm'],
+   you:'到內部 Jira 網頁把目前 sprint 中「阻塞」狀態的票列出來（票號、負責人、阻塞原因），整理成 Teams 訊息貼到「數位金融-Sprint」頻道。',
+   ai:['在你的 Edge 以你的登入開啟 Jira','篩選阻塞票 <b>4 張</b>，擷取欄位','草擬頻道訊息'],
+   approval:'貼出 Teams 訊息',deliver:[F('teams','阻塞票清單')],save:15,before:'進 Jira 逐一看，20 分鐘。',
+   plug:'Local browser use（GA）：在你的裝置上以你的身分執行，遵循組織政策，你可以隨時觀看、停止或接管。'}
+ ]},
+{id:'cc',sector:'cross',ic:'🎧',name:'客服主管',en:'Contact Center Lead',
+ desc:'值班簡報、VoC 週報、話術知識庫、高風險客訴升級、排班衝突。你想要的是：從救火變成看見趨勢。',
+ before:['早上翻昨天的升級案件與排班會議紀錄','VoC 週報靠手動分類客訴信與貼文，一天','話術更新一年一次，跟不上問題變化','高風險客訴的時間線靠翻 email 拼','排班衝突同仁自己發現才處理'],
+ after:['一張卡看昨天升級案件與今天排班重點','Scheduled prompt 每週一自動產出 VoC 週報 PPT','依上週前 5 大問題自動草擬話術修訂','事件時間線、相關 email 與通話摘要自動整理成升級信','排班表與行事曆衝突自動比對、貼提醒'],
+ day:[
+  {t:'08:30',title:'值班簡報',mode:'auto',caps:['cal','workiq'],
+   you:'整理昨天「客服-升級案件」頻道的所有升級案件與處理狀態，以及今天排班會議要討論的重點。',
+   ai:['昨日 <b>9 件</b>升級：6 結案、3 待處理','標出 1 件涉及金管會申訴風險','列今日排班會議 3 個議題'],
+   approval:null,deliver:[F('card','值班簡報卡')],save:15,before:'翻頻道與紀錄 20 分鐘。'},
+  {t:'10:00',title:'VoC 週報（Scheduled）',mode:'auto',caps:['auto','doc','comm','workiq'],
+   you:'【排程】每週一 10:00，彙整上週客訴信箱與「客服-升級案件」頻道的所有內容，依主題分類、統計件數與情緒傾向，做成 VoC 週報 PPT 寄給我。',
+   ai:['Scheduled prompt 執行','分類 <b>213 件</b>：帳務 38%、App 登入 27%、產品說明 19%…','情緒分佈與 3 個新興主題','產出 8 頁 pptx，寄給你'],
+   approval:'首次設定排程時確認 · 寄出 email',deliver:[F('pptx','VoC 週報_W37.pptx'),F('mail','週報 email')],save:90,before:'手動分類一整天。'},
+  {t:'13:00',title:'話術知識庫更新',mode:'co',caps:['doc','workiq'],
+   you:'根據上週前 5 大客訴問題，比對 SharePoint 知識庫現有話術，草擬 3 篇需要新增或修訂的話術，標出與現行版本的差異。',
+   ai:['比對知識庫 <b>86 篇</b>話術','找出 2 篇需修訂、1 個問題無對應話術','產出 3 篇草稿（含差異對照）'],
+   approval:null,deliver:[F('docx','話術修訂草稿_3 篇.docx')],save:45,before:'逐篇翻找比對，1.5 小時。',
+   note:'話術正式發布前仍需法遵審閱。'},
+  {t:'15:00',title:'高風險客訴升級',mode:'co',caps:['comm','workiq','doc'],
+   you:'這封客訴（附件）可能演變成金管會申訴。整理事件時間線、相關 email 與通話摘要，草擬一封升級信給法遵與部門主管，附完整附件。',
+   ai:['整理 <b>11 個</b>接觸點的時間線','擷取 4 封相關 email 與 2 段通話摘要','草擬升級信（事實 / 風險 / 建議下一步）'],
+   approval:'寄出 email',deliver:[F('docx','客訴事件時間線.docx'),F('mail','升級信')],save:30,before:'翻 email 拼時間線 1 小時。',
+   note:'是否對客戶補償、如何回應由主管與法遵決定。'},
+  {t:'16:30',title:'排班衝突整理',mode:'auto',caps:['cal','comm','doc'],
+   you:'比對附件下週排班表與同仁的行事曆（請假、訓練），找出衝突，列出並在「客服-排班」頻道貼提醒 @ 相關同仁。',
+   ai:['比對 <b>32 人</b>排班與行事曆','找出 <b>3 個</b>衝突（2 請假、1 訓練）','草擬貼文 @ 3 位同仁與排班負責人'],
+   approval:'貼出 Teams 訊息',deliver:[F('teams','排班衝突提醒')],save:20,before:'同仁自己發現才知道。'}
+ ]}
+];
+
+const TRUST = [
+ {n:'01',name:'治理與問責',en:'Governance & Accountability',items:[
+  '<b>每個敏感動作都要經你確認（approve）</b>：寄信、貼文、建立行事曆、建立資料夾之前，Cowork 都會先停下來問你；你也可以選擇「本次對話同一收件人不再詢問」，範圍由你決定。',
+  '<b>管理員控管</b>：Microsoft 365 系統管理中心可啟用或停用 Cowork、特定模型（如 Fable 5）、plugin 與 Frontier 功能。',
+  '<b>使用量匿名匯出</b>：IT 可匯出 Copilot 與 agent 的使用資料，做治理分析。']},
+ {n:'02',name:'公平以人為本',en:'Fairness & Human-centric',items:[
+  '<b>人在迴路（Human-in-the-loop）是預設</b>：Cowork 備齊資料、結論欄留白；授信、理賠、可疑交易申報、投資評等等決定永遠由人來做。',
+  '<b>可隨時調整方向、暫停或停止</b>：任務進行中可以隨時插話改變方向，瀏覽器操作也可以隨時接手。',
+  '本站 80 個場景中，<b>0 個</b>讓 Cowork 做最終金融決策——包含總經理、CFO、CRO 等高階主管場景，結論與核定欄位一律留白。']},
+ {n:'03',name:'隱私與客戶權益',en:'Privacy & Customer Rights',items:[
+  '<b>Work IQ 權限沿用</b>：Cowork 只看得到你本人有權限的 email、檔案與資料；Power BI 查詢也沿用 Row-level security。',
+  '<b>Enterprise Data Protection</b>：資料留在 Microsoft 365 的信任邊界內，Purview 政策與稽核控管照常適用。',
+  '選用需 data retention 的模型時，Cowork 會顯示<b>橫幅提示</b>，且預設關閉、需 admin 開啟。']},
+ {n:'04',name:'系統穩健與安全',en:'Robustness & Security',items:[
+  '<b>雲端執行</b>：檔案不會下載到個人電腦，筆電關機後任務仍在雲端繼續跑。',
+  '<b>Plugin 不改變既有的安全邊界</b>：以使用者原本的權限存取，Purview 與稽核控管維持不變。',
+  '第三方 plugin 需依<b>委外規範</b>評估後再啟用（本站已逐一標註）。']},
+ {n:'05',name:'透明與可解釋',en:'Transparency & Explainability',items:[
+  '<b>每一步都看得到</b>：Cowork 把任務拆成計畫，每一步「正在搜尋 OneDrive」「正在撰寫 email」都顯示在畫面上，載入的 skills 也會出現在側欄。',
+  '<b>Deep Research 附引用</b>：每個研究結論都能追溯到來源。',
+  '<b>操作紀錄（audit trail）</b>：任務、確認動作、產出檔案都留在紀錄中，隨時可以回查。']},
+ {n:'06',name:'永續發展',en:'Sustainability',items:[
+  '<b>運算模式可選</b>：Faster（簡單任務、較省 credits）/ Medium（預設）/ Smarter（複雜推理）。',
+  '<b>多模型設計</b>：依任務選用效率型或最先進的 frontier 模型，不被單一模型綁住。',
+  '<b>/cost 指令</b>：隨時查詢本月 credits 用量、剩餘比例與重置日期，成本看得見。']}
+];
+
+/* 通用模擬器流程（自訂任務） */
+const GENERIC_SIM = {
+  plan:['理解任務並找出需要的資料來源','搜尋你的 email、Teams 與檔案（Work IQ）','整理內容並產出檔案','在敏感動作前先停下來請你確認','完成產出並留下紀錄'],
+  skills:['Enterprise Search','Word','Communications'],
+  approval:{title:'寄出 email',body:'收件人：（依任務內容）\n主旨：（Cowork 依任務草擬）\n附件：1 個檔案\n\nCowork 已完成草稿，寄出前需要你確認。'},
+  deliver:[F('docx','任務產出.docx'),F('mail','Email 草稿')]
+};
+const SKILL_BY_CAP = {workiq:'Enterprise Search',comm:'Email · Communications',doc:'Word · Excel · PowerPoint',cal:'Scheduling · Calendar',research:'Deep Research',auto:'Automations',ext:'Plugins',app:'App',browser:'Browser'};
+
+/* ===================== EXECUTIVE ROLES ===================== */
+SECTOR.exec={name:'高階主管',cls:'c-exec'};
+ROLES.push(
+{id:'ceo',sector:'exec',ic:'🏛️',name:'總經理 / CEO',en:'Bank President & CEO',
+ desc:'高階晨報、董事會資料、策略研究、決議追蹤、對外訊息。你想要的是：把讀 300 頁的時間換成做 3 個決定。',
+ before:['幕僚 7 點趕著拼今天的行程與待決事項','週末自己讀 300 頁董事會資料，怕漏掉數字矛盾','同業策略靠新聞剪報與幕僚口頭回報','經營會議決議靠會議紀錄，兩週後才發現沒人追','危機時三版對外訊息要同時找公關、法遵、董祕'],
+ after:['一張卡看今天的行程、待決事項與週報異常數字','14 份董事會資料各一頁摘要，數字矛盾與需表態議案先標出','Deep Research 附引用的 5 頁策略備忘，半天內產出','決議自動整理成追蹤清單，確認信與兩週後的追蹤經你確認就寄出','以確認過的事實一次草擬三版訊息，經你審閱後才發布'],
+ day:[
+  {t:'07:30',title:'高階晨報 Executive briefing',mode:'auto',caps:['cal','workiq','comm'],
+   you:'整理今天的行程、需要我今天決定的事（從 email 與 Teams @我的訊息），以及昨天各事業群週報裡最值得注意的 3 個異常數字。',
+   ai:['今日 <b>6 場</b>會議，其中 2 場需你拍板','<b>3 件</b>待決：分行整併案、資安預算追加、人事案','週報異常：<b>某區存款連 3 週流出</b>、信用卡逾放上升 0.2 個百分點'],
+   approval:null,deliver:[F('card','CEO 晨報卡')],save:30,before:'幕僚 7 點趕整理，你 8 點還在讀。'},
+  {t:'09:00',title:'董事會資料審閱 Board pack review',mode:'co',caps:['doc','workiq','research'],
+   you:'把下週董事會的 14 份資料各做一頁摘要，標出需要我表態的議案、與上次董事會決議不一致的地方，以及文件之間數字前後矛盾處。',
+   ai:['讀取 <b>14 份</b>、共 312 頁','標出 <b>3 個</b>議案需你表態','發現 <b>1 處</b>資本適足率數字與財務月報不一致','比對上次決議：<b>2 項</b>執行進度未在本次資料呈現'],
+   approval:null,deliver:[F('docx','董事會_審閱摘要.docx')],save:120,before:'週末自己讀，仍怕漏。',
+   note:'議案立場與決議由你決定；Cowork 只做摘要、比對與矛盾標示。'},
+  {t:'11:00',title:'策略研究 Strategic research',mode:'co',caps:['research','doc'],
+   you:'深度研究 3 家主要同業近半年的策略動作（財報、法說會、新聞）與純網銀的存款動向，附引用來源，寫成 5 頁策略備忘，最後一頁列出對我們的 3 個啟示與待討論問題。',
+   ai:['Deep Research <b>31 個</b>來源，附引用','整理 3 家同業：通路收斂、財管擴張、AI 客服','純網銀存款市占變化圖','產出 5 頁備忘 + 3 個啟示'],
+   approval:null,deliver:[F('docx','同業策略備忘_2026Q3.docx')],save:120,before:'新聞剪報 + 幕僚口頭回報。',
+   plug:'進階市場與同業財務資料可接 LSEG / Morningstar plugin（第三方，<b>需經委外評估</b>）；未評估前以公開資訊替代。'},
+  {t:'14:00',title:'經營會議決議追蹤',mode:'auto',caps:['comm','workiq','cal'],
+   you:'把今天經營會議 transcript 裡的決議與指派事項整理成清單（事項 / 負責主管 / 期限），各寄一封 email 請負責主管確認期限，並在兩週後幫我排追蹤時間。',
+   ai:['從 transcript 擷取 <b>9 項</b>決議、<b>7 位</b>負責主管','草擬 7 封確認信（各自帶入事項與期限）','建立 2 週後「經營會議決議追蹤」30 分鐘事件'],
+   approval:'寄出 7 封 email · 建立行事曆事件',deliver:[F('xlsx','經營會議決議追蹤.xlsx'),F('mail','7 封確認信'),F('cal','2 週後追蹤')],save:30,before:'靠紀錄與記憶，兩週後才發現沒人追。'},
+  {t:'17:00',title:'對外訊息三版 Stakeholder comms',mode:'co',caps:['comm','doc','workiq'],
+   you:'今天下午網銀中斷 40 分鐘。用公關與法遵在「危機應變」頻道確認過的事實，草擬三版訊息：全員 Teams 公告、給董事的 email、給金管會的口頭說明要點。三版都先給我看。',
+   ai:['擷取頻道中已確認的事實時間線','草擬 3 版：語氣分別為安定 / 透明 / 精確','標出 <b>2 處</b>尚待公關確認的用語'],
+   approval:'貼出 Teams 公告 · 寄出 email（皆待你審閱後）',deliver:[F('teams','全員公告草稿'),F('mail','董事 email 草稿'),F('docx','金管會說明要點.docx')],save:40,before:'三方同時開會改稿 2 小時。',
+   note:'對外發布前經公關、法遵與你審閱；Cowork 不會自行發送任何對外訊息。'}
+ ]},
+{id:'cfo',sector:'exec',ic:'💰',name:'財務長 CFO',en:'Chief Financial Officer',
+ desc:'財務晨報、月結審閱、法說會 Q&A、預算審查、申報追蹤。你想要的是：看見數字背後的原因，而不是再算一次。',
+ before:['要看流動性與淨利差得等財務部早會','月結變動原因散在會計部的 email 與 Teams','法說會前翻兩季逐字稿找分析師問過什麼','8 個事業群預算提案逐一讀，會議自己排','申報期限靠 Excel 行事曆人工盯'],
+ after:['直接問 Power BI 儀表板，馬上看到差異最大的部門','變動超過 10% 的科目與原因自動整理成審閱備忘','分析師問題庫 + 這季可能的 10 題自動準備','8 份摘要 + 8 場會議 + 議程一次搞定','Event-driven：申報期限信一到就自動 @ 負責人'],
+ day:[
+  {t:'08:00',title:'財務晨報 Fabric IQ',mode:'auto',caps:['ext','workiq'],
+   you:'從 Power BI「集團財務儀表板」告訴我昨天的流動性覆蓋率、淨利差、費用率，以及本月預算差異最大的 3 個部門與差異金額。',
+   ai:['<b>Fabric IQ</b> 查詢 3 個語意模型（沿用你的權限）','LCR、NIM、費用率與 30 日趨勢','預算差異前 3：資訊、行銷、分行營運'],
+   approval:null,deliver:[F('card','財務晨報卡')],save:20,before:'等財務部早會 9 點才知道。',
+   plug:'Fabric IQ plugin（Preview）· Microsoft 原生，Row-level security 沿用 Power BI 設定。'},
+  {t:'09:30',title:'月結審閱 Close review',mode:'co',caps:['doc','workiq'],
+   you:'比對本月結帳報表（附件）與上月、預算，列出變動超過 10% 的科目，從會計部的 email 與「財務-月結」頻道找出各科目的變動說明，做成審閱備忘並標出沒有說明的科目。',
+   ai:['比對 <b>86 個</b>科目，<b>11 個</b>變動超過 10%','從 email / Teams 找到 <b>9 個</b>科目的說明','<b>2 個</b>科目無說明，標紅待詢問'],
+   approval:null,deliver:[F('docx','月結審閱備忘_2026-08.docx'),F('xlsx','科目變動分析.xlsx')],save:60,before:'翻 email 找說明 1.5 小時。'},
+  {t:'11:00',title:'法說會 Q&A 準備',mode:'co',caps:['research','doc','workiq'],
+   you:'整理近兩季分析師在法說會與研究報告中問過我們的問題與我們的回答，加上依這季財報與市場關注可能被問的 10 題，各附建議回答要點與數據來源。',
+   ai:['擷取 2 季法說會 transcript 中 <b>34 個</b>問題','歸納 6 大主題，比對我們的回答一致性','產出 <b>10 題</b>預測問題 + 回答要點 + 數據頁碼'],
+   approval:null,deliver:[F('docx','法說會 Q&A 準備.docx')],save:90,before:'翻逐字稿半天。',
+   note:'對外說法經 IR 與法遵確認；預測問題僅供準備。'},
+  {t:'14:00',title:'預算審查會議包',mode:'co',caps:['doc','cal','comm'],
+   you:'下週預算審查，把 8 個事業群的預算提案各做一頁摘要，標出與年度策略目標不一致或成長假設過於樂觀處，排 8 場 30 分鐘會議（下週二到四），並寄議程給各事業群主管。',
+   ai:['8 份摘要，標出 <b>3 處</b>與策略不一致、<b>2 處</b>假設偏樂觀','查 8 位主管行事曆，排出 8 場','草擬議程 email'],
+   approval:'寄出 8 個會議邀請（含議程）',deliver:[F('docx','預算審查_8 事業群摘要.docx'),F('cal','8 場審查會議')],save:90,before:'逐份讀 + 幕僚排會 1 天。'},
+  {t:'16:30',title:'監理申報追蹤（Event-driven）',mode:'auto',caps:['auto','comm','workiq'],
+   you:'【事件】當我或財務部信箱收到主旨含「申報期限」或「Reporting deadline」的 email，自動比對申報行事曆（SharePoint），列出項目、負責人、剩餘天數，在「財務-申報」頻道貼卡片 @ 負責人。',
+   ai:['Event-driven 觸發','比對申報行事曆 <b>27 項</b>','貼卡片：<b>2 項</b>剩餘 ≤5 天，@ 2 位負責人'],
+   approval:'貼出 Teams 訊息',deliver:[F('teams','申報提醒卡')],save:20,before:'人工盯 Excel 行事曆。'}
+ ]},
+{id:'cro',sector:'exec',ic:'🧭',name:'風險長 CRO',en:'Chief Risk Officer',
+ desc:'風險胃納、風管委員會、新興風險研究、壓測審閱、監理回覆。你想要的是：把時間花在判讀，而不是拼簡報。',
+ before:['風險胃納指標得等週報，超限才知道','委員會簡報每月從上月複製再改，兩天','國際監理新指引靠訂閱電子報零散看','壓力測試報告 80 頁自己讀，找不到假設差異','監理來函回覆從空白開始，各部門資料分散'],
+ after:['一句話看接近限額的指標、趨勢與負責單位','以上月簡報為範本自動更新數據與事件，加一頁決策摘要','Deep Research 整理 BIS / FSB / 金管會新指引與待辦','報告自動比出假設差異、敏感因子、未解釋跳動','依過去回覆格式，用各部門 Teams 資料草擬回覆'],
+ day:[
+  {t:'08:00',title:'風險胃納儀表板',mode:'auto',caps:['ext','workiq'],
+   you:'從 Power BI「風險胃納儀表板」找出接近（90% 以上）或超過限額的指標、近 4 週趨勢、與上週差異，附上負責單位。',
+   ai:['<b>Fabric IQ</b> 查詢','<b>3 個</b>指標超過 90%：某產業授信集中度、流動性缺口、作業風險損失','附趨勢圖與負責單位'],
+   approval:null,deliver:[F('card','風險胃納摘要')],save:20,before:'等週報，超限才知道。',
+   plug:'Fabric IQ plugin（Preview）· Microsoft 原生。'},
+  {t:'10:00',title:'風管委員會會議包',mode:'co',caps:['doc','workiq','ext'],
+   you:'以上次風管委員會簡報為範本，更新各風險類別數據（來自 Power BI），新增本月 4 件重大事件（從「風控-重大事件」頻道）與 2 項待決議案，做成 15 頁簡報與一頁決策摘要。',
+   ai:['讀取上月 pptx 結構，<b>Fabric IQ</b> 更新 11 張圖','擷取 4 件事件寫成事件頁','產出決策摘要：2 項議案 + 建議選項'],
+   approval:null,deliver:[F('pptx','風管委員會_2026-09.pptx'),F('docx','決策摘要.docx')],save:120,before:'複製上月再改，兩天。'},
+  {t:'11:30',title:'新興風險研究',mode:'co',caps:['research','doc'],
+   you:'深度研究近三個月 BIS、FSB 與金管會對「AI 模型風險」與「第三方／委外風險」的新指引或諮詢文件，整理重點、對我們的影響與建議待辦，附引用。',
+   ai:['Deep Research <b>14 份</b>文件','歸納 5 項新要求（含代理 AI 的人工介入）','對照現行政策，列 <b>6 項</b>待辦'],
+   approval:null,deliver:[F('docx','新興風險_AI 與第三方.docx')],save:90,before:'電子報零散看，沒時間整理。'},
+  {t:'14:00',title:'壓力測試結果審閱',mode:'human',caps:['doc','workiq'],
+   you:'讀這份 80 頁壓力測試報告（附件），列出假設與去年版本的差異、結果最敏感的 3 個因子、報告中未解釋的跳動數字，做成我的提問清單。',
+   ai:['比對兩年版本：<b>4 項</b>假設變更','敏感度排序：利率、房價、失業率','標出 <b>3 處</b>未解釋跳動（第 34、51、67 頁）'],
+   approval:null,deliver:[F('docx','壓力測試_審閱提問.docx')],save:60,before:'自己讀 80 頁，3 小時。',
+   note:'結果判讀、是否要求重跑、如何呈報董事會由 CRO 決定。'},
+  {t:'16:00',title:'監理回覆草稿',mode:'co',caps:['doc','comm','workiq'],
+   you:'金管會來函詢問我們的模型風險管理架構（附件）。用法遵與風控在「監理回覆-模型風險」頻道提供的資料，依我們過去的回覆格式草擬回覆，標出需要主管確認的段落。',
+   ai:['擷取來函 <b>7 個</b>問題','從頻道蒐集 <b>12 份</b>資料','依過去 3 份回覆格式草擬，標出 <b>3 段</b>待確認'],
+   approval:null,deliver:[F('docx','金管會回覆草稿_模型風險.docx')],save:60,before:'從空白開始，各部門催資料 2 天。',
+   note:'回覆內容經法遵審閱、CRO 核定後正式發文。'}
+ ]},
+{id:'cio',sector:'exec',ic:'🖥️',name:'資訊長 / 數位長',en:'CIO / Chief Digital Officer',
+ desc:'IT 營運簡報、資安董事會簡報、AI 治理追蹤、委外評估、董事會科技報告。你想要的是：把技術翻成董事會聽得懂的話。',
+ before:['早上翻事件頻道、變更表、核准信三處','資安事件報告技術味太重，董事會要重寫','Copilot 採用率與 credits 要自己拼 Excel','第三方 plugin 的委外評估資料逐家找','董事會科技報告每季從上季複製再改'],
+ after:['一張卡看昨晚事件、今天變更窗口、待核准申請','技術報告自動轉成 6 頁非技術董事會簡報','管理中心匯出檔自動對照目標，落後原因從 Teams 抓','3 家供應商公開資料對照委外檢核表，自動初評','以上季為範本更新進度、預算、風險，新增 AI 章節'],
+ day:[
+  {t:'08:30',title:'IT 營運簡報',mode:'auto',caps:['cal','workiq','comm'],
+   you:'整理昨晚「IT-事件」頻道的重大事件與目前狀態、今天的變更窗口與影響系統，以及等我核准的採購與變更申請 email。',
+   ai:['昨晚 <b>2 件</b> P2 事件，1 件仍在觀察','今日 <b>3 個</b>變更窗口，1 個影響網銀','<b>5 封</b>待核准，其中 2 封逾期 2 天'],
+   approval:null,deliver:[F('card','IT 營運簡報卡')],save:25,before:'三處翻，30 分鐘。'},
+  {t:'10:00',title:'資安事件董事會簡報',mode:'co',caps:['doc','workiq'],
+   you:'用資安部的事件報告與時間線（附件），做一份 6 頁給董事會的簡報：發生什麼、影響範圍、已採取措施、殘餘風險、下一步與所需資源。語言要非技術、每頁一個重點。',
+   ai:['擷取事件報告 <b>23 頁</b>要點','轉譯為非技術語言（附術語對照）','產出 6 頁 pptx + 一頁 Q&A 預備'],
+   approval:null,deliver:[F('pptx','資安事件_董事會簡報.pptx')],save:90,before:'資安部寫一版，你重寫一版。',
+   note:'對董事會揭露的範圍與時點由 CIO 與法遵決定。'},
+  {t:'11:30',title:'AI 治理與 Copilot 導入追蹤',mode:'co',caps:['ext','doc','workiq'],
+   you:'彙整各部門 Copilot / Cowork 的採用率與 credits 用量（附件：管理中心匯出的 Excel），對照導入目標，列出落後部門，並從各部門在「Copilot 導入」頻道的回饋整理落後原因與需求。',
+   ai:['讀取匯出檔 <b>18 個</b>部門','<b>5 個</b>部門低於目標','從頻道歸納原因：缺場景範例、權限疑慮、訓練不足'],
+   approval:null,deliver:[F('xlsx','Copilot 導入追蹤.xlsx'),F('docx','導入落後分析.docx')],save:60,before:'自己拼 Excel 半天。',
+   plug:'管理中心可匿名匯出組織 Copilot 與 agent 使用資料；使用者端可用 <b>/cost</b> 查本月 credits。'},
+  {t:'14:00',title:'第三方 Plugin 委外評估包',mode:'co',caps:['research','doc'],
+   you:'針對我們想啟用的 3 個第三方 plugin，整理供應商公開的資安認證（ISO 27001、SOC 2）、資料處理地點、SLA 與資料保留政策，對照我們的《委外評估檢核表》做成初評表，標出資料不足處。',
+   ai:['Deep Research 3 家供應商公開文件 <b>19 份</b>','對照檢核表 <b>28 項</b>：18 項有公開佐證、10 項需向供應商索取','產出初評表與索取清單'],
+   approval:null,deliver:[F('xlsx','Plugin 委外初評.xlsx'),F('docx','供應商資料索取清單.docx')],save:90,before:'逐家找文件 2 天。',
+   note:'委外評估結論由資安、法遵、採購共同完成並依規範核定；Cowork 只做公開資料整理。'},
+  {t:'16:30',title:'董事會科技報告草稿',mode:'co',caps:['doc','workiq'],
+   you:'以上季董事會科技報告為範本，更新重大專案進度（從各專案 Teams 頻道）、預算執行率（附件）、風險項目，並新增「AI 導入與治理」章節。',
+   ai:['讀取上季 docx 結構','從 <b>6 個</b>專案頻道擷取進度','更新預算執行率；新增 AI 章節（含治理原則對照）'],
+   approval:null,deliver:[F('docx','董事會科技報告_2026Q3 草稿.docx')],save:90,before:'複製上季再改 1 天。'}
+ ]},
+{id:'cco',sector:'exec',ic:'📜',name:'法遵長 CCO',en:'Chief Compliance Officer',
+ desc:'監理動態、金管會檢查準備、同業裁罰研究、法遵委員會、集團報告審閱。你想要的是：從被動回應轉為主動看見。',
+ before:['每天早上自己看各局新聞稿與裁罰案','金管會檢查通知一到，各部門翻找內規與改善證明','同業裁罰案靠新聞，沒時間對照自家控制','法遵委員會材料從各部門收表、手動彙整','子公司法遵季報逐份讀、找不一致'],
+ after:['Scheduled prompt 每天 8:00 貼監理動態與裁罰啟示','檢查項目自動對應內規、改善證明、負責人並排預檢會','Deep Research 整理裁罰案例並對照自家控制是否足夠','自評表匯出檔自動變委員會簡報','5 份季報自動比對集團政策，列未涵蓋與不一致'],
+ day:[
+  {t:'08:00',title:'監理動態總覽（Scheduled）',mode:'auto',caps:['auto','research','comm'],
+   you:'【排程】每天 8:00，彙整金管會各局前一日新聞稿、裁罰案與函令，標出與我們業務相關者，裁罰案附「對我們的啟示」一行，貼到「法遵-主管」頻道。',
+   ai:['Scheduled prompt 執行','<b>5 則</b>新聞稿、<b>1 件</b>同業裁罰（理專不當推介）','貼出摘要卡 + 啟示'],
+   approval:'首次設定排程時確認 · 貼出 Teams 訊息',deliver:[F('teams','監理動態摘要')],save:30,before:'自己看 30 分鐘。'},
+  {t:'09:30',title:'金管會檢查準備',mode:'co',caps:['doc','workiq','cal'],
+   you:'下月金管會一般檢查，依檢查通知（附件）列出的 12 個項目，找出對應內規、上次檢查缺失的改善證明（SharePoint）與負責人，做成準備追蹤表，並排 3 場內部預檢會議。',
+   ai:['12 項各對應 <b>1–4 條</b>內規','找到 <b>9 項</b>改善證明、<b>3 項</b>缺件','排 3 場預檢會（下週一、三、五）'],
+   approval:'寄出 3 個會議邀請',deliver:[F('xlsx','金管會檢查_準備追蹤.xlsx'),F('cal','3 場預檢會議')],save:120,before:'各部門翻找 3 天。'},
+  {t:'11:30',title:'同業裁罰案研究',mode:'co',caps:['research','doc'],
+   you:'深度研究近一年同業因「商品推介不當」與「個資外洩」被裁罰的案例，整理事實、法規依據、裁罰金額，並對照我們現有控制是否足夠，做成一頁備忘與待強化清單。',
+   ai:['Deep Research <b>8 件</b>裁罰案','歸納 4 類缺失樣態','對照本行 <b>6 項</b>控制：4 項足夠、2 項建議強化'],
+   approval:null,deliver:[F('docx','同業裁罰案_啟示備忘.docx')],save:90,before:'靠新聞，沒時間對照。',
+   note:'控制是否足夠的最終判斷與強化決定由 CCO。'},
+  {t:'14:00',title:'法遵委員會材料',mode:'co',caps:['doc','workiq','ext'],
+   you:'彙整各部門法遵自評結果（SharePoint 表單匯出 Excel）、本季法遵事件（從「法遵-事件」頻道）與教育訓練完成率，做成法遵委員會簡報 12 頁，重點放在自評異常與逾期未改善。',
+   ai:['讀取 <b>24 個</b>部門自評','<b>3 個</b>部門自評異常、<b>2 項</b>逾期未改善','訓練完成率 94%，列出未完成名單頁'],
+   approval:null,deliver:[F('pptx','法遵委員會_2026Q3.pptx')],save:90,before:'手動彙整 2 天。'},
+  {t:'16:30',title:'集團法遵報告審閱',mode:'human',caps:['doc','workiq'],
+   you:'讀子公司送來的 5 份法遵季報（附件），比對集團法遵政策，列出未涵蓋的必要項目、彼此不一致處、與上季相比消失的追蹤事項，做成我的審閱意見清單。',
+   ai:['比對集團政策 <b>16 項</b>必要揭露','<b>2 份</b>缺項、<b>3 處</b>子公司間定義不一致','<b>1 項</b>上季追蹤事項本季未提及'],
+   approval:null,deliver:[F('docx','集團法遵季報_審閱意見.docx')],save:60,before:'逐份讀 5 份，半天。',
+   note:'審閱意見與核定由 CCO；Cowork 只做比對與標示。'}
+ ]},
+{id:'rgm',sector:'exec',ic:'🏦',name:'區域總經理',en:'Regional Head of Branches',
+ desc:'區域晨報、巡店準備、客訴升級、業務推動、人力調度。你想要的是：12 家分行的狀況一眼看完，時間留給現場。',
+ before:['12 家分行績效要等各分行早上回報','巡店前翻 email 找上次交辦了什麼','升級客訴的時間線靠分行口頭說明','業務會議決議貼在群組，落後分行沒人追','排班與請假衝突等分行反映才知道'],
+ after:['一句話看 12 家分行排名、異常與今天巡店行程','每家分行一頁：趨勢、上次交辦完成狀況、客訴人力','時間線自動整理，客戶回覆與分行指示的草稿都先給你看','決議摘要貼頻道、落後分行 1:1 自動排','12 家排班與行事曆自動比對出人力缺口'],
+ day:[
+  {t:'08:00',title:'區域晨報 Fabric IQ',mode:'auto',caps:['ext','workiq','cal'],
+   you:'從 Power BI「分行績效儀表板」給我 12 家分行昨日存放款變動、新開戶數、客訴數的排名與異常，加上今天的巡店行程與同行者。',
+   ai:['<b>Fabric IQ</b> 查詢，12 家排名','異常：<b>1 家</b>存款單日流出異常、<b>1 家</b>客訴連 3 日上升','今日巡 A、B 分行，同行 2 人'],
+   approval:null,deliver:[F('card','區域晨報卡')],save:20,before:'等各分行回報，9 點半才齊。',
+   plug:'Fabric IQ plugin（Preview）· Microsoft 原生。'},
+  {t:'09:30',title:'巡店準備',mode:'co',caps:['doc','workiq','research'],
+   you:'今天巡 A、B 兩家分行，各做一頁：近三月績效趨勢、上次巡店我交辦事項的完成狀況（從 email 與 Teams 找）、目前客訴與人力狀況。',
+   ai:['找到上次巡店 <b>7 項</b>交辦：5 完成、2 未回報','各分行趨勢圖 + 客訴主題','B 分行人力缺 1 名理專（育嬰假）'],
+   approval:null,deliver:[F('docx','巡店準備_A 分行.docx'),F('docx','巡店準備_B 分行.docx')],save:45,before:'翻 email 找交辦事項 1 小時。'},
+  {t:'11:00',title:'客訴升級處理',mode:'co',caps:['comm','workiq'],
+   you:'這件升級客訴（附件），整理時間線與分行處理過程，草擬給客戶的回覆信與給分行的處理指示，兩者都先給我看再寄。',
+   ai:['整理 <b>6 個</b>接觸點時間線','找出分行處理延誤 2 天的節點','草擬客戶回覆（同理、事實、下一步）與分行指示'],
+   approval:'寄出 2 封 email（待你審閱）',deliver:[F('docx','客訴時間線.docx'),F('mail','客戶回覆 + 分行指示')],save:30,before:'分行口頭說明，來回 1 小時。',
+   note:'是否補償、補償方式由你決定。'},
+  {t:'14:00',title:'業務推動會議追蹤',mode:'auto',caps:['cal','comm','doc'],
+   you:'整理今天業務推動會議 transcript 的決議與各分行目標，做成一頁摘要貼到「區域-分行經理」頻道，並為 3 家落後分行的經理排下週 30 分鐘 1:1。',
+   ai:['擷取 <b>5 項</b>決議、12 家目標','草擬頻道摘要','查 3 位經理行事曆，排 3 場 1:1'],
+   approval:'貼出 Teams 訊息 · 寄出 3 個會議邀請',deliver:[F('teams','會議摘要'),F('cal','3 場 1:1')],save:30,before:'貼群組，落後分行沒人追。'},
+  {t:'16:30',title:'人力調度建議',mode:'co',caps:['doc','workiq','cal'],
+   you:'比對 12 家分行下月排班表（附件）與同仁的請假、訓練行事曆，找出人力缺口日期與分行，草擬跨分行調度建議表。',
+   ai:['比對 <b>12 家、186 人</b>','找出 <b>4 個</b>缺口日（集中在月底結帳日）','建議 3 組跨分行支援'],
+   approval:null,deliver:[F('xlsx','人力缺口與調度建議.xlsx')],save:40,before:'分行反映才知道。',
+   note:'調度決定與溝通由你與分行經理完成。'}
+ ]}
+);
+
+/* ===================== APP ===================== */
+(function(){
+'use strict';
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const toMin=t=>{const [h,m]=t.split(':').map(Number);return h*60+m};
+const DAY0=6*60, DAY1=22*60, SPAN=DAY1-DAY0;
+const pctToMin=p=>DAY0+SPAN*p/100, minToPct=m=>(m-DAY0)/SPAN*100;
+const fmtMin=m=>{m=Math.round(m);const h=Math.floor(m/60),r=m%60;return h?`${h} 小時 ${r} 分`:`${r} 分`};
+const fmtH=m=>{const h=m/60;return (h>=100?Math.round(h):h.toFixed(1))+' 小時'};
+const fileHtml=f=>`<span class="file ${FT[f.t]||''}"><i></i>${esc(f.n)}</span>`;
+const SHORT={workiq:'Work IQ',comm:'溝通',doc:'文件',cal:'行事曆',research:'研究',auto:'自動化',ext:'擴充',app:'App',browser:'瀏覽器'};
+const state={role:ROLES[0],pct:0,playing:null,cap:null,heat:null,simBusy:false,mix:'medium',effort:'medium'};
+let toastT;function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2600)}
+
+/* ---- Hero clock & date ---- */
+function tick(){const d=new Date();$('#heroClock').textContent=`${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;$('#heroDate').textContent=`${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())}`}
+tick();setInterval(tick,1000);
+
+/* ---- Constellation canvas ---- */
+(function(){
+  const c=$('#bgc'),ctx=c.getContext('2d');let W,H,pts=[],mouse={x:-9999,y:-9999};
+  const COLORS=['245,185,66','139,92,246','240,103,138','96,165,250'];
+  function size(){const r=c.parentElement.getBoundingClientRect();W=c.width=r.width*devicePixelRatio;H=c.height=r.height*devicePixelRatio;c.style.width=r.width+'px';c.style.height=r.height+'px';
+    const n=Math.min(90,Math.floor(r.width/14));pts=[];for(let i=0;i<n;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.25*devicePixelRatio,vy:(Math.random()-.5)*.25*devicePixelRatio,r:(Math.random()*1.6+.8)*devicePixelRatio,c:COLORS[i%COLORS.length]})}
+  size();addEventListener('resize',size);
+  c.parentElement.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();mouse.x=(e.clientX-r.left)*devicePixelRatio;mouse.y=(e.clientY-r.top)*devicePixelRatio});
+  c.parentElement.addEventListener('pointerleave',()=>{mouse.x=-9999;mouse.y=-9999});
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function frame(){ctx.clearRect(0,0,W,H);const D=150*devicePixelRatio;
+    for(const p of pts){if(!reduce){p.x+=p.vx;p.y+=p.vy;const dx=p.x-mouse.x,dy=p.y-mouse.y,d=Math.hypot(dx,dy);if(d<D*1.2){p.x+=dx/d*.6;p.y+=dy/d*.6}}
+      if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1}
+    for(let i=0;i<pts.length;i++){for(let j=i+1;j<pts.length;j++){const a=pts[i],b=pts[j],d=Math.hypot(a.x-b.x,a.y-b.y);if(d<D){ctx.strokeStyle=`rgba(${a.c},${(1-d/D)*.35})`;ctx.lineWidth=devicePixelRatio*.8;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke()}}}
+    for(const p of pts){ctx.fillStyle=`rgba(${p.c},.9)`;ctx.shadowColor=`rgba(${p.c},.8)`;ctx.shadowBlur=8*devicePixelRatio;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0}
+    if(!reduce)requestAnimationFrame(frame)}
+  frame();
+})();
+
+/* ---- Reveal + counters ---- */
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');$$('[data-count]',e.target).forEach(runCount);io.unobserve(e.target)}})},{threshold:.12});
+$$('.reveal').forEach(el=>io.observe(el));
+function runCount(el){if(el.dataset.done)return;el.dataset.done=1;const to=+el.dataset.count,t0=performance.now(),dur=1400;(function f(t){const k=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-k,3);el.textContent=Math.round(to*e);if(k<1)requestAnimationFrame(f)})(t0)}
+
+/* ---- Nav ---- */
+const links=$$('.navlinks a');const secIO=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id))}})},{rootMargin:'-40% 0px -55% 0px'});
+$$('section[id]').forEach(s=>secIO.observe(s));
+$('#navToggle').addEventListener('click',()=>$('#navlinks').classList.toggle('open'));
+links.forEach(a=>a.addEventListener('click',()=>$('#navlinks').classList.remove('open')));
+addEventListener('scroll',()=>{const h=document.documentElement;const p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;$('#progressBar').style.width=p+'%'},{passive:true});
+
+/* ---- Roles ---- */
+function renderRoles(){$('#rolesGrid').innerHTML=ROLES.map(r=>`<button class="role${r.id===state.role.id?' on':''}" data-role="${r.id}" data-sector="${r.sector}"><span class="chk">✓</span><div class="ic">${r.ic}</div><h3>${esc(r.name)}</h3><div class="en ${SECTOR[r.sector].cls}">${esc(r.en)}</div><p>${esc(r.desc)}</p><span class="sec">${SECTOR[r.sector].name.toUpperCase()}</span></button>`).join('')}
+renderRoles();
+$('#rolesGrid').addEventListener('click',e=>{const b=e.target.closest('.role');if(!b)return;setRole(b.dataset.role);toast(`已切換角色：${state.role.name}`)});
+$('#sectorFilters').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;$$('#sectorFilters .chip').forEach(c=>c.classList.toggle('on',c===b));const s=b.dataset.sector;$$('#rolesGrid .role').forEach(r=>r.classList.toggle('hide',s!=='all'&&r.dataset.sector!==s))});
+function setRole(id){state.role=ROLES.find(r=>r.id===id)||ROLES[0];$$('#rolesGrid .role').forEach(r=>r.classList.toggle('on',r.dataset.role===state.role.id));
+  $('#roleHint').innerHTML=`目前選擇：<b>${esc(state.role.name)}</b>（${esc(state.role.en)}）。點任一張卡切換角色，下方所有區塊會同步更新。`;
+  $('#dayRoleName').textContent=state.role.name;renderTimeline();setPct(minToPct(toMin(state.role.day[0].t)));
+  renderPresets();$('#cmpRole').value=state.role.id;renderCompare();$('#calcRole').value=state.role.id;calc();
+  $$('#heatGrid .rh').forEach(h=>h.style.color=h.dataset.role===state.role.id?'var(--gold)':'');$$('#heatGrid .cell').forEach(c=>c.classList.toggle('rowon',c.dataset.role===state.role.id))}
+
+/* ---- Day / timeline ---- */
+function renderTimeline(){const r=state.role;$('#timeline').innerHTML=r.day.map((s,i)=>`<article class="step" data-i="${i}">
+  <div class="t">${s.t}</div>
+  <h3>${esc(s.title)}<span class="pill ${MODE[s.mode].cls}">${MODE[s.mode].label}</span></h3>
+  <div class="caps">${s.caps.map(c=>`<span>${esc(CAPNAME[c])}</span>`).join('')}</div>
+  <div class="bubble you"><div class="av">你</div><div class="msg">${esc(s.you)}</div></div>
+  <div class="bubble ai"><div class="av">CW</div><div class="msg">Cowork 幫你做了：<ul>${s.ai.map(a=>`<li>${a}</li>`).join('')}</ul><div class="deliv">${s.deliver.map(fileHtml).join('')}</div></div></div>
+  ${s.approval?`<div class="approval">🔒 <span><b>需要你確認：</b>${esc(s.approval)}</span></div>`:`<div class="approval none">👁 只讀取資料，不需確認（不會寄信、貼文或修改任何內容）</div>`}
+  ${s.note?`<div class="note">🧭 ${s.note}</div>`:''}
+  ${s.plug?`<div class="plug">🔌 ${s.plug}</div>`:''}
+  <div class="step-foot"><span class="before"><b>沒有 Cowork 時：</b>${esc(s.before)}</span><span class="save">這一段省下約 <b>${s.save} 分鐘</b></span></div>
+</article>`).join('');
+  const tot=r.day.reduce((a,s)=>a+s.save,0),ap=r.day.filter(s=>s.approval).length,hu=r.day.filter(s=>s.note||s.mode==='human').length;
+  $('#sumSaved').textContent=fmtMin(tot);$('#sumApprovals').textContent=ap+' 個';$('#sumHuman').textContent=hu+' 項'}
+$('#timeline').addEventListener('click',e=>{const a=e.target.closest('.step');if(!a)return;stopPlay();setPct(minToPct(toMin(state.role.day[+a.dataset.i].t))+0.3)});
+const W_MODE={auto:1,co:.6,human:.3};
+function setPct(p){p=Math.max(0,Math.min(100,p));state.pct=p;const sl=$('#scrub');sl.value=p;sl.style.setProperty('--p',p+'%');
+  const m=pctToMin(p),r=state.role;let idx=-1;r.day.forEach((s,i)=>{if(toMin(s.t)<=m)idx=i});
+  const mm=Math.round(m);$('#dayClock').textContent=`${pad(Math.floor(mm/60))}:${pad(mm%60)}`;
+  const cur=idx>=0?r.day[idx]:null;$('#dayTitle').textContent=cur?cur.title:'準備開始今天的工作';
+  const mp=$('#dayMode');if(cur){mp.className='pill '+MODE[cur.mode].cls;mp.textContent=MODE[cur.mode].label}else{mp.className='pill';mp.textContent='—'}
+  $('#dayStep').textContent=`${Math.max(0,idx+1)} / ${r.day.length}`;
+  const totW=r.day.reduce((a,s)=>a+W_MODE[s.mode],0),doneW=r.day.slice(0,idx+1).reduce((a,s)=>a+W_MODE[s.mode],0);
+  const pct=Math.round(doneW/totW*100);$('#dayPct').textContent=pct+'%';$('#dayBar').style.width=pct+'%';
+  $('#daySaved').textContent=fmtMin(r.day.slice(0,idx+1).reduce((a,s)=>a+s.save,0));
+  $$('#timeline .step').forEach((el,i)=>{el.classList.toggle('on',i===idx);el.classList.toggle('past',i<idx)});
+  sky(m/60)}
+function sky(h){const el=$('#sky'),sun=$('#sun'),stars=$('.stars',el);let bg,so=1;
+  if(h<7.5){bg='linear-gradient(180deg,#2a1b3d 0%,#b3465b 60%,#f0a35c 100%)';so=.8}
+  else if(h<16){bg='linear-gradient(180deg,#5aa6e6 0%,#8fc6f2 60%,#d9ecfb 100%)'}
+  else if(h<18.5){bg='linear-gradient(180deg,#4b2c6b 0%,#c9536e 55%,#f5a25a 100%)'}
+  else{bg='linear-gradient(180deg,#05050f 0%,#0c0c22 60%,#1a1a3a 100%)';so=0}
+  el.style.background=bg;stars.style.opacity=h>=18.5||h<6.5?1:0;
+  const k=(h-6)/16;const x=8+k*84;const y=72-Math.sin(Math.PI*Math.min(1,Math.max(0,(h-6)/12.5)))*60;
+  sun.style.left=x+'%';sun.style.top=y+'%';sun.style.opacity=so;sun.style.background=h<8||h>16?'#ffb36b':'#ffd66b';
+  $('#cityLights').style.opacity=h>=17||h<7?.9:.15}
+$('#scrub').addEventListener('input',e=>{stopPlay();setPct(+e.target.value)});
+function stopPlay(){if(state.playing){clearInterval(state.playing);state.playing=null;$('#playBtn').textContent='▶ 自動播放一天'}}
+$('#playBtn').addEventListener('click',()=>{if(state.playing){stopPlay();return}if(state.pct>=99)setPct(0);$('#playBtn').textContent='⏸ 暫停';state.playing=setInterval(()=>{if(state.pct>=100){stopPlay();toast(`${state.role.name}的一天結束 · 總共省下 ${fmtMin(state.role.day.reduce((a,s)=>a+s.save,0))}`);return}setPct(state.pct+.35)},50)});
+$('#resetBtn').addEventListener('click',()=>{stopPlay();setPct(0)});
+
+/* ---- Cap map ---- */
+function capCount(role,cap){return role.day.reduce((a,s)=>a+(s.caps.includes(cap)?1:0),0)}
+function renderCaps(){$('#capList').innerHTML=CAPS.map(c=>`<div class="capc" data-cap="${c.id}"><div class="ic">${c.ic}</div><div><h4>${esc(c.name)} <small>${esc(c.en)}</small> <span class="pill ${c.status}">${c.status==='ga'?'GA':c.status==='preview'?'Preview':'Frontier'}</span></h4><p>${esc(c.desc)}</p></div></div>`).join('');
+  $('#heatGrid').innerHTML=`<div></div>${CAPS.map(c=>`<div class="hh" title="${esc(c.name)}">${c.ic} ${SHORT[c.id]}</div>`).join('')}`+ROLES.map(r=>`<div class="rh" data-role="${r.id}">${r.ic} ${esc(r.name)}</div>${CAPS.map(c=>{const n=capCount(r,c.id);return `<div class="cell l${Math.min(3,n)}" data-role="${r.id}" data-cap="${c.id}" title="${esc(r.name)} × ${esc(c.name)}：${n} 段"></div>`}).join('')}`).join('');
+  showCap(CAPS[0].id)}
+function showCap(id){state.cap=id;const c=CAPS.find(x=>x.id===id);$$('.capc').forEach(el=>el.classList.toggle('on',el.dataset.cap===id));
+  $('#capDetail').innerHTML=`<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px"><b style="font-size:15px">${c.ic} ${esc(c.name)}</b><span class="pill ${c.status}">${c.status==='ga'?'正式上線 GA':c.status==='preview'?'Preview':'Frontier program'}</span></div><div style="font-size:13.5px;color:var(--muted);line-height:1.7">${esc(c.desc)}</div><div class="src">📎 ${esc(c.src)}</div><div style="margin-top:10px;font-size:12.5px;color:var(--dim)">本站有 ${ROLES.reduce((a,r)=>a+capCount(r,id),0)} 段場景用到這項功能 · 用得最多的角色：<b style="color:var(--text)">${esc(ROLES.slice().sort((a,b)=>capCount(b,id)-capCount(a,id))[0].name)}</b></div>`;
+  $$('#heatGrid .cell').forEach(el=>el.style.outline=el.dataset.cap===id&&!el.classList.contains('on')?'1px solid rgba(255,255,255,.35)':'')}
+$('#capList').addEventListener('click',e=>{const el=e.target.closest('.capc');if(el)showCap(el.dataset.cap)});
+$('#heatGrid').addEventListener('click',e=>{const el=e.target.closest('.cell');if(!el)return;$$('#heatGrid .cell').forEach(c=>c.classList.remove('on'));el.classList.add('on');const r=ROLES.find(x=>x.id===el.dataset.role),c=CAPS.find(x=>x.id===el.dataset.cap);const steps=r.day.filter(s=>s.caps.includes(c.id));showCap(c.id);
+  $('#heatDetail').innerHTML=steps.length?`<div class="hd">${esc(r.en.toUpperCase())} × ${esc(c.en)}</div><h4>${r.ic} ${esc(r.name)} × ${c.ic} ${esc(c.name)} · ${steps.length} 段</h4>${steps.map(s=>`<div class="q" style="margin-bottom:8px"><span class="mono" style="color:var(--gold);font-size:12px">${s.t}</span> <b>${esc(s.title)}</b><br>「${esc(s.you)}」</div>`).join('')}<div style="margin-top:10px"><button class="btn ghost small" data-goto="${r.id}">切換到此角色並看一天 →</button></div>`:`<div class="hd">${esc(r.en.toUpperCase())} × ${esc(c.en)}</div><h4>${r.ic} ${esc(r.name)} 的這一天沒有用到 ${c.ic} ${esc(c.name)}</h4><div class="q">這不代表不能用——例如任何角色都可以設定排程（Scheduled prompt）或事件觸發（Event-driven task）。點其他亮起的格子看實際範例。</div>`});
+$('#heatDetail').addEventListener('click',e=>{const b=e.target.closest('[data-goto]');if(!b)return;setRole(b.dataset.goto);document.getElementById('day').scrollIntoView({behavior:'smooth'})});
+renderCaps();
+
+/* ---- Simulator ---- */
+function renderPresets(){$('#presets').innerHTML=state.role.day.map((s,i)=>`<button class="preset" data-i="${i}"><small>${s.t} · ${MODE[s.mode].label}${s.approval?' · 🔒 需確認':''}</small>${esc(s.you)}</button>`).join('')}
+$('#presets').addEventListener('click',e=>{const b=e.target.closest('.preset');if(!b||state.simBusy)return;$$('.preset').forEach(p=>p.classList.toggle('on',p===b));runSim(state.role.day[+b.dataset.i])});
+$('#simSend').addEventListener('click',()=>sendCustom());$('#simInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendCustom()});
+function sendCustom(){const v=$('#simInput').value.trim();if(!v||state.simBusy)return;$('#simInput').value='';$$('.preset').forEach(p=>p.classList.remove('on'));runSim({you:v,title:'自訂任務',ai:GENERIC_SIM.plan,caps:['workiq','doc','comm'],approval:GENERIC_SIM.approval.title,deliver:GENERIC_SIM.deliver,generic:true})}
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function add(html){const body=$('#simBody');const d=document.createElement('div');d.className='sim-msg';d.innerHTML=html;body.appendChild(d);body.scrollTop=body.scrollHeight;return d}
+function stamp(){const d=new Date();return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`}
+async function runSim(step){state.simBusy=true;const body=$('#simBody');body.innerHTML='';const st=document.createElement('div');st.className='sim-status busy';st.id='simStatus';st.innerHTML='<i></i>已連線 · Cowork 正在規劃…';body.appendChild(st);
+  const audit=[];const logA=t=>audit.push(`<div><span>${stamp()}</span> ${t}</div>`);
+  add(`<div class="bubble you" style="margin:0"><div class="av">你</div><div class="msg">${esc(step.you)}</div></div>`);logA('收到任務');
+  const ty=add(`<div class="typing"><i></i><i></i><i></i></div>`);await sleep(900);ty.remove();
+  const planItems=step.generic?GENERIC_SIM.plan:step.ai.map(a=>a.replace(/<[^>]+>/g,''));
+  const plan=add(`<div class="plan"><div class="ph">📋 計畫 · ${planItems.length} 個步驟</div><ul>${planItems.map(p=>`<li><i></i><span>${esc(p)}</span></li>`).join('')}</ul></div>`);logA('建立計畫');
+  await sleep(500);
+  const skills=[...new Set((step.caps||[]).map(c=>SKILL_BY_CAP[c]).filter(Boolean))];
+  add(`<div class="skillrow">${skills.map(s=>`<span class="skillchip">⚙ Preparing · ${esc(s)}</span>`).join('')}</div>`);logA('載入 skills：'+skills.join('、'));
+  const lis=$$('li',plan);for(let i=0;i<lis.length;i++){lis[i].classList.add('doing');st.innerHTML=`<i></i>${esc(planItems[i])}…`;await sleep(650+Math.random()*450);lis[i].classList.remove('doing');lis[i].classList.add('done');lis[i].querySelector('i').textContent='✓';logA('完成：'+planItems[i])}
+  let approved=null;
+  if(step.approval){st.innerHTML='<i></i>等待你確認…';const bodyTxt=step.generic?GENERIC_SIM.approval.body:`動作：${step.approval}\n產出：${step.deliver.map(f=>f.n).join('、')}\n\nCowork 已準備完成，執行這個動作前需要你確認。你也可以選擇「本次對話同類動作不再詢問」。`;
+    const ap=add(`<div class="appr"><div class="ah">🔒 需要你確認 · ${esc(step.approval)}</div><div class="body">${esc(bodyTxt)}</div><div class="acts"><button class="btn gold small" data-act="ok">✓ 確認執行</button><button class="btn ghost small" data-act="always">確認，本次對話不再詢問</button><button class="btn ghost small" data-act="skip">略過</button><small>你隨時可以調整方向、暫停或停止</small></div></div>`);logA('等待確認：'+step.approval);
+    approved=await new Promise(res=>{ap.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)return;res(b.dataset.act)},{once:false})});
+    const box=$('.appr',ap);$$('.acts button',box).forEach(b=>b.disabled=true);
+    if(approved==='skip'){box.classList.add('skipped');box.querySelector('.ah').textContent='⏭ 已略過 · 動作未執行，草稿保留';logA('你選擇略過：'+step.approval)}
+    else{box.classList.add('approved');box.querySelector('.ah').textContent=approved==='always'?'✓ 已確認（本次對話同類動作不再詢問）':'✓ 已確認 · 動作已執行';logA((approved==='always'?'已確認（不再詢問）：':'已確認：')+step.approval)}
+    await sleep(500)}
+  st.innerHTML='<i></i>正在產出檔案…';await sleep(600);
+  add(`<div class="deliver"><div class="dh">✓ 已完成 · 產出檔案</div><div class="deliv">${step.deliver.map(fileHtml).join('')}</div><div style="font-size:13px;color:var(--muted);margin-top:10px;line-height:1.7">${step.generic?'已依你的描述完成任務。檔案存到你的 OneDrive「Cowork」資料夾；':`已完成「${esc(step.title)}」。檔案存到你的 OneDrive「Cowork」資料夾；`}${step.approval?(approved==='skip'?'寄信／貼文的動作已略過，草稿保留給你稍後處理。':'需要確認的動作已在你確認後執行。'):'這個任務只讀取資料，沒有寄出或修改任何內容。'}</div></div>`);logA('產出完成');
+  add(`<div><div style="font-size:11.5px;font-family:var(--mono);letter-spacing:.14em;color:var(--dim);margin-bottom:6px">操作紀錄 · AUDIT TRAIL</div><div class="audit">${audit.join('')}</div></div>`);
+  st.className='sim-status';st.innerHTML='<i></i>已連線 · 任務完成，可以再選一個';state.simBusy=false;toast('模擬完成 · 所有敏感動作都經過你確認')}
+
+/* ---- Compare ---- */
+const cmp=$('#cmp');let dragging=false;
+function setX(clientX){const r=cmp.getBoundingClientRect();const x=Math.max(4,Math.min(96,(clientX-r.left)/r.width*100));cmp.style.setProperty('--x',x+'%')}
+cmp.addEventListener('pointerdown',e=>{dragging=true;setX(e.clientX);cmp.setPointerCapture(e.pointerId)});
+cmp.addEventListener('pointermove',e=>{if(dragging)setX(e.clientX)});
+cmp.addEventListener('pointerup',()=>dragging=false);cmp.addEventListener('pointercancel',()=>dragging=false);
+$('#cmpRole').innerHTML=ROLES.map(r=>`<option value="${r.id}">${r.ic} ${esc(r.name)} · ${esc(r.en)}</option>`).join('');
+$('#cmpRole').addEventListener('change',e=>{setRole(e.target.value)});
+function renderCompare(){const r=state.role;const tot=r.day.reduce((a,s)=>a+s.save,0);$('#cmpLeftTitle').textContent=r.name+'的一天';$('#cmpRightTitle').textContent=r.name+'的一天';
+  $('#cmpLeft').innerHTML=r.before.map(b=>`<li>${esc(b)}</li>`).join('');$('#cmpRight').innerHTML=r.after.map(b=>`<li>${esc(b)}</li>`).join('');
+  $('#cmpLeftTot').textContent='約 '+fmtMin(tot)+' / 天';$('#cmpRightTot').textContent='每天多出 '+fmtMin(tot)}
+
+/* ---- Trust ---- */
+$('#trustGrid').innerHTML=TRUST.map((t,i)=>`<div class="tcard reveal" data-delay="${i%3}"><div class="n">PRINCIPLE ${t.n}</div><h4>${esc(t.name)}</h4><div class="en">${esc(t.en)}</div><ul>${t.items.map(x=>`<li><span>${x}</span></li>`).join('')}</ul></div>`).join('');
+$$('#trustGrid .reveal').forEach(el=>io.observe(el));
+
+/* ---- Calculator ---- */
+$('#calcRole').innerHTML=`<option value="all">全部角色（平均）</option>`+ROLES.map(r=>`<option value="${r.id}">${r.ic} ${esc(r.name)}</option>`).join('');
+const MIXW={light:.6,medium:1,heavy:1.8},EFFW={faster:.7,medium:1,smarter:1.5},MIXP={light:[60,30,10],medium:[25,50,25],heavy:[10,30,60]};
+function calc(){const rid=$('#calcRole').value;const roles=rid==='all'?ROLES:[ROLES.find(r=>r.id===rid)];
+  const perDayFull=roles.reduce((a,r)=>a+r.day.reduce((x,s)=>x+s.save,0),0)/roles.length;const steps=roles.reduce((a,r)=>a+r.day.length,0)/roles.length;
+  const people=+$('#calcPeople').value,days=+$('#calcDays').value,adopt=+$('#calcAdopt').value/100;
+  $('#calcRoleName').textContent=rid==='all'?'全部角色（平均）':roles[0].name;$('#calcPeopleV').textContent=people+' 人';$('#calcDaysV').textContent=days+' 天';$('#calcAdoptV').textContent=Math.round(adopt*100)+'%';
+  ['calcPeople','calcDays','calcAdopt'].forEach(id=>{const el=$('#'+id);el.style.setProperty('--p',((el.value-el.min)/(el.max-el.min)*100)+'%')});
+  const perDay=perDayFull*adopt,week=perDay*people*days,year=week*48,fte=year/1920;
+  $('#outDay').innerHTML=fmtMin(perDay);$('#outWeek').innerHTML=fmtH(week)+`<small>/ 週</small>`;$('#outYear').innerHTML=fmtH(year).replace(' 小時','')+`<small>小時 ≈ ${fte<10?fte.toFixed(1):Math.round(fte)} 位全職人力</small>`;
+  const tasks=people*days*steps*adopt,base=20*4*5*.6;const idx=Math.round(tasks*MIXW[state.mix]*EFFW[state.effort]/base*100);$('#outIdx').textContent=idx;
+  const p=MIXP[state.mix];$('#barL').style.width=p[0]+'%';$('#barM').style.width=p[1]+'%';$('#barH').style.width=p[2]+'%'}
+['calcRole','calcPeople','calcDays','calcAdopt'].forEach(id=>$('#'+id).addEventListener('input',calc));
+$('#mix').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.mix=b.dataset.mix;$$('#mix button').forEach(x=>x.classList.toggle('on',x===b));calc()});
+$('#effort').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.effort=b.dataset.effort;$$('#effort button').forEach(x=>x.classList.toggle('on',x===b));calc()});
+
+/* ---- init ---- */
+setRole(ROLES[0].id);
+})();
+</script>
+</body>
+</html>
