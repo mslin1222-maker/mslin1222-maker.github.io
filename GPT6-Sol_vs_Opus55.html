@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="only light">
+<title>GPT-6 Sol × Claude Opus 5.5｜大字流簡報</title>
+<style>
+:root{
+  color-scheme: only light;
+  --ms-blue:#0078D4; --ms-red:#F25022; --ms-green:#7FBA00; --ms-cyan:#00A4EF; --ms-yellow:#FFB900; --ms-blue-soft:#EFF6FC;
+  --bg:#FFFFFF; --bg-soft:#F3F2F1; --fg:#1B1B1B; --fg-2:#262626; --muted:#484644; --muted-2:#605E5C; --line:#E1DFDD;
+  --sol:#00A4EF; --sol-ink:#0082BF; --opus:#F25022; --opus-ink:#C8400E; --opus-2:#FFB900;
+  --font:"Segoe UI Variable Display","Segoe UI Variable","Segoe UI","Microsoft JhengHei","微軟正黑體","PingFang TC","Noto Sans TC",system-ui,sans-serif;
+  /* stage width: 16:9 box fitted inside the viewport; 1u = 1% of slide width */
+  --sw: min(100vw, calc(100vh * 16 / 9));
+  --u: calc(var(--sw) / 100);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:#E6E6E6;color:var(--fg);font-family:var(--font);overflow:hidden;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.deck{position:fixed;inset:0;display:grid;place-items:center}
+.slide{display:none;position:relative;width:var(--sw);height:calc(var(--sw) * 9 / 16);
+  background:var(--bg);overflow:hidden;flex-direction:column;
+  padding:calc(var(--u)*3.2) calc(var(--u)*5.5) calc(var(--u)*2.6)}
+.slide.active{display:flex}
+.s-head{display:flex;align-items:center;justify-content:space-between;min-height:calc(var(--u)*2.6)}
+.logo{display:grid;grid-template-columns:repeat(2,calc(var(--u)*1.05));gap:calc(var(--u)*.18)}
+.logo i{display:block;width:calc(var(--u)*1.05);height:calc(var(--u)*1.05)}
+.logo i:nth-child(1){background:var(--ms-red)}.logo i:nth-child(2){background:var(--ms-green)}
+.logo i:nth-child(3){background:var(--ms-cyan)}.logo i:nth-child(4){background:var(--ms-yellow)}
+.chip{font-size:calc(var(--u)*1.25);font-weight:600;letter-spacing:.02em;padding:calc(var(--u)*.35) calc(var(--u)*1.1);
+  border-radius:999px;border:calc(var(--u)*.12) solid currentColor;line-height:1.2}
+.chip-sol{color:var(--sol-ink)}.chip-opus{color:var(--opus-ink)}.chip-both{color:var(--ms-blue)}
+.s-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:0}
+.s-foot{display:flex;align-items:flex-end;justify-content:space-between;gap:calc(var(--u)*2);min-height:calc(var(--u)*1.6)}
+.src{font-size:calc(var(--u)*1.05);color:var(--muted-2);line-height:1.4;text-align:start;max-width:85%}
+.pno{font-size:calc(var(--u)*1.05);color:var(--muted-2);white-space:nowrap;visibility:hidden}
+.kicker{font-size:calc(var(--u)*1.9);font-weight:600;color:var(--muted);letter-spacing:.03em;margin-block-end:calc(var(--u)*1.2)}
+.big{font-weight:700;line-height:1.08;letter-spacing:-.01em;color:var(--fg)}
+.big.num{font-size:calc(var(--u)*12.5);letter-spacing:-.03em;line-height:1}
+.big.word-l{font-size:calc(var(--u)*10)}
+.big.word{font-size:calc(var(--u)*6.4)}
+.big.word-s{font-size:calc(var(--u)*5.4)}
+.a-sol{color:var(--sol-ink)}.a-opus{color:var(--opus-ink)}.a-both{color:var(--ms-blue)}.a-ms{color:var(--fg)}
+.rule{display:block;width:calc(var(--u)*6);height:calc(var(--u)*.45);margin-block:calc(var(--u)*2.2) calc(var(--u)*1.8)}
+.rule.a-sol{background:var(--sol)}.rule.a-opus{background:linear-gradient(90deg,var(--opus) 50%,var(--opus-2) 50%)}
+.rule.a-both{background:linear-gradient(90deg,var(--sol) 50%,var(--opus) 50%)}
+.sub{font-size:calc(var(--u)*2.1);color:var(--fg-2);line-height:1.55;max-width:calc(var(--u)*84);font-weight:400}
+.sub b{font-weight:700;color:var(--ms-blue)}
+.badge{font-size:calc(var(--u)*1.3);font-weight:700;color:#8A5A00;background:#FFF4CE;border:calc(var(--u)*.1) solid var(--ms-yellow);
+  padding:calc(var(--u)*.3) calc(var(--u)*1);border-radius:calc(var(--u)*.3);margin-block-end:calc(var(--u)*1.4)}
+.t-sol{color:var(--sol-ink)}.t-opus{color:var(--opus-ink)}
+
+/* cover */
+.cover::before{content:"";position:absolute;inset-inline:0;inset-block-start:0;height:calc(var(--u)*.9);
+  background:linear-gradient(90deg,var(--ms-red) 0 25%,var(--ms-green) 25% 50%,var(--ms-cyan) 50% 75%,var(--ms-yellow) 75% 100%)}
+.cover .big.word{font-size:calc(var(--u)*7.4)}
+.cover-models{font-size:calc(var(--u)*3.6);font-weight:600;margin-block-start:calc(var(--u)*2.6);display:flex;gap:calc(var(--u)*1.6);align-items:baseline;justify-content:center}
+.cover-models .x{color:var(--muted-2);font-weight:300}
+.cover-date{font-size:calc(var(--u)*2);color:var(--muted);margin-block-start:calc(var(--u)*2.2);letter-spacing:.12em}
+
+/* section divider (light) */
+.section{background:var(--bg-soft)}
+.section .s-body{align-items:flex-start;text-align:start}
+.sec-wrap{border-inline-start:calc(var(--u)*1.2) solid var(--sol);padding-inline-start:calc(var(--u)*4);padding-block:calc(var(--u)*1)}
+.sec-wrap.sec-opus{border-image:linear-gradient(180deg,var(--opus) 50%,var(--opus-2) 50%) 1}
+.sec-no{font-size:calc(var(--u)*2.4);font-weight:600;color:var(--muted-2);letter-spacing:.1em}
+.sec-name{font-size:calc(var(--u)*10);font-weight:700;line-height:1.05;letter-spacing:-.02em;color:var(--fg)}
+.sec-vendor{font-size:calc(var(--u)*2.2);color:var(--muted);margin-block-start:calc(var(--u)*1.4)}
+.sec-sol .sec-name{color:var(--fg)}
+
+/* choose */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--u)*3);width:calc(var(--u)*78);margin-block-start:calc(var(--u)*3.2);text-align:start}
+.col{background:var(--bg-soft);padding:calc(var(--u)*2.4) calc(var(--u)*3);border-block-start:calc(var(--u)*.6) solid var(--sol)}
+.col-opus{border-block-start-color:var(--opus)}
+.col-h{font-size:calc(var(--u)*3);font-weight:700;margin-block-end:calc(var(--u)*1.2)}
+.col ul{list-style:none}
+.col li{font-size:calc(var(--u)*2.3);line-height:1.5;padding-block:calc(var(--u)*.35);color:var(--fg-2)}
+.col li::before{content:"";display:inline-block;width:calc(var(--u)*.7);height:calc(var(--u)*.7);margin-inline-end:calc(var(--u)*1);
+  vertical-align:middle;background:currentColor}
+.col-sol li::before{color:var(--sol)}.col-opus li::before{color:var(--opus)}
+
+/* foundry */
+.tiles{display:grid;grid-template-columns:1.35fr 1fr;gap:calc(var(--u)*2.4);width:calc(var(--u)*84);margin-block:calc(var(--u)*2.8) calc(var(--u)*2.4);text-align:start}
+.tile{background:var(--bg-soft);padding:calc(var(--u)*2) calc(var(--u)*2.4);border-inline-start:calc(var(--u)*.6) solid var(--sol)}
+.tile-opus{border-inline-start-color:var(--opus)}
+.tile-h{font-size:calc(var(--u)*2.2);font-weight:700;margin-block-end:calc(var(--u)*.8)}
+.tile p:not(.tile-h){font-size:calc(var(--u)*1.6);line-height:1.55;color:var(--fg-2)}
+.ms-msg{font-size:calc(var(--u)*1.9)}
+
+/* foundry + M365 Copilot (slide 22) */
+.f2-head{font-size:calc(var(--u)*4.6)}
+.tiles-2{grid-template-columns:1fr 1fr;width:calc(var(--u)*86);margin-block:calc(var(--u)*3) 0}
+.tiles-2 .tile{padding:calc(var(--u)*1.9) calc(var(--u)*2.2)}
+.tiles-2 .tile-h{font-size:calc(var(--u)*2.1)}
+.tile-aud{font-size:calc(var(--u)*1.45);font-weight:600;color:var(--muted-2);margin-inline-start:calc(var(--u)*.3)}
+.tiles-2 .tile p:not(.tile-h){font-size:calc(var(--u)*1.55);line-height:1.55}
+.tiles-2 .tile p:not(.tile-h) + p{margin-block-start:calc(var(--u)*.7)}
+.tile b{font-weight:700}
+
+/* app pills (slides 22-23) */
+.apps{display:flex;flex-wrap:wrap;justify-content:center;gap:calc(var(--u)*1)}
+.pill-app{color:var(--ms-blue);background:var(--ms-blue-soft);border-color:var(--ms-blue);font-size:calc(var(--u)*2);padding:calc(var(--u)*.6) calc(var(--u)*1.8)}
+.tiles-2 .apps.apps-sm{justify-content:flex-start;gap:calc(var(--u)*.6);margin-block-end:calc(var(--u)*.2)}
+.apps-sm .pill-app{font-size:calc(var(--u)*1.3);padding:calc(var(--u)*.35) calc(var(--u)*1);border-width:calc(var(--u)*.08)}
+.m365 .big.word{font-size:calc(var(--u)*6)}
+.m365 .rule{margin-block:calc(var(--u)*2) calc(var(--u)*2.2)}
+.m365-sub{margin-block-start:calc(var(--u)*2.6);font-size:calc(var(--u)*1.9)}
+.m365-sub span[lang="en"]{font-weight:600;color:var(--fg)}
+
+/* closing: key takeaway */
+.close-line em{font-style:normal;color:var(--ms-blue)}
+.closing .big.word{font-size:calc(var(--u)*5.6)}
+.closing .rule{margin-block:calc(var(--u)*1.8) calc(var(--u)*1.6)}
+.shift{display:flex;align-items:center;justify-content:center;gap:calc(var(--u)*1.6)}
+.pill{font-size:calc(var(--u)*2.2);font-weight:600;line-height:1.2;border-radius:999px;padding:calc(var(--u)*.7) calc(var(--u)*2.2);
+  border:calc(var(--u)*.12) solid transparent}
+.pill-old{color:var(--muted-2);background:var(--bg-soft);border-color:var(--line)}
+.pill-old s{text-decoration-thickness:calc(var(--u)*.14)}
+.pill-new{color:#FFFFFF;background:var(--ms-blue);font-weight:700}
+.shift-arrow{font-size:calc(var(--u)*2.6);color:var(--ms-blue);font-weight:600}
+.tiles-3{grid-template-columns:repeat(3,1fr);width:calc(var(--u)*80);margin-block:calc(var(--u)*3) 0}
+.tile-ms{border-inline-start-color:var(--ms-blue)}
+.t-ms{color:var(--ms-blue)}
+.tiles-3 .tile{padding:calc(var(--u)*1.6) calc(var(--u)*2)}
+.tiles-3 .tile-h{font-size:calc(var(--u)*1.9);margin-block-end:calc(var(--u)*.5)}
+.tiles-3 .tile p:not(.tile-h){font-size:calc(var(--u)*1.75);color:var(--fg)}
+
+/* sources */
+.sources .s-body{align-items:flex-start;text-align:start;justify-content:center}
+.src-title{font-size:calc(var(--u)*4.4);font-weight:700;margin-block-end:calc(var(--u)*2.4)}
+.src-cols{display:grid;grid-template-columns:1.25fr 1fr;gap:calc(var(--u)*4);width:100%}
+.src-grp{font-size:calc(var(--u)*1.9);font-weight:700;margin-block-end:calc(var(--u)*1)}
+.src-cols ul{list-style:none}
+.src-cols li{font-size:calc(var(--u)*1.55);line-height:1.5;color:var(--fg-2);padding-block:calc(var(--u)*.5);
+  border-block-end:calc(var(--u)*.08) solid var(--line)}
+.src-note{margin-block-start:calc(var(--u)*3);font-size:calc(var(--u)*1.7);font-weight:600;color:var(--fg);
+  background:#FFF4CE;border-inline-start:calc(var(--u)*.5) solid var(--ms-yellow);padding:calc(var(--u)*1) calc(var(--u)*1.6)}
+
+/* chrome: progress, counter, nav buttons */
+.progress{position:fixed;inset-inline:0;inset-block-end:0;height:5px;background:rgba(0,0,0,.08);z-index:10}
+.progress span{display:block;height:100%;width:0;background:var(--ms-blue);transition:width .25s ease}
+.counter{position:fixed;inset-block-end:14px;inset-inline-end:18px;z-index:11;font:600 14px/1 var(--font);
+  color:var(--fg-2);background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:999px;padding:7px 12px}
+.navbtn{position:fixed;inset-block-end:10px;z-index:11;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);
+  background:rgba(255,255,255,.92);color:var(--fg-2);font:600 18px/1 var(--font);cursor:pointer;opacity:.35;transition:opacity .2s}
+.navbtn:hover,.navbtn:focus-visible{opacity:1}
+.navbtn:focus-visible,.counter:focus-visible{outline:3px solid var(--ms-blue);outline-offset:2px}
+#prev{inset-inline-start:18px}#next{inset-inline-start:62px}
+.hint{position:fixed;inset-block-end:16px;inset-inline-start:110px;z-index:11;font:400 12px/1.2 var(--font);color:var(--muted-2);opacity:.8}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width:700px){.hint{display:none}}
+@media (prefers-reduced-motion:reduce){.progress span{transition:none}}
+
+/* print: one slide per 16:9 landscape page (PowerPoint 13.333in × 7.5in) */
+@media print{
+  @page{size:13.333in 7.5in;margin:0}
+  :root{--sw:13.333in;--u:calc(13.333in / 100)}
+  html,body{height:auto;overflow:visible;background:#fff}
+  body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .deck{position:static;display:block}
+  .slide,.slide.active{display:flex;width:13.333in;height:7.5in;break-after:page;page-break-after:always}
+  .slide:last-child{break-after:auto;page-break-after:auto}
+  .pno{visibility:visible}
+  .no-print{display:none !important}
+}
+</style>
+</head>
+<body>
+<main class="deck" id="deck" aria-label="GPT-6 Sol × Claude Opus 5.5 簡報">
+<section class="slide active cover" id="s1" aria-roledescription="slide" aria-label="1 / 24：兩個新模型，同一天"><div class="s-head"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div><div class="s-body"><p class="kicker">2026 年 9 月・AI 模型快報</p><h1 class="big word">兩個新模型，同一天</h1><p class="cover-models"><span class="t-sol">GPT-6 Sol</span><span class="x">×</span><span class="t-opus">Claude Opus 5.5</span></p><p class="cover-date">2026.09.22</p></div><div class="s-foot"><p class="src"></p><p class="pno">1 / 24</p></div></section>
+<section class="slide " id="s2" aria-roledescription="slide" aria-label="2 / 24：90 分鐘"><div class="s-head"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="chip chip-both">GPT-6 Sol × Claude Opus 5.5</span></div><div class="s-body"><p class="kicker">同一天、前後腳發表</p><h2 class="big num a-both">90 分鐘</h2><span class="rule a-both" aria-hidden="true"></span><p class="sub">Anthropic 先發表 Claude Opus 5.5，約 90 分鐘後 OpenAI 推出 GPT-6 Sol 與 Luna</p></div><div class="s-foot"><p class="src">來源：TechCrunch（2026-09-22）</p><p class="pno">2 / 24</p></div></section>
+<section class="slide section" id="s3" aria-roledescription="slide" aria-label="3 / 24：GPT-6 Sol"><div class="s-head"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div><div class="s-body"><div class="sec-wrap sec-sol"><p class="sec-no">01</p><h2 class="sec-name">GPT-6 Sol</h2><p class="sec-vendor">OpenAI・2026.09.22</p></div></div><div class="s-foot"><p class="src"></p><p class="pno">3 / 24</p></div></section>
+<section class="slide " id="s4" aria-roledescription="slide" aria-label="4 / 24：Astra 的智慧， 日常的價格"><div class="s-head"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="chip chip-sol">GPT-6 Sol</span></div><div class="s-body"><p class="kicker">產品定位</p><h2 class="big word a-sol">Astra 的智慧，<br>日常的價格</h2><span class="rule a-sol" aria-hidden="true"></span><p class="sub">位於旗艦 GPT-6 Astra 之下、快速的 Luna 之上；以與 Astra 相近的方法訓練，<br>強化專業工作、factuality、coding、computer use 與 alignment</p></div><div class="s-foot"><p class="src">來源：OpenAI〈Introducing GPT-6 Sol and Luna〉</p><p class="pno">4 / 24</p></div></section>
+<section class="slide " id="s5" aria-roledescription="slide" aria-label="5 / 24：−50%"><div class="s-head"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="chip chip-sol">GPT-6 Sol</span></div><div class="s-body"><p class="kicker">API 價格 vs GPT-5.6 Sol</p><h2 class="big num a-sol">−50%</h2><span class="rule a-sol" aria-hidden="true"></span><p class="sub">Input $4 → $2・Output $20 → $10（per 1M tokens）</p></div><div class="s-foot"><p class="src">來源：OpenAI</p><p class="pno">5 / 24</p></div></section>
+<section class="slide " id="s6" aria-roledescription="slide" aria-label="6 / 24：½ 錯誤"><div class="s-head"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="chip chip-sol">GPT-6 Sol</span></div><div class="s-body"><p class="kicker">OpenAI 內部 factuality eval</p><h2 class="big num a-sol">½ 錯誤</h2><span class="rule a-sol" aria-hidden="true"></span><p class="sub">錯誤約為前代的一半，可靠度逼近 Astra 等級</p></div><div class="s-foot"><p class="src">來源：OpenAI</p><p class="pno">6 / 24</p></div></section>
+<section class="slide " id="s7" aria-roledescription="slide" aria-label="7 / 24：9%"><div class="s-head"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="chip chip-sol">GPT-6 Sol</span></div><div class="s-body"><p class="kicker">AutomationBench・每任務成本</p><h2 class="big num a-sol">9%</h2><span class="rule a-sol" aria-hidden="true"></span><p class="sub">Sol (xhigh) 33.2%・$0.27/task，勝過 Claude Opus 5 (max) 26.9%<br>每任務成本只要 Opus 5 的 9%</p></div><div class="s-foot"><p class="src">來源：OpenAI。注意：比較對象為 Claude Opus 5，非 Opus 5.5</p><p class="pno">7 / 24</p></div></section>
+<section class="slide " id="s8" aria-roledescription="slide" aria-label="8 / 24：56.4%"><div class="s-head"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="chip chip-sol">GPT-6 Sol</span></div><div class="s-body"><p class="kicker">Agents' Last Exam</p><h2 class="big num a-sol">56.4%</h2><span class="rule a-sol" aria-hidden="true"></span><p class="sub">Sol (max) 超越 Claude Opus 5 的最高分，每任務成本低 60%</p></div><div class="s-foot"><p class="src">來源：OpenAI。注意：比較對象為 Claude Opus 5，非 Opus 5.5</p><p class="pno">8 / 24</p></div></section>
+<section class="slide " id="s9" aria-roledescription="slide" aria-label="9 / 24：1.3%"><div class="s-head"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="chip chip-sol">GPT-6 Sol</span></div><div class="s-body"><p class="kicker">Coding deception rate</p><h2 class="big num a-sol">1.3%</h2><span class="rule a-sol" aria-hidden="true"></span><p class="sub">從 10.4% 降至 1.3%；工具故障未揭露（broken-tool non-disclosure）77.5% → 4.9%</p></div><div class="s-foot"><p class="src">來源：The New Stack（引述 OpenAI）</p><p class="pno">9 / 24</p></div></section>
+<section class="slide " id="s10" aria-roledescription="slide" aria-label="10 / 24：90% off"><div class="s-head"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="chip chip-sol">GPT-6 Sol</span></div><div class="s-body"><p class="kicker">Cached input tokens</p><h2 class="big num a-sol">90% off</h2><span class="rule a-sol" aria-hidden="true"></span><p class="sub">調整 reasoning effort 與 tool availability，不會讓 cache 失效</p></div><div class="s-foot"><p class="src">來源：The New Stack、MacRumors</p><p class="pno">10 / 24</p></div></section>
+<section class="slide " id="s11" aria-roledescription="slide" aria-label="11 / 24：更直接"><div class="s-head"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="chip chip-sol">GPT-6 Sol</span></div><div class="s-body"><p class="kicker">溝通風格</p><h2 class="big word-l a-sol">更直接</h2><span class="rule a-sol" aria-hidden="true"></span><p class="sub">更清楚、更少術語；回答略短，但不失內容</p></div><div class="s-foot"><p class="src">來源：OpenAI</p><p class="pno">11 / 24</p></div></section>
+<section class="slide section" id="s12" aria-roledescription="slide" aria-label="12 / 24：Claude Opus 5.5"><div class="s-head"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div><div class="s-body"><div class="sec-wrap sec-opus"><p class="sec-no">02</p><h2 class="sec-name">Claude Opus 5.5</h2><p class="sec-vendor">Anthropic・2026.09.22</p></div></div><div class="s-foot"><p class="src"></p><p class="pno">12 / 24</p></div></section>
+<section class="slide " id="s13" aria-roledescription="slide" aria-label="13 / 24：Fable 級能力， Opus 價格"><div class="s-head"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="chip chip-opus">Claude Opus 5.5</span></div><div class="s-body"><p class="kicker">產品定位</p><h2 class="big word a-opus">Fable 級能力，<br>Opus 價格</h2><span class="rule a-opus" aria-hidden="true"></span><p class="sub">Claude 5.5 家族首款；多數任務表現約達 Fable 5.1 水準<br>主打長時間 agentic coding 與知識工作</p></div><div class="s-foot"><p class="src">來源：OfficeChai、Codersera</p><p class="pno">13 / 24</p></div></section>
+<section class="slide " id="s14" aria-roledescription="slide" aria-label="14 / 24：66.4%"><div class="s-head"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="chip chip-opus">Claude Opus 5.5</span></div><div class="s-body"><p class="kicker">Terminal-Bench 4.0・Agentic coding</p><h2 class="big num a-opus">66.4%</h2><span class="rule a-opus" aria-hidden="true"></span><p class="sub">GPT-6 Astra 57.9%・Fable 5.1 55.8%</p></div><div class="s-foot"><p class="src">來源：Anthropic（via ComputingForGeeks）</p><p class="pno">14 / 24</p></div></section>
+<section class="slide " id="s15" aria-roledescription="slide" aria-label="15 / 24：1846"><div class="s-head"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="chip chip-opus">Claude Opus 5.5</span></div><div class="s-body"><p class="kicker">GDPval-AA v2.1・知識工作 Elo</p><h2 class="big num a-opus">1846</h2><span class="rule a-opus" aria-hidden="true"></span><p class="sub">GPT-6 Astra 1542・Fable 5.1 1735</p></div><div class="s-foot"><p class="src">來源：Anthropic（via ComputingForGeeks）</p><p class="pno">15 / 24</p></div></section>
+<section class="slide " id="s16" aria-roledescription="slide" aria-label="16 / 24：67.7%"><div class="s-head"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="chip chip-opus">Claude Opus 5.5</span></div><div class="s-body"><p class="kicker">Humanity's Last Exam（with tools）</p><h2 class="big num a-opus">67.7%</h2><span class="rule a-opus" aria-hidden="true"></span><p class="sub">GPT-6 Astra 57.2%・OSWorld 2.0 computer use 81.8%</p></div><div class="s-foot"><p class="src">來源：Anthropic（via ComputingForGeeks）</p><p class="pno">16 / 24</p></div></section>
+<section class="slide " id="s17" aria-roledescription="slide" aria-label="17 / 24：−40%"><div class="s-head"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="chip chip-opus">Claude Opus 5.5</span></div><div class="s-body"><p class="kicker">典型工作負載成本 vs Opus 5</p><h2 class="big num a-opus">−40%</h2><span class="rule a-opus" aria-hidden="true"></span><p class="sub">List price $5/$25 → $4/$20・Cache read $0.50 → $0.20（−60%）<br>Output 快 30% 以上・1M context・128K output</p></div><div class="s-foot"><p class="src">來源：Anthropic（via VentureBeat、Codersera）</p><p class="pno">17 / 24</p></div></section>
+<section class="slide " id="s18" aria-roledescription="slide" aria-label="18 / 24：&lt; 3 小時"><div class="s-head"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="chip chip-opus">Claude Opus 5.5</span></div><div class="s-body"><p class="badge">早期測試者實例</p><p class="kicker">早期測試者實例・20 萬行程式碼稽核與修復</p><h2 class="big num a-opus">&lt; 3 小時</h2><span class="rule a-opus" aria-hidden="true"></span><p class="sub">同樣工作，Opus 5 需要 20 小時以上、token 用量 2.5 倍</p></div><div class="s-foot"><p class="src">來源：Anthropic〈Introducing Claude Opus 5.5〉（早期測試者回饋，非 benchmark）</p><p class="pno">18 / 24</p></div></section>
+<section class="slide " id="s19" aria-roledescription="slide" aria-label="19 / 24：不是全面勝出"><div class="s-head"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="chip chip-opus">Claude Opus 5.5</span></div><div class="s-body"><p class="kicker">誠實說</p><h2 class="big word a-opus">不是全面勝出</h2><span class="rule a-opus" aria-hidden="true"></span><p class="sub">GPT-6 Astra 仍領先 Opus 5.5：AutomationBench 41.4 vs 40.0<br>Terminal-Bench-Science 64.6 vs 58.7</p></div><div class="s-foot"><p class="src">來源：Anthropic（via ComputingForGeeks）</p><p class="pno">19 / 24</p></div></section>
+<section class="slide " id="s20" aria-roledescription="slide" aria-label="20 / 24：還沒有人正面對決"><div class="s-head"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="chip chip-both">GPT-6 Sol × Claude Opus 5.5</span></div><div class="s-body"><p class="kicker">Sol vs Opus 5.5</p><h2 class="big word a-both">還沒有人正面對決</h2><span class="rule a-both" aria-hidden="true"></span><p class="sub">Sol 每 token 價格（$2/$10）是 Opus 5.5（$4/$20）的一半，但 Opus 5.5 每任務用更少 tokens<br>→ 比 <b>cost per task</b>，不比 cost per token</p></div><div class="s-foot"><p class="src">尚無同一 harness 的 Sol vs Opus 5.5 對比；OpenAI 比的是 Opus 5（非 5.5）；benchmark 皆為廠商自行公布。來源：The New Stack、MacRumors</p><p class="pno">20 / 24</p></div></section>
+<section class="slide " id="s21" aria-roledescription="slide" aria-label="21 / 24：怎麼選？"><div class="s-head"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="chip chip-both">GPT-6 Sol × Claude Opus 5.5</span></div><div class="s-body"><h2 class="big word-s">怎麼選？</h2><div class="cols"><div class="col col-sol"><p class="col-h t-sol">GPT-6 Sol</p><ul><li>高頻量日常工作</li><li>業務流程自動化</li><li>成本敏感的 agent</li></ul></div><div class="col col-opus"><p class="col-h t-opus">Claude Opus 5.5</p><ul><li>長時間 agentic coding</li><li>深度知識工作</li><li>複雜研究</li></ul></div></div></div><div class="s-foot"><p class="src">建議：以自家資料做 eval 決定</p><p class="pno">21 / 24</p></div></section>
+<section class="slide foundry2" id="s22" aria-roledescription="slide" aria-label="22 / 24：兩個都在 Microsoft Foundry，也都在 Microsoft 365 Copilot"><div class="s-head"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="chip chip-both">GPT-6 Sol × Claude Opus 5.5</span></div><div class="s-body"><p class="kicker">Microsoft Foundry × Microsoft 365 Copilot</p><h2 class="big word-s a-ms close-line f2-head">兩個都在 <em>Microsoft Foundry</em><br>也都在 <em>Microsoft 365 Copilot</em></h2><div class="tiles tiles-2"><div class="tile tile-ms"><p class="tile-h t-ms">Microsoft Foundry<span class="tile-aud">（給開發者・打造 Agent）</span></p><p><b class="t-sol">GPT-6 Sol &amp; Luna GA</b>：Standard deployment 28 個 Global regions + US/EU Data Zones；Sol 另支援 Provisioned Throughput、Priority Processing</p><p><b class="t-opus">Claude Opus 5.5</b>：Anthropic 官方稱已上架 Microsoft Azure</p></div><div class="tile tile-ms"><p class="tile-h t-ms">Microsoft 365 Copilot<span class="tile-aud">（給每位員工・日常工作）</span></p><p class="apps apps-sm" aria-label="Microsoft 365 Copilot：Word、Excel、PowerPoint、Chat、Cowork、Copilot Studio"><span class="pill pill-app">Word</span><span class="pill pill-app">Excel</span><span class="pill pill-app">PowerPoint</span><span class="pill pill-app">Chat</span><span class="pill pill-app">Cowork</span><span class="pill pill-app">Copilot Studio</span></p><p>透過 Work IQ 以組織的檔案、會議、聊天與業務資料為根據</p></div></div></div><div class="s-foot"><p class="src">來源：Microsoft Azure Blog（2026-09-22）；Anthropic 官方；Microsoft Copilot Blog〈More Models, One Copilot〉（2026-09-22，逐步推出，依授權、存取與地區而異）</p><p class="pno">22 / 24</p></div></section>
+<section class="slide closing" id="s23" aria-roledescription="slide" aria-label="23 / 24：看的不是分數，是每一塊錢完成多少工作"><div class="s-head"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="chip chip-both">GPT-6 Sol × Claude Opus 5.5</span></div><div class="s-body"><p class="kicker">結語・Useful work per dollar</p><h2 class="big word close-line">看的不是分數，<br>是<em>每一塊錢</em>完成多少工作</h2><span class="rule a-both" aria-hidden="true"></span><p class="shift"><span class="sr-only">不只看 </span><span class="pill pill-old"><s>Cost per token</s></span><span class="shift-arrow" aria-hidden="true">→</span><span class="sr-only">，改看 </span><span class="pill pill-new">Cost per task</span></p><div class="tiles tiles-3"><div class="tile tile-sol"><p class="tile-h t-sol">GPT-6 Sol</p><p>API 價格 −50%・錯誤約減半</p></div><div class="tile tile-opus"><p class="tile-h t-opus">Claude Opus 5.5</p><p>典型成本 −40%・Fable 級表現</p></div><div class="tile tile-ms"><p class="tile-h t-ms">Microsoft</p><p>Foundry + M365 Copilot 皆可用・以 eval 決定</p></div></div></div><div class="s-foot"><p class="src">來源：Microsoft Azure Blog（2026-09-22）</p><p class="pno">23 / 24</p></div></section>
+<section class="slide sources" id="s24" aria-roledescription="slide" aria-label="24 / 24：資料來源"><div class="s-head"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="chip chip-both">GPT-6 Sol × Claude Opus 5.5</span></div><div class="s-body"><h2 class="src-title">資料來源</h2><div class="src-cols"><div><p class="src-grp t-sol">GPT-6 Sol / Microsoft</p><ul><li>OpenAI〈Introducing GPT-6 Sol and Luna〉</li><li>Microsoft Azure Blog〈GPT-6 Astra, Sol, and Luna: For production agents in Microsoft Foundry〉（2026-09-22）</li><li>Microsoft Copilot Blog〈More Models, One Copilot〉（2026-09-22）</li><li>TechCrunch、MacRumors、The New Stack、Gizmodo（2026-09-22）</li></ul></div><div><p class="src-grp t-opus">Claude Opus 5.5</p><ul><li>Anthropic〈Introducing Claude Opus 5.5〉（2026-09-22）</li><li>OfficeChai、VentureBeat、Codersera、ComputingForGeeks</li><li>note.com 使用者整理（補充）</li></ul></div></div><p class="src-note">所有 benchmark 為廠商自行公布，數據截至 2026-09-23</p></div><div class="s-foot"><p class="src"></p><p class="pno">24 / 24</p></div></section>
+</main>
+<div class="progress no-print" aria-hidden="true"><span id="bar"></span></div>
+<button type="button" class="navbtn no-print" id="prev" aria-label="上一張">‹</button>
+<button type="button" class="navbtn no-print" id="next" aria-label="下一張">›</button>
+<p class="hint no-print">← → / Space 換頁・F 全螢幕</p>
+<p class="counter no-print" id="counter" aria-hidden="true">1 / 24</p>
+<p class="sr-only no-print" id="live" aria-live="polite"></p>
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var total = slides.length, cur = 0;
+  var bar = document.getElementById('bar');
+  var counter = document.getElementById('counter');
+  var live = document.getElementById('live');
+  function show(n, fromHash){
+    n = Math.max(0, Math.min(total - 1, n));
+    slides[cur].classList.remove('active');
+    slides[cur].setAttribute('aria-hidden','true');
+    cur = n;
+    slides[cur].classList.add('active');
+    slides[cur].removeAttribute('aria-hidden');
+    var label = (cur + 1) + ' / ' + total;
+    counter.textContent = label;
+    bar.style.width = ((cur + 1) / total * 100) + '%';
+    live.textContent = slides[cur].getAttribute('aria-label') || label;
+    if (!fromHash && location.hash !== '#' + (cur + 1)) {
+      try { history.replaceState(null, '', '#' + (cur + 1)); } catch (e) {}
+    }
+  }
+  function next(){ show(cur + 1); }
+  function prev(){ show(cur - 1); }
+  function toggleFs(){
+    var d = document, el = d.documentElement;
+    try {
+      if (!d.fullscreenElement && !d.webkitFullscreenElement) {
+        if (el.requestFullscreen) { var p = el.requestFullscreen(); if (p && p.catch) p.catch(function(){}); }
+        else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+      } else {
+        if (d.exitFullscreen) { var q = d.exitFullscreen(); if (q && q.catch) q.catch(function(){}); }
+        else if (d.webkitExitFullscreen) d.webkitExitFullscreen();
+      }
+    } catch (e) {}
+  }
+  document.addEventListener('keydown', function(e){
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    var t = e.target;
+    var onBtn = t && t.tagName === 'BUTTON';
+    switch (e.key) {
+      case 'ArrowRight': case 'ArrowDown': case 'PageDown': next(); e.preventDefault(); break;
+      case 'ArrowLeft': case 'ArrowUp': case 'PageUp': prev(); e.preventDefault(); break;
+      case ' ': case 'Spacebar':
+        if (onBtn) return;
+        if (e.shiftKey) prev(); else next(); e.preventDefault(); break;
+      case 'Enter': if (onBtn) return; next(); e.preventDefault(); break;
+      case 'Home': show(0); e.preventDefault(); break;
+      case 'End': show(total - 1); e.preventDefault(); break;
+      case 'f': case 'F': toggleFs(); e.preventDefault(); break;
+    }
+  });
+  document.getElementById('deck').addEventListener('click', function(e){
+    if (window.getSelection && String(window.getSelection()).length) return;
+    var x = e.clientX, w = window.innerWidth;
+    if (x < w * 0.25) prev(); else next();
+  });
+  document.getElementById('prev').addEventListener('click', function(e){ e.stopPropagation(); prev(); });
+  document.getElementById('next').addEventListener('click', function(e){ e.stopPropagation(); next(); });
+  var tx = null;
+  document.addEventListener('touchstart', function(e){ tx = e.touches[0].clientX; }, {passive:true});
+  document.addEventListener('touchend', function(e){
+    if (tx === null) return;
+    var dx = e.changedTouches[0].clientX - tx; tx = null;
+    if (Math.abs(dx) > 50) { if (dx < 0) next(); else prev(); }
+  }, {passive:true});
+  function fromHash(){
+    var m = /^#(\d+)$/.exec(location.hash);
+    if (m) show(parseInt(m[1], 10) - 1, true);
+  }
+  window.addEventListener('hashchange', fromHash);
+  slides.forEach(function(s, i){ if (i !== 0) s.setAttribute('aria-hidden','true'); });
+  show(0, true);
+  fromHash();
+})();
+</script>
+</body>
+</html>
